@@ -10,6 +10,7 @@ module.exports = [
     children: prefix('resources', [
       '',
       'fields',
+      'relationships',
       // 'filters',
       // 'lenses',
       // 'metrics',
