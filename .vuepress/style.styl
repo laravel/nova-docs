@@ -45,63 +45,64 @@ h2
 
 /* Sidebar
 -----------------------------------------------------------------------------*/
-.sidebar
-  width 13.75rem
-  border-right none
-  background-color transparent
-  background-image linear-gradient(0deg, #7e8ea1 0%, #3c4655 100%)
+#app
+  .sidebar
+    width 13.75rem
+    border-right none
+    background-color transparent
+    background-image linear-gradient(0deg, #7e8ea1 0%, #3c4655 100%)
 
-.sidebar-heading
-  padding 0 1.7rem
+  .sidebar-heading
+    padding 0 1.7rem
 
-.sidebar-group
-  margin-bottom 2rem
+  .sidebar-group
+    margin-bottom 2rem
 
-.sidebar-group:not(.collapsable) .sidebar-heading,
-.sidebar-heading
-  text-transform uppercase
-  letter-spacing 0.13rem
-  font-size 12px
-  font-weight 800
-  color #C1CDDB
+  .sidebar-group:not(.collapsable) .sidebar-heading,
+  .sidebar-heading
+    text-transform uppercase
+    letter-spacing 0.13rem
+    font-size 12px
+    font-weight 800
+    color #C1CDDB
 
-a.sidebar-link
-  color #fff
-  padding-top 0.5rem
-  padding-bottom 0.5rem
-  border-left 0.125rem solid transparent
-
-a.sidebar-link:hover
-  color #fff
-  opacity 0.5
-  border-color-left rgba(255, 255, 255, 0.7)
-
-a.sidebar-link:active
-  color #fff
-  opacity 0.7
-  border-color-left rgba(255, 255, 255, 0.5)
-
-a.sidebar-link.active
-  color #fff
-  border-left-color #fff
-
-.sidebar-group a.sidebar-link
-  padding-left 1.5rem
-
-.sidebar .sidebar-sub-headers
-  padding-left 1.5rem
-
-.sidebar-sub-headers a.sidebar-link
-  padding-left 0.9rem
-
-
-@media (max-width 959px)
-  .sidebar .nav-links
-    border-bottom 2px solid rgba(255, 255, 255, 0.1)
-  
-  .nav-links a.nav-link, .nav-links a.repo-link
+  a.sidebar-link
     color #fff
-  
+    padding-top 0.5rem
+    padding-bottom 0.5rem
+    border-left 0.125rem solid transparent
+
+  a.sidebar-link:hover
+    color #fff
+    opacity 0.5
+    border-color-left rgba(255, 255, 255, 0.7)
+
+  a.sidebar-link:active
+    color #fff
+    opacity 0.7
+    border-color-left rgba(255, 255, 255, 0.5)
+
+  a.sidebar-link.active
+    color #fff
+    border-left-color #fff
+
+  .sidebar-group a.sidebar-link
+    padding-left 1.5rem
+
+  .sidebar .sidebar-sub-headers
+    padding-left 1.5rem
+
+  .sidebar-sub-headers a.sidebar-link
+    padding-left 0.9rem
+
+
+  @media (max-width 959px)
+    .sidebar .nav-links
+      border-bottom 2px solid rgba(255, 255, 255, 0.1)
+
+    .nav-links a.nav-link, .nav-links a.repo-link
+      color #fff
+
 /* Icons
 -----------------------------------------------------------------------------*/
 .icon.outbound
@@ -109,20 +110,20 @@ a.sidebar-link.active
 
 /* Content
 -----------------------------------------------------------------------------*/
-h1 .header-anchor, 
-h2 .header-anchor, 
-h3 .header-anchor, 
-h4 .header-anchor, 
-h5 .header-anchor, 
+h1 .header-anchor,
+h2 .header-anchor,
+h3 .header-anchor,
+h4 .header-anchor,
+h5 .header-anchor,
 h6 .header-anchor
   opacity 1
   color #bbb
 
-h1 .header-anchor:hover, 
-h2 .header-anchor:hover, 
-h3 .header-anchor:hover, 
-h4 .header-anchor:hover, 
-h5 .header-anchor:hover, 
+h1 .header-anchor:hover,
+h2 .header-anchor:hover,
+h3 .header-anchor:hover,
+h4 .header-anchor:hover,
+h5 .header-anchor:hover,
 h6 .header-anchor:hover
   text-decoration none !important
 
@@ -164,7 +165,7 @@ h6 .header-anchor:hover
 $tipColor = #A48CD3
 
 .prev, .next
-  color $accentColor 
+  color $accentColor
 
 
 /* Custom Blocks
@@ -194,7 +195,7 @@ $tipColor = #A48CD3
 
 .custom-block.tip p, .custom-block.tip a
   color #fff
-  
+
 .custom-block.warning a,
 .custom-block.danger a
   color currentColor
