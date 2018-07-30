@@ -8,7 +8,7 @@ module.exports = {
     sidebarDepth: 0,
 
     nav: [
-      { text: 'Home', link: '/'},
+      { text: 'Home', link: 'https://nova.laravel.com'},
       { text: 'Version', link: '/',
         items: [
           { text: '1.0', link: '/docs/1.0/' },
