@@ -1,5 +1,4 @@
 module.exports = {
-  base: '/docs/',
   title: 'Laravel Nova',
   description: 'Master Your Universe',
 
