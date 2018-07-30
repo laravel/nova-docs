@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Laravel Nova',
+  // title: 'Laravel Nova',
   description: 'Master Your Universe',
   base: '/docs/',
 
@@ -16,6 +16,7 @@ module.exports = {
   ],
 
   themeConfig: {
+    logo: '/assets/img/logo.svg',
     repo: 'laravel/nova',
     displayAllHeaders: true,
 

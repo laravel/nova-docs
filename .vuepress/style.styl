@@ -3,10 +3,24 @@ body {
   font-family: "Nunito";
 }
 
+/* Headings
+-----------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+
+h2 {
+  border-bottom: 0;
+}
+
 .navbar {
   z-index: 500;
   border-bottom: none;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .05);
+}
+
+.navbar .logo {
+  width: 165.37px;
 }
 
 .sidebar {
@@ -54,6 +68,10 @@ a.sidebar-link.active {
 
 
 @media (max-width: 959px) {
+  .sidebar .nav-links {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  }
+
   .nav-links a.nav-link, .nav-links a.repo-link {
     color: #fff;
   }
@@ -70,3 +88,38 @@ a.sidebar-link.active {
 .content:not(.custom) {
   padding: 4rem 2.5rem
 }
+
+/* Prev/Next Links
+-----------------------------------------------------------------------------*/
+@require './override'
+
+$tipColor = #A48CD3
+
+.prev, .next
+  color $accentColor 
+
+
+/* Custom Blocks
+-----------------------------------------------------------------------------*/
+.custom-block.tip
+  background-color $tipColor
+
+.custom-block.tip,
+.custom-block.warning,
+.custom-block.danger
+  border-left none
+  border-radius 4px
+
+.custom-block-title
+  color #fff
+
+.custom-block.tip p, .custom-block.tip a
+  color #fff
+  
+.custom-block.warning a,
+.custom-block.danger a
+  color currentColor
+
+.custom-block a
+  font-weight 800
+  text-decoration underline
