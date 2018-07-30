@@ -9,7 +9,7 @@ module.exports = [
     collapsable: false,
     children: prefix('resources', [
       '',
-      // 'fields',
+      'fields',
       // 'filters',
       // 'lenses',
       // 'metrics',

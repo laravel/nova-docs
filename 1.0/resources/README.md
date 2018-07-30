@@ -12,7 +12,7 @@ By default, Nova resources are stored in the `app/Nova` directory of your applic
 php artisan nova:resource Post
 ```
 
-By default, new Nova resources only contain an `ID` field definition. Don't worry, we'll soon add more fields to our resource.
+Freshly created Nova resources only contain an `ID` field definition. Don't worry, we'll soon add more fields to our resource.
 
 ## Registering Resources
 
