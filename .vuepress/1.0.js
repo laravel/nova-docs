@@ -2,8 +2,7 @@ module.exports = [
   {
     title: 'Getting Started',
     collapsable: false,
-    children: [''].concat(prefix('getting-started', [
-    ])),
+    children: [''],
   },
   {
     title: 'Resources',
