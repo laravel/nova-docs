@@ -1,9 +1,5 @@
 # Methods
 
-### `booting`
-## `$emit`
-## `$on`
-## `$once`
-## `$off`
-## `liftOff`
+## `booting`
+
 ## `request`
