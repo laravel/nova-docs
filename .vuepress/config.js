@@ -19,6 +19,7 @@ module.exports = {
     logo: '/assets/img/logo.svg',
     repo: 'laravel/nova',
     displayAllHeaders: true,
+    sidebarDepth: 1,
 
     nav: [
       {text: 'Home', link: 'https://nova.laravel.com'},
