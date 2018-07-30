@@ -3,10 +3,9 @@ module.exports = {
   description: 'Master Your Universe',
 
   themeConfig: {
-    repo: 'laravel/nova',
+    repo: 'laravel/nova-docs',
     displayAllHeaders: true,
     lastUpdated: 'Last Updated',
-    docsDir: 'docs',
     editLinks: true,
 
     nav: [
