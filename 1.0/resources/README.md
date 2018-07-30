@@ -46,3 +46,7 @@ protected function resources()
     ]);
 }
 ```
+
+Once your resources have been registered with Nova, they will be available in the Nova sidebar:
+
+![An image](./img/dashboard.png)
