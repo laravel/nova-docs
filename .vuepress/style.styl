@@ -7,6 +7,10 @@ body
 h1, h2, h3, h4, h5, h6
   font-weight 300
 
+h1
+  padding-bottom 16px
+  border-bottom 2px solid rgba(0, 0, 0, 0.05)
+
 h2
   border-bottom 0
 
@@ -125,6 +129,34 @@ h6 .header-anchor:hover
 .content:not(.custom)
   padding 4rem 2.5rem 0
 
+/* TOC
+-----------------------------------------------------------------------------*/
+.table-of-contents
+  ul
+    list-style none
+    list-style-position outside
+
+  > ul
+    padding-left 0
+
+    > li
+      padding 0
+      margin 0
+
+  a:hover
+    text-decoration none !important
+    opacity 0.5
+
+  a:active
+    text-decoration none !important
+    opacity 0.7
+
+  a:before
+    content '# '
+    color #bbb
+    margin-left -15px
+    margin-right 3px
+
 /* Prev/Next Links
 -----------------------------------------------------------------------------*/
 @require './override'
@@ -146,6 +178,16 @@ $tipColor = #A48CD3
   box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
   border-left none
   border-radius 4px
+  border 2px solid transparent
+
+.custom-block.tip
+  border-color darken($tipColor, 20%)
+
+.custom-block.warning
+  border-color darken(#F3ECC5, 30%)
+
+.custom-block.danger
+  border-color darken(#ffe6e6, 15%)
 
 .custom-block-title
   color #fff
