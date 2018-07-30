@@ -3,10 +3,8 @@ module.exports = {
   description: 'Master Your Universe',
 
   themeConfig: {
-    repo: 'laravel/nova-docs',
+    repo: 'laravel/nova',
     displayAllHeaders: true,
-    lastUpdated: 'Last Updated',
-    editLinks: true,
     sidebarDepth: 0,
 
     nav: [
@@ -15,12 +13,7 @@ module.exports = {
         items: [
           { text: '1.0', link: '/docs/1.0/' },
         ]
-      },
-      { text: 'Other', link: '/',
-        items: [
-          { text: 'Purchase', link: 'https://nova.laravel.com' },
-        ]
-      },
+      }
     ],
 
     sidebar: [
