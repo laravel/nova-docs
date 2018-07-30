@@ -7,6 +7,7 @@ module.exports = {
     displayAllHeaders: true,
     lastUpdated: 'Last Updated',
     editLinks: true,
+    sidebarDepth: 0,
 
     nav: [
       { text: 'Home', link: '/'},

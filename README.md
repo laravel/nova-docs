@@ -1,5 +1,5 @@
 ---
-home: true
+home: false
 actionText: Read the Docs →
 actionLink: /docs/1.0/getting-started/
 features:
@@ -20,7 +20,7 @@ footer: Copyright © 2018-present Laravel LLC
 yarn install
 
 # Start dev server
-yarn dev 
+yarn dev
 ```
 
 The navigaition configuration is found in `/.vuepress/config.js`
