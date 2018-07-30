@@ -142,6 +142,7 @@ $tipColor = #A48CD3
 .custom-block.tip,
 .custom-block.warning,
 .custom-block.danger
+  box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
   border-left none
   border-radius 4px
 
@@ -158,3 +159,33 @@ $tipColor = #A48CD3
 .custom-block a
   font-weight 800
   text-decoration underline
+
+
+/* Code Blocks
+-----------------------------------------------------------------------------*/
+div[class*="language-"]
+  background-color white
+  -webkit-font-smoothing subpixel-antialiased
+  -moz-osx-font-smoothing subpixel-antialiased
+  box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
+
+.content pre code, .content pre[class*="language-"] code
+  color #666
+
+.token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin
+  // color $tipColor
+  color $accentColor
+
+.token.property, .token.class-name, .token.constant, .token.symbol
+  // color $accentColor
+  color $tipColor
+
+.token.boolean, .token.number, .token.function
+  color #666
+
+.token.string, .token.char, .token.attr-value, .token.regex, .token.variable
+  // color $tipColor
+  color $accentColor
+
+.token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata
+  color #bbb
