@@ -12,18 +12,19 @@ h2
 
 /* Page
 -----------------------------------------------------------------------------*/
-.page
-  padding-left 13.75rem
+@media (min-width: 719px)
+  .page
+    padding-left 13.75rem
 
-.page-edit
-  display none
+  .page-edit
+    display none
 
-.page-nav
-  padding: 0
+  .page-nav
+    padding: 0
 
-.page-nav > .inner
-  padding: 0
-  border-top none
+  .page-nav > .inner
+    padding: 0
+    border-top none
 
 /* Navbar
 -----------------------------------------------------------------------------*/
@@ -173,18 +174,15 @@ div[class*="language-"]
   color #666
 
 .token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin
-  // color $tipColor
   color $accentColor
 
 .token.property, .token.class-name, .token.constant, .token.symbol
-  // color $accentColor
   color $tipColor
 
 .token.boolean, .token.number, .token.function
   color #666
 
 .token.string, .token.char, .token.attr-value, .token.regex, .token.variable
-  // color $tipColor
   color $accentColor
 
 .token.comment, .token.block-comment, .token.prolog, .token.doctype, .token.cdata
