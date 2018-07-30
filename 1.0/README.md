@@ -39,9 +39,9 @@ Job::dispatch()->onQueue('emails');
 In order to use the `database` queue driver, you will need a database table to hold the jobs. To generate a migration that creates this table, run the `queue:table` Artisan command. Once the migration has been created, you may migrate your database using the `migrate` command:
 
 ```bash
-    php artisan queue:table
+php artisan queue:table
 
-    php artisan migrate
+php artisan migrate
 ```
 
 ```php
