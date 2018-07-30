@@ -9,11 +9,7 @@ module.exports = {
 
     nav: [
       {text: 'Home', link: 'https://nova.laravel.com'},
-      {
-        text: 'Version',
-        link: '/',
-        items: [{text: '1.0', link: '/1.0/'}],
-      },
+      // {text: 'Version', link: '/', items: [{text: '1.0', link: '/1.0/'}]},
     ],
 
     sidebar: {
