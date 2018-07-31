@@ -446,11 +446,11 @@ Select::make('Size')->options([
 
 ### Status Field
 
-The `Status` field may be used to display the "progress" of a given action. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed.
+The `Status` field may be used to display a "progress state" column. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed:
 
 ![Status Field Example](./img/status-field-waiting.png)
 
-The `loadingWhen` and `failedWhen` methods may be used to instruct the field which words indicate a "loading" state and which words indicate a "failed" state. In this example, we will indicate that when the underlying database column contains a value of `waiting` or `running`, a "loading" indicator should be shown:
+The `loadingWhen` and `failedWhen` methods may be used to instruct the field which words indicate a "loading" state and which words indicate a "failed" state. In this example, we will indicate that database column values of `waiting` or `running` should display a "loading" indicator:
 
 ```php
 use Laravel\Nova\Fields\Status;
