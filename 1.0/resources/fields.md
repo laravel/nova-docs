@@ -64,7 +64,7 @@ When attaching a field to a resource, you may chain the `sortable` method onto t
 Text::make('Name', 'name_column')->sortable()
 ```
 
-## Available Field Types
+## Field Types
 
 :::tip Relationship Fields
 
@@ -433,7 +433,3 @@ Trix::make('Biography')
 
 Nova does not currently support embedded file uploads within Trix fields.
 :::
-
-## Date Fields
-
-## File Fields
