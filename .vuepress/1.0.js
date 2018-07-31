@@ -2,7 +2,7 @@ module.exports = [
   {
     title: 'Getting Started',
     collapsable: false,
-    children: [''],
+    children: ['installation'],
   },
   {
     title: 'Resources',
@@ -39,8 +39,8 @@ module.exports = [
   //   collapsable: false,
   //   children: prefix('nova-js', ['', 'methods', 'properties', 'event-bus']),
   // },
-];
+]
 
 function prefix(prefix, children) {
-  return children.map(child => `${prefix}/${child}`);
+  return children.map(child => `${prefix}/${child}`)
 }
