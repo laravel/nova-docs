@@ -237,7 +237,166 @@ ID::make()
 ID::make('ID', 'id_column')
 ```
 
+### Image Field
+
+The `Image` field extends the [File field](#file-field) and accepts the same options and configurations:
+
+```php
+use Laravel\Nova\Fields\Image;
+
+Image::make('Photo')
+```
+
+:::tip File Fields
+
+To learn more about defining file fields and handling uploads, check out the additional [file field documentation](#file-fields).
+:::
+
+### Markdown Field
+
+The `Markdown` field provides a WYSIWYG Markdown editor for its associated field. Typically, this field will correspond to a `TEXT` column in your database. The `Markdown` field will store the raw Markdown text within the associated database column:
+
+```php
+use Laravel\Nova\Fields\Markdown;
+
+Markdown::make('Biography')
+```
+
+### Number Field
+
+The `Number` field provides an `input` control with a `type` attribute of `number`:
+
+```php
+use Laravel\Nova\Fields\Number;
+
+Number::make('price')
+```
+
+You may use the `min`, `max`, and `step` methods to set the corresponding attributes on the generated `input` control:
+
+```php
+Number::make('price')->min(1)->max(1000)->step(0.01)
+```
+
+### Password Field
+
+The `Password` field provides an `input` control with a `type` attribute of `password`:
+
+```php
+use Laravel\Nova\Fields\Password;
+
+Password::make('Password')
+```
+
+The `Password` field will automatically preserve the password that is currently stored in the database if the incoming password field is empty. Therefore, a typical password field definition might look like the following:
+
+```php
+Password::make('Password')
+    ->onlyOnForms()
+    ->creationRules('required', 'string', 'min:6')
+    ->updateRules('nullable', 'string', 'min:6'),
+```
+
+### Place Field
+
+The `Place` field leverages the power of the [Algolia Places API](https://community.algolia.com/places/) to provide ultra-fast address searching and auto-completion. An Algolia account is **not required** in order to leverage this field.
+
+Typically, a `Place` field will be defined alongside other related address fields. In this example, in order to keep our resource tidy, we will use the `merge` method to extract the address field definitions into their own method:
+
+```php
+use Laravel\Nova\Fields\Place;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+        $this->addressFields(),
+    ];
+}
+
+/**
+ * Get the address fields for the resource.
+ *
+ * @return \Illuminate\Http\Resources\MergeValue
+ */
+protected function addressFields()
+{
+    return $this->merge([
+        Place::make('Address', 'address_line_1')->hideFromIndex(),
+        Text::make('Address Line 2', 'address_line_2')->hideFromIndex(),
+        Text::make('City')->hideFromIndex(),
+        Text::make('State')->hideFromIndex(),
+        Text::make('Postal Code')->hideFromIndex(),
+        Country::make('Country')->hideFromIndex(),
+    ]);
+}
+```
+
+#### Configuring Field Auto-Completion
+
+By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, and `country`. However, you may customize the field names that should be auto-completed using the following methods:
+
+- `secondAddressLine($column)`
+- `city($column)`
+- `state($column)`
+- `postalCode($column)`
+- `country($column)`
+
+For example:
+
+```php
+Place::make('Address', 'address_line_1')
+    ->secondAddressLine('address_2')
+    ->city('city_name')
+    ->state('state_code')
+    ->postalCode('zip_code')
+    ->country('country_code')
+```
+
+### Select Field
+
+The `Select` field may be used to generate a drop-down select menu. The select menu's options may be defined using the `options` method:
+
+```php
+use Laravel\Nova\Fields\Select;
+
+Select::make('Size')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])
+```
+
+### Status Field
+
+The `Status` field may be used to display the "progress" of a given action. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed.
+
+![Status Field Example](./img/status-field-waiting.png)
+
+The `loadingWhen` and `failedWhen` methods may be used to instruct the field which words indicate a "loading" state and which words indicate a "failed" state. In this example, we will indicate that when the underlying database column contains a value of `waiting` or `running`, a "loading" indicator should be shown:
+
+```php
+use Laravel\Nova\Fields\Status;
+
+Status::make('Status')
+        ->loadingWhen(['waiting', 'running'])
+        ->failedWhen(['failed'])
+```
+
+### Text Field
+
+### Textarea Field
+
+### Timezone Field
+
+### Trix Field
+
 ## Date Fields
 
 ## File Fields
-
