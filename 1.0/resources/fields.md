@@ -6,7 +6,7 @@
 
 Each Nova resource contains a `fields` method. This method returns an array of fields, which generally extend the `Laravel\Nova\Fields\Field` class. Nova ships with a variety of fields out of the box, including fields for text inputs, booleans, dates, file uploads, Markdown, and more.
 
-To add a field to a resource, we can simply list it in the resource's `fields` method. Typically, fields may be created using their static `make` method. This method accepts several arguments; however, you usually only need to pass the "human readable" name of the field. Nova will automatically "snake case" this string to determine the underlying database column name:
+To add a field to a resource, we can simply add it to the resource's `fields` method. Typically, fields may be created using their static `make` method. This method accepts several arguments; however, you usually only need to pass the "human readable" name of the field. Nova will automatically "snake case" this string to determine the underlying database column:
 
 ```php
 use Laravel\Nova\Fields\ID;
@@ -29,7 +29,7 @@ public function fields(Request $request)
 
 ### Field Column Conventions
 
-As noted above, Nova will "snake case" the displayable name of the field to determine the underlying database column name. However, you may pass the column name as the second argument to the field's `make` method:
+As noted above, Nova will "snake case" the displayable name of the field to determine the underlying database column. However, if necessary, you may pass the column name as the second argument to the field's `make` method:
 
 ```php
 Text::make('Name', 'name_column')
@@ -37,9 +37,9 @@ Text::make('Name', 'name_column')
 
 ## Showing / Hiding Fields
 
-Often, you will not want to display a given field in certain situations. For example, there is typically no need to show a `Password` field on a resource index. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain screens.
+Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain screens.
 
-The following methods may be used to show / hide fields based on the current screen:
+The following methods may be used to show / hide fields based on the display context:
 
 - `hideFromIndex`
 - `hideFromDetail`
@@ -50,15 +50,59 @@ The following methods may be used to show / hide fields based on the current scr
 - `onlyOnForms`
 - `exceptOnForms`
 
-You may chain any of these methods onto your field's definition in order to instruct Nova when the field should be displayed:
+You may chain any of these methods onto your field's definition in order to instruct Nova where the field should be displayed:
 
 ```php
 Text::make('Name')->hideFromIndex()
 ```
 
+## Field Panels
+
+If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
+
+![Field Panel Example](./img/panels.png)
+
+You may do this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
+
+```php
+use Laravel\Nova\Panel;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+
+        new Panel('Address Information', $this->addressFields()),
+    ];
+}
+
+/**
+ * Get the address fields for the resource.
+ *
+ * @return array
+ */
+protected function addressFields()
+{
+    return [
+        Place::make('Address', 'address_line_1')->hideFromIndex(),
+        Text::make('Address Line 2', 'address_line_2')->hideFromIndex(),
+        Text::make('City')->hideFromIndex(),
+        Text::make('State')->hideFromIndex(),
+        Text::make('Postal Code')->hideFromIndex(),
+        Country::make('Country')->hideFromIndex(),
+    ];
+}
+```
+
 ## Sortable Fields
 
-When attaching a field to a resource, you may chain the `sortable` method onto the field's definition. This will instruct Nova to allow the resource index to be sorted by the given field:
+When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
 
 ```php
 Text::make('Name', 'name_column')->sortable()
@@ -96,7 +140,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 
 ### Avatar Field
 
-The `Avatar` field extends the [Image field](#image-field) and accepts the same options and configurations:
+The `Avatar` field extends the [Image field](#image-field) and accepts the same options and configuration:
 
 ```php
 use Laravel\Nova\Fields\Avatar;
@@ -104,13 +148,13 @@ use Laravel\Nova\Fields\Avatar;
 Avatar::make('Avatar')
 ```
 
-However, if a resource contains an `Avatar` field, that field will be displayed next to the resource's title when the resource is displayed in search results:
+If a resource contains an `Avatar` field, that field will be displayed next to the resource's title when the resource is displayed in search results:
 
 ![Avatar Search Results](./img/avatar-search-results.png)
 
 ### Boolean Field
 
-The `Boolean` field may be used to represent a boolean / "tiny integer" column in your database. For example, assuming your database a boolean column named `active`, you may attach a `Boolean` field to your resource like so:
+The `Boolean` field may be used to represent a boolean / "tiny integer" column in your database. For example, assuming your database has a boolean column named `active`, you may attach a `Boolean` field to your resource like so:
 
 ```php
 use Laravel\Nova\Fields\Boolean;
@@ -130,7 +174,7 @@ Boolean::make('Active')
 
 ### Code Field
 
-The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns. However, you may also attach them to `JSON` columns:
+The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns. However, you may also attach them to `JSON` database columns:
 
 ```php
 use Laravel\Nova\Fields\Code;
@@ -185,7 +229,7 @@ Country::make('Country', 'country_code')
 
 ### Date Field
 
-The `Date` field may be used to store a date value (without time). For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](#date-fields):
+The `Date` field may be used to store a date value (without time). For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
 
 ```php
 use Laravel\Nova\Fields\Date;
@@ -195,7 +239,7 @@ Date::make('Birthday')
 
 ### DateTime Field
 
-The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](#date-fields):
+The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
 
 ```php
 use Laravel\Nova\Fields\DateTime;
@@ -205,13 +249,19 @@ DateTime::make('Updated At')->hideFromIndex()
 
 ### File Field
 
-To learn more about defining file fields and handling uploads, check out the additional [file field documentation](#file-fields).
+To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
+
+```php
+use Laravel\Nova\Fields\File;
+
+File::make('Attachment')
+```
 
 ### Gravatar Field
 
-The `Gravatar` field does not correspond to any column in your application's database. Instead, it will display the "Gravatar" image of a user.
+The `Gravatar` field does not correspond to any column in your application's database. Instead, it will display the "Gravatar" image of the model it is associated with.
 
-By default, the Gravatar URL will be generated based on the value of the model's `email` attribute. However, if your user's email addresses are not stored in the `email` attribute, you may pass a custom column name to the field's `make` method:
+By default, the Gravatar URL will be generated based on the value of the model's `email` column. However, if your user's email addresses are not stored in the `email` column, you may pass a custom column name to the field's `make` method:
 
 ```php
 use Laravel\Nova\Fields\Gravtar;
@@ -239,7 +289,7 @@ ID::make('ID', 'id_column')
 
 ### Image Field
 
-The `Image` field extends the [File field](#file-field) and accepts the same options and configurations:
+The `Image` field extends the [File field](#file-field) and accepts the same options and configurations. The `Image` field, unlike the `File` field, will display a thumbnail preview of the underlying image when viewing the resource:
 
 ```php
 use Laravel\Nova\Fields\Image;
@@ -249,7 +299,7 @@ Image::make('Photo')
 
 :::tip File Fields
 
-To learn more about defining file fields and handling uploads, check out the additional [file field documentation](#file-fields).
+To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
 :::
 
 ### Markdown Field
@@ -272,7 +322,7 @@ use Laravel\Nova\Fields\Number;
 Number::make('price')
 ```
 
-You may use the `min`, `max`, and `step` methods to set the corresponding attributes on the generated `input` control:
+You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
 ```php
 Number::make('price')->min(1)->max(1000)->step(0.01)
@@ -337,6 +387,27 @@ protected function addressFields()
     ]);
 }
 ```
+
+#### Searchable Countries
+
+By default, the `Place` field will search all addresses around the world. If you would like to limit the countries included in the search, you may use the `countries` method:
+
+```php
+Place::make('Address', 'address_line_1')->countries(['US', 'CA'])
+```
+
+#### City Search
+
+If you intend to use the `Place` field to search for cities instead of addresses, you may use the `onlyCities` method to instruct the field to only list cities in its results:
+
+```php
+Place::make('City')->onlyCities()
+```
+
+:::tip City Auto-Completion
+
+When using the `Place` field as a city search, the `state` and `country` fields will still receive auto-completion. However, the `postal_code` field will not.
+:::
 
 #### Configuring Field Auto-Completion
 
