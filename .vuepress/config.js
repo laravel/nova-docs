@@ -17,7 +17,7 @@ module.exports = {
 
   themeConfig: {
     logo: '/assets/img/logo.svg',
-    repo: 'laravel/nova',
+    repo: 'laravel/nova-docs',
     displayAllHeaders: true,
     sidebarDepth: 1,
 
