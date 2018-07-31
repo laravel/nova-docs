@@ -3,6 +3,7 @@
         "vuepress": "vuejs/vuepress#5084fcab63c0381ef5170a55f76e38f306dc756b"
     },
     "scripts": {
-        "docs:build": "vuepress build"
+        "docs:build": "vuepress build",
+        "docs:dev": "vuepress dev"
     }
 }
