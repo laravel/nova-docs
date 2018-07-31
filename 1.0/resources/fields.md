@@ -391,11 +391,48 @@ Status::make('Status')
 
 ### Text Field
 
+The `Text` field provides an `input` control with a `type` attribute of `text`:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('name')
+```
+
 ### Textarea Field
+
+The `Textarea` field provides a `textarea` control:
+
+```php
+use Laravel\Nova\Fields\Textarea;
+
+Textarea::make('Biography')
+```
 
 ### Timezone Field
 
+The `Timezone` field generates a `Select` field containing a list of the world's timezones:
+
+```php
+use Laravel\Nova\Fields\Timezone;
+
+Timezone::make('Timezone')
+```
+
 ### Trix Field
+
+The `Trix` field provides a [Trix editor](https://github.com/basecamp/trix) for its associated field. Typically, this field will correspond to a `TEXT` column in your database. The `Trix` field will store its corresponding HTML within the associated database column:
+
+```php
+use Laravel\Nova\Fields\Trix;
+
+Trix::make('Biography')
+```
+
+:::danger File Uploads
+
+Nova does not currently support embedded file uploads within Trix fields.
+:::
 
 ## Date Fields
 
