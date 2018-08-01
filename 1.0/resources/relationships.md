@@ -289,3 +289,15 @@ public function title()
 ```
 
 ## Searchable Relations
+
+By default, when the `BelongsTo`, `BelongsToMany`, `MorphTo`, and `MorphToMany` relationship fields are shown on a resource creation / update screen, a simple drop-down selection menu will be displayed. However, this can quickly become cumbersome if a resource model has many records. For example, imagine a drop-down selection menu populated with over 10,000 users!
+
+Instead of displaying a drop-down selection menu, you may mark your relationships as `searchable`. When a relationship is marked as `searchable`, a beautiful search input control will be displayed instead:
+
+![Belongs To Search](./img/belongs-to-search.png)
+
+To mark as relationship as `searchable`, chain the `searchable` method onto the field's definition:
+
+```php
+BelongsTo::make('User')->searchable()
+```
