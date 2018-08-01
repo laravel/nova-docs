@@ -217,6 +217,77 @@ class StoreAttachment
 
 ### Customizing File Deletion
 
+When a file is deleted from the Nova administration panel, Nova will automatically remove the underlying file from storage and insert `NULL` into the field's associated column.
+
+If you would like to override this behavior and provide your own file deletion implementation, you may use the `delete` method. Like the `store` method discussed above, the `delete` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
+
+```php
+use Illuminate\Http\Request;
+use Laravel\Support\Facades\Storage;
+
+File::make('Attachment')
+    ->disk('s3')
+    ->delete(function (Request $request, $model) {
+        if (! $model->attachment) {
+            return;
+        }
+
+        Storage::disk($this->disk)->delete($model->attachment);
+
+        return [
+            'attachment' => null,
+            'attachment_name' => null,
+            'attachment_size' => null,
+        ];
+    })
+```
+
+As you can see in the example above, the `delete` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored. Typically, when deleting a field, you will insert `NULL` into the relevant database columns.
+
+#### Invokables
+
+Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
+
+```php
+File::make('Attachment')->delete(new DeleteAttachment)
+```
+
+The invokable object should be a simple PHP class with a single `__invoke` method:
+
+```php
+<?php
+
+namespace App\Nova;
+
+use Illuminate\Http\Request;
+use Laravel\Support\Facades\Storage;
+
+class DeleteAttachment
+{
+    /**
+     * Delete the field's underlying file.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array
+     */
+    public function __invoke(Request $request, $model)
+    {
+        if (! $model->attachment) {
+            return;
+        }
+
+        Storage::disk($this->disk)->delete($model->attachment);
+
+        return [
+            'attachment' => null,
+            'attachment_name' => null,
+            'attachment_size' => null,
+        ];
+    }
+}
+```
+
 ### Customizing Preview Generation
 
 ### Customizing Thumbnail Generation
