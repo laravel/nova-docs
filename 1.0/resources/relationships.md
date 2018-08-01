@@ -192,7 +192,6 @@ As you can see in the example above, the `types` method is used to instruct the 
 
 :::tip MorphTo Title Attributes
 
-
 When a `MorphTo` field is shown on a resource creation / update screen, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
 :::
 
