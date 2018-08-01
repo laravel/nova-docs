@@ -70,6 +70,97 @@ public function title()
 
 ## BelongsToMany
 
+The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models. We may add the relationship to our `User` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\BelongsToMany;
+
+BelongsToMany::make('Roles')
+```
+
+#### Pivot Fields
+
+If your `belongsToMany` relationship interacts with additional "pivot" fields that are stored on the intermediate table of the many-to-many relationship, you may also attach those to your `BelongsToMany` Nova relationship. Once these fields are attached to the relationship field, they will be displayed on the related resource index.
+
+For example, let's assume our `User` model `belongsToMany` `Role` models. On our `role_user` intermediate table, let's imagine we have a `notes` field that contains some simple text notes about the relationship. We can attach this pivot field to the `BelongsToMany` field using the `fields` method:
+
+```php
+BelongsToMany::make('Roles')
+    ->fields(function () {
+        return [
+            Text::make('Notes'),
+        ];
+    });
+```
+
+Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define it's inverse on the `Role` resource:
+
+```php
+BelongsToMany::make('Users')
+    ->fields(function () {
+        return [
+            Text::make('Notes'),
+        ];
+    });
+```
+
+Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
+
+```php
+BelongsToMany::make('Users')->fields(new RoleUserFields)
+```
+
+In this example, the `RoleUserFields` class would be a simple, invokable class that returns the array of pivot fields:
+
+```php
+<?php
+
+namespace App\Nova;
+
+use Laravel\Nova\Fields\Text;
+
+class RoleUserFields
+{
+    /**
+     * Get the pivot fields for the relationship.
+     *
+     * @return array
+     */
+    public function __invoke()
+    {
+        return [
+            Text::make('Notes'),
+        ];
+    }
+}
+```
+
+#### Title Attributes
+
+When a `BelongsToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Role` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsToMany` selection menu, that attribute will be displayed:
+
+![Belongs To Title](./img/belongs-to-many-title.png)
+
+To customize the "title" attribute of a resource, you may define a `title` property on the resource class:
+
+```php
+public static $title = 'name';
+```
+
+Alternatively, you may override the resource's `title` method:
+
+```php
+/**
+ * Get the value that should be displayed to represent the resource.
+ *
+ * @return string
+ */
+public function title()
+{
+    return $this->name;
+}
+```
+
 ## MorphMany
 
 ## MorphToMany
