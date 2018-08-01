@@ -1,4 +1,4 @@
-# Introduction
+# The Basics
 
 [[toc]]
 
