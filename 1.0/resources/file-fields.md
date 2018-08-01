@@ -178,13 +178,15 @@ File::make('Attachment')
 
 As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
 
+#### Invokables
+
 Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
 ```php
 File::make('Attachment')->store(new StoreAttachment)
 ```
 
-The invokable object should be a simple PHP class with a single `__invoke` magic method:
+The invokable object should be a simple PHP class with a single `__invoke` method:
 
 ```php
 <?php
