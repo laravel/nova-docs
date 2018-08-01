@@ -139,7 +139,7 @@ class RoleUserFields
 
 When a `BelongsToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Role` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsToMany` selection menu, that attribute will be displayed:
 
-![Belongs To Title](./img/belongs-to-many-title.png)
+![Belongs To Many Title](./img/belongs-to-many-title.png)
 
 To customize the "title" attribute of a resource, you may define a `title` property on the resource class:
 
@@ -163,6 +163,130 @@ public function title()
 
 ## MorphMany
 
+The `MorphMany` field corresponds to a `morphMany` Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\MorphMany;
+
+MorphMany::make('Comments')
+```
+
+## MorphTo
+
+The `MorphTo` field corresponds to a `morphTo` Eloquent relationship. For example, let's assume a `Comment` model has a polymorphic relationship with both the `Post` and `Video` models. We may add the relationship to our `Comment` Nova resource like so:
+
+```php
+use Laravel\Nova\Post;
+use Laravel\Nova\Video;
+use Laravel\Nova\Fields\MorphTo;
+
+MorphTo::make('Commentable')->types([
+    Post::class,
+    Video::class,
+])
+```
+
+As you can see in the example above, the `types` method is used to instruct the `MorphTo` field what types of resources it may be associated with. Nova will use this information to populate the `MorphTo` field's type selection menu on the creation and update screens:
+
+![Morph To Type](./img/morph-to-type.png)
+
+:::tip MorphTo Title Attributes
+
+
+When a `MorphTo` field is shown on a resource creation / update screen, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
+:::
+
 ## MorphToMany
+
+The `MorphToMany` field corresponds to a `morphToMany` Eloquent relationship. For example, let's assume a `Post` has a many-to-many polymorphic relationship with the `Tag` model. We may add the relationship to our `Post` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\MorphToMany;
+
+MorphToMany::make('Tags')
+```
+
+#### Pivot Fields
+
+If your `morphToMany` relationship interacts with additional "pivot" fields that are stored on the intermediate table of the many-to-many relationship, you may also attach those to your `MorphToMany` Nova relationship. Once these fields are attached to the relationship field, they will be displayed on the related resource index.
+
+For example, on our `taggables` intermediate table, let's imagine we have a `notes` field that contains some simple text notes about the relationship. We can attach this pivot field to the `MorphToMany` field using the `fields` method:
+
+```php
+MorphToMany::make('Tags')
+    ->fields(function () {
+        return [
+            Text::make('Notes'),
+        ];
+    });
+```
+
+Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
+
+```php
+MorphToMany::make('Posts')
+    ->fields(function () {
+        return [
+            Text::make('Notes'),
+        ];
+    });
+```
+
+Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
+
+```php
+MorphToMany::make('Users')->fields(new TaggableFields)
+```
+
+In this example, the `TaggableFields` class would be a simple, invokable class that returns the array of pivot fields:
+
+```php
+<?php
+
+namespace App\Nova;
+
+use Laravel\Nova\Fields\Text;
+
+class TaggableFields
+{
+    /**
+     * Get the pivot fields for the relationship.
+     *
+     * @return array
+     */
+    public function __invoke()
+    {
+        return [
+            Text::make('Notes'),
+        ];
+    }
+}
+```
+
+#### Title Attributes
+
+When a `MorphToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Tag` resource may use the `name` attribute as its title. Then, when the resource is shown in a `MorphToMany` selection menu, that attribute will be displayed:
+
+![Morph To Many Title](./img/morph-to-many-title.png)
+
+To customize the "title" attribute of a resource, you may define a `title` property on the resource class:
+
+```php
+public static $title = 'name';
+```
+
+Alternatively, you may override the resource's `title` method:
+
+```php
+/**
+ * Get the value that should be displayed to represent the resource.
+ *
+ * @return string
+ */
+public function title()
+{
+    return $this->name;
+}
+```
 
 ## Searchable Relations
