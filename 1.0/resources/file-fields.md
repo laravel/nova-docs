@@ -73,6 +73,58 @@ In addition to displaying a thumbnail preview of the underlying file, an `Avatar
 
 ![Avatar Example](./img/avatar-poster.png)
 
+## Storing Metadata
+
+In addition to storing the path to the file within the storage system, you may also instruct Nova to store the original client filename and its size (in bytes). You may accomplish this using the `storeOriginalName` and `storeSize` methods. Each of these methods accept the name of the column you would like to store the file information:
+
+```php
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Text;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
+{
+    return [
+        // ...
+
+        File::make('Attachment')
+                ->disk('s3')
+                ->storeOriginalName('attachment_name')
+                ->storeSize('attachment_size'),
+
+        Text::make('Attachment Name')->exceptOnForms(),
+
+        Text::make('Attachment Size')
+                ->exceptOnForms()
+                ->displayUsing(function ($value) {
+                    return number_format($value / 1024, 2).'kb';
+                }),
+    ];
+}
+```
+
+One benefit of storing the original client filename is the ability to create file download responses using the original filename that was used to upload the file. For example, you may do something like the following in one of your application's routes:
+
+```php
+Route::get('/download', function () {
+    $user = $request->user();
+
+    return Storage::download(
+        $user->attachment, $user->attachment_name
+    );
+})
+```
+
+:::tip File Downloads
+
+When using the `storeOriginalName` method, the file field's "Download" link within the Nova dashboard will automatically download the file using its original name.
+:::
+
 ## Pruning
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
@@ -89,6 +141,8 @@ Nova will only automatically prune files for model deletes that are initiated wi
 ## Customization
 
 ### Customizing File Storage
+
+
 
 ### Customizing File Deletion
 
