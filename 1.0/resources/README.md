@@ -51,6 +51,21 @@ Once your resources are registered with Nova, they will be available in the Nova
 
 ![Nova Dashboard](./img/dashboard.png)
 
+## Eager Loading
+
+If you routinely need to access a resource's relationships within your fields, [resource title](./../search/global-search.md#title-subtitle-attributes), or [resource subtitle](./../search/global-search.md#title-subtitle-attributes), it may be a good idea to add the relationship to the `with` property of your resource. This property instructs Nova to always eager load the listed relationships when retrieving the resource.
+
+For example, if you access a `Post` resource's `user` relationship within the `Post` resource's `subtitle` method, you should add the `user` relationship to the `Post` resource's `with` property:
+
+```php
+/**
+ * The relationships that should be eager loaded on index queries.
+ *
+ * @var array
+ */
+public static $with = ['user'];
+```
+
 ## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
