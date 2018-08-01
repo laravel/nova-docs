@@ -288,6 +288,50 @@ class DeleteAttachment
 }
 ```
 
-### Customizing Preview Generation
+### Customizing Previews
 
-### Customizing Thumbnail Generation
+By default, Nova will use the `Storage::url` method to determine the URL that should be used to display image previews on the resource detail screen. However, you may customize the generation of this URL using the `preview` method.
+
+The `preview` method accepts a callable which should return the preview URL. Within the callable, you may access the field's underlying column value via `$this->value`:
+
+```php
+use Laravel\Nova\Fields\Image;
+use Laravel\Support\Facades\Storage;
+
+Image::make('Profile Photo')
+    ->disk('public')
+    ->preview(function () {
+        return $this->value
+                    ? Storage::disk($this->disk)->url($this->value)
+                    : null;
+    })
+```
+
+:::tip Preview Size
+
+By default, the Nova resource detail screen will display previews at a width of 318 pixels (636 pixels for "retina displays").
+:::
+
+### Customizing Thumbnails
+
+By default, Nova will use the `Storage::url` method to determine the URL that should be used to display thumbnail previews on the resource index screen and within search results (when using the `Avatar` field). However, you may customize the generation of this URL using the `thumbnail` method.
+
+The `thumbnail` method accepts a callable which should return the thumbnail URL. Within the callable, you may access the field's underlying column value via `$this->value`:
+
+```php
+use Laravel\Nova\Fields\Image;
+use Laravel\Support\Facades\Storage;
+
+Image::make('Profile Photo')
+    ->disk('public')
+    ->thumbnail(function () {
+        return $this->value
+                    ? Storage::disk($this->disk)->url($this->value)
+                    : null;
+    })
+```
+
+:::tip Thumbnail Size
+
+By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for "retina displays").
+:::
