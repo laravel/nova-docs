@@ -142,7 +142,76 @@ Nova will only automatically prune files for model deletes that are initiated wi
 
 ### Customizing File Storage
 
+Previously we learned that, by default, Nova stores the file using the `store` method of the `Illuminate\Http\UploadedFile` class. However, you may fully customize this behavior based on your application's needs.
 
+#### Customizing The Name / Path
+
+If you only need to customize the name or path of the stored file on disk, you may use the `path` and `storeAs` methods of the `File` field:
+
+```php
+use Illuminate\Http\Request;
+
+File::make('Attachment')
+    ->disk('s3')
+    ->path($request->user()->id.'-attachments')
+    ->storeAs(function (Request $request) {
+        return sha1($request->attachment->getClientOriginalName());
+    })
+```
+
+#### Customizing The Entire Storage Process
+
+However, if you would like to take **total** control over the file storage logic of a field, you may use the `store` method. The `store` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
+
+```php
+use Illuminate\Http\Request;
+
+File::make('Attachment')
+    ->store(function (Request $request, $model) {
+        return [
+            'attachment' => $request->attachment->store('/', 's3'),
+            'attachment_name' => $request->attachment->getClientOriginalName(),
+            'attachment_size' => $request->attachment->getSize(),
+        ];
+    })
+```
+
+As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
+
+Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
+
+```php
+File::make('Attachment')->store(new StoreAttachment)
+```
+
+The invokable object should be a simple PHP class with a single `__invoke` magic method:
+
+```php
+<?php
+
+namespace App\Nova;
+
+use Illuminate\Http\Request;
+
+class StoreAttachment
+{
+    /**
+     * Store the incoming file upload.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return array
+     */
+    public function __invoke(Request $request, $model)
+    {
+        return [
+            'attachment' => $request->attachment->store('/', 's3'),
+            'attachment_name' => $request->attachment->getClientOriginalName(),
+            'attachment_size' => $request->attachment->getSize(),
+        ];
+    }
+}
+```
 
 ### Customizing File Deletion
 
