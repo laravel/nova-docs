@@ -28,7 +28,15 @@ To accomplish this, you may use the `Nova::userTimezone` method. Typically you s
 use Laravel\Nova\Nova;
 use Illuminate\Http\Request;
 
-Nova::userTimezone(function (Request $request) {
-    return $request->user()->timezone;
-});
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    Nova::userTimezone(function (Request $request) {
+        return $request->user()->timezone;
+    });
+}
 ```
