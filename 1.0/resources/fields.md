@@ -504,3 +504,38 @@ Trix::make('Biography')
 
 Nova does not currently support embedded file uploads within Trix fields.
 :::
+
+## Computed Fields
+
+In addition to displaying fields that are associated with columns in your database, Nova allows you to create "computed fields". Computed fields may be used to display computed values that are not associated with a database column. These fields may be created by passing a callable (instead of a column name) as the second argument to the field's `make` method:
+
+```php
+Text::make('Name', function () {
+    return $this->first_name.' '.$this->last_name;
+})
+```
+
+:::tip Model Attribute Access
+
+As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
+:::
+
+## Customization
+
+### Field Resolution / Formatting
+
+The `resolveUsing` method allows you to customize how a field is formatted after it is retrieved from your database but before it is sent to the Nova front-end. This method accepts a callback which receives the raw value of the underlying database column:
+
+```php
+Text::make('Name')->resolveUsing(function ($name) {
+    return strtoupper($name);
+})
+```
+
+If you would like to customize how a field is formatted only when it is displayed on a resource's "index" or "detail" screen, you may use the `displayUsing` method. Like the `resolveUsing` method, this method accepts a single callback:
+
+```php
+Text::make('Name')->displayUsing(function ($name) {
+    return strtoupper($name);
+})
+```
