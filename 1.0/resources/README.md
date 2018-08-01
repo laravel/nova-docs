@@ -4,12 +4,23 @@
 
 Laravel Nova is a beautiful administration dashboard for Laravel applications. Of course, the primary feature of Nova is the ability to administer your underlying database records using Eloquent. Nova accomplishes this by allowing you to define a Nova "resource" that corresponds to each Eloquent model in your application.
 
-## Generating Resources
+## Defining Resources
 
 By default, Nova resources are stored in the `app/Nova` directory of your application. You may generate a new resource using the `nova:resource` Artisan command:
 
 ```bash
 php artisan nova:resource Post
+```
+
+The most basic and fundamental property of a resource is its `model` property. This property tells Nova which Eloquent model the resource corresponds to:
+
+```php
+/**
+ * The model the resource corresponds to.
+ *
+ * @var string
+ */
+public static $model = 'App\Post';
 ```
 
 Freshly created Nova resources only contain an `ID` field definition. Don't worry, we'll add more fields to our resource soon.
