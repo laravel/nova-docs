@@ -91,7 +91,7 @@ protected function addressFields()
 {
     return [
         Place::make('Address', 'address_line_1')->hideFromIndex(),
-        Text::make('Address Line 2', 'address_line_2')->hideFromIndex(),
+        Text::make('Address Line 2')->hideFromIndex(),
         Text::make('City')->hideFromIndex(),
         Text::make('State')->hideFromIndex(),
         Text::make('Postal Code')->hideFromIndex(),
@@ -379,7 +379,7 @@ protected function addressFields()
 {
     return $this->merge([
         Place::make('Address', 'address_line_1')->hideFromIndex(),
-        Text::make('Address Line 2', 'address_line_2')->hideFromIndex(),
+        Text::make('Address Line 2')->hideFromIndex(),
         Text::make('City')->hideFromIndex(),
         Text::make('State')->hideFromIndex(),
         Text::make('Postal Code')->hideFromIndex(),
