@@ -2,7 +2,7 @@
 
 [[toc]]
 
-Unless you like to live dangerously, any Nova fields that are displayed on the Nova creation / update screens will need some validation. Thankfully, it's a cinch to attach all of the Laravel validation rules you're used to onto your Nova resource fields. Let's get started.
+Unless you like to live dangerously, any Nova fields that are displayed on the Nova creation / update screens will need some validation. Thankfully, it's a cinch to attach all of the Laravel validation rules you're familiar with to your Nova resource fields. Let's get started.
 
 ### Attaching Rules
 
