@@ -50,3 +50,62 @@ protected function resources()
 Once your resources are registered with Nova, they will be available in the Nova sidebar:
 
 ![Nova Dashboard](./img/dashboard.png)
+
+## Resource Events
+
+All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use App\User;
+use App\Observers\UserObserver;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        User::observe(UserObserver::class);
+    }
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}
+```
+
+If you would like to attach any observer only during Nova related HTTP requests, you may register a `Nova::serving` event listener within your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
+
+```php
+use App\User;
+use Laravel\Nova\Nova;
+use App\Observers\UserObserver;
+
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::serving(function () {
+        User::observe(UserObserver::class);
+    });
+}
+```
