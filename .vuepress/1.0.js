@@ -20,6 +20,18 @@ module.exports = [
       // 'single-resource-metrics',
     ]),
   },
+  {
+    title: 'Search',
+    collapsable: false,
+    children: prefix('search', [
+      'global-search',
+      'scout-integration',
+      // 'filters',
+      // 'lenses',
+      // 'metrics',
+      // 'single-resource-metrics',
+    ]),
+  },
   // {
   //   title: 'Dashboard',
   //   collapsable: false,
