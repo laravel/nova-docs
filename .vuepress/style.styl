@@ -54,9 +54,39 @@ h2
 
   .sidebar-heading
     padding 0 1.7rem
+    margin-bottom: 0.5rem
+    
 
-  .sidebar-group
-    margin-bottom 2rem
+  // .sidebar-group
+    // margin-bottom 1.5rem
+
+  // .sidebar-group.first
+    // margin-bottom: 0rem
+
+  .sidebar-group:not(.first)
+    margin-top: 0rem
+
+  // .sidebar-sub-header
+  //   // padding-top 0.2rem
+  //   // padding-bottom 0.2rem
+
+  // .sidebar-group > .sidebar-group-items > li
+    // margin-bottom 1rem
+
+  // .sidebar-group-items > li
+    // margin-bottom 1rem
+
+  // .sidebar-group-items:last-child
+    // margin-bottom: 1rem
+
+  // .sidebar-sub-header .sidebar-link
+  //   padding-top 0.3rem
+  //   padding-bottom 0.3rem
+
+  // .sidebar-group-items > li a.sidebar-link
+    // padding-top 0
+    // padding-bottom 0
+    // margin-bottom 0
 
   .sidebar-group:not(.collapsable) .sidebar-heading,
   .sidebar-heading
@@ -68,40 +98,61 @@ h2
 
   a.sidebar-link
     color #fff
-    padding-top 0.5rem
-    padding-bottom 0.5rem
     border-left 0.125rem solid transparent
+    // padding-top 0.2rem
+    // padding-bottom 0.2rem
 
   a.sidebar-link:hover
     color #fff
     opacity 0.5
-    border-color-left rgba(255, 255, 255, 0.7)
+    border-left-color rgba(255, 255, 255, 0.7)
 
   a.sidebar-link:active
     color #fff
     opacity 0.7
-    border-color-left rgba(255, 255, 255, 0.5)
+    border-left-color rgba(255, 255, 255, 0.5)
 
   a.sidebar-link.active
     color #fff
-    border-left-color #fff
+    border-left-color rgba(255, 255, 255, 0.5)
 
   .sidebar-group a.sidebar-link
     padding-left 1.5rem
 
-  .sidebar .sidebar-sub-headers
-    padding-left 1.5rem
+  // .sidebar .sidebar-sub-headers
+  //   padding-left 1.5rem
 
-  .sidebar-sub-headers a.sidebar-link
-    padding-left 0.9rem
+  // .sidebar-sub-headers a.sidebar-link
+  //   padding-left 0.9rem
 
+  // .sidebar-sub-header:last-child
+    // margin-bottom: 1rem
+
+  // .sidebar-sub-header:only-child
+    // margin-bottom: 0rem
 
   @media (max-width 959px)
     .sidebar .nav-links
       border-bottom 2px solid rgba(255, 255, 255, 0.1)
 
+
+  @media (max-width 719px)
     .nav-links a.nav-link, .nav-links a.repo-link
       color #fff
+
+/* Sidebar ul, li, a, div spacing
+-----------------------------------------------------------------------------*/
+.sidebar-links
+  > li
+    margin 0
+    margin-bottom: 1rem
+
+    > div.sidebar-group
+      > ul.sidebar-group-items
+        > li
+          margin 0
+          margin-bottom 1rem
+
 
 /* Icons
 -----------------------------------------------------------------------------*/
@@ -206,7 +257,7 @@ $tipColor = #A48CD3
 
 .custom-block code
   color #fff
-  background-color: rgba(0, 0, 0, 0.15)
+  background-color rgba(0, 0, 0, 0.15)
 
 
 /* Code Blocks
@@ -222,6 +273,12 @@ div[class*="language-"]
 
 .content pre code, .content pre[class*="language-"] code
   color #666
+
+div[class~="language-php"]:before
+  content "php"
+
+div[class*="language-"]:before
+  color: rgba(0, 0, 0, 0.3)
 
 .token.selector, .token.important, .token.atrule, .token.keyword, .token.builtin
   color $accentColor
