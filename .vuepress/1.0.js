@@ -14,10 +14,6 @@ module.exports = [
       'file-fields',
       'relationships',
       'validation',
-      // 'filters',
-      // 'lenses',
-      // 'metrics',
-      // 'single-resource-metrics',
     ]),
   },
   {
@@ -26,29 +22,16 @@ module.exports = [
     children: prefix('search', [
       'global-search',
       'scout-integration',
-      // 'filters',
-      // 'lenses',
-      // 'metrics',
-      // 'single-resource-metrics',
     ]),
   },
-  // {
-  //   title: 'Dashboard',
-  //   collapsable: false,
-  //   children: prefix('dashboard', ['metrics', 'tools']),
-  // },
-  // {
-  //   title: 'Customization',
-  //   collapsable: false,
-  //   children: prefix('customization', [
-  //     '',
-  //     'cards',
-  //     'dashboard-cards',
-  //     'resource-cards',
-  //     'custom-fields',
-  //     'themes',
-  //   ]),
-  // },
+  {
+    title: 'Filters',
+    collapsable: false,
+    children: prefix('filters', [
+      'defining-filters',
+      'registering-filters',
+    ]),
+  },
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,

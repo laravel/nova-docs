@@ -12,13 +12,13 @@ Date::make('Birthday')
 DateTime::make('Created At')
 ```
 
-## Timezones
+### Timezones
 
 By default, Nova users will always see dates presented in their local timezone based on their browser's locale information.
 
 In addition, users may always set dates in their local timezone. The dates will automatically be converted to your application's "server-side" timezone as defined by the `timezone` option in your `app` configuration file.
 
-### Customizing The Timezone
+#### Customizing The Timezone
 
 Sometimes you may wish to explicitly define the Nova user's timezone instead of using the browser's locale information. For example, perhaps your application allows users to select their own timezone so that they always see consistent date timezones even when traveling around the world.
 
