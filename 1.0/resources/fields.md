@@ -444,6 +444,16 @@ Select::make('Size')->options([
 ])
 ```
 
+On the resource index and detail screens, the `Select` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
+
+```php
+Select::make('Size')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels()
+```
+
 ### Status Field
 
 The `Status` field may be used to display a "progress state" column. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed:
