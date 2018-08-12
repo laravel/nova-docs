@@ -25,6 +25,8 @@ When a file is uploaded using this field, Nova will use Laravel's [Flysystem int
 To illustrate the default behavior of the `File` field, let's take a look at an equivalent route that would store the file in the same way:
 
 ```php
+use Illuminate\Http\Request;
+
 Route::post('/photo', function (Request $request) {
     $path = $request->profile_photo->store('/', 'public');
 
@@ -78,6 +80,7 @@ In addition to displaying a thumbnail preview of the underlying file, an `Avatar
 In addition to storing the path to the file within the storage system, you may also instruct Nova to store the original client filename and its size (in bytes). You may accomplish this using the `storeOriginalName` and `storeSize` methods. Each of these methods accept the name of the column you would like to store the file information:
 
 ```php
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 
@@ -111,6 +114,8 @@ public function fields(Request $request)
 One benefit of storing the original client filename is the ability to create file download responses using the original filename that was used to upload the file. For example, you may do something like the following in one of your application's routes:
 
 ```php
+use Laravel\Support\Facades\Storage;
+
 Route::get('/download', function () {
     $user = $request->user();
 
