@@ -32,6 +32,14 @@ module.exports = [
       'registering-filters',
     ]),
   },
+  {
+    title: 'Lenses',
+    collapsable: false,
+    children: prefix('lenses', [
+      'defining-lenses',
+      'registering-lenses',
+    ]),
+  },
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,
