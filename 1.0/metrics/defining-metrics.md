@@ -384,6 +384,10 @@ class UsersPerPlan extends Partition
 }
 ```
 
+### Partition Query Types
+
 ### Customizing Partition Labels
+
+### Manually Building Partition Results
 
 ## Caching
