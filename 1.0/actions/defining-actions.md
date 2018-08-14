@@ -68,7 +68,7 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 ## Action Fields
 
-Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach any of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
+Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
 
 ![Action Field](./img/action-field.png)
 
@@ -108,6 +108,50 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+## Action Responses
+
+Typically, when it action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
+
+To display a custom "success" message, you may return the result of the `Action::message` method from your `handle` method:
+
+```php
+/**
+ * Perform the action on the given models.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Support\Collection  $models
+ * @return mixed
+ */
+public function handle(ActionFields $fields, Collection $models)
+{
+    // ...
+
+    return Action::message('It worked!');
+}
+```
+
+To return a red, "danger" message, you may use the `Action::danger` method:
+
+```php
+return Action::danger('Something went wrong!');
+```
+
+#### Redirect Responses
+
+To redirect the user to an entirely new location after the action is executed, you may use the `Action::redirect` method:
+
+```php
+return Action::redirect('https://example.com');
+```
+
+#### Download Responses
+
+To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
+
+```php
+return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
+```
+
 ## Queued Actions
 
 Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action instead of running it synchronously, mark the action with the `ShouldQueue` interface:
@@ -134,9 +178,11 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
-:::tip Queue Workers
+When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
 
-When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed!
+:::danger Queued Action Files
+
+At this time, Nova does not support attaching `File` fields to a queued action. If you need to attach a `File` field to an action, the action must be run synchronously.
 :::
 
 #### Customizing The Connection And Queue
