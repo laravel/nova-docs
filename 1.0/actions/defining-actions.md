@@ -109,3 +109,123 @@ public function handle(ActionFields $fields, Collection $models)
 ```
 
 ## Queued Actions
+
+Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action instead of running it synchronously, mark the action with the `ShouldQueue` interface:
+
+```php
+<?php
+
+namespace App\Nova\Actions;
+
+use App\AccountData;
+use Illuminate\Bus\Queueable;
+use Laravel\Nova\Actions\Action;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class EmailAccountProfile extends Action implements ShouldQueue
+{
+    use InteractsWithQueue, Queueable, SerializesModels;
+
+    // ...
+}
+```
+
+:::tip Queue Workers
+
+When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed!
+:::
+
+#### Customizing The Connection And Queue
+
+You may customize the queue connection and queue name that the action is queued on by defining the `$connection` and `$queue` properties on your action:
+
+```php
+/**
+ * The name of the connection the job should be sent to.
+ *
+ * @var string|null
+ */
+public $connection = 'redis';
+
+/**
+ * The name of the queue the job should be sent to.
+ *
+ * @var string|null
+ */
+public $queue = 'emails';
+```
+
+## Action Log
+
+It is often useful to view a log of the actions that have been run against a resource. Additionally, when queueing actions, it's often important to know when they are actually finished. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actionable` trait to the resource's corresponding Eloquent model.
+
+For example, we may attach the `Laravel\Nova\Actionable` trait to the `User` Eloquent model:
+
+```php
+<?php
+
+namespace App;
+
+use Laravel\Nova\Actionable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
+class User extends Authenticatable
+{
+    use Actionable, Notifiable;
+
+    // ...
+}
+```
+
+Once the trait has been attached to the model, Nova will automatically begin displaying an action log at the bottom of the resource's detail screen:
+
+![Action Log](./img/action-log.png)
+
+### Updating Queued Action Statuses
+
+While a queued action is running, you may update the action's "status" for any of the models that were passed to the action in its model collection. For example, you may use the action's `markAsFinished` method to indicate that the action has completed processing a particular model:
+
+```php
+/**
+ * Perform the action on the given models.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Support\Collection  $models
+ * @return mixed
+ */
+public function handle(ActionFields $fields, Collection $models)
+{
+    foreach ($models as $model) {
+        (new AccountData($model))->send($fields->subject);
+
+        $this->markAsFinished($model);
+    }
+}
+```
+
+Or, if you would like to indicate that an action has "failed" for a given model, you may use the `markAsFailed` method:
+
+```php
+/**
+ * Perform the action on the given models.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Support\Collection  $models
+ * @return mixed
+ */
+public function handle(ActionFields $fields, Collection $models)
+{
+    foreach ($models as $model) {
+        try {
+            (new AccountData($model))->send($fields->subject);
+        } catch (Exception $e) {
+            $this->markAsFailed($model, $e);
+        }
+    }
+}
+```
