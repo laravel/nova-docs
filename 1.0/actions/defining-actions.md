@@ -110,7 +110,7 @@ public function handle(ActionFields $fields, Collection $models)
 
 ## Action Responses
 
-Typically, when it action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
+Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
 
 To display a custom "success" message, you may return the result of the `Action::message` method from your `handle` method:
 
