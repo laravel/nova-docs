@@ -384,4 +384,6 @@ class UsersPerPlan extends Partition
 }
 ```
 
+### Customizing Partition Labels
+
 ## Caching
