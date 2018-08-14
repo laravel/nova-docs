@@ -121,11 +121,30 @@ return $this->min($request, Order::class, 'total');
 
 ### Ranges
 
-As you can see in the example above, each value metric class contains a `ranges` method. This method determines the ranges that will be available in the value metric's range selection menu. The array's keys determine the number of days that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all.
+Every value metric class contains a `ranges` method. This method determines the ranges that will be available in the value metric's range selection menu. The array's keys determine the number of days that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
+
+```php
+/**
+ * Get the ranges available for the metric.
+ *
+ * @return array
+ */
+public function ranges()
+{
+    return [
+        5 => '5 Days',
+        10 => '10 Days',
+        15 => '15 Days',
+        'MTD' => 'Month To Date',
+        'QTD' => 'Quarter To Date',
+        'YTD' => 'Year To Date',
+    ];
+}
+```
 
 :::danger Range Keys
 
-You may customize these ranges to suit your needs; however, if you are using the built-in "month to date", "quarter to date", or "year to date" ranges, you should not change their keys.
+You may customize these ranges to suit your needs; however, if you are using the built-in "Month To Date", "Quarter To Date", or "Year To Date" ranges, you should not change their keys.
 :::
 
 ## Trend Metrics
