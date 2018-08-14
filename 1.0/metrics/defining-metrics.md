@@ -142,7 +142,7 @@ public function ranges()
 }
 ```
 
-:::danger Range Keys
+:::danger MTD / QTD / YTD Range Keys
 
 You may customize these ranges to suit your needs; however, if you are using the built-in "Month To Date", "Quarter To Date", or "Year To Date" ranges, you should not change their keys.
 :::
