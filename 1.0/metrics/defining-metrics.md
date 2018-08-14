@@ -299,4 +299,49 @@ Partition metrics displays a pie chart of values. For example, a partition metri
 
 ![Partition Metric](./img/partition.png)
 
+Partition metrics may be generated using the `nova:partition` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
+
+```sh
+php artisan nova:value UsersPerPlan
+```
+
+Once your partition metric class has been generated, you're ready to customize it. Each partition metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\PartitionResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
+
+In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model and retrieve the number of models belonging to each value of your specified "group by" column:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use App\User;
+use Illuminate\Http\Request;
+use Laravel\Nova\Metrics\Partition;
+
+class UsersPerPlan extends Partition
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    public function calculate(Request $request)
+    {
+        return $this->count($request, User::class, 'stripe_plan');
+    }
+
+    /**
+     * Get the URI key for the metric.
+     *
+     * @return string
+     */
+    public function uriKey()
+    {
+        return 'users-by-plan';
+    }
+}
+
+```
+
 ## Caching
