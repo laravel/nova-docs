@@ -109,7 +109,7 @@ The `min` method may be used to calculate the minimum of a given column compared
 return $this->min($request, Order::class, 'total');
 ```
 
-### Ranges
+### Value Ranges
 
 Every value metric class contains a `ranges` method. This method determines the ranges that will be available in the value metric's range selection menu. The array's keys determine the number of days that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
 
@@ -271,6 +271,26 @@ return $this->minByWeeks($request, Order::class, 'total');
 return $this->minByDays($request, Order::class, 'total');
 return $this->minByHours($request, Order::class, 'total');
 return $this->minByMinutes($request, Order::class, 'total');
+```
+
+### Trend Ranges
+
+Every trend metric class contains a `ranges` method. This method determines the ranges that will be available in the trend metric's range selection menu. The array's keys determine the number of time interval units (months, weeks, days, etc.) that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
+
+```php
+/**
+ * Get the ranges available for the metric.
+ *
+ * @return array
+ */
+public function ranges()
+{
+    return [
+        5 => '5 Days',
+        10 => '10 Days',
+        15 => '15 Days',
+    ];
+}
 ```
 
 ## Partition Metrics
