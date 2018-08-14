@@ -48,6 +48,14 @@ module.exports = [
       'registering-actions',
     ]),
   },
+  {
+    title: 'Metrics',
+    collapsable: false,
+    children: prefix('metrics', [
+      'defining-metrics',
+      'registering-metrics',
+    ]),
+  },
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,
