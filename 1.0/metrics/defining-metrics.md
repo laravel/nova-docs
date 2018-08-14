@@ -137,7 +137,7 @@ public function ranges()
 You may customize these ranges to suit your needs; however, if you are using the built-in "Month To Date", "Quarter To Date", or "Year To Date" ranges, you should not change their keys.
 :::
 
-### Manually Building Results
+### Manually Building Value Results
 
 If you are not able to use the included query helpers for building your value metric, you may manually provide the final values to the metric using the `result` and `previous` methods:
 
@@ -293,6 +293,47 @@ public function ranges()
 }
 ```
 
+### Formatting The Trend Value
+
+Sometimes you may wish to add a prefix or suffix to the trend values. To accomplish this, you may use the `prefix` and `suffix` methods:
+
+```php
+return $this->countByDays($request, User::class)
+            ->prefix('$');
+```
+
+If your trend metric is displaying a monetary value, you may use the `dollars` and `euros` short-cut methods for quickly prefixing a dollar or euro sign to the trend values:
+
+```php
+return $this->countByDays($request, User::class)
+            ->dollars();
+```
+
+### Displaying The Current Value
+
+Sometimes, you may wish to emphasize the value for the latest time interval. For example, in this screenshot, six users have been created during the last day:
+
+![Latest Value](./img/latest-value.png)
+
+To accomplish this, you may use the `showLatestValue` method:
+
+```php
+return $this->countByDays($request, User::class)
+            ->showLatestValue();
+```
+
+### Manually Building Trend Results
+
+If you are not able to use the included query helpers for building your trend metric, you may manually construct the `Laravel\Nova\Metrics\TrendResult` object and return it from your metric's `calculate` method:
+
+```php
+return (new TrendResult)->trend([
+    'July 1' => 100,
+    'July 2' => 150,
+    'July 3' => 200,
+]);
+```
+
 ## Partition Metrics
 
 Partition metrics displays a pie chart of values. For example, a partition metric might display the total number of users for each billing plan offered by your application:
@@ -341,7 +382,6 @@ class UsersPerPlan extends Partition
         return 'users-by-plan';
     }
 }
-
 ```
 
 ## Caching
