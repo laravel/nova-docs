@@ -41,11 +41,25 @@ class MostValuableUsers extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->select('users.id', 'users.name', DB::raw('sum(licenses.price) as revenue'))
+            $query->select($this->columns())
                   ->join('licenses', 'users.id', '=', 'licenses.user_id')
                   ->orderBy('revenue', 'desc')
                   ->groupBy('users.id', 'users.name')
         ));
+    }
+
+    /**
+     * Get the columns that should be selected.
+     *
+     * @return array
+     */
+    protected function columns()
+    {
+        return [
+            'users.id',
+            'users.name',
+            DB::raw('sum(licenses.price) as revenue'),
+        ];
     }
 
     /**
@@ -89,6 +103,11 @@ class MostValuableUsers extends Lens
 }
 
 ```
+
+:::tip Columns Method
+
+In this example, the `columns` method has been extracted from the `query` method for readability. It is not "required" and is not a "feature" of lenses.
+:::
 
 As you can see in the example above, the `query` method has fully control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
 

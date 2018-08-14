@@ -40,6 +40,14 @@ module.exports = [
       'registering-lenses',
     ]),
   },
+  {
+    title: 'Actions',
+    collapsable: false,
+    children: prefix('actions', [
+      'defining-actions',
+      'registering-actions',
+    ]),
+  },
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,
