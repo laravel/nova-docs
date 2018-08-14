@@ -295,4 +295,8 @@ public function ranges()
 
 ## Partition Metrics
 
+Partition metrics displays a pie chart of values. For example, a partition metric might display the total number of users for each billing plan offered by your application:
+
+![Partition Metric](./img/partition.png)
+
 ## Caching
