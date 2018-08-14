@@ -68,4 +68,44 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 ## Action Fields
 
+Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach any of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
+
+![Action Field](./img/action-field.png)
+
+To add a field to an action, add the field to the array of fields returned by the action's `fields` method:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+/**
+ * Get the fields available on the action.
+ *
+ * @return array
+ */
+public function fields()
+{
+    return [
+        Text::make('Subject'),
+    ];
+}
+```
+
+Finally, within your action's `handle` method, you may access your fields using dynamic accessors on the provided `ActionFields` instance:
+
+```php
+/**
+ * Perform the action on the given models.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Support\Collection  $models
+ * @return mixed
+ */
+public function handle(ActionFields $fields, Collection $models)
+{
+    foreach ($models as $model) {
+        (new AccountData($model))->send($fields->subject);
+    }
+}
+```
+
 ## Queued Actions
