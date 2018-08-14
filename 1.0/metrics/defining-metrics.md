@@ -73,7 +73,7 @@ class NewUsers extends Value
 }
 ```
 
-### Query Types
+### Value Query Types
 
 Value metrics don't just ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric.
 
@@ -209,7 +209,7 @@ class UsersPerDay extends Trend
 }
 ```
 
-### Query Types
+### Trend Query Types
 
 Trend metrics don't just ship with a `countByDays` helper. You may also use a variety of other aggregate functions and time intervals when building your metric.
 
