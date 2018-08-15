@@ -17,6 +17,47 @@ public function cards(Request $request)
 }
 ```
 
+## Resource Detail Metrics
+
 ## Dashboard Metrics
 
+You are not limited to displaying metrics on a resource's index screen. You are free to add metrics to your primary Nova "dashboard", which is the default page that Nova displays after login. By default, this screen displays some helpful links to the Nova documentation via the built-in `Help` card. To add a metric to your dashboard, add the metric to the array of cards returned by the `cards` method of your `app/Providers/NovaServiceProvider` class:
+
+```php
+use App\Nova\Metrics\NewUsers;
+
+/**
+ * Get the cards that should be displayed on the Nova dashboard.
+ *
+ * @return array
+ */
+protected function cards()
+{
+    return [
+        new NewUsers,
+    ];
+}
+```
+
 ## Metric Sizes
+
+By default, metrics take up one-third of the Nova content area. However, you are free to make them larger. To accomplish this, call the `width` method when registering the metric with a resource:
+
+```php
+/**
+ * Get the cards available for the request.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [
+        // Two-thirds of the content area...
+        (new Metrics\UsersPerDay)->width('2/3'),
+
+        // Full width...
+        (new Metrics\UsersPerDay)->width('full'),
+    ];
+}
+```
