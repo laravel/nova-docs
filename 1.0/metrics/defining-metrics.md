@@ -142,7 +142,7 @@ You may customize these ranges to suit your needs; however, if you are using the
 If you are not able to use the included query helpers for building your value metric, you may manually provide the final values to the metric using the `result` and `previous` methods:
 
 ```php
-return $this->value(100)->previous(50);
+return $this->result(100)->previous(50);
 ```
 
 ## Trend Metrics
@@ -348,7 +348,7 @@ php artisan nova:value UsersPerPlan
 
 Once your partition metric class has been generated, you're ready to customize it. Each partition metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\PartitionResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
 
-In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model and retrieve the number of models belonging to each value of your specified "group by" column:
+In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model and retrieve the number of models belonging to each distinct value of your specified "group by" column:
 
 ```php
 <?php
@@ -387,8 +387,89 @@ class UsersPerPlan extends Partition
 
 ### Partition Query Types
 
+Partition metrics don't just ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric.
+
+#### Average
+
+The `average` method may be used to calculate the average of a given column within distinct groups. For example, the following call to the `average` method will display a pie chart with the average order price for each department of the company:
+
+```php
+return $this->average($request, Order::class, 'price', 'department');
+```
+
+#### Sum
+
+The `sum` method may be used to calculate the sum of a given column within distinct groups. For example, the following call to the `sum` method will display a pie chart with the sum of all order prices for each department of the company:
+
+```php
+return $this->sum($request, Order::class, 'price', 'department');
+```
+
+#### Max
+
+The `max` method may be used to calculate the max of a given column within distinct groups. For example, the following call to the `max` method will display a pie chart with the maximum order price for each department of the company:
+
+```php
+return $this->max($request, Order::class, 'price', 'department');
+```
+
+#### Min
+
+The `min` method may be used to calculate the min of a given column within distinct groups. For example, the following call to the `min` method will display a pie chart with the minimum order price for each department of the company:
+
+```php
+return $this->min($request, Order::class, 'price', 'department');
+```
+
 ### Customizing Partition Labels
+
+Often, the column values that divide your partition metrics into groups will be simple keys, and not something that is "human friendly". Or, if you are displaying a partition metric grouped by a column that is a boolean, Nova will display your group labels as "0" and "1". For this reason, Nova allows you to provide a Closure that formats the label into something more readable:
+
+```php
+/**
+ * Calculate the value of the metric.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return mixed
+ */
+public function calculate(Request $request)
+{
+    return $this->count($request, User::class, 'stripe_plan')
+            ->label(function ($value) {
+                switch ($value) {
+                    case null:
+                        return 'None';
+                    default:
+                        return ucfirst($value);
+                }
+            });
+}
+```
 
 ### Manually Building Partition Results
 
+If you are not able to use the included query helpers for building your partition metric, you may manually provide the final values to the metric using the `result` method:
+
+```php
+return $this->result([
+    'Group 1' => 100,
+    'Group 2' => 200,
+    'Group 3' => 300,
+]);
+```
+
 ## Caching
+
+Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
+
+```php
+/**
+ * Determine for how many minutes the metric should be cached.
+ *
+ * @return  \DateTimeInterface|\DateInterval|float|int
+ */
+public function cacheFor()
+{
+    return now()->addMinutes(5);
+}
+```
