@@ -18,7 +18,7 @@ When manipulating a resource within Nova, Nova will automatically attempt to fin
 - `restore`
 - `forceDelete`
 
-No additional custom configuration is required! So, for example, to determine which users are allowed to update a `Post` model, you simply need to define an `update` method on the model's corresponding policy class:
+No additional configuration is required! So, for example, to determine which users are allowed to update a `Post` model, you simply need to define an `update` method on the model's corresponding policy class:
 
 ```php
 <?php
@@ -57,6 +57,8 @@ If a policy exists but is missing a method for a particular action, the user wil
 ### Relationships
 
 ### Disabling Authorization
+
+## Fields
 
 ## Index Filtering
 
