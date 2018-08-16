@@ -54,9 +54,53 @@ If a policy exists but is missing a method for a particular action, the user wil
 
 ### Hiding Entire Resources
 
+If you would like to hide an entire Nova resource from a subset of your dashboard's users, you may define a `viewAny` method on the model's policy class. If no `viewAny` method is defined for a given policy, Nova will assume that the user can view the resource:
+
+```php
+<?php
+
+namespace App\Policies;
+
+use App\User;
+use App\Post;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class PostPolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view any posts.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewAny(User $user)
+    {
+        return in_array('view-posts', $user->permissions);
+    }
+}
+```
+
+
+
 ### Relationships
 
 ### Disabling Authorization
+
+If one of your Nova resources' models has a corresponding policy, but you want to disable Nova authorization for that resource, you may override the `authorizable` method on the Nova resource:
+
+```php
+/**
+ * Determine if the given resource is authorizable.
+ *
+ * @return bool
+ */
+public static function authorizable()
+{
+    return false;
+}
+```
 
 ## Fields
 
