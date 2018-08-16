@@ -210,8 +210,99 @@ public static function authorizable()
 
 ## Fields
 
+Sometimes you may want to hide certain fields from a group of users. You may easily accomplish this by chaining the `canSee` method onto your field definition. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+
+```php
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
+{
+    return [
+        ID::make()->sortable(),
+
+        Text::make('Name')
+                ->sortable()
+                ->canSee(function ($request) {
+                    return $request->user()->can('viewProfile', $this);
+                }),
+    ];
+}
+```
+
+In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewProfile` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
+
+```php
+Text::make('Name')
+        ->sortable()
+        ->canSeeWhen('viewProfile', $this),
+```
+
+:::tip Authorization & The "Can" Method
+
+To learn more about Laravel's authorization helpers and the `can` method, check out the full Laravel [authorization documentation](https://laravel.com/docs/5.6/authorization#via-the-user-model).
+:::
+
 ## Index Filtering
+
+You may notice that returning `false` from a policy's `view` method does not stop a given resource from appearing in the resource index. To filter models from the resource index query, you may override the `indexQuery` method on your resource. This method is already stubbed in your `App\Nova\Resource` base class, you may simply copy and paste it into a specific resource and then modify the query:
+
+```php
+/**
+ * Build an "index" query for the given resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @return \Illuminate\Database\Eloquent\Builder
+ */
+public static function indexQuery(NovaRequest $request, $query)
+{
+    return $query->where('user_id', $request->user()->id);
+}
+```
 
 ## Relatable Filtering
 
+If you would like to filter the queries that are used to populate relationship model selection menus, you may override the `relatableQuery` method on your resource.
+
+For example, if your application has a `Comment` resource that belongs to a `Podcast` resource, Nova will allow you to select the parent `Podcast` when creating a `Comment`. To limit the podcasts that are available in that selection menu, you should override the `relatableQuery` method on your `Podcast` resource:
+
+```php
+/**
+ * Build a "relatable" query for the given resource.
+ *
+ * This query determines which instances of the model may be attached to other resources.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @return \Illuminate\Database\Eloquent\Builder
+ */
+public static function relatableQuery(NovaRequest $request, $query)
+{
+    return $query->where('user_id', $request->user()->id);
+}
+```
+
 ## Scout Filtering
+
+If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource:
+
+```php
+/**
+ * Build a Scout search query for the given resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Laravel\Scout\Builder  $query
+ * @return \Laravel\Scout\Builder
+ */
+public static function scoutQuery(NovaRequest $request, $query)
+{
+    return $query->where('user_id', $request->user()->id);
+}
+```
