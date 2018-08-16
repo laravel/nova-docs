@@ -14,6 +14,7 @@ module.exports = [
       'file-fields',
       'relationships',
       'validation',
+      'authorization',
     ]),
   },
   {
