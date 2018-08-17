@@ -343,7 +343,7 @@ Partition metrics displays a pie chart of values. For example, a partition metri
 Partition metrics may be generated using the `nova:partition` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
 ```sh
-php artisan nova:value UsersPerPlan
+php artisan nova:partition UsersPerPlan
 ```
 
 Once your partition metric class has been generated, you're ready to customize it. Each partition metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\PartitionResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
