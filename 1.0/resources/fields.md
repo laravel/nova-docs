@@ -236,6 +236,8 @@ The `Currency` field generates a `Number` field that is automatically displayed 
 use Laravel\Nova\Fields\Currency;
 
 Currency::make('Price')
+
+Currency::make('Price')->format('%.2n');
 ```
 
 ### Date Field
