@@ -121,6 +121,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Boolean](#boolean-field)
 - [Code](#code-field)
 - [Country](#country-field)
+- [Currency](#currency-field)
 - [Date](#date-field)
 - [DateTime](#date-time-field)
 - [File](#file-field)
@@ -225,6 +226,16 @@ The `Country` field generates a `Select` field containing a list of the world's 
 use Laravel\Nova\Fields\Country;
 
 Country::make('Country', 'country_code')
+```
+
+### Currency Field
+
+The `Currency` field generates a `Number` field that is automatically displayed using PHP's `money_format` function. You may specify the display format using the `format` method; otherwise, the `%i` format will be used:
+
+```php
+use Laravel\Nova\Fields\Currency;
+
+Currency::make('Price')
 ```
 
 ### Date Field
