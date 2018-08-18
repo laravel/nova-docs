@@ -60,7 +60,7 @@ If you are not able to install Nova into your application because of your `minim
 
 ## Updating Nova
 
-To update your Nova installation, you may simply download a fresh release Zip file from the Nova website. After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
+To update your Nova installation, you may simply download a release Zip file from the Nova website. After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
 
 ```sh
 composer update
