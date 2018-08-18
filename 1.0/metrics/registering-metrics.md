@@ -19,6 +19,34 @@ public function cards(Request $request)
 
 ## Resource Detail Metrics
 
+In addition to placing metrics on the resource index screen, you may also attach a metric to the resource detail screen. For example, if you are building a podcasting application, you may wish to display the total number of podcasts created by users over time. To instruct a metric to be displayed on the detail page instead of the index page, chain the `onlyOnDetail` method onto your metric registration:
+
+```php
+/**
+ * Get the cards available for the request.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [
+        (new Metrics\PodcastCount)->onlyOnDetail(),
+    ];
+}
+```
+
+Of course, you will need to modify your metric's query to only gather metric data on the resource for which it is currently being displayed. To accomplish this, your metric's `calculate` method may access the `resourceId` property on the incoming `$request`:
+
+```php
+use App\Podcast;
+
+return $this->count(
+    $request,
+    Podcast::where('user_id', $request->resourceId)
+);
+```
+
 ## Dashboard Metrics
 
 You are not limited to displaying metrics on a resource's index screen. You are free to add metrics to your primary Nova "dashboard", which is the default page that Nova displays after login. By default, this screen displays some helpful links to the Nova documentation via the built-in `Help` card. To add a metric to your dashboard, add the metric to the array of cards returned by the `cards` method of your `app/Providers/NovaServiceProvider` class:
