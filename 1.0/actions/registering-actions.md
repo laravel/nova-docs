@@ -16,3 +16,51 @@ public function actions(Request $request)
     return [new Actions\EmailAccountProfile];
 }
 ```
+
+## Authorization
+
+If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your lens registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+
+```php
+use App\User;
+
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\EmailAccountProfile)->canSee(function ($request) {
+            return $request->user()->can(
+                'emailAnyAccountProfile', User::class
+            );
+        }),
+    ];
+}
+```
+
+#### The `canRun` Method
+
+Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\EmailAccountProfile)->canSee(function ($request) {
+            return true;
+        })->canRun(function ($request, $user) {
+            return $request->user()->can('emailAccountProfile', $user);
+        }),
+    ];
+}
+```
