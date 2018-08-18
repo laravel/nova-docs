@@ -26,7 +26,7 @@ First, unzip the contents of the Nova release into a `nova` directory within you
 ],
 ```
 
-Next, you are ready to add `laravel/nova` to the "require" section of your `composer.json` file:
+Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
