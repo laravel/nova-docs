@@ -32,7 +32,7 @@ Next, you are ready to add `laravel/nova` to the "require" section of your `comp
 "require": {
     "php": "^7.1.3",
     "fideloper/proxy": "^4.0",
-    "laravel/framework": "5.6.*",
+    "laravel/framework": "5.7.*",
     "laravel/nova": "*"
 },
 ```
