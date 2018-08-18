@@ -47,6 +47,7 @@ Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:instal
 
 ```sh
 php artisan nova:install
+
 php artisan migrate
 ```
 
@@ -56,3 +57,19 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 If you are not able to install Nova into your application because of your `minimum-stability` setting, consider setting your `minimum-stability` option to `dev` and your `prefer-stable` option to `true`. This will allow you to install Nova while still preferring stable package releases for your application.
 :::
+
+## Updating Nova
+
+To update your Nova installation, you may simply download a fresh release Zip file from the Nova website. After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
+
+```sh
+composer update
+
+php artisan nova:publish
+```
+
+The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
+
+```sh
+php artisan nova:publish --force
+```
