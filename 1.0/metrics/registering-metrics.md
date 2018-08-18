@@ -89,3 +89,48 @@ public function cards(Request $request)
     ];
 }
 ```
+
+## Authorization
+
+If you would like to only expose a given metric to certain users, you may chain the `canSee` method onto your metric registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+
+```php
+use App\User;
+
+/**
+ * Get the cards available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [
+        (new Metrics\UsersPerDay)->canSee(function ($request) {
+            return $request->user()->can('viewUsersPerDay', User::class);
+        }),
+    ];
+}
+```
+
+In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewUsersPerDay` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
+
+```php
+use App\User;
+
+/**
+ * Get the cards available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [
+        (new Metrics\UsersPerDay)->canSeeWhen(
+            'viewUsersPerDay', User::class
+        ),
+    ];
+}
+```
+
