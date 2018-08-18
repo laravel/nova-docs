@@ -37,7 +37,7 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 },
 ```
 
-After your `composer.json` file has been updated, run the `composer update` command in your terminal:
+After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
 ```sh
 composer update
