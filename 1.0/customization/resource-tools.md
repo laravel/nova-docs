@@ -123,9 +123,10 @@ Often, you will need to define Laravel routes that are called by your tool. When
 
 All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/stripe-inspector`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
-#### Routing Authorization
+:::danger Routing Authorization
 
-Your Nova resource tool is generated with an `Authorize` middleware. This middleware automatically determine that the authenticated user can "see" the tool before it processes any requests to routes within your tool's route group; however, you are free to modify this middleware if needed.
+When building routes for your tool, you should **always** add authorization to these routes using Laravel gates or policies.
+:::
 
 ### Assets
 
