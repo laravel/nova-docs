@@ -4,7 +4,7 @@
 
 ## Overview
 
-Resource tools are very similar to [custom tools](./tools.md); however, instead of displaying in the Nova sidebar, resource tools are displayed on a particular resource's detail screen. Like Nova tools, resource tools are incredibly customizable. Again, they primarily consist of a single-file Vue component that is totally under your control.
+Resource tools are very similar to [custom tools](./tools.md); however, instead of displaying in the Nova sidebar, resource tools are displayed on a particular resource's detail screen. Like Nova tools, resource tools are incredibly customizable, and primarily consist of a single-file Vue component that is totally under your control.
 
 ## Defining Tools
 
