@@ -14,7 +14,7 @@ Resource tools may be generated using the `nova:resource-tool` Artisan command. 
 artisan nova:resource-tool acme/stripe-inspector
 ```
 
-When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a "path" repository.
+When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a Composer "path" repository.
 
 Nova resource tools include all of the scaffolding necessary to build your tool. Each tool even contains its own `composer.json` file and is ready to be shared with the world on GitHub or the source control provider of your choice.
 
