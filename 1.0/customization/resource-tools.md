@@ -20,7 +20,7 @@ Nova resource tools include all of the scaffolding necessary to build your tool.
 
 ## Registering Tools
 
-Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields available to the resource. To register your resource tool, add your tool to the array returned by this method:
+Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields available to the resource. To register your resource tool, add your tool to the array of fields returned by this method:
 
 ```php
 use Acme\StripeInspector\StripeInspector;
@@ -125,7 +125,7 @@ The `Tool.vue` file is a single-file Vue component that contains your tool's fro
 
 #### Resource Tool Properties
 
-Your resource tool's `Tool.vue` component receives several `props`: `resourceName`, `resourceId`, and `field`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `field` property provides access to any tool [options](#tool-options) that may be available:
+Your resource tool's `Tool.vue` component receives several Vue `props`: `resourceName`, `resourceId`, and `field`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `field` property provides access to any tool [options](#tool-options) that may be available:
 
 ```js
 const issuesRefunds = this.field.issuesRefunds;
