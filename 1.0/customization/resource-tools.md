@@ -18,7 +18,7 @@ When generating a tool, Nova will prompt you to install the tool's NPM dependenc
 
 Nova resource tools include all of the scaffolding necessary to build your tool. Each tool even contains its own `composer.json` file and is ready to be shared with the world on GitHub or the source control provider of your choice.
 
-## Registering Resource Tools
+## Registering Tools
 
 Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields available to the resource. To register your resource tool, add your tool to the array returned by this method:
 
@@ -84,7 +84,6 @@ class StripeInspector extends ResourceTool
         return 'stripe-inspector';
     }
 }
-
 ```
 
 ## Building Tools
