@@ -111,6 +111,17 @@ public function fields(Request $request)
 }
 ```
 
+### Routing
+
+Often, you will need to define Laravel routes that are called by your card. When Nova generates your card, it creates a `routes/api.php` routes file. If needed, you may use this file to define any routes your card requires.
+
+All routes within this file are automatically defined inside a route group by your card's `CardServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/card-name` prefix, where `card-name` is the "kebab-case" name of your card. So, for example, `/nova-vendor/stripe-inspector`. You are free to modify this route group definition, but take care to make sure your Nova card will co-exist with other Nova packages.
+
+:::danger Routing Authorization
+
+When building routes for your card, you should **always** add authorization to these routes using Laravel gates or policies.
+:::
+
 ### Assets
 
 When Nova generates your card, `resources/js` and `resources/sass` directories are generated for you. These directories contain your card's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Card.vue` and `resources/sass/card.scss`.
