@@ -155,7 +155,7 @@ Your component is bootstrapped and registered in the `resources/js/tool.js` file
 
 #### Compiling Assets
 
-Your Nova resource tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool with the following commands:
+Your Nova resource tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool using the NPM `dev` and `prod` commands:
 
 ```sh
 // Compile your assets for local development...
