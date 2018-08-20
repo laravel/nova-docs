@@ -23,6 +23,8 @@ Nova tools include all of the scaffolding necessary to build your tool. Each too
 Nova tools may be registered in your application's `NovaServiceProvider`. Your service provider contains a `tools` method, which returns an array of tools. To register your tool, simply add it to the list of tools returned by this method. For example, if you created a Nova tool named `otwell/stripe-inspector`, you may register the tool like so:
 
 ```php
+use Otwell\StripeInspector\StripeInspector;
+
 /**
  * Get the cards that should be listed in the Nova sidebar.
  *
@@ -31,7 +33,7 @@ Nova tools may be registered in your application's `NovaServiceProvider`. Your s
 public function tools()
 {
     return [
-        new Otwell\StripeInspector\StripeInspector,
+        new StripeInspector,
     ];
 }
 ```
