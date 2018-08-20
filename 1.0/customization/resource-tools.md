@@ -117,6 +117,12 @@ public function fields(Request $request)
 }
 ```
 
+### Routing
+
+Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/api.php` routes file. If needed, you may use this file to define any routes your tool requires.
+
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/stripe-inspector`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
+
 ### Assets
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
@@ -143,6 +149,10 @@ Your Nova tool's service provider registers your tool's compiled assets so that 
  */
 public function boot()
 {
+    $this->app->booted(function () {
+        $this->routes();
+    });
+
     Nova::serving(function (ServingNova $event) {
         Nova::script('stripe-inspector', __DIR__.'/../dist/js/tool.js');
         Nova::style('stripe-inspector', __DIR__.'/../dist/css/tool.css');
