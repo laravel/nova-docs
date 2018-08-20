@@ -72,6 +72,10 @@ Often, you will need to define Laravel routes that are called by your tool. When
 
 All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
+#### Routing Authorization
+
+
+
 ### Navigation
 
 Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. Of course, a default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:

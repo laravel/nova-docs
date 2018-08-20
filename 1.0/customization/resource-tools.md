@@ -123,6 +123,10 @@ Often, you will need to define Laravel routes that are called by your tool. When
 
 All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/stripe-inspector`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
+#### Routing Authorization
+
+Your Nova resource tool is generated with an `Authorize` middleware. This middleware automatically determine that the authenticated user can "see" the tool before it processes any requests to routes within your tool's route group; however, you are free to modify this middleware if needed.
+
 ### Assets
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
