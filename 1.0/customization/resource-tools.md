@@ -4,7 +4,7 @@
 
 ## Overview
 
-Resource tools are very similar to [custom tools](./tools.md); however, instead of displaying in the Nova sidebar, resource tools are displayed on a particular resource's detail screen.Like Nova tools, resource tools are incredibly customizable. Again, they primarily consist of a single-file Vue component that is totally under your control.
+Resource tools are very similar to [custom tools](./tools.md); however, instead of displaying in the Nova sidebar, resource tools are displayed on a particular resource's detail screen. Like Nova tools, resource tools are incredibly customizable. Again, they primarily consist of a single-file Vue component that is totally under your control.
 
 ## Defining Tools
 
@@ -117,6 +117,20 @@ public function fields(Request $request)
 
 ### Assets
 
+When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
+
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this point, you are free to build your tool however you want. Your tool can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `underscore.js` libraries are globally available.
+
+#### Resource Tool Properties
+
+Your resource tool's `Tool.vue` component receives several `props`: `resourceName`, `resourceId`, and `field`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `field` property provides access to any tool [options](#tool-options) that may be available:
+
+```js
+const issuesRefunds = this.field.issuesRefunds;
+```
+
+#### Registering Assets
+
 Your Nova tool's service provider registers your tool's compiled assets so that they will be available to the Nova front-end:
 
 ```php
@@ -134,24 +148,12 @@ public function boot()
 }
 ```
 
-When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
-
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this point, you are free to build your tool however you want. Your tool can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `underscore.js` libraries are globally available.
-
 :::tip JavaScript Bootstrap & Routing
 
 Your component is bootstrapped and registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
 :::
 
-#### Resource Tool Properties
-
-Your resource tool's `Tool.vue` component receives several `props`: `resourceName`, `resourceId`, and `field`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `field` property provides access to any tool [options](#tool-options) that may be available:
-
-```js
-const issuesRefunds = this.field.issuesRefunds;
-```
-
-### Compiling Assets
+#### Compiling Assets
 
 Your Nova resource tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool with the following commands:
 
