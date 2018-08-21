@@ -47,7 +47,6 @@ Nova's Vue configuration automatically registers the [Vue toasted plugin](https:
 
 ```js
 this.$toasted.show('It worked!', { type: 'success' })
-
 this.$toasted.show('It failed!', { type: 'error' })
 ```
 
