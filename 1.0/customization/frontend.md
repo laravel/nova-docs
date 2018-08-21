@@ -22,7 +22,7 @@ axios.get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 
 #### Nova Requests
 
-As an alternative to using Axios directly, you may use the `Nova.request()` method. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `403` and `500` level server errors:
+As an alternative to using Axios directly, you may use the `Nova.request()` method. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level server errors:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
@@ -43,13 +43,15 @@ Nova.$emit(event, callback)
 
 ### Notifications
 
+Test
+
 ### Global Variables
 
-The global `Nova` JavaScript object contains the current Nova `base` path and `userId`:
+The global `Nova` JavaScript object's `config` property contains the current Nova `base` path and `userId`:
 
 ```js
-const userId = Nova.userId;
-const basePath = Nova.base;
+const userId = Nova.config.userId;
+const basePath = Nova.config.base;
 ```
 
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
@@ -76,7 +78,7 @@ public function boot()
 Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
 
 ```php
-const name = Nova.user.name;
+const name = Nova.config.user.name;
 ```
 
 ### Other Available Libraries
