@@ -64,3 +64,18 @@ public function actions(Request $request)
     ];
 }
 ```
+
+## Pivot Actions
+
+Typically, actions operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
+
+```php
+BelongsToMany::make('Roles')
+    ->actions(function () {
+        return [
+            new Actions\MarkAsActive,
+        ];
+    });
+```
+
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.

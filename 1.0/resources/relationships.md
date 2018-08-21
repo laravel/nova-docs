@@ -135,6 +135,26 @@ class RoleUserFields
 }
 ```
 
+#### Pivot Actions
+
+Typically, [Nova actions](./../actions/defining-actions.md) operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
+
+```php
+BelongsToMany::make('Roles')
+    ->actions(function () {
+        return [
+            new Actions\MarkAsActive,
+        ];
+    });
+```
+
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
+
+:::tip Actions
+
+To learn more about Nova actions, check out the complete [action documentation](./../actions/defining-actions.md).
+:::
+
 #### Title Attributes
 
 When a `BelongsToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Role` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsToMany` selection menu, that attribute will be displayed:
