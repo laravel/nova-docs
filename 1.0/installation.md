@@ -26,6 +26,11 @@ First, unzip the contents of the Nova release into a `nova` directory within you
 ],
 ```
 
+:::warning Hidden Files
+
+When unzipping Nova into your application's `nova` directory, make sure all of Nova's "hidden" files (such as its `.gitignore` file) are included.
+:::
+
 Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
