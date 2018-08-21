@@ -66,6 +66,7 @@ module.exports = [
       'resource-tools',
       'cards',
       'fields',
+      'frontend',
     ]),
   },
   // {
