@@ -20,7 +20,26 @@ axios.get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 })
 ```
 
+#### Nova Requests
+
+As an alternative to using Axios directly, you may use the `Nova.request()` method. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `403` and `500` level server errors:
+
+```js
+Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
+    // ...
+})
+```
+
 ### Event Bus
+
+The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by Vue](https://vuejs.org/v2/api/#Instance-Methods-Events):
+
+```js
+Nova.$on(event, callback)
+Nova.$once(event, callback)
+Nova.$off(event, callback)
+Nova.$emit(event, callback)
+```
 
 ### Notifications
 
