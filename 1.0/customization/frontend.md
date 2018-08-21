@@ -43,7 +43,13 @@ Nova.$emit(event, callback)
 
 ### Notifications
 
-Test
+Nova's Vue configuration automatically registers the [Vue toasted plugin](https://github.com/shakee93/vue-toasted). So, within your custom components, you may leverage the `this.$toasted` object to display simple notifications:
+
+```js
+this.$toasted.show('It worked!', { type: 'success' })
+
+this.$toasted.show('It failed!', { type: 'error' })
+```
 
 ### Global Variables
 
