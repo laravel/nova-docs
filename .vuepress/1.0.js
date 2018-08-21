@@ -61,6 +61,7 @@ module.exports = [
     title: 'Customization',
     collapsable: false,
     children: prefix('customization', [
+      'localization',
       'tools',
       'resource-tools',
       'cards',
