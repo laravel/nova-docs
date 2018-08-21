@@ -192,6 +192,11 @@ class PodcastPolicy
 }
 ```
 
+:::warning Many To Many Authorization
+
+When working with many-to-many relationships, make sure you define the proper authorization policy methods on each of the involved resource's policy classes.
+:::
+
 ### Disabling Authorization
 
 If one of your Nova resources' models has a corresponding policy, but you want to disable Nova authorization for that resource, you may override the `authorizable` method on the Nova resource:
