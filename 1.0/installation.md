@@ -57,6 +57,7 @@ php artisan migrate
 ```
 
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
+
 Nova references your models in the /app directory by default. If you place your models in an own directory, you should specify this in the nova models.
 In a Nova model, you can reference your model with the $model variable.
 ```php
