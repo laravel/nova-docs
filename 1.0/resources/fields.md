@@ -530,7 +530,7 @@ Nova does not currently support embedded file uploads within Trix fields.
 
 ## Computed Fields
 
-In addition to displaying fields that are associated with columns in your database, Nova allows you to create "computed fields". Computed fields may be used to display computed values that are not associated with a database column. These fields may be created by passing a callable (instead of a column name) as the second argument to the field's `make` method:
+In addition to displaying fields that are associated with columns in your database, Nova allows you to create "computed fields". Computed fields may be used to display computed values that are not associated with a database column, as such these fields are not sortable. These fields may be created by passing a callable (instead of a column name) as the second argument to the field's `make` method:
 
 ```php
 Text::make('Name', function () {
