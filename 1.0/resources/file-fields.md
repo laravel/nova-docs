@@ -66,9 +66,9 @@ Image::make('Profile Photo')->disk('public')
 The `Avatar` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Avatar` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Image` field mirror that of the `File` field:
 
 ```php
-use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Avatar;
 
-Image::make('Poster')->disk('public')
+Avatar::make('Poster')->disk('public')
 ```
 
 In addition to displaying a thumbnail preview of the underlying file, an `Avatar` field will also be automatically displayed in Nova search results. An `Avatar` field is not limited to "user" resources - you may attach `Avatar` fields to any resource within your Nova application:
