@@ -277,7 +277,7 @@ The `Gravatar` field does not correspond to any column in your application's dat
 By default, the Gravatar URL will be generated based on the value of the model's `email` column. However, if your user's email addresses are not stored in the `email` column, you may pass a custom column name to the field's `make` method:
 
 ```php
-use Laravel\Nova\Fields\Gravtar;
+use Laravel\Nova\Fields\Gravatar;
 
 // Using the "email" column...
 Gravatar::make()
