@@ -58,6 +58,11 @@ php artisan migrate
 
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
+:::tip Non-standard App Namespace
+
+If you have previously changed your app namespace from `App` you will need to reflect this change within your `NovaServiceProvider` class.
+:::
+
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
 
 :::tip Package Stability
