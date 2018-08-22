@@ -17,12 +17,11 @@ module.exports = {
 
   themeConfig: {
     logo: '/assets/img/logo.svg',
-    repo: 'laravel/nova',
     displayAllHeaders: true,
     sidebarDepth: 1,
 
     nav: [
-      {text: 'Home', link: 'https://nova.laravel.com'},
+      { text: 'Home', link: 'https://nova.laravel.com' },
       // {text: 'Version', link: '/', items: [{text: '1.0', link: '/1.0/'}]},
     ],
 
@@ -30,4 +29,4 @@ module.exports = {
       '/1.0/': require('./1.0'),
     },
   },
-};
+}
