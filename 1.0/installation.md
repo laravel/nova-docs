@@ -65,7 +65,25 @@ If you are not able to install Nova into your application because of your `minim
 
 ## Authorizing Nova
 
-Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation.
+Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
+
+```php
+/**
+ * Register the Nova gate.
+ *
+ * This gate determines who can access Nova in non-local environments.
+ *
+ * @return void
+ */
+protected function gate()
+{
+    Gate::define('viewNova', function ($user) {
+        return in_array($user->email, [
+            'taylor@laravel.com',
+        ]);
+    });
+}
+```
 
 ## Updating Nova
 
