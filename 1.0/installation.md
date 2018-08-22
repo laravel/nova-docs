@@ -56,6 +56,8 @@ php artisan nova:install
 php artisan migrate
 ```
 
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually.
+
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
 
 :::tip Package Stability
