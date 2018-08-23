@@ -46,7 +46,7 @@ Text::make(__('Email Address'), 'email_address')
 
 ### Relationships
 
-Relationship field names may be customized by localizing the first argument passed ot their field definition. The second and third arguments to Nova relationship fields are the relationship method name and the related Nova resource, respectively:
+Relationship field names may be customized by localizing the first argument passed to their field definition. The second and third arguments to Nova relationship fields are the relationship method name and the related Nova resource, respectively:
 
 ```php
 use App\Nova\Post;
