@@ -95,12 +95,14 @@ protected function gate()
 
 ## Updating Nova
 
-To update your Nova installation, you may simply download a release Zip file from the Nova website. After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
+To update your Nova installation, you may simply download a release Zip file from the Nova website. After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update`, `nova:publish`, and `view:clear` commands:
 
 ```sh
 composer update
 
 php artisan nova:publish
+
+php artisan view:clear
 ```
 
 The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
@@ -108,3 +110,5 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 ```sh
 php artisan nova:publish --force
 ```
+
+The `view:clear` command will clear all of your compiled view files.
