@@ -108,3 +108,7 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 ```sh
 php artisan nova:publish --force
 ```
+
+## Bug Reports
+
+If you discover a bug in Laravel Nova, please open an issue on the [Nova issues GitHub repository](https://github.com/laravel/nova-issues).
