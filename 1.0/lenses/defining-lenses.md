@@ -2,7 +2,7 @@
 
 [[toc]]
 
-While similar to filters, Nova lenses allow you to fully customize of the underlying resource Eloquent query. For example, you may want to list of all your application's users sorted by their total lifetime revenue. Creating such a list may require you to join to additional tables and perform aggregate functions within the query. If it sounds complicated, don't worry - this is exactly the type of situation lenses are designed to solve:
+While similar to filters, Nova lenses allow you to fully customize the underlying resource Eloquent query. For example, you may want to list of all your application's users sorted by their total lifetime revenue. Creating such a list may require you to join to additional tables and perform aggregate functions within the query. If it sounds complicated, don't worry - this is exactly the type of situation lenses are designed to solve:
 
 ![Lens](./img/lens.png)
 
