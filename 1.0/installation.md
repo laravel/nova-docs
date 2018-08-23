@@ -18,12 +18,18 @@ Once you have purchased a Nova license, you may download a Nova release from the
 First, unzip the contents of the Nova release into a `nova` directory within your application's root directory. Once you have unzipped and placed the Nova source code within the appropriate directory, you are ready to update your `composer.json` file. You should add the following configuration to the file:
 
 ```json
-"repositories": [
-    {
-        "type": "path",
-        "url": "./nova"
-    }
-],
+"repositories": {
+    "laravel/nova":
+        {
+            "type": "path",
+            "url": "./nova"
+        }
+},
+```
+or simply run the following:
+
+```sh
+composer config repositories."laravel/nova" path "/.nova"
 ```
 
 :::warning Hidden Files
