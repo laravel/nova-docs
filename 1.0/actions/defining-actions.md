@@ -207,16 +207,16 @@ public $queue = 'emails';
 
 ## Action Log
 
-It is often useful to view a log of the actions that have been run against a resource. Additionally, when queueing actions, it's often important to know when they are actually finished. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actionable` trait to the resource's corresponding Eloquent model.
+It is often useful to view a log of the actions that have been run against a resource. Additionally, when queueing actions, it's often important to know when they are actually finished. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actions\Actionable` trait to the resource's corresponding Eloquent model.
 
-For example, we may attach the `Laravel\Nova\Actionable` trait to the `User` Eloquent model:
+For example, we may attach the `Laravel\Nova\Actions\Actionable` trait to the `User` Eloquent model:
 
 ```php
 <?php
 
 namespace App;
 
-use Laravel\Nova\Actionable;
+use Laravel\Nova\Actions\Actionable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
