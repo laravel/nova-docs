@@ -88,4 +88,4 @@ const name = Nova.config.user.name;
 
 ### Other Available Libraries
 
-In addition to Axios, the [Underscore.js](https://underscorejs.org/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
+In addition to Axios, the [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
