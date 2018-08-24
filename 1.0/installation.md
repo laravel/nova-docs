@@ -48,6 +48,11 @@ After your `composer.json` file has been updated, run the `composer update` comm
 composer update
 ```
 
+:::tip Package Stability
+
+If you are not able to install Nova into your application because of your `minimum-stability` setting, consider setting your `minimum-stability` option to `dev` and your `prefer-stable` option to `true`. This will allow you to install Nova while still preferring stable package releases for your application.
+:::
+
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
 ```sh
@@ -65,11 +70,6 @@ public static $model = 'App\\Models\\User';
 ```
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
-
-:::tip Package Stability
-
-If you are not able to install Nova into your application because of your `minimum-stability` setting, consider setting your `minimum-stability` option to `dev` and your `prefer-stable` option to `true`. This will allow you to install Nova while still preferring stable package releases for your application.
-:::
 
 ## Authorizing Nova
 
