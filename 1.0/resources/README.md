@@ -135,3 +135,14 @@ public function boot()
     });
 }
 ```
+
+## Hiding From Sidebar
+
+If you want to hide your Resource from sidebar override `availableForNavigation` method in your resource and return `false`:
+
+```php
+public static function availableForNavigation(Request $request)
+{
+    return false; 
+}
+```
