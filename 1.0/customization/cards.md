@@ -11,7 +11,7 @@ Cards are similar to resource tools, but are small, miniature tools that are typ
 Cards may be generated using the `nova:card` Artisan command. By default, all new cards will be placed in the `nova-components` directory of your application. When generating a card using the `nova:card` command, the card name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a traffic analytics card, we might run the following command:
 
 ```sh
-artisan nova:card acme/analytics
+php artisan nova:card acme/analytics
 ```
 
 When generating a card, Nova will prompt you to install the card's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom cards are registered with your application as a Composer "path" repository.
