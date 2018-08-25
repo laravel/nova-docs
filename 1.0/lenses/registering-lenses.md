@@ -13,7 +13,9 @@ Once you have defined a lens, you are ready to attach it to a resource. Each res
  */
 public function lenses(Request $request)
 {
-    return [new Lenses\MostValuableUsers];
+    return [
+        new Lenses\MostValuableUsers,
+    ];
 }
 ```
 
