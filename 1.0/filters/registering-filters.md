@@ -13,6 +13,8 @@ Once you have defined a filter, you are ready to attach it to a resource. Each r
  */
 public function filters(Request $request)
 {
-    return [new Filters\UserType];
+    return [
+        new Filters\UserType,
+    ];
 }
 ```
