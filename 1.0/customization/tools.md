@@ -11,7 +11,7 @@ Sometimes, your business may need additional functionality that isn't provided b
 Custom tools may be generated using the `nova:tool` Artisan command. By default, all new tools will be placed in the `nova-components` directory of your application. When generating a tool using the `nova:tool` command, the tool name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a price tracker tool, we might run the following command:
 
 ```sh
-artisan nova:tool acme/price-tracker
+php artisan nova:tool acme/price-tracker
 ```
 
 When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a Composer "path" repository.
