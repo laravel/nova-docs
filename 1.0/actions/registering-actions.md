@@ -19,7 +19,7 @@ public function actions(Request $request)
 
 ## Authorization
 
-If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your lens registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your action registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
 ```php
 use App\User;
