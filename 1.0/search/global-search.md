@@ -61,7 +61,7 @@ By default, all Nova resources are globally searchable; however, you may exclude
 
 ```php
 /**
- * Indicates if the resoruce should be globally searchable.
+ * Indicates if the resource should be globally searchable.
  *
  * @var bool
  */
