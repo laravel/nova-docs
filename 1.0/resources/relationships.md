@@ -196,8 +196,8 @@ MorphMany::make('Comments')
 The `MorphTo` field corresponds to a `morphTo` Eloquent relationship. For example, let's assume a `Comment` model has a polymorphic relationship with both the `Post` and `Video` models. We may add the relationship to our `Comment` Nova resource like so:
 
 ```php
-use Laravel\Nova\Post;
-use Laravel\Nova\Video;
+use App\Nova\Post;
+use App\Nova\Video;
 use Laravel\Nova\Fields\MorphTo;
 
 MorphTo::make('Commentable')->types([
