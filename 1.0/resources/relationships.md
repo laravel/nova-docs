@@ -32,7 +32,7 @@ use Laravel\Nova\Fields\HasMany;
 HasMany::make('Posts')
 ```
 
-When added, a HasMany field can be found/modified on the parent resource's View Details screen.
+Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
 ## BelongsTo
 
@@ -80,7 +80,7 @@ use Laravel\Nova\Fields\BelongsToMany;
 BelongsToMany::make('Roles')
 ```
 
-When added, a BelongsToMany field can be found/modified on the parent resource's View Details screen.
+Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
 #### Pivot Fields
 
