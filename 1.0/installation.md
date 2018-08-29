@@ -13,9 +13,9 @@ Laravel Nova has a few requirements you should be aware of before installing:
 
 ## Installing Nova
 
-Once you have purchased a Nova license, you may download a Nova release from the "releases" section of the Nova website. After downloading a Zip file containing the Nova source code, you will need to install it as a Composer "path" repository within your Laravel application's `composer.json` file.
+Once you have purchased a Nova license, you may download a Nova release from the "releases" section of the Nova website. After downloading a Zip file containing the Nova source code, you will need to install it as a Composer "path" repository within your Laravel application's `composer.json` file. If you haven't already, please follow the [installation instructions for installing Laravel](https://laravel.com/docs/5.6/installation) to create a base application.
 
-First, unzip the contents of the Nova release into a `nova` directory within your application's root directory. Once you have unzipped and placed the Nova source code within the appropriate directory, you are ready to update your `composer.json` file. You should add the following configuration to the file:
+First, unzip the contents of the Nova release into a `nova` directory within your application's root directory. Once you have unzipped and placed the Nova source code within the appropriate directory, you are ready to update your `composer.json` file used for installing your base Laravel application. You should add the following configuration to the file:
 
 ```json
 "repositories": [
@@ -31,7 +31,7 @@ First, unzip the contents of the Nova release into a `nova` directory within you
 When unzipping Nova into your application's `nova` directory, make sure all of Nova's "hidden" files (such as its `.gitignore` file) are included.
 :::
 
-Next, add `laravel/nova` to the `require` section of your `composer.json` file:
+Next, add `laravel/nova` to the `require` section of your base application's `composer.json` file:
 
 ```json
 "require": {
@@ -42,7 +42,7 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 },
 ```
 
-After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
+After the `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
 ```sh
 composer update
