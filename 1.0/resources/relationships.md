@@ -32,6 +32,8 @@ use Laravel\Nova\Fields\HasMany;
 HasMany::make('Posts')
 ```
 
+When added, a HasMany field can be found/modified on the parent resource's View Details screen.
+
 ## BelongsTo
 
 The `BelongsTo` field corresponds to a `belongsTo` Eloquent relationship. For example, let's assume a `Post` model `belongsTo` a `User` model. We may add the relationship to our `Post` Nova resource like so:
@@ -77,6 +79,8 @@ use Laravel\Nova\Fields\BelongsToMany;
 
 BelongsToMany::make('Roles')
 ```
+
+When added, a BelongsToMany field can be found/modified on the parent resource's View Details screen.
 
 #### Pivot Fields
 
