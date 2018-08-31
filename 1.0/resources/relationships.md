@@ -144,7 +144,6 @@ class RoleUserFields
 }
 ```
 
-
 #### Pivot Actions
 
 Typically, [Nova actions](./../actions/defining-actions.md) operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
