@@ -85,6 +85,11 @@ Once the field has been added to your resource, it will be displayed on the reso
 #### Pivot Fields
 
 If your `belongsToMany` relationship interacts with additional "pivot" fields that are stored on the intermediate table of the many-to-many relationship, you may also attach those to your `BelongsToMany` Nova relationship. Once these fields are attached to the relationship field, they will be displayed on the related resource index.
+you may need to call the
+```php
+->withPivot('pivot_field_name');
+```
+on your relationship model if you are not providing an inverse relationship.
 
 For example, let's assume our `User` model `belongsToMany` `Role` models. On our `role_user` intermediate table, let's imagine we have a `notes` field that contains some simple text notes about the relationship. We can attach this pivot field to the `BelongsToMany` field using the `fields` method:
 
@@ -138,6 +143,7 @@ class RoleUserFields
     }
 }
 ```
+
 
 #### Pivot Actions
 
