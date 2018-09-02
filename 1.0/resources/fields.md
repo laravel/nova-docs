@@ -123,7 +123,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Country](#country-field)
 - [Currency](#currency-field)
 - [Date](#date-field)
-- [DateTime](#date-time-field)
+- [DateTime](#datetime-field)
 - [File](#file-field)
 - [Gravatar](#gravatar-field)
 - [ID](#id-field)
