@@ -35,6 +35,23 @@ As noted above, Nova will "snake case" the displayable name of the field to dete
 Text::make('Name', 'name_column')
 ```
 
+### Field Labels
+
+Customizing field labels is usually as simple as editing the first argument of the `make()` function and defining the database field name in the second argument:
+
+```php
+Text::make('What do they call you?', 'name')
+```
+
+To customize the label for a related field, say for example a `BelongsTo` relationship, you need to define the custom field label as the first argument, the relationship model function as the second argument, and the Nova resource in the third argument of the `make()` function:
+
+```php
+BelongsTo::make('Currently Assigned To', 'assignedToUser', 'App\Nova\User')
+                     ->help('The user this resource is currently assigned to.'),
+```
+.. which results in:
+![Field Panel Example](./img/custom-related-label.png)
+
 ## Showing / Hiding Fields
 
 Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain screens.
@@ -55,6 +72,9 @@ You may chain any of these methods onto your field's definition in order to inst
 ```php
 Text::make('Name')->hideFromIndex()
 ```
+
+
+
 
 ## Field Panels
 
