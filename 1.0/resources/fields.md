@@ -37,20 +37,14 @@ Text::make('Name', 'name_column')
 
 ### Field Labels
 
-Customizing field labels is usually as simple as editing the first argument of the `make()` function and defining the database field name in the second argument:
+You may customize field labels by passing the label as the first argument to the field's `make` method and passing the database column / relationship method name as the second argument:
 
 ```php
-Text::make('What do they call you?', 'name')
-```
+Text::make('Full Name', 'name')
 
-To customize the label for a related field, say for example a `BelongsTo` relationship, you need to define the custom field label as the first argument, the relationship model function as the second argument, and the Nova resource in the third argument of the `make()` function:
-
-```php
-BelongsTo::make('Currently Assigned To', 'assignedToUser', 'App\Nova\User')
-                     ->help('The user this resource is currently assigned to.'),
+BelongsTo::make('Currently Assigned To', 'assignedToUser', User::class)
+        ->help('The user this resource is currently assigned to.'),
 ```
-.. which results in:
-![Field Panel Example](./img/custom-related-label.png)
 
 ## Showing / Hiding Fields
 
