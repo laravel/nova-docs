@@ -35,17 +35,6 @@ As noted above, Nova will "snake case" the displayable name of the field to dete
 Text::make('Name', 'name_column')
 ```
 
-### Field Labels
-
-You may customize field labels by passing the label as the first argument to the field's `make` method and passing the database column / relationship method name as the second argument:
-
-```php
-Text::make('Full Name', 'name')
-
-BelongsTo::make('Currently Assigned To', 'assignedToUser', User::class)
-        ->help('The user this resource is currently assigned to.'),
-```
-
 ## Showing / Hiding Fields
 
 Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain screens.
