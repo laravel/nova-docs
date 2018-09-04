@@ -526,10 +526,49 @@ use Laravel\Nova\Fields\Trix;
 Trix::make('Biography')
 ```
 
-:::danger File Uploads
+#### File Uploads
 
-Nova does not currently support embedded file uploads within Trix fields.
-:::
+If you would like to allow users to drag-and-drop photos into the Trix field, chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
+
+```php
+use Laravel\Nova\Fields\Trix;
+
+Trix::make('Biography')->withFiles('public')
+```
+
+In addition, you should define two database tables to store pending and persisted Trix uploads. To do so, create a migration with the following table definitions:
+
+```php
+Schema::create('nova_pending_trix_attachments', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('draft_id')->index();
+    $table->string('attachment');
+    $table->string('disk');
+    $table->timestamps();
+});
+
+Schema::create('nova_trix_attachments', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('attachable_type');
+    $table->unsignedInteger('attachable_id');
+    $table->string('attachment');
+    $table->string('disk');
+    $table->string('url')->index();
+    $table->timestamps();
+
+    $table->index(['attachable_type', 'attachable_id']);
+});
+```
+
+Finally, in your `app/Console/Kernel.php` file, you should register a [daily job](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. Laravel Nova provides the job implementation needed to accomplish this:
+
+```php
+use Laravel\Nova\Trix\PruneStaleAttachments;
+
+$schedule->call(function () {
+    (new PruneStaleAttachments)();
+})->daily();
+```
 
 ## Computed Fields
 
