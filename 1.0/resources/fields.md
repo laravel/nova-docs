@@ -585,6 +585,16 @@ Text::make('Name', function () {
 As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
 :::
 
+By default, Vue will escape the content of a computed field. If you need to render HTML content within the field, use the `asHtml` method:
+
+```php
+Text::make('Status', function () {
+    return view('partials.status', [
+        'is_passing' => $this->isPassing(),
+    ])->render();
+})->asHtml()
+```
+
 ## Customization
 
 ### Field Resolution / Formatting
