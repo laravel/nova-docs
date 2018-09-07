@@ -51,6 +51,11 @@ Storage::url($user->profile_photo);
 The documentation above only demonstrates the default behavior of the `File` field. To learn more about how to customize its behavior, check out the [customization documentation](#customization).
 :::
 
+:::tip Remember to link to the public folder
+
+If you are using the public disk with the local driver remember to run `php artisan storage:link` to create a create a symbolic link from `public/storage` to `storage/app/public`. To learn more about file storage in Laravel, check out the [Laravel file storage documentation](https://laravel.com/docs/5.7/filesystem).
+:::
+
 ## Images
 
 The `Image` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Image` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Image` field mirror that of the `File` field:
