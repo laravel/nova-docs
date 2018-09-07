@@ -46,14 +46,11 @@ Storage::get($user->profile_photo);
 Storage::url($user->profile_photo);
 ```
 
+If you are using the `public` disk with the `local` driver, you should run the `php artisan storage:link` Artisan command to create a symbolic link from `public/storage` to `storage/app/public`. To learn more about file storage in Laravel, check out the [Laravel file storage documentation](https://laravel.com/docs/filesystem).
+
 :::tip Customization
 
 The documentation above only demonstrates the default behavior of the `File` field. To learn more about how to customize its behavior, check out the [customization documentation](#customization).
-:::
-
-:::tip Remember to link to the public folder
-
-If you are using the public disk with the local driver remember to run `php artisan storage:link` to create a create a symbolic link from `public/storage` to `storage/app/public`. To learn more about file storage in Laravel, check out the [Laravel file storage documentation](https://laravel.com/docs/5.7/filesystem).
 :::
 
 ## Images
