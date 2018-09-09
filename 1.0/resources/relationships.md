@@ -94,7 +94,7 @@ BelongsToMany::make('Roles')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define it's inverse on the `Role` resource:
@@ -105,7 +105,7 @@ BelongsToMany::make('Users')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
@@ -149,7 +149,7 @@ BelongsToMany::make('Roles')
         return [
             new Actions\MarkAsActive,
         ];
-    });
+    })
 ```
 
 Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
@@ -241,7 +241,7 @@ MorphToMany::make('Tags')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
@@ -252,7 +252,7 @@ MorphToMany::make('Posts')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
