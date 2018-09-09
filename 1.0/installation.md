@@ -109,6 +109,11 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 php artisan nova:publish --force
 ```
 
+:::tip Clear View Cache
+
+If Nova is not working after running `composer update` and `nova:publish` commands, then try clearing view cache by running `view:clear`
+:::
+
 ## Bug Reports
 
 If you discover a bug in Laravel Nova, please open an issue on the [Nova issues GitHub repository](https://github.com/laravel/nova-issues).
