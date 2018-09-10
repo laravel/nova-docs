@@ -62,7 +62,7 @@ Once your resources are registered with Nova, they will be available in the Nova
 
 ![Nova Dashboard](./img/dashboard.png)
 
-If you do not want a resource to appear in the sidebar you may override the `displayInNavigation` property and set it to false.
+If you do not want a resource to appear in the sidebar, you may override the `displayInNavigation` property of your resource class:
 
 ```php
     /**
