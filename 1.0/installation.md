@@ -107,6 +107,8 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 
 ```sh
 php artisan nova:publish --force
+
+php artisan view:clear
 ```
 
 ## Bug Reports
