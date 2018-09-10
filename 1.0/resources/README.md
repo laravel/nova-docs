@@ -62,6 +62,17 @@ Once your resources are registered with Nova, they will be available in the Nova
 
 ![Nova Dashboard](./img/dashboard.png)
 
+If you do not want a resource to appear in the sidebar you may override the `displayInNavigation` property and set it to false.
+
+```php
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+```
+
 ## Eager Loading
 
 If you routinely need to access a resource's relationships within your fields, [resource title](./../search/global-search.md#title-subtitle-attributes), or [resource subtitle](./../search/global-search.md#title-subtitle-attributes), it may be a good idea to add the relationship to the `with` property of your resource. This property instructs Nova to always eager load the listed relationships when retrieving the resource.
