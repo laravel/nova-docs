@@ -253,6 +253,14 @@ use Laravel\Nova\Fields\Date;
 Date::make('Birthday')
 ```
 
+#### Date Formats
+
+You may customize the display format of your `Date` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
+
+```php
+Date::make('Birthday')->format('DD MMM'),
+```
+
 ### DateTime Field
 
 The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
@@ -261,6 +269,12 @@ The `DateTime` field may be used to store a date-time value. For more informatio
 use Laravel\Nova\Fields\DateTime;
 
 DateTime::make('Updated At')->hideFromIndex()
+```
+
+You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
+
+```php
+Date::make('Created At')->format('DD MMM YYYY'),
 ```
 
 ### File Field
