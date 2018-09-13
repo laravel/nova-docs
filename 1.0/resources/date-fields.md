@@ -43,17 +43,14 @@ public function boot()
 
 #### Format Date
 
-MySQL datetime `2018-09-11 11:05:05` is not that readable. Luckly you can format the output of your `Date` and `DateTime` fields by calling `->format(DD MMMM YYYY)`.
+MySQL DateTime `2018-09-11 11:05:05` is not that readable. Luckily you can format the output of your `Date` and `DateTime` fields by calling `Date::make('Birthday')->format(DD MMMM YYYY)`.
 
 ```php
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
-
 Date::make('Birthday')->format('DD MMM'),
 DateTime::make('Created At')->format('DD MMM YYYY')
 ```
-
 :::warning Format String
-
-Nova uses [moment.js](https://momentjs.com/docs/#/parsing/string-format/) to format the frontend output dates. Make sure you are using moment supported parsing iso-8601 strings in the `format()` method. PHP date format strings will give you some funcky output.
+Nova uses [moment.js](https://momentjs.com/docs/#/parsing/string-format/) to format the dates. Make sure you are using moment supported parsing iso-8601 strings in the `format()` method. PHP date format strings will give you some funcky output.
 :::
