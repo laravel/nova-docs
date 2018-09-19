@@ -84,7 +84,7 @@ Once the field has been added to your resource, it will be displayed on the reso
 
 #### Pivot Fields
 
-If your `belongsToMany` relationship interacts with additional "pivot" fields that are stored on the intermediate table of the many-to-many relationship, you may also attach those to your `BelongsToMany` Nova relationship. Once these fields are attached to the relationship field, they will be displayed on the related resource index.
+If your `belongsToMany` relationship interacts with additional "pivot" fields that are stored on the intermediate table of the many-to-many relationship, you may also attach those to your `BelongsToMany` Nova relationship. Once these fields are attached to the relationship field, and the relationship has been defined on both sides, they will be displayed on the related resource index.
 
 For example, let's assume our `User` model `belongsToMany` `Role` models. On our `role_user` intermediate table, let's imagine we have a `notes` field that contains some simple text notes about the relationship. We can attach this pivot field to the `BelongsToMany` field using the `fields` method:
 
@@ -94,7 +94,7 @@ BelongsToMany::make('Roles')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define it's inverse on the `Role` resource:
@@ -105,7 +105,7 @@ BelongsToMany::make('Users')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
@@ -149,7 +149,7 @@ BelongsToMany::make('Roles')
         return [
             new Actions\MarkAsActive,
         ];
-    });
+    })
 ```
 
 Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
@@ -241,7 +241,7 @@ MorphToMany::make('Tags')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
@@ -252,7 +252,7 @@ MorphToMany::make('Posts')
         return [
             Text::make('Notes'),
         ];
-    });
+    })
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:

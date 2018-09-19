@@ -1,3 +1,4 @@
 /node_modules
 /.vuepress/dist
 .DS_Store
+.idea

@@ -41,7 +41,7 @@ class MostValuableUsers extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->select($this->columns())
+            $query->select(self::columns())
                   ->join('licenses', 'users.id', '=', 'licenses.user_id')
                   ->orderBy('revenue', 'desc')
                   ->groupBy('users.id', 'users.name')
@@ -53,7 +53,7 @@ class MostValuableUsers extends Lens
      *
      * @return array
      */
-    protected function columns()
+    protected static function columns()
     {
         return [
             'users.id',
@@ -101,7 +101,6 @@ class MostValuableUsers extends Lens
         return 'most-profitable-users';
     }
 }
-
 ```
 
 :::tip Columns Method

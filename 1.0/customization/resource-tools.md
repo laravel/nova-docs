@@ -11,7 +11,7 @@ Resource tools are very similar to [custom tools](./tools.md); however, instead 
 Resource tools may be generated using the `nova:resource-tool` Artisan command. By default, all new tools will be placed in the `nova-components` directory of your application. When generating a tool using the `nova:resource-tool` command, the tool name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a Stripe inspector tool, we might run the following command:
 
 ```sh
-artisan nova:resource-tool acme/stripe-inspector
+php artisan nova:resource-tool acme/stripe-inspector
 ```
 
 When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a Composer "path" repository.

@@ -56,6 +56,9 @@ You may chain any of these methods onto your field's definition in order to inst
 Text::make('Name')->hideFromIndex()
 ```
 
+
+
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
@@ -123,7 +126,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Country](#country-field)
 - [Currency](#currency-field)
 - [Date](#date-field)
-- [DateTime](#date-time-field)
+- [DateTime](#datetime-field)
 - [File](#file-field)
 - [Gravatar](#gravatar-field)
 - [ID](#id-field)
@@ -250,6 +253,14 @@ use Laravel\Nova\Fields\Date;
 Date::make('Birthday')
 ```
 
+#### Date Formats
+
+You may customize the display format of your `Date` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
+
+```php
+Date::make('Birthday')->format('DD MMM'),
+```
+
 ### DateTime Field
 
 The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
@@ -258,6 +269,12 @@ The `DateTime` field may be used to store a date-time value. For more informatio
 use Laravel\Nova\Fields\DateTime;
 
 DateTime::make('Updated At')->hideFromIndex()
+```
+
+You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
+
+```php
+Date::make('Created At')->format('DD MMM YYYY'),
 ```
 
 ### File Field
@@ -523,10 +540,49 @@ use Laravel\Nova\Fields\Trix;
 Trix::make('Biography')
 ```
 
-:::danger File Uploads
+#### File Uploads
 
-Nova does not currently support embedded file uploads within Trix fields.
-:::
+If you would like to allow users to drag-and-drop photos into the Trix field, chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
+
+```php
+use Laravel\Nova\Fields\Trix;
+
+Trix::make('Biography')->withFiles('public')
+```
+
+In addition, you should define two database tables to store pending and persisted Trix uploads. To do so, create a migration with the following table definitions:
+
+```php
+Schema::create('nova_pending_trix_attachments', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('draft_id')->index();
+    $table->string('attachment');
+    $table->string('disk');
+    $table->timestamps();
+});
+
+Schema::create('nova_trix_attachments', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('attachable_type');
+    $table->unsignedInteger('attachable_id');
+    $table->string('attachment');
+    $table->string('disk');
+    $table->string('url')->index();
+    $table->timestamps();
+
+    $table->index(['attachable_type', 'attachable_id']);
+});
+```
+
+Finally, in your `app/Console/Kernel.php` file, you should register a [daily job](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. Laravel Nova provides the job implementation needed to accomplish this:
+
+```php
+use Laravel\Nova\Trix\PruneStaleAttachments;
+
+$schedule->call(function () {
+    (new PruneStaleAttachments)();
+})->daily();
+```
 
 ## Computed Fields
 
@@ -542,6 +598,16 @@ Text::make('Name', function () {
 
 As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
 :::
+
+By default, Vue will escape the content of a computed field. If you need to render HTML content within the field, use the `asHtml` method:
+
+```php
+Text::make('Status', function () {
+    return view('partials.status', [
+        'is_passing' => $this->isPassing(),
+    ])->render();
+})->asHtml()
+```
 
 ## Customization
 
