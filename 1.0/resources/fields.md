@@ -628,3 +628,11 @@ Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
 })
 ```
+
+### Field Help Text
+
+If you would like to display some text beneath a field, explaining the field requirements or constraints, you can add the `help` method to your field. This method accepts a `string`:
+
+```php
+Text::make('Percent Increase')->help('Field must be a percentage');
+```
