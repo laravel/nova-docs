@@ -56,9 +56,6 @@ You may chain any of these methods onto your field's definition in order to inst
 Text::make('Name')->hideFromIndex()
 ```
 
-
-
-
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
@@ -611,6 +608,16 @@ Text::make('Status', function () {
 
 ## Customization
 
+### Field Help Text
+
+If you would like to place "help" text beneath a field, you may use the `help` method:
+
+```php
+Text::make('Tax Rate')->help(
+    'The tax rate to be applied to the sale'
+);
+```
+
 ### Field Resolution / Formatting
 
 The `resolveUsing` method allows you to customize how a field is formatted after it is retrieved from your database but before it is sent to the Nova front-end. This method accepts a callback which receives the raw value of the underlying database column:
@@ -627,12 +634,4 @@ If you would like to customize how a field is formatted only when it is displaye
 Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
 })
-```
-
-### Field Help Text
-
-If you would like to display some text beneath a field, explaining the field requirements or constraints, you can add the `help` method to your field. This method accepts a `string`:
-
-```php
-Text::make('Percent Increase')->help('Field must be a percentage');
 ```
