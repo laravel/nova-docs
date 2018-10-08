@@ -34,6 +34,11 @@ HasMany::make('Posts')
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
+:::tip Pagination
+
+To specify the number of resources to show per page via relationships, you may set the `$perPageViaRelationship` static variable on the Resource class.
+:::
+
 ## BelongsTo
 
 The `BelongsTo` field corresponds to a `belongsTo` Eloquent relationship. For example, let's assume a `Post` model `belongsTo` a `User` model. We may add the relationship to our `Post` Nova resource like so:
