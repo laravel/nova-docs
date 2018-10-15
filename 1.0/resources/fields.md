@@ -220,7 +220,7 @@ The `Code` field's currently supported languages are:
 
 ### Country Field
 
-The `Country` field generates a `Select` field containing a list of the world's countries. The field will store the country's two-digit code:
+The `Country` field generates a `Select` field containing a list of the world's countries. The field will store the country's two-letter code:
 
 ```php
 use Laravel\Nova\Fields\Country;
