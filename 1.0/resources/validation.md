@@ -27,8 +27,6 @@ Text::make('State')
 Additionally, you may use [custom Closure rules](https://laravel.com/docs/validation#using-closures) to validate your resource fields:
 
 ```php
-use App\Rules\ValidState;
-
 Text::make('State')
     ->sortable()
     ->rules('required', function($attribute, $value, $fail) {
