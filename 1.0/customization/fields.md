@@ -134,6 +134,7 @@ By default, when saving a model, your field class will simply copy the incoming 
 namespace Otwell\ColorPicker;
 
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ColorPicker extends Field
 {
