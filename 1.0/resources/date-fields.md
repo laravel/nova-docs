@@ -35,6 +35,8 @@ use Illuminate\Http\Request;
  */
 public function boot()
 {
+    parent::boot();
+
     Nova::userTimezone(function (Request $request) {
         return $request->user()->timezone;
     });
