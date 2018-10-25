@@ -44,6 +44,16 @@ use Laravel\Nova\Fields\BelongsTo;
 BelongsTo::make('User')
 ```
 
+#### Nullable Relationships
+
+If you would like your `BelongsTo` relationship to be `nullable`, chain the `nullable` method onto the field's definition:
+
+```php
+use Laravel\Nova\Fields\BelongsTo;
+
+BelongsTo::make('User')->nullable()
+```
+
 #### Title Attributes
 
 When a `BelongsTo` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `User` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsTo` selection menu, that attribute will be displayed:
@@ -218,6 +228,21 @@ As you can see in the example above, the `types` method is used to instruct the 
 
 When a `MorphTo` field is shown on a resource creation / update screen, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
 :::
+
+#### Nullable Relationships
+
+If you would like your `MorphTo` relationship to be `nullable`, chain the `nullable` method onto the field's definition:
+
+```php
+use App\Nova\Post;
+use App\Nova\Video;
+use Laravel\Nova\Fields\MorphTo;
+
+MorphTo::make('Commentable')->types([
+    Post::class,
+    Video::class,
+])->nullable()
+```
 
 ## MorphToMany
 
