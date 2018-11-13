@@ -52,7 +52,7 @@ If you would like to only expose a given tool to certain users, you may chain th
 use Acme\PriceTracker\PriceTracker;
 
 /**
- * Get the cards that should be listed in the Nova sidebar.
+ * Get the tools that should be listed in the Nova sidebar.
  *
  * @return array
  */
