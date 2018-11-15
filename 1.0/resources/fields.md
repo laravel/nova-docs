@@ -518,7 +518,15 @@ The `Text` field provides an `input` control with a `type` attribute of `text`:
 ```php
 use Laravel\Nova\Fields\Text;
 
-Text::make('name')
+Text::make('Name')
+```
+
+Text fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
+
+```php
+Text::make('Name')->withMeta(['extraAttributes' => [
+    'placeholder' => 'David Hemphill']
+])
 ```
 
 ### Textarea Field
@@ -541,6 +549,14 @@ You may also specify the textarea's height by calling the `rows` method on the f
 
 ```php
 Textarea::make('Excerpt')->rows(3);
+```
+
+Textarea fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
+
+```php
+Textarea::make('Excerpt')->withMeta(['extraAttributes' => [
+    'placeholder' => 'Make it less than 50 characters']
+])
 ```
 
 ### Timezone Field
