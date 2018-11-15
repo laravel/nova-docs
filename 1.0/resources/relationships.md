@@ -34,6 +34,19 @@ HasMany::make('Posts')
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
+:::warning Use Plural Resource Name
+When defining HasMany relationship, make sure to use the plural form of the relation so Nova can infer the correct singular resource name:
+
+```php
+// Do this
+HasMany::make('Posts');
+
+// Not this
+HasMany::make('Post');
+```
+
+:::
+
 ## BelongsTo
 
 The `BelongsTo` field corresponds to a `belongsTo` Eloquent relationship. For example, let's assume a `Post` model `belongsTo` a `User` model. We may add the relationship to our `Post` Nova resource like so:
