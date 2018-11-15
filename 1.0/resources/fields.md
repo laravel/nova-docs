@@ -537,6 +537,12 @@ By default, Textarea fields will not display their content when viewing a resour
 Textarea::make('Biography')->shouldBeExpanded();
 ```
 
+You may also specify the textarea's height by calling the `rows` method on the field: 
+
+```php
+Textarea::make('Excerpt')->rows(3);
+```
+
 ### Timezone Field
 
 The `Timezone` field generates a `Select` field containing a list of the world's timezones:
