@@ -8,7 +8,7 @@ Nova filters allow you to scope your Nova index queries with custom conditions. 
 
 To get started, you may use the `nova:filter` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
 
-```sh
+```bash
 php artisan nova:filter UserType
 ```
 

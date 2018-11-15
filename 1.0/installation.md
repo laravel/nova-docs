@@ -44,7 +44,7 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
-```sh
+```bash
 composer update
 ```
 
@@ -55,7 +55,7 @@ If you are not able to install Nova into your application because of your `minim
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
-```sh
+```bash
 php artisan nova:install
 
 php artisan migrate
@@ -97,7 +97,7 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
-```sh
+```bash
 composer update
 ```
 
@@ -108,7 +108,7 @@ When running `composer update`, you will be prompted to provide your login crede
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
-```sh
+```bash
 php artisan nova:install
 
 php artisan migrate
@@ -157,7 +157,7 @@ Of course, if you installed Nova via Composer, you may update Nova using `compos
 
 After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
 
-```sh
+```bash
 composer update
 
 php artisan nova:publish
@@ -165,7 +165,7 @@ php artisan nova:publish
 
 The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
 
-```sh
+```bash
 php artisan nova:publish --force
 
 php artisan view:clear

@@ -12,7 +12,7 @@ Once an action has been attached to a resource definition, you may initiate it f
 
 Nova actions may be generated using the `nova:action` Artisan command. By default, all actions are placed in the `app/Nova/Actions` directory:
 
-```sh
+```bash
 php artisan nova:action EmailAccountProfile
 ```
 

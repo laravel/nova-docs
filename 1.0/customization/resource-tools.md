@@ -10,7 +10,7 @@ Resource tools are very similar to [custom tools](./tools.md); however, instead 
 
 Resource tools may be generated using the `nova:resource-tool` Artisan command. By default, all new tools will be placed in the `nova-components` directory of your application. When generating a tool using the `nova:resource-tool` command, the tool name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a Stripe inspector tool, we might run the following command:
 
-```sh
+```bash
 php artisan nova:resource-tool acme/stripe-inspector
 ```
 
@@ -174,7 +174,7 @@ Your component is bootstrapped and registered in the `resources/js/tool.js` file
 
 Your Nova resource tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool using the NPM `dev` and `prod` commands:
 
-```sh
+```bash
 // Compile your assets for local development...
 npm run dev
 
@@ -184,6 +184,6 @@ npm run prod
 
 In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
 
-```sh
+```bash
 npm run watch
 ```

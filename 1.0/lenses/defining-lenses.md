@@ -8,7 +8,7 @@ While similar to filters, Nova lenses allow you to fully customize the underlyin
 
 To get started, you may use the `nova:lens` Artisan command. By default, Nova will place newly generated lenses in the `app/Nova/Lenses` directory:
 
-```sh
+```bash
 php artisan nova:lens MostValuableUsers
 ```
 

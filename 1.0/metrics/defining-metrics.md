@@ -14,7 +14,7 @@ Value metrics display a single value and, if desired, its change compared to a p
 
 Value metrics may be generated using the `nova:value` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
-```sh
+```bash
 php artisan nova:value NewUsers
 ```
 
@@ -153,7 +153,7 @@ Trend metrics display values over time via a line chart. For example, a trend me
 
 Trend metrics may be generated using the `nova:trend` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
-```sh
+```bash
 php artisan nova:trend UsersPerDay
 ```
 
@@ -342,7 +342,7 @@ Partition metrics displays a pie chart of values. For example, a partition metri
 
 Partition metrics may be generated using the `nova:partition` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
-```sh
+```bash
 php artisan nova:partition UsersPerPlan
 ```
 

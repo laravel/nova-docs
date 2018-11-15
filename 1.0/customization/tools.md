@@ -10,7 +10,7 @@ Sometimes, your business may need additional functionality that isn't provided b
 
 Custom tools may be generated using the `nova:tool` Artisan command. By default, all new tools will be placed in the `nova-components` directory of your application. When generating a tool using the `nova:tool` command, the tool name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a price tracker tool, we might run the following command:
 
-```sh
+```bash
 php artisan nova:tool acme/price-tracker
 ```
 
@@ -124,7 +124,7 @@ Your component is bootstrapped and front-end routes are registered in the `resou
 
 Your Nova tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool using the NPM `dev` and `prod` commands:
 
-```sh
+```bash
 // Compile your assets for local development...
 npm run dev
 
@@ -134,7 +134,7 @@ npm run prod
 
 In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
 
-```sh
+```bash
 npm run watch
 ```
 

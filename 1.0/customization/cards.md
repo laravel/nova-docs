@@ -10,7 +10,7 @@ Cards are similar to resource tools, but are small, miniature tools that are typ
 
 Cards may be generated using the `nova:card` Artisan command. By default, all new cards will be placed in the `nova-components` directory of your application. When generating a card using the `nova:card` command, the card name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a traffic analytics card, we might run the following command:
 
-```sh
+```bash
 php artisan nova:card acme/analytics
 ```
 
@@ -165,7 +165,7 @@ Your component is bootstrapped and registered in the `resources/js/card.js` file
 
 Your Nova resource card contains a `webpack.mix.js` file, which is generated when Nova creates your card. You may build your card using the NPM `dev` and `prod` commands:
 
-```sh
+```bash
 // Compile your assets for local development...
 npm run dev
 
@@ -175,6 +175,6 @@ npm run prod
 
 In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
 
-```sh
+```bash
 npm run watch
 ```

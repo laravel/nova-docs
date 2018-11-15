@@ -208,7 +208,7 @@ Your components are bootstrapped and registered in the `resources/js/field.js` f
 
 Your Nova field contains a `webpack.mix.js` file, which is generated when Nova creates your field. You may build your field using the NPM `dev` and `prod` commands:
 
-```sh
+```bash
 // Compile your assets for local development...
 npm run dev
 
@@ -218,6 +218,6 @@ npm run prod
 
 In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
 
-```sh
+```bash
 npm run watch
 ```
