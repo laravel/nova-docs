@@ -109,6 +109,30 @@ The `min` method may be used to calculate the minimum of a given column compared
 return $this->min($request, Order::class, 'total');
 ```
 
+### Value Result Prefix and Suffixes
+
+You can add a prefix and/or suffix to the Value metric's result by calling the `prefix` and `suffix` methods when returning the `ValueResult`:
+
+```php
+public function calculate(Request $request)
+{
+    return $this->count($request, User::class)
+                ->prefix('$')
+                ->suffix('per unit');
+}
+````
+
+You may also use the `currency` method to specify the prefix for the result. By default the currency symbol will be `$`, but you may also pass in your own symbol:
+
+```php
+public function calculate(Request $request)
+{
+    return $this->count($request, User::class)
+                ->currency('£');
+}
+````
+
+
 ### Value Ranges
 
 Every value metric class contains a `ranges` method. This method determines the ranges that will be available in the value metric's range selection menu. The array's keys determine the number of days that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
