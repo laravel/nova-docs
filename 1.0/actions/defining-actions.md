@@ -66,6 +66,12 @@ The most important method of an action is the `handle` method. The `handle` meth
 
 Within the `handle` method, you may perform whatever tasks are necessary to complete the action. You are free to update database records, send emails, call other services, etc. The sky is the limit!
 
+## Destructive Actions
+
+You may designate an action as destructive or dangerous by having your action class inherit from `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
+
+![Destructive Action](./img/action-destructive.png)
+
 ## Action Fields
 
 Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
