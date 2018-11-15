@@ -44,6 +44,15 @@ use Laravel\Nova\Fields\BelongsTo;
 BelongsTo::make('User')
 ```
 
+:::tip Customizing Resource Classes
+You can customize the resource class used by the relation field by setting the second and third parameters of the `make` method:
+
+```php
+BelongsTo::make('Author', 'author', 'App\Nova\User');
+```
+
+:::
+
 #### Nullable Relationships
 
 If you would like your `BelongsTo` relationship to be `nullable`, chain the `nullable` method onto the field's definition:
