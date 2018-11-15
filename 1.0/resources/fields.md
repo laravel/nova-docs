@@ -339,6 +339,12 @@ use Laravel\Nova\Fields\Markdown;
 Markdown::make('Biography')
 ```
 
+By default, Markdown fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Markdown field should always display its content by calling the `shouldBeExpanded` method on the field itself:
+
+````php
+Markdown::make('Biography')->shouldBeExpanded();
+```
+
 ### Number Field
 
 The `Number` field provides an `input` control with a `type` attribute of `number`:
@@ -517,6 +523,12 @@ use Laravel\Nova\Fields\Textarea;
 Textarea::make('Biography')
 ```
 
+By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `shouldBeExpanded` method on the field itself:
+
+````php
+Textarea::make('Biography')->shouldBeExpanded();
+```
+
 ### Timezone Field
 
 The `Timezone` field generates a `Select` field containing a list of the world's timezones:
@@ -541,7 +553,7 @@ By default, Trix fields will not display their content when viewing a resource o
 
 ````php
 Trix::make('Biography')->shouldBeExpanded();
-`` `
+```
 
 #### File Uploads
 
