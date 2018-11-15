@@ -122,6 +122,12 @@ The default `App\Nova\User` Nova resource references the `App\User` model. If yo
 public static $model = 'App\\Models\\User';
 ```
 
+If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
+
+```bash
+php artisan nova:user
+```
+
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
 
 ## Authorizing Nova
