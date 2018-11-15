@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "vuepress": "vuejs/vuepress#5084fcab63c0381ef5170a55f76e38f306dc756b"
+        "vuepress": "^0.14.5"
     },
     "scripts": {
         "docs:build": "vuepress build",
