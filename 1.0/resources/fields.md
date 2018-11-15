@@ -666,6 +666,18 @@ Text::make('Tax Rate')->help(
 );
 ```
 
+You may also use HTML when defining your help text:
+
+```php
+Text::make('First Name')->help(
+    return '<a href="#">External Link</a>'
+);
+
+Text::make('Last Name')->help(
+    view('partials.help-text', ['name' => $this->name])->render()
+);
+``` 
+
 ### Field Resolution / Formatting
 
 The `resolveUsing` method allows you to customize how a field is formatted after it is retrieved from your database but before it is sent to the Nova front-end. This method accepts a callback which receives the raw value of the underlying database column:
