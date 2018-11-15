@@ -537,6 +537,12 @@ use Laravel\Nova\Fields\Trix;
 Trix::make('Biography')
 ```
 
+By default, Trix fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Trix field should always display its content by calling the `shouldBeExpanded` method on the field itself:
+
+````php
+Trix::make('Biography')->shouldBeExpanded();
+`` `
+
 #### File Uploads
 
 If you would like to allow users to drag-and-drop photos into the Trix field, chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
