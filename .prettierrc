@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": ["*.php"],
+      "options": {
+        "trailingComma": "all",
+      }
+    }
+  ]
+}
