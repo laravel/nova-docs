@@ -138,6 +138,10 @@ php artisan nova:user
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
 
+## Customizing Nova's Authentication Guard
+
+Nova uses the default authentication guard defined in you `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration.
+
 ## Authorizing Nova
 
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
