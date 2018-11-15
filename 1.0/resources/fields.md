@@ -341,7 +341,7 @@ Markdown::make('Biography')
 
 By default, Markdown fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Markdown field should always display its content by calling the `shouldBeExpanded` method on the field itself:
 
-````php
+```php
 Markdown::make('Biography')->shouldBeExpanded();
 ```
 
@@ -378,6 +378,14 @@ Password::make('Password')
     ->onlyOnForms()
     ->creationRules('required', 'string', 'min:6')
     ->updateRules('nullable', 'string', 'min:6'),
+```
+
+### Password Confirmation Field
+
+The `PasswordConfirmation` field provides an input that can be used for confirming another `Password` field. This field will only be shown on forms:
+
+```php
+PasswordConfirmation::make('Password Confirmation'),
 ```
 
 ### Place Field
@@ -525,7 +533,7 @@ Textarea::make('Biography')
 
 By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `shouldBeExpanded` method on the field itself:
 
-````php
+```php
 Textarea::make('Biography')->shouldBeExpanded();
 ```
 
@@ -551,7 +559,7 @@ Trix::make('Biography')
 
 By default, Trix fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Trix field should always display its content by calling the `shouldBeExpanded` method on the field itself:
 
-````php
+```php
 Trix::make('Biography')->shouldBeExpanded();
 ```
 
