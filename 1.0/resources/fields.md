@@ -339,10 +339,10 @@ use Laravel\Nova\Fields\Markdown;
 Markdown::make('Biography')
 ```
 
-By default, Markdown fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Markdown field should always display its content by calling the `shouldBeExpanded` method on the field itself:
+By default, Markdown fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Markdown field should always display its content by calling the `alwaysShow` method on the field itself:
 
 ```php
-Markdown::make('Biography')->shouldBeExpanded();
+Markdown::make('Biography')->alwaysShow();
 ```
 
 ### Number Field
