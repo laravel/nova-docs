@@ -61,7 +61,11 @@ As you can see in the example above, you may leverage the incoming `$value` to m
 
 ## Boolean Filters
 
-Nova also supports "boolean" filters, which allows the user to select multiple filter option using a list of check-boxes. You may generate a boolean filter using the `nova:filter --boolean` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
+Nova also supports "boolean" filters, which allows the user to select multiple filter option using a list of check-boxes.
+
+![Boolean Filter](./img/boolean-filter.png)
+
+You may generate a boolean filter using the `nova:filter --boolean` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
 
 ```bash
 php artisan nova:filter UserType --boolean
@@ -122,7 +126,11 @@ As you can see in the example above, you may leverage the incoming `$value` to m
 
 ## Date Filters
 
-Nova also supports "date" filters, which allows the user to select the filter's value via a date selection calendar. You may generate a date filter using the `nova:filter --date` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
+Nova also supports "date" filters, which allows the user to select the filter's value via a date selection calendar.
+
+![Date Filter](./img/date-filter.png)
+
+You may generate a date filter using the `nova:filter --date` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
 
 ```bash
 php artisan nova:filter UserType --date
