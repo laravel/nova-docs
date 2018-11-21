@@ -16,6 +16,12 @@ Nova actions may be generated using the `nova:action` Artisan command. By defaul
 php artisan nova:action EmailAccountProfile
 ```
 
+You may generate a [destructive action](#destructive-actions) by passing the `--destructive` option:
+
+```bash
+php artisan nova:action DeleteUserData --destructive
+```
+
 To learn how to define Nova actions, let's look at an example. In this example, we'll define an action that sends an email message to a user or group of users:
 
 ```php
