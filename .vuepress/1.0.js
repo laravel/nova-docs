@@ -67,6 +67,7 @@ module.exports = [
       'cards',
       'fields',
       'frontend',
+      'filters',
     ]),
   },
   // {
