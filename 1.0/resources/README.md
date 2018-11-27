@@ -72,6 +72,18 @@ If you do not want a resource to appear in the sidebar, you may override the `di
  */
 public static $displayInNavigation = false;
 ```
+
+## Grouping Resources
+
+If you want to separate resources into different groups in the sidebar, you may override the `group` property of your resource class:
+
+```php
+/**
+ * The logical group associated with the resource.
+ *
+ * @var string
+ */
+public static $group = 'Other';
 ```
 
 ## Eager Loading
