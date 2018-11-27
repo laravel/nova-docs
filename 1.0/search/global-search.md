@@ -6,9 +6,8 @@ Nova not only allows you to search within specific resources and relationships, 
 
 ![Global Search](./img/global-search.png)
 
-:::tip Keyboard Shortcuts
-
-To focus global search input, without explicitly clicking on the input field, you may press the `/` (forward slash) key on the keyboard anywhere on the page.
+:::tip Focusing Global Search
+You can focus the global search input by pressing `/` (forward slash) on your keyboard. Pressing `ESC` (escape key) will also close the global search input.
 :::
 
 ### Title / Subtitle Attributes
