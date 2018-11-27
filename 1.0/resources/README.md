@@ -101,44 +101,28 @@ For example, if you access a `Post` resource's `user` relationship within the `P
 public static $with = ['user'];
 ```
 
-## Resource Events
+## Resource Operations
 
-All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
+Nova makes all "CRUD" operations as well as other Eloquent operations such as "soft deletes" really easy by using typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, Nova will fire all model event listeners and trigger any [model observers](https://laravel.com/docs/5.7/eloquent#observers).
 
-```php
-<?php
+:::tip Keyboard Shortcuts
 
-namespace App\Providers;
+You can press the `C` key on the resource index to navigate to "Create Resource" screen and `E` key on resource detail to navigate to "Update Resource" screen.
+:::
 
-use App\User;
-use App\Observers\UserObserver;
-use Illuminate\Support\ServiceProvider;
+### Preventing Unintentional Changes
 
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        User::observe(UserObserver::class);
-    }
+If the model has been updated since the retrieval (initial page load), Nova will throw a `409 Conflict` status code and display the error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource.
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-}
-```
+![Model Lock](./img/lock.png)
 
-If you would like to attach any observer only during Nova related HTTP requests, you may register a `Nova::serving` event listener within your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
+### Soft Deletes
+
+Nova supports Laravel's "[soft deleting](https://laravel.com/docs/5.7/eloquent#soft-deleting)" feature right out of the box. If the model is marked with `Illuminate\Database\Eloquent\SoftDeletes` trait, Nova will include the "deleted" filter on the resource index and the force delete/restore button. Also, the "delete" button will soft delete the model, instead of force deleting it.
+
+### Resource Events
+
+If you would like to attach any observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
 
 ```php
 use App\User;
