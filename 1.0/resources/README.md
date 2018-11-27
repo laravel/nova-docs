@@ -65,12 +65,13 @@ Once your resources are registered with Nova, they will be available in the Nova
 If you do not want a resource to appear in the sidebar, you may override the `displayInNavigation` property of your resource class:
 
 ```php
-    /**
-     * Indicates if the resource should be displayed in the sidebar.
-     *
-     * @var bool
-     */
-    public static $displayInNavigation = false;
+/**
+ * Indicates if the resource should be displayed in the sidebar.
+ *
+ * @var bool
+ */
+public static $displayInNavigation = false;
+```
 ```
 
 ## Eager Loading
