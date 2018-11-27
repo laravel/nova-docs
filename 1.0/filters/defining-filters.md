@@ -36,7 +36,9 @@ class UserType extends Filter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('type', $value);
+        if ($value) {
+            return $query->where('type', $value);
+        }
     }
 
     /**
@@ -100,8 +102,10 @@ class UserType extends BooleanFilter
         // dump($value);
         // ['admin' => true/false, 'editor' => true/false]
 
-        return $query->where('is_admin', $value['admin'])
-                     ->where('is_editor', $value['editor']);
+        if ($value) {
+            return $query->where('is_admin', $value['admin'])
+                         ->where('is_editor', $value['editor']);
+        }
     }
 
     /**
@@ -163,7 +167,9 @@ class BirthdayFilter extends DateFilter
      */
     public function apply(Request $request, $query, $value)
     {
-        return $query->where('birthday', '<=', Carbon::parse($value));
+        if ($value) {
+            return $query->where('birthday', '<=', Carbon::parse($value));
+        }
     }
 }
 ```
