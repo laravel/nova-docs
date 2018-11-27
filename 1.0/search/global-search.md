@@ -6,6 +6,11 @@ Nova not only allows you to search within specific resources and relationships, 
 
 ![Global Search](./img/global-search.png)
 
+:::tip Keyboard Shortcuts
+
+To focus global search input, without explicitly clicking on the input field, you may press the `/` (forward slash) key on the keyboard anywhere on the page.
+:::
+
 ### Title / Subtitle Attributes
 
 When a resource is shown within the search results, the results will display the "title" of the resource. For example, a `User` resource may use the `name` attribute as its title. Then, when the resource is shown within the global search results, that attribute will be displayed.
