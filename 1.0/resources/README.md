@@ -106,6 +106,8 @@ public static $with = ['user'];
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
 
 ```php
+namespace App\Providers;
+
 use App\User;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
@@ -121,7 +123,8 @@ class AppServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
     }
-     /**
+
+    /**
      * Register the service provider.
      *
      * @return void
