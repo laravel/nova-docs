@@ -470,6 +470,28 @@ public function calculate(Request $request)
 }
 ```
 
+### Customizing Partition Colors
+
+By default, Nova will choose the colors used in a partition metric. Sometimes, you may wish to change these to match the type of data they represent. To do this you can call the `colors` method when returning your value from the metric:
+
+```php
+/**
+ * Calculate the value of the metric.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return mixed
+ */
+public function calculate(Request $request)
+{
+    // This metric has `audio`, `video`, and `photo` types
+    return $this->count($request, Post::class, 'type')->colors([
+        'audio' => '#6ab04c',
+        'video' => 'rgb(72,52,212)',
+        // photo will use the default color from Nova
+    ]);
+}
+```
+
 ### Manually Building Partition Results
 
 If you are not able to use the included query helpers for building your partition metric, you may manually provide the final values to the metric using the `result` method:
