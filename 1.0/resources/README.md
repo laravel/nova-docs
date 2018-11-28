@@ -103,7 +103,35 @@ public static $with = ['user'];
 
 ## Resource Operations
 
-Nova makes all "CRUD" operations as well as other Eloquent operations such as "soft deletes" really easy by using typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, Nova will fire all model event listeners and trigger any [model observers](https://laravel.com/docs/5.7/eloquent#observers).
+All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
+
+```php
+use App\User;
+use App\Observers\UserObserver;
+use Illuminate\Support\ServiceProvider;
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        User::observe(UserObserver::class);
+    }
+     /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}
+```
 
 :::tip Keyboard Shortcuts
 
