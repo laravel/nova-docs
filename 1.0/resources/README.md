@@ -75,7 +75,7 @@ public static $displayInNavigation = false;
 
 ## Grouping Resources
 
-If you want to separate resources into different groups in the sidebar, you may override the `group` property of your resource class:
+If you would like to separate resources into different sidebar groups, you may override the `group` property of your resource class:
 
 ```php
 /**
@@ -83,7 +83,7 @@ If you want to separate resources into different groups in the sidebar, you may 
  *
  * @var string
  */
-public static $group = 'Other';
+public static $group = 'Admin';
 ```
 
 ## Eager Loading
@@ -101,7 +101,7 @@ For example, if you access a `Post` resource's `user` relationship within the `P
 public static $with = ['user'];
 ```
 
-## Resource Operations
+## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a [model observer](https://laravel.com/docs/eloquent#observers) to a model:
 
@@ -136,23 +136,6 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-:::tip Keyboard Shortcuts
-
-You can press the `C` key on the resource index to navigate to "Create Resource" screen and `E` key on resource detail to navigate to "Update Resource" screen.
-:::
-
-### Preventing Unintentional Changes
-
-If the model has been updated since the retrieval (initial page load), Nova will throw a `409 Conflict` status code and display the error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource.
-
-![Model Lock](./img/lock.png)
-
-### Soft Deletes
-
-Nova supports Laravel's "[soft deleting](https://laravel.com/docs/5.7/eloquent#soft-deleting)" feature right out of the box. If the model is marked with `Illuminate\Database\Eloquent\SoftDeletes` trait, Nova will include the "deleted" filter on the resource index and the force delete/restore button. Also, the "delete" button will soft delete the model, instead of force deleting it.
-
-### Resource Events
-
 If you would like to attach any observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
 
 ```php
@@ -174,3 +157,11 @@ public function boot()
     });
 }
 ```
+
+## Preventing Conflicts
+
+If the model has been updated since the retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource.
+
+## Keyboard Shortcuts
+
+You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.

@@ -7,12 +7,13 @@ Nova not only allows you to search within specific resources and relationships, 
 ![Global Search](./img/global-search.png)
 
 :::tip Focusing Global Search
+
 You can focus the global search input by pressing `/` (forward slash) on your keyboard. Pressing `ESC` (escape key) will also close the global search input.
 :::
 
 ### Searchable Columns
 
-To modify which of the resource fields are searchable in Nova, you may assign an array of database columns in the `search` property of your resource class. This includes `id` column by default, but you may override it to your needs:
+To define which resource fields are searchable, you may assign an array of database columns in the `search` property of your resource class. This includes `id` column by default, but you may override it to your needs:
 
 ```php
 /**
@@ -25,7 +26,10 @@ public static $search = [
 ];
 ```
 
-If this property is deleted from the resource class, no database columns will be searchable.
+:::warning Scout Integration
+
+If you are using Nova's Scout integration, the `$search` column has no effect on your search results and may be ignored. You should manage the searchable columns in the Algolia dashboard.
+:::
 
 ### Title / Subtitle Attributes
 
@@ -57,7 +61,8 @@ public function title()
 ```
 
 :::tip Displaying Avatar in Search Results
-You may also display resource's avatar next to the title in the search result by adding the [Avatar](./../resources/fields.md#avatar-field) field on the resource.
+
+You may also display resource's "avatar" next to the title in the search result by adding an [Avatar](./../resources/fields.md#avatar-field) field to the resource.
 :::
 
 #### Subtitles
