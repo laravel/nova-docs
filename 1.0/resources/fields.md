@@ -542,7 +542,7 @@ use Laravel\Nova\Fields\Textarea;
 Textarea::make('Biography')
 ```
 
-By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `shouldBeExpanded` method on the field itself:
+By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `alwaysShow` method on the field itself:
 
 ```php
 Textarea::make('Biography')->alwaysShow();
