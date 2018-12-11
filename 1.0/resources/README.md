@@ -25,6 +25,20 @@ public static $model = 'App\Post';
 
 Freshly created Nova resources only contain an `ID` field definition. Don't worry, we'll add more fields to our resource soon.
 
+You can define a label for a resource by overriding the `label` method:
+
+```php
+/**
+ * Get the displayable label of the resource.
+ *
+ * @return string
+ */
+public static function label()
+{
+    return 'Posts';
+}
+```
+
 ## Registering Resources
 
 :::tip Automatic Registration
