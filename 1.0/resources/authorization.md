@@ -18,6 +18,15 @@ When manipulating a resource within Nova, Nova will automatically attempt to fin
 - `restore`
 - `forceDelete`
 
+Add the following method to a resource to enable policy-based authentication:
+
+```php
+public static function authorizable()
+{
+    return true;
+}
+```
+
 No additional configuration is required! So, for example, to determine which users are allowed to update a `Post` model, you simply need to define an `update` method on the model's corresponding policy class:
 
 ```php
