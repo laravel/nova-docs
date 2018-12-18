@@ -20,7 +20,7 @@ File::make('Profile Photo')->disk('public')
 
 ### How Files Are Stored
 
-When a file is uploaded using this field, Nova will use Laravel's [Flysystem integration](https://laravel.com/docs/filesystem) to store the file on the disk of your choosing with a randomly generated filename. Once the file is stored, Nova will store the relative path to the file in the file field's underlying database column.
+When a file is uploaded using this field, Nova will use Laravel's [Filesystem integration](https://laravel.com/docs/filesystem) to store the file on the disk of your choosing with a randomly generated filename. Once the file is stored, Nova will store the relative path to the file in the file field's underlying database column.
 
 To illustrate the default behavior of the `File` field, let's take a look at an equivalent route that would store the file in the same way:
 
