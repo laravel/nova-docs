@@ -428,6 +428,8 @@ protected function addressFields()
         Text::make('State')->hideFromIndex(),
         Text::make('Postal Code')->hideFromIndex(),
         Country::make('Country')->hideFromIndex(),
+        Text::make('Latitude')->hideFromIndex(),
+        Text::make('Longitude')->hideFromIndex(),
     ]);
 }
 ```
@@ -455,7 +457,7 @@ When using the `Place` field as a city search, the `state` and `country` fields 
 
 #### Configuring Field Auto-Completion
 
-By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, and `country`. However, you may customize the field names that should be auto-completed using the following methods:
+By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, `country`, `latitude` and `longitude`. However, you may customize the field names that should be auto-completed using the following methods:
 
 - `secondAddressLine($column)`
 - `city($column)`
@@ -472,6 +474,8 @@ Place::make('Address', 'address_line_1')
     ->state('state_code')
     ->postalCode('zip_code')
     ->country('country_code')
+    ->latitude('latitude')
+    ->longitude('longitude')
 ```
 
 ### Select Field
