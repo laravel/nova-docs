@@ -113,7 +113,7 @@ Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. T
 
 #### Setting The Form Value
 
-Before creating or updating a resource, Nova asks each field on the form to "fill" the outgoing [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object with key / value pairs. Each field may add as many elements to the `FormData` as needed. This may done in your `FormField.vue` file's `fill` method:
+Before creating or updating a resource, Nova asks each field on the form to "fill" the outgoing [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object with key / value pairs. Each field may add as many elements to the `FormData` as needed. This may be done in your `FormField.vue` file's `fill` method:
 
 ```js
 /**
