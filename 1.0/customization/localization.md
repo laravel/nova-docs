@@ -14,7 +14,7 @@ Resource names may be localized by overriding the `label` and `singularLabel` me
 
 ```php
 /**
- * Get the displayble label of the resource.
+ * Get the displayable label of the resource.
  *
  * @return string
  */
@@ -24,7 +24,7 @@ public static function label()
 }
 
 /**
- * Get the displayble singular label of the resource.
+ * Get the displayable singular label of the resource.
  *
  * @return string
  */
@@ -59,7 +59,7 @@ In addition, you should also override the `label` and `singularLabel` methods on
 
 ```php
 /**
- * Get the displayble label of the resource.
+ * Get the displayable label of the resource.
  *
  * @return string
  */
@@ -69,7 +69,7 @@ public static function label()
 }
 
 /**
- * Get the displayble singular label of the resource.
+ * Get the displayable singular label of the resource.
  *
  * @return string
  */
