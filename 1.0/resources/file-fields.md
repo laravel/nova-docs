@@ -63,6 +63,12 @@ use Laravel\Nova\Fields\Image;
 Image::make('Profile Photo')->disk('public')
 ```
 
+To set the width of the `Image` field when being displayed, you can use the `maxWidth` method:
+
+```php
+Image::make('Profile Photo')->maxWidth(100)
+```
+
 ## Avatars
 
 The `Avatar` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Avatar` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Avatar` field mirror that of the `File` field:
