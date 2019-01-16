@@ -69,7 +69,7 @@ To set the width of the `Image` field when being displayed, you can use the `max
 Image::make('Profile Photo')->maxWidth(100)
 ```
 
-You can also use the `maxWidth` method on the [Avatar](#avatars) and [Gravatar](/docs/1.0/resources/fields.html#gravatar-field) fields.
+You can also use the `maxWidth` method on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
 
 ## Avatars
 
