@@ -305,9 +305,9 @@ class DeleteAttachment
 
 ### Customizing Previews
 
-By default, Nova will use the `Storage::url` method to determine the URL that should be used to display image previews on the resource detail screen. However, you may customize the generation of this URL using the `preview` method.
+By default, Nova will use the `Storage::url` method to determine the URL that should be used to display image previews on the resource detail screen and edit form. However, you may customize the generation of this URL using the `preview` method.
 
-The `preview` method accepts a callable which should return the preview URL. Within the callable, you may access the field's underlying column value via `$this->value`:
+The `preview` method accepts a callable which should return the thumbnail URL. The field's underlying column value is passed to the callable as the first parameter, the name of the field's storage disk is passed as the second parameter:
 
 ```php
 use Laravel\Nova\Fields\Image;
@@ -315,9 +315,9 @@ use Illuminate\Support\Facades\Storage;
 
 Image::make('Profile Photo')
     ->disk('public')
-    ->preview(function () {
-        return $this->value
-                    ? Storage::disk($this->disk)->url($this->value)
+    ->preview(function ($value, $disk) {
+        return $value
+                    ? Storage::disk($disk)->url($value)
                     : null;
     })
 ```
@@ -331,7 +331,7 @@ By default, the Nova resource detail screen will display previews at a width of 
 
 By default, Nova will use the `Storage::url` method to determine the URL that should be used to display thumbnail previews on the resource index screen and within search results (when using the `Avatar` field). However, you may customize the generation of this URL using the `thumbnail` method.
 
-The `thumbnail` method accepts a callable which should return the thumbnail URL. Within the callable, you may access the field's underlying column value via `$this->value`:
+The `thumbnail` method accepts a callable which should return the thumbnail URL. The field's underlying column value is passed to the callable as the first parameter, the name of the field's storage disk is passed as the second parameter:
 
 ```php
 use Laravel\Nova\Fields\Image;
@@ -339,9 +339,9 @@ use Illuminate\Support\Facades\Storage;
 
 Image::make('Profile Photo')
     ->disk('public')
-    ->thumbnail(function () {
-        return $this->value
-                    ? Storage::disk($this->disk)->url($this->value)
+    ->thumbnail(function ($value, $disk) {
+        return $value
+                    ? Storage::disk($disk)->url($value)
                     : null;
     })
 ```
