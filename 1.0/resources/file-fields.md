@@ -18,6 +18,14 @@ use Laravel\Nova\Fields\File;
 File::make('Profile Photo')->disk('public')
 ```
 
+### Disabling File Downloads
+
+By default, the `File` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
+
+```php
+File::make('Profile Photo')->disableDownload();
+```
+
 ### How Files Are Stored
 
 When a file is uploaded using this field, Nova will use Laravel's [Flysystem integration](https://laravel.com/docs/filesystem) to store the file on the disk of your choosing with a randomly generated filename. Once the file is stored, Nova will store the relative path to the file in the file field's underlying database column.
