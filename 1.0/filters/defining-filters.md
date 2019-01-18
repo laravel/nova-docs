@@ -169,3 +169,14 @@ class BirthdayFilter extends DateFilter
 ```
 
 As you can see in the example above, you may leverage the incoming `$value` to modify your query. The `apply` method should return the modified query instance.
+
+## Filter Titles
+
+If you would like to change the filter title that is displayed in Nova's filter selection menu, you may define a `name` property on the filter class:
+
+    /**
+     * The displayable name of the filter.
+     *
+     * @var string
+     */
+    public $name = 'Filter Title';
