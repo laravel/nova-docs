@@ -109,7 +109,7 @@ The `min` method may be used to calculate the minimum of a given column compared
 return $this->min($request, Order::class, 'total');
 ```
 
-### Value Result Prefix and Suffixes
+### Value Result Formatting
 
 You can add a prefix and/or suffix to the Value metric's result by calling the `prefix` and `suffix` methods when returning the `ValueResult`:
 
@@ -131,6 +131,16 @@ public function calculate(Request $request)
                 ->currency('£');
 }
 ````
+
+To customize the display format, you can use the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+
+```php
+public function calculate(Request $request)
+{
+    return $this->count($request, User::class)
+                ->format('0,0');
+}
+```
 
 
 ### Value Ranges
@@ -345,6 +355,15 @@ To accomplish this, you may use the `showLatestValue` method:
 return $this->countByDays($request, User::class)
             ->showLatestValue();
 ```
+
+You may customize the display format using the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+
+```php
+return $this->countByDays($request, User::class)
+            ->showLatestValue()
+            ->format('0,0');
+```
+
 
 ### Manually Building Trend Results
 
