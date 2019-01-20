@@ -303,7 +303,7 @@ Gravatar::make('Avatar', 'email_address')
 
 ### Heading Field
 
-The `Heading` field does not correspond to any column in your application's database. It is used to display a banner across your forms and can function as a separator for long lists of fields.
+The `Heading` field does not correspond to any column in your application's database. It is used to display a banner across your forms and can function as a separator for long lists of fields:
 
 ![Heading Field](./img/heading-field.png)
 
@@ -317,9 +317,9 @@ If you need to render HTML content within the `Heading` field, use the `asHtml` 
 Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 ```
 
-::: tip Headings are not shown on resource indexes!
+::: tip Headings And Indexes
 
-`Heading` fields are automatically hidden from indexes by default, so there's no need to hide them manually.
+`Heading` fields are automatically hidden from the resource index screen.
 :::
 
 ### ID Field
