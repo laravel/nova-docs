@@ -126,6 +126,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [DateTime](#datetime-field)
 - [File](#file-field)
 - [Gravatar](#gravatar-field)
+- [Heading](#heading-field)
 - [ID](#id-field)
 - [Image](#image-field)
 - [Markdown](#markdown-field)
@@ -299,6 +300,27 @@ Gravatar::make()
 // Using the "email_address" column...
 Gravatar::make('Avatar', 'email_address')
 ```
+
+### Heading Field
+
+The `Heading` field does not correspond to any column in your application's database. It is used to display a banner across your forms and can function as a separator for long lists of fields:
+
+![Heading Field](./img/heading-field.png)
+
+```php
+Heading::make('Meta')
+```
+
+If you need to render HTML content within the `Heading` field, use the `asHtml` method:
+
+```php
+Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
+```
+
+::: tip Headings And Indexes
+
+`Heading` fields are automatically hidden from the resource index screen.
+:::
 
 ### ID Field
 
