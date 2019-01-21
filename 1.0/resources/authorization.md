@@ -294,6 +294,27 @@ public static function relatableQuery(NovaRequest $request, $query)
 }
 ```
 
+## Global Scopes
+
+Laravel's [global scopes](https://laravel.com/docs/5.7/eloquent#global-scopes) can be useful for filtering global search, relatable search and index results all at once in a clean way. You may not want these scopes applied outside of Nova, so define them within your NovaServiceProvider like so:
+
+```php
+/**
+ * Bootstrap any application services.
+ *
+ * @return void
+ */
+public function boot(){
+
+    parent::boot();
+
+    Nova::serving(function () {
+        \App\User::addGlobalScope(new \App\Scopes\TeamScope);
+        \App\Order::addGlobalScope(new \App\Scopes\TeamScope);
+    });
+}
+```
+
 ## Scout Filtering
 
 If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource:
