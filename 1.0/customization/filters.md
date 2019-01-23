@@ -23,7 +23,7 @@ Nova filters include all of the scaffolding necessary to build your filter. Each
 Nova filters may be registered in your resource's `filters` method. This method returns an array of filters available to the resource. To register your filter, add your filter to the array of filters returned by this method:
 
 ```php
-use Acme\AgeFilter\AgeFilter;
+use Acme\AgeRange\AgeRange;
 
 /**
  * Get the filters available for the resource.
@@ -34,7 +34,7 @@ use Acme\AgeFilter\AgeFilter;
 public function filters(Request $request)
 {
     return [
-        new AgeFilter,
+        new AgeRange,
     ];
 }
 ```
