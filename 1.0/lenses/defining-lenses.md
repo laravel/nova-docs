@@ -79,6 +79,17 @@ class MostValuableUsers extends Lens
             }),
         ];
     }
+    
+    /**
+     * Get the cards available for the lens.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function cards(Request $request)
+    {
+        return [];
+    }
 
     /**
      * Get the filters available for the lens.
@@ -90,7 +101,18 @@ class MostValuableUsers extends Lens
     {
         return [];
     }
-
+    
+    /**
+     * Get the actions available for the lens.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function actions(Request $request)
+    {
+        return [];
+    }
+    
     /**
      * Get the URI key for the lens.
      *
@@ -110,6 +132,25 @@ In this example, the `columns` method has been extracted from the `query` method
 
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
 
+### Lens Metrics
+
+Each Nova lens also contains a `cards` method. This method allows you to attach any of your existing [metrics](./../metrics/defining-metrics.md) to the lens:
+
+```php
+use App\Nova\Metrics\NewUsers;
+
+/**
+ * Get the cards available for the lens.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [new NewUsers];
+}
+```
+
 ### Lens Filters
 
 Each Nova lens also contains a `filters` method. This method allows you to attach any of your existing [filters](./../filters/defining-filters.md) to the lens:
@@ -126,5 +167,24 @@ use App\Nova\Filters\UserType;
 public function filters(Request $request)
 {
     return [new UserType];
+}
+```
+
+### Lens Actions
+
+Each Nova lens also contains an `actions` method. This method allows you to attach any of your existing [actions](./../actions/defining-actions.md) to the lens:
+
+```php
+use App\Nova\Actions\Export;
+
+/**
+ * Get the actions available for the lens.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [new Export];
 }
 ```
