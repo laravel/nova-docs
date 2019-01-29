@@ -130,7 +130,7 @@ The `Card.vue` file is a single-file Vue component that contains your card's fro
 Your card's `Card.vue` component receives a `card` Vue `prop`. This property provides access to any card [options](#card-options) that may be available:
 
 ```js
-const issuesRefunds = this.card.issuesRefunds;
+const currentVisitors = this.card.currentVisitors;
 ```
 
 #### Registering Assets
