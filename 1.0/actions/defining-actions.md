@@ -246,7 +246,7 @@ Once the trait has been attached to the model, Nova will automatically begin dis
 
 ### Disable Action Log
 
-You may disable the logging of action events on the action class
+If you find that you don't want a particular action to log events to the database, you may disable this behavior:
 
 ```php
 /**
@@ -256,7 +256,7 @@ You may disable the logging of action events on the action class
  */
 public $withoutActionEvents = true;
 ```
-Or disable logging when declaring an action on a resource
+Or disable logging when declaring an action on a resource:
 ```php
 /**
  * Get the actions available for the resource.
