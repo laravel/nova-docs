@@ -90,7 +90,18 @@ class MostValuableUsers extends Lens
     {
         return [];
     }
-
+    
+    /**
+     * Get the actions available for the lens.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function actions(Request $request)
+    {
+        return [];
+    }
+    
     /**
      * Get the URI key for the lens.
      *
@@ -126,5 +137,24 @@ use App\Nova\Filters\UserType;
 public function filters(Request $request)
 {
     return [new UserType];
+}
+```
+
+### Lens Actions
+
+Each Nova lens also contains an `actions` method. This method allows you to attach any of your existing [actions](./../actions/defining-actions.md) to the lens:
+
+```php
+use App\Nova\Actions\Export;
+
+/**
+ * Get the actions available for the lens.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [new Export];
 }
 ```
