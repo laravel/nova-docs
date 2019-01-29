@@ -244,6 +244,19 @@ Once the trait has been attached to the model, Nova will automatically begin dis
 
 ![Action Log](./img/action-log.png)
 
+### Disable Action Log
+
+Additionally, you may disable the logging of action events
+
+```php
+/**
+ * Indicates if need to skip log action events for models.
+ *
+ * @var bool
+ */
+public $withoutActionEvents = true;
+```
+
 ### Queued Action Statuses
 
 While a queued action is running, you may update the action's "status" for any of the models that were passed to the action via its model collection. For example, you may use the action's `markAsFinished` method to indicate that the action has completed processing a particular model:
