@@ -76,8 +76,18 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 By default, actions are visible on both the resource index and detail views. You may designate an action to be visible exclusively on index or detail only by setting one of the following properties on the action.
 
 ```php
+    /**
+     * Indicates if this action is only available on the resource index view.
+     *
+     * @var bool
+     */
     $onlyOnIndex = true;
     
+    /**
+     * Indicates if this action is only available on the resource detail view.
+     *
+     * @var bool
+     */
     $onlyOnDetail = true;
 ```
 
