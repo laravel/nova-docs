@@ -530,7 +530,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels()
 ```
 
-You may also display select options in groups
+You may also display select options in groups:
 
 ```php
 Select::make('Size')->options([
