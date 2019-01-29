@@ -534,8 +534,8 @@ You may also display select options in groups
 
 ```php
 Select::make('Size')->options([
-    'MS' => ["label" => 'Small", 'group' => 'Men Sizes'],
-    'MM' => ["label" => 'Medium", 'group' => 'Men Sizes'],
+    'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+    'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
     'WS' => ['label' => 'Small', 'group' => 'Women Sizes']
     'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
 ])->displayUsingLabels()
