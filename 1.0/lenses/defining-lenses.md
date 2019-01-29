@@ -79,6 +79,17 @@ class MostValuableUsers extends Lens
             }),
         ];
     }
+    
+    /**
+     * Get the cards available for the lens.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function cards(Request $request)
+    {
+        return [];
+    }
 
     /**
      * Get the filters available for the lens.
@@ -120,6 +131,25 @@ In this example, the `columns` method has been extracted from the `query` method
 :::
 
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
+
+### Lens Metrics
+
+Each Nova lens also contains a `cards` method. This method allows you to attach any of your existing [metrics](./../metrics/defining-metrics.md) to the lens:
+
+```php
+use App\Nova\Metrics\NewUsers;
+
+/**
+ * Get the cards available for the lens.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [new NewUsers];
+}
+```
 
 ### Lens Filters
 
