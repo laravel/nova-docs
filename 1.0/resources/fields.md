@@ -530,6 +530,17 @@ Select::make('Size')->options([
 ])->displayUsingLabels()
 ```
 
+You may also display select options in groups
+
+```php
+Select::make('Size')->options([
+    'MS' => ["label" => 'Small", 'group' => 'Men Sizes'],
+    'MM' => ["label" => 'Medium", 'group' => 'Men Sizes'],
+    'WS' => ['label' => 'Small', 'group' => 'Women Sizes']
+    'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
+])->displayUsingLabels()
+```
+
 ### Status Field
 
 The `Status` field may be used to display a "progress state" column. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed:
