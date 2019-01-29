@@ -218,10 +218,9 @@ public $queue = 'emails';
 ```
 
 ## Action Log
+Knowing the status of an action or who performed an action can be very helpful for an admin. Nova provides this ability right out of the box. The action log records events behind the scenes and keeps track of which users initiated them.
 
-It is often useful to view a log of the actions that have been run against a resource. Additionally, when queueing actions, it's often important to know when they are actually finished. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actions\Actionable` trait to the resource's corresponding Eloquent model.
-
-For example, we may attach the `Laravel\Nova\Actions\Actionable` trait to the `User` Eloquent model:
+To display the events on a resource, attach the `Laravel\Nova\Actions\Actionable` trait to the resource's corresponding Eloquent model. For example, using the `User` Eloquent model:
 
 ```php
 <?php
@@ -240,11 +239,11 @@ class User extends Authenticatable
 }
 ```
 
-Once the trait has been attached to the model, Nova will automatically begin displaying an action log at the bottom of the resource's detail screen:
+Now the action log will automatically display at the bottom of the resource's detail screen:
 
 ![Action Log](./img/action-log.png)
 
-### Disable Action Log
+### Disable Recording
 
 If you find that you don't want a particular action to log events to the database, you may disable this behavior:
 
