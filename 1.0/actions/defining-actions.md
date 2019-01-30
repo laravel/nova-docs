@@ -82,14 +82,14 @@ By default, actions are visible on both the resource index and detail screens. Y
  *
  * @var bool
  */
-$onlyOnIndex = true;
+public $onlyOnIndex = true;
 
 /**
  * Indicates if this action is only available on the resource detail view.
  *
  * @var bool
  */
-$onlyOnDetail = true;
+public $onlyOnDetail = true;
 ```
 
 ## Destructive Actions
