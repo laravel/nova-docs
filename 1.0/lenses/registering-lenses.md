@@ -62,3 +62,42 @@ public function lenses(Request $request)
     ];
 }
 ```
+
+# Actions
+
+Lenses by default will inherit their actions from the parent `Resource` class. However, you may wish for your Lenses to have their own separate set of Actions tailorwed specifically for them. You can do this by defining the `actions` method on your Lens class:
+
+```php
+/**
+ * Get the actions available on the lens.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        new UserDownload,
+        new PDFReport,
+    ];
+}
+```
+
+# Cards
+
+Leses can show their own set of Cards. For example, you may want to show a `Metric` for a particular subset of records in your database. To do this, you can simply define the `cards` method on your Lens class:
+
+```php
+/**
+ * Get the cards available on the entity.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function cards(Request $request)
+{
+    return [
+        new TopAffiliatesSalesMetric
+    ];
+}
+```
