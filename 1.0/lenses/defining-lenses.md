@@ -130,6 +130,11 @@ class MostValuableUsers extends Lens
 In this example, the `columns` method has been extracted from the `query` method for readability. It is not "required" and is not a "feature" of lenses.
 :::
 
+:::tip Selectiong records
+
+If you not specify ID column checkboxes and resource selector menu will be hide and by default applied Select All Mathcing for whole lens. Also Delete menu will be hidden.
+:::
+
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
 
 ### Lens Metrics
@@ -188,3 +193,8 @@ public function actions(Request $request)
     return [new Export];
 }
 ```
+
+:::warning Resource Actions
+
+By default lens give actions from resource. For prevent this behaviour you need override `action` method with your actions.
+:::
