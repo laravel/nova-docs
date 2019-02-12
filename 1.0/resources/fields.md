@@ -702,6 +702,25 @@ Text::make('Status', function () {
 
 ## Customization
 
+### Nullable fileds
+
+If you fields would like to store null value, you may use `nullable` method:
+```php
+Text::make('Position')->nullable();
+```
+
+Also you can set null values for fields:
+```php
+Text::make('Position')->nullable()->nullValues(['', '0', 'null']);
+```
+
+For complicated cases you can use callbackfor check value:
+```
+Text::make('Position')->nullable()->nullValues(function ($value) {
+    return $value == '' || $value == 'null' || (int)$value === 0;
+});
+```
+
 ### Field Help Text
 
 If you would like to place "help" text beneath a field, you may use the `help` method:
