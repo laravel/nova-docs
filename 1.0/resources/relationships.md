@@ -102,6 +102,14 @@ public function title()
 }
 ```
 
+#### Linking to resource
+
+When relationship unauthorized to view, link will not displayed on Details or Index views. Also you can disable link mannualy:
+
+```php
+BelongsTo::make('User')->viewable(false)
+```
+
 ## BelongsToMany
 
 The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models. We may add the relationship to our `User` Nova resource like so:
