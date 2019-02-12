@@ -250,12 +250,12 @@ use Illuminate\Support\Facades\Storage;
 
 File::make('Attachment')
     ->disk('s3')
-    ->delete(function (Request $request, $model) {
-        if (! $model->attachment) {
+    ->delete(function (Request $request, $model, $value, $disk) {
+        if (! $value) {
             return;
         }
 
-        Storage::disk($this->disk)->delete($model->attachment);
+        Storage::disk($disk)->delete($value);
 
         return [
             'attachment' => null,
@@ -266,6 +266,11 @@ File::make('Attachment')
 ```
 
 As you can see in the example above, the `delete` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored. Typically, when deleting a field, you will insert `NULL` into the relevant database columns.
+
+:::warning Pruning
+
+For working prunable files you need to use `$value` attribute from callback instead property of `$model` because the property has value for new file.
+:::
 
 #### Invokables
 
@@ -294,13 +299,13 @@ class DeleteAttachment
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return array
      */
-    public function __invoke(Request $request, $model)
+    public function __invoke(Request $request, $model, $value, $disk)
     {
-        if (! $model->attachment) {
+        if (! $value) {
             return;
         }
 
-        Storage::disk($this->disk)->delete($model->attachment);
+        Storage::disk($disk)->delete($value);
 
         return [
             'attachment' => null,
