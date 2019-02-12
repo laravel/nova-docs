@@ -591,7 +591,7 @@ By default, Textarea fields will not display their content when viewing a resour
 Textarea::make('Biography')->alwaysShow();
 ```
 
-You may also specify the textarea's height by calling the `rows` method on the field: 
+You may also specify the textarea's height by calling the `rows` method on the field:
 
 ```php
 Textarea::make('Excerpt')->rows(3);
@@ -704,18 +704,17 @@ Text::make('Status', function () {
 
 ### Nullable fileds
 
-If you fields would like to store null value, you may use `nullable` method:
+By default, Nova attempts to store all fields with a value, however, there are times where you'd like to explicitely direct Nova to store a `null` value when the field is empty. To do this, you may use the `nullable` method on your field:
+
 ```php
 Text::make('Position')->nullable();
 ```
 
-Also you can set null values for fields:
+You may also set which values should be interpreted as a `null` value using the `nullValues` method:
+
 ```php
 Text::make('Position')->nullable()->nullValues(['', '0', 'null']);
-```
 
-For complicated cases you can use callbackfor check value:
-```
 Text::make('Position')->nullable()->nullValues(function ($value) {
     return $value == '' || $value == 'null' || (int)$value === 0;
 });
@@ -741,7 +740,7 @@ Text::make('First Name')->help(
 Text::make('Last Name')->help(
     view('partials.help-text', ['name' => $this->name])->render()
 );
-``` 
+```
 
 ### Field Resolution / Formatting
 
