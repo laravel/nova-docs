@@ -165,3 +165,17 @@ If the model has been updated since the retrieval, Nova will automatically respo
 ## Keyboard Shortcuts
 
 You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
+
+## Pagination
+
+Nova has the ability to show pagination links for your Resource listings in two different styles: a beautiful "simple" style which uses "Previous" and "Next" links and a more-traditional page-based "links" format:
+
+![Simple Pagination](./img/simple-pagination.png)
+
+![Links Pagination](./img/links-pagination.png)
+
+By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use the "links" style. You can enable this by setting the `pagination` option in your `app/nova.php` configuration file:
+
+```php
+'pagination' => 'links',
+```
