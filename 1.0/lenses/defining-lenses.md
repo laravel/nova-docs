@@ -79,7 +79,7 @@ class MostValuableUsers extends Lens
             }),
         ];
     }
-    
+
     /**
      * Get the cards available for the lens.
      *
@@ -101,7 +101,7 @@ class MostValuableUsers extends Lens
     {
         return [];
     }
-    
+
     /**
      * Get the actions available for the lens.
      *
@@ -112,7 +112,7 @@ class MostValuableUsers extends Lens
     {
         return [];
     }
-    
+
     /**
      * Get the URI key for the lens.
      *
@@ -130,9 +130,9 @@ class MostValuableUsers extends Lens
 In this example, the `columns` method has been extracted from the `query` method for readability. It is not "required" and is not a "feature" of lenses.
 :::
 
-:::tip Selectiong records
+:::warning Lens Column Selection
 
-If you not specify ID column checkboxes and resource selector menu will be hide and by default applied Select All Mathcing for whole lens. Also Delete menu will be hidden.
+When writing your lens query, you should always try to include the resource's ID as a selected column. If the ID is not included, Nova will not be able to display the "Select All Matching" option for the lens. In addition, the resource deletion menu will not be available.
 :::
 
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
@@ -196,5 +196,5 @@ public function actions(Request $request)
 
 :::warning Resource Actions
 
-By default lens give actions from resource. For prevent this behaviour you need override `action` method with your actions.
+By default, lens will inherit the actions of their associated resource. However, you may override the `actions` method on the lens to define a custom set of actions that should be available to the lens.
 :::
