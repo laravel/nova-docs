@@ -86,6 +86,21 @@ Once the variable has been provided to Nova via the `provideToScript` method, yo
 const name = Nova.config.user.name;
 ```
 
+### Vue DevTools
+
+Nova's Vue configuration is tuned for production. As such, you will not be able to access the Vue DevTools without modification to your project. To enable Vue DevTools, run this bash script from the root folder of your project:
+
+```bash
+#!/bin/sh
+cd ./vendor/laravel/nova
+mv webpack.mix.js.dist webpack.mix.js
+npm i
+npm run dev
+rm -rf node_modules
+cd -
+php artisan nova:publish
+```
+
 ### Other Available Libraries
 
 In addition to Axios, the [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
