@@ -88,13 +88,12 @@ const name = Nova.config.user.name;
 
 ### Vue DevTools
 
-Nova's Vue configuration is tuned for production. As such, you will not be able to access the Vue DevTools without modification to your project. To enable Vue DevTools, run this bash script from the root folder of your project:
+By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may use the following terminal commands from the root of your Nova project:
 
 ```bash
-#!/bin/sh
 cd ./vendor/laravel/nova
 mv webpack.mix.js.dist webpack.mix.js
-npm i
+npm install
 npm run dev
 rm -rf node_modules
 cd -
