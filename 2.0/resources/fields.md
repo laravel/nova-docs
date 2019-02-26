@@ -734,7 +734,7 @@ You may also use HTML when defining your help text:
 
 ```php
 Text::make('First Name')->help(
-    '<a href="#">External Link</a>'
+    return '<a href="#">External Link</a>'
 );
 
 Text::make('Last Name')->help(
