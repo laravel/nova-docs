@@ -82,14 +82,14 @@ By default, actions are visible on both the resource index and detail screens. Y
  *
  * @var bool
  */
-$onlyOnIndex = true;
+public $onlyOnIndex = true;
 
 /**
  * Indicates if this action is only available on the resource detail view.
  *
  * @var bool
  */
-$onlyOnDetail = true;
+public $onlyOnDetail = true;
 ```
 
 ## Destructive Actions
@@ -263,6 +263,36 @@ class User extends Authenticatable
 Once the trait has been attached to the model, Nova will automatically begin displaying an action log at the bottom of the resource's detail screen:
 
 ![Action Log](./img/action-log.png)
+
+### Disabling The Action Log
+
+If you do not want to record an action in the action log, you may disable this behavior by adding a `withoutActionEvents` property on your action class:
+
+```php
+/**
+ * Disables action log events for this action.
+ *
+ * @var bool
+ */
+public $withoutActionEvents = true;
+```
+
+Or, using the `withoutActionEvents` method, you may disable the action log for an action when the action is attached to a resource:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new SomeAction)->withoutActionEvents()
+    ];
+}
+```
 
 ### Queued Action Statuses
 
