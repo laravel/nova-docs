@@ -90,6 +90,29 @@ public function subtitle()
 If your subtitle accesses information on a related resource, you should consider adding the related resource to your resource's [eager load array](./../resources/README.md#eager-loading).
 :::
 
+### Cover
+
+![Global Search](./img/global-search-cover.png)
+
+If you need to add cover to search result you need to implement `Laravel\Nova\Contracts\Cover` interface for it.
+
+```php
+class CoverGravatar extends Field implements Cover
+{
+    /**
+     * Resolve the thumbnail URL for the field.
+     *
+     * @return string|null
+     */
+    public function resolveThumbnailUrl()
+    {
+        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->value)).'?s=300';
+    }
+}
+```
+
+`Avatar` and `Gravatar` fields already implemented it. 
+
 ### Disabling Global Search
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
