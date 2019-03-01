@@ -90,14 +90,12 @@ public function subtitle()
 If your subtitle accesses information on a related resource, you should consider adding the related resource to your resource's [eager load array](./../resources/README.md#eager-loading).
 :::
 
-### Cover
+### Custom Avatars / Covers
 
-![Global Search](./img/global-search-cover.png)
-
-If you need to add cover to search result you need to implement `Laravel\Nova\Contracts\Cover` interface for it.
+If you are building a custom field that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This contract requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
 
 ```php
-class CoverGravatar extends Field implements Cover
+class CoverField extends Field implements Cover
 {
     /**
      * Resolve the thumbnail URL for the field.
@@ -106,12 +104,10 @@ class CoverGravatar extends Field implements Cover
      */
     public function resolveThumbnailUrl()
     {
-        return 'https://www.gravatar.com/avatar/'.md5(strtolower($this->value)).'?s=300';
+        return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
     }
 }
 ```
-
-`Avatar` and `Gravatar` fields already implemented it. 
 
 ### Disabling Global Search
 
