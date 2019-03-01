@@ -148,15 +148,13 @@ Route::get('/download', function () {
 When using the `storeOriginalName` method, the file field's "Download" link within the Nova dashboard will automatically download the file using its original name.
 :::
 
-### Deleting
+## Pruning & Deletion
 
-The `deletable` method will instruct Nova to allowing to deleting file.
+The `deletable` method will instruct Nova to allow users to delete the file:
 
 ```php
 File::make('Photo')->disk('public')->deletable()
 ```
-
-## Pruning
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
 
