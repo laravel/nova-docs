@@ -2,10 +2,6 @@
 
 [[toc]]
 
-## CSS
-
-Nova utilizes the [Tailwind.css](https://tailwindcss.com/docs/what-is-tailwind/) utility library for all styling. So, you are free to leverage all Tailwind features and classes that are needed by your custom components.
-
 ## JavaScript
 
 When building custom Nova tools, resource tools, cards, and fields, you may use a variety of helpers that are globally available to your JavaScript components.
