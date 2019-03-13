@@ -6,18 +6,18 @@
 
 Laravel Nova has a few requirements you should be aware of before installing:
 
--   Composer
--   Laravel Framework 5.8+
--   Laravel Mix
--   Node.js & NPM
+- Composer
+- Laravel Framework 5.8+
+- Laravel Mix
+- Node.js & NPM
 
 ## Browser Support
 
 Nova supports reasonably recent versions of the following browsers:
 
--   Google Chrome
--   Apple Safari
--   Microsoft Edge
+- Google Chrome
+- Apple Safari
+- Microsoft Edge
 
 ## Installing Nova
 
@@ -109,10 +109,7 @@ After your `composer.json` file has been updated, run the `composer update` comm
 composer update
 ```
 
-:::warning Composer Authentication
-
 When running `composer update`, you will be prompted to provide your login credentials for the Nova website. These credentials will authenticate your Composer session as having permission to download the Nova source code. To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while optionally using your [API token](https://nova.laravel.com/settings#password) in place of your password.
-:::
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
@@ -137,6 +134,14 @@ php artisan nova:user
 ```
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
+
+## Authenticating Nova in Continuous Integration (CI) Environments
+
+It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
+
+```sh
+composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+```
 
 ## Upgrade Guide
 
