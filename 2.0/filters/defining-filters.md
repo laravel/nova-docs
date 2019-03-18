@@ -180,3 +180,18 @@ If you would like to change the filter title that is displayed in Nova's filter 
      * @var string
      */
     public $name = 'Filter Title';
+
+
+## Default Value
+
+If you would like to set the default value of a filter, you may define a `default()` method on the filter class:
+
+    /**
+     * The default value of the filter.
+     *
+     * @var string
+     */
+    public function default()
+    {
+        return true;
+    }
