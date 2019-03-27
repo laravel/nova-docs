@@ -392,6 +392,11 @@ You may use the `min`, `max`, and `step` methods to set their corresponding attr
 Number::make('price')->min(1)->max(1000)->step(0.01)
 ```
 
+:::tip Step value
+
+By default, the HTML number input element will only accept integers (or integer increments of the initial value). The step value can be set to the desired precision, or to the string `any` to accept any numerical value.
+:::
+
 ### Password Field
 
 The `Password` field provides an `input` control with a `type` attribute of `password`:
