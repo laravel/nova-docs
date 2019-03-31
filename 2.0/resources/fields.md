@@ -690,6 +690,11 @@ Text::make('Name', function () {
 As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
 :::
 
+:::warning Value formatting
+
+Resolve and display methods don't works on computed fields. You should to format value by yourself.  
+:::
+
 By default, Vue will escape the content of a computed field. If you need to render HTML content within the field, use the `asHtml` method:
 
 ```php
