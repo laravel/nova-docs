@@ -174,9 +174,27 @@ As you can see in the example above, you may leverage the incoming `$value` to m
 
 If you would like to change the filter title that is displayed in Nova's filter selection menu, you may define a `name` property on the filter class:
 
-    /**
-     * The displayable name of the filter.
-     *
-     * @var string
-     */
-    public $name = 'Filter Title';
+```php
+/**
+ * The displayable name of the filter.
+ *
+ * @var string
+ */
+public $name = 'Filter Title';
+```
+
+## Filter Default Values
+
+If you would like to set the default value of a filter, you may define a `default` method on the filter class:
+
+```php
+/**
+ * The default value of the filter.
+ *
+ * @var string
+ */
+public function default()
+{
+    return true;
+}
+```

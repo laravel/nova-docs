@@ -702,6 +702,30 @@ Text::make('Status', function () {
 
 ## Customization
 
+### Readonly Fields
+
+There are times where you may want to allow the user to only create and update certain fields on a resource. You can do this by using the `readonly` method on the field, which will disable the field's corresponding input:
+
+```php
+Text::make('Email')->readonly(optional($this->resource)->trashed());
+```
+
+You may also pass a `Closure` to the `readonly` method. It will receive the current `NovaRequest` as the first argument:
+
+```php
+Text::make('Email')->readonly(function ($request) {
+    return !$request->user()->isAdmin();
+}),
+```
+
+If you only want to set the fields to readonly when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods from `NovaRequest`:
+
+```php
+Text::make('Email')->readonly(function ($request) {
+    return $request->isUpdateOrUpdateAttachedRequest();
+}),
+```
+
 ### Nullable Fields
 
 By default, Nova attempts to store all fields with a value, however, there are times where you'd like to explicitely direct Nova to store a `null` value when the field is empty. To do this, you may use the `nullable` method on your field:
