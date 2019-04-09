@@ -39,10 +39,10 @@ When defining HasMany relationship, make sure to use the plural form of the rela
 
 ```php
 // Do this
-HasMany::make('Posts');
+HasMany::make('Posts')
 
 // Not this
-HasMany::make('Post');
+HasMany::make('Post')
 ```
 
 :::
@@ -61,7 +61,7 @@ BelongsTo::make('User')
 You can customize the resource class used by the relation field by setting the second and third parameters of the `make` method:
 
 ```php
-BelongsTo::make('Author', 'author', 'App\Nova\User');
+BelongsTo::make('Author', 'author', 'App\Nova\User')
 ```
 
 :::
