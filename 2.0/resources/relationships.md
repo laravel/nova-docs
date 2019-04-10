@@ -34,8 +34,9 @@ HasMany::make('Posts')
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
-:::warning Use Plural Resource Name
-When defining HasMany relationship, make sure to use the plural form of the relation so Nova can infer the correct singular resource name:
+:::warning Plural Resource Names
+
+When defining `HasMany` relationships, make sure to use the plural form of the relationship so Nova can infer the correct singular resource name:
 
 ```php
 HasMany::make('Posts')
