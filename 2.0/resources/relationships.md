@@ -38,11 +38,7 @@ Once the field has been added to your resource, it will be displayed on the reso
 When defining HasMany relationship, make sure to use the plural form of the relation so Nova can infer the correct singular resource name:
 
 ```php
-// Do this
 HasMany::make('Posts')
-
-// Not this
-HasMany::make('Post')
 ```
 
 :::
