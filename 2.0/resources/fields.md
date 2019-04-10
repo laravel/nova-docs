@@ -272,7 +272,7 @@ DateTime::make('Updated At')->hideFromIndex()
 You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
 
 ```php
-Date::make('Created At')->format('DD MMM YYYY'),
+DateTime::make('Created At')->format('DD MMM YYYY'),
 ```
 
 ### File Field
