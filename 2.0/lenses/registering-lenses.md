@@ -85,7 +85,7 @@ public function actions(Request $request)
 
 # Cards
 
-Leses can show their own set of Cards. For example, you may want to show a `Metric` for a particular subset of records in your database. To do this, you can simply define the `cards` method on your Lens class:
+Lenses can show their own set of Cards. For example, you may want to show a `Metric` for a particular subset of records in your database. To do this, you can simply define the `cards` method on your Lens class:
 
 ```php
 /**
