@@ -174,7 +174,7 @@ Nova has the ability to show pagination links for your Resource listings in two 
 
 ![Links Pagination](./img/links-pagination.png)
 
-By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use the "links" style. You can enable this by setting the `pagination` option in your `app/nova.php` configuration file:
+By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use the "links" style. You can enable this by setting the `pagination` option in your `config/nova.php` configuration file:
 
 ```php
 'pagination' => 'links',
