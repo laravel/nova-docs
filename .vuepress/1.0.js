@@ -1,82 +1,67 @@
 module.exports = [
   {
-    title: 'Getting Started',
+    title: "Getting Started",
     collapsable: false,
-    children: ['installation'],
+    children: ["installation"]
   },
   {
-    title: 'Resources',
+    title: "Resources",
     collapsable: false,
-    children: prefix('resources', [
-      '',
-      'fields',
-      'date-fields',
-      'file-fields',
-      'relationships',
-      'validation',
-      'authorization',
-    ]),
+    children: prefix("resources", [
+      "",
+      "fields",
+      "date-fields",
+      "file-fields",
+      "relationships",
+      "validation",
+      "authorization"
+    ])
   },
   {
-    title: 'Search',
+    title: "Search",
     collapsable: false,
-    children: prefix('search', [
-      'global-search',
-      'scout-integration',
-    ]),
+    children: prefix("search", ["global-search", "scout-integration"])
   },
   {
-    title: 'Filters',
+    title: "Filters",
     collapsable: false,
-    children: prefix('filters', [
-      'defining-filters',
-      'registering-filters',
-    ]),
+    children: prefix("filters", ["defining-filters", "registering-filters"])
   },
   {
-    title: 'Lenses',
+    title: "Lenses",
     collapsable: false,
-    children: prefix('lenses', [
-      'defining-lenses',
-      'registering-lenses',
-    ]),
+    children: prefix("lenses", ["defining-lenses", "registering-lenses"])
   },
   {
-    title: 'Actions',
+    title: "Actions",
     collapsable: false,
-    children: prefix('actions', [
-      'defining-actions',
-      'registering-actions',
-    ]),
+    children: prefix("actions", ["defining-actions", "registering-actions"])
   },
   {
-    title: 'Metrics',
+    title: "Metrics",
     collapsable: false,
-    children: prefix('metrics', [
-      'defining-metrics',
-      'registering-metrics',
-    ]),
+    children: prefix("metrics", ["defining-metrics", "registering-metrics"])
   },
   {
-    title: 'Customization',
+    title: "Customization",
     collapsable: false,
-    children: prefix('customization', [
-      'localization',
-      'tools',
-      'resource-tools',
-      'cards',
-      'fields',
-      'frontend',
-      'filters',
-    ]),
-  },
+    children: prefix("customization", [
+      "localization",
+      "tools",
+      "resource-tools",
+      "cards",
+      "fields",
+      "frontend",
+      "filters"
+    ])
+  }
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,
   //   children: prefix('nova-js', ['', 'methods', 'properties', 'event-bus']),
   // },
-]
+];
 
 function prefix(prefix, children) {
-  return children.map(child => `${prefix}/${child}`)
+  return children.map(child => `${prefix}/${child}`);
 }

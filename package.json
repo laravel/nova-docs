@@ -1,9 +1,13 @@
 {
-    "dependencies": {
-        "vuepress": "^0.14.5"
-    },
-    "scripts": {
-        "docs:build": "vuepress build",
-        "docs:dev": "vuepress dev"
-    }
+  "dependencies": {
+    "vuepress": "^0.14.5"
+  },
+  "scripts": {
+    "start": "npm run docs:dev",
+    "docs:build": "vuepress build",
+    "docs:dev": "vuepress dev"
+  },
+  "resolutions": {
+    "webpack-dev-middleware": "3.6.0"
+  }
 }
