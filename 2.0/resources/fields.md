@@ -363,7 +363,7 @@ To learn more about defining file fields and handling uploads, check out the add
 
 ### KeyValue Field
 
-The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a JSON`column type name`meta`:
+The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a JSON column type name `meta`:
 
 ```php
 use Laravel\Nova\Fields\KeyValue;
