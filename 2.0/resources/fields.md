@@ -129,6 +129,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Heading](#heading-field)
 - [ID](#id-field)
 - [Image](#image-field)
+- [KeyValue](#key-value-field)
 - [Markdown](#markdown-field)
 - [Number](#number-field)
 - [Password](#password-field)
@@ -358,6 +359,25 @@ Image::make('Photo')->disableDownload();
 :::tip File Fields
 
 To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
+:::
+
+### KeyValue Field
+
+The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a JSON column type name `meta`:
+
+```php
+use Laravel\Nova\Fields\KeyValue;
+
+KeyValue::make('Meta')->rules('json')
+```
+
+This would give you an interface similar to this:
+
+![Key/Value Field](./img/key-value-field.png)
+
+:::tip KeyValue Fields On The Index
+
+By default, Nova will never display a `KeyValue` field on a resource index listing.
 :::
 
 ### Markdown Field
