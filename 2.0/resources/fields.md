@@ -145,7 +145,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Heading](#heading-field)
 - [ID](#id-field)
 - [Image](#image-field)
-- [KeyValue](#key-value-field)
+- [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
 - [Number](#number-field)
 - [Password](#password-field)
