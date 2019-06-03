@@ -219,22 +219,25 @@ At this time, Nova does not support attaching `File` fields to a queued action. 
 
 #### Customizing The Connection And Queue
 
-You may customize the queue connection and queue name that the action is queued on by defining the `$connection` and `$queue` properties on your action:
+You may customize the queue connection and queue name that the action is queued on by defining the `$connection` and `$queue` properties in your action:
 
 ```php
-/**
- * The name of the connection the job should be sent to.
- *
- * @var string|null
- */
-public $connection = 'redis';
+public function handle( ActionFields $fields, Collection $models ) {
 
-/**
- * The name of the queue the job should be sent to.
- *
- * @var string|null
- */
-public $queue = 'emails';
+    /**
+     * The name of the connection the job should be sent to.
+     *
+     * @var string|null
+     */
+    $this->connection = 'redis';
+
+    /**
+     * The name of the queue the job should be sent to.
+     *
+     * @var string|null
+     */
+    $this->queue = 'emails';
+    
 ```
 
 ## Action Log
