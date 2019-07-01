@@ -147,6 +147,8 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 Nova 2.0 is primarily a maintenance release to provide compatibility with Laravel 5.8. Nova 2.0 should **only** be used with Laravel 5.8, as it is not compatible with previous releases of Laravel.
 
+Update your `laravel/nova` dependency to ~2.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
+
 Your Nova resources will not require any changes during this upgrade; however, you should review the entire [Laravel 5.8 upgrade guide](https://laravel.com/docs/5.8/upgrade).
 
 ## Customizing Nova's Authentication Guard
