@@ -179,3 +179,16 @@ By default, Nova Resources are displayed using the "simple" style. However, you 
 ```php
 'pagination' => 'links',
 ```
+
+## Customizing Pagination
+
+If you'd like to customize the amounts shown on each resource's "per page" filter menu, you can do so by customizing its `perPageOptions` property on a Resource:
+
+```php
+/**
+ * The pagination per-page options configured for this resource.
+ *
+ * @return array
+ */
+public static $perPageOptions = [50, 100, 150];
+```
