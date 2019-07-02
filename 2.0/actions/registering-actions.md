@@ -42,6 +42,31 @@ public function actions(Request $request)
 }
 ```
 
+## Authorizing Actions Per-Resource
+
+Sometimes it is useful to conditionally show an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\CancelTrial)->canSee(function ($request) {
+            return optional($request->findModelQuery()->first())->isOnTrial();
+        }),
+    ];
+}
+```
+
+:::warning
+It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, it's important to check for the existence of the model, instead of assuming one is available.
+:::
+
 #### The `canRun` Method
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
