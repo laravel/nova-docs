@@ -182,24 +182,28 @@ protected function gate()
 To update your Nova installation, you may simply download a release Zip file from the Nova website.
 
 :::tip Composer Installations
-
 Of course, if you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
 :::
 
-After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
+After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update`:
 
 ```bash
 composer update
+```
 
+### Updating Nova's assets
+
+After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using `nova:publish` and clear any cached views with `view:clear`. This will ensure the newly-updated Nova version is using the latest versions.
+
+```bash
 php artisan nova:publish
+php artisan view:clear
 ```
 
 The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
 
 ```bash
 php artisan nova:publish --force
-
-php artisan view:clear
 ```
 
 ## Bug Reports
