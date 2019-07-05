@@ -28,7 +28,7 @@ In the case that the theme service provider is not automatically registered, you
 ],
 ```
 
-### Assets
+### Theme CSS
 
 When Nova generates your theme, a `resources/css/theme.css` file is generated for you. This file contains your theme's styles. Inside you will find some example values already in place for you to edit:
 
@@ -61,7 +61,7 @@ When Nova generates your theme, a `resources/css/theme.css` file is generated fo
 }
 ```
 
-#### Compiling Assets
+### Compiling Assets
 
 Your Nova theme contains a `webpack.mix.js` file, which is generated when Nova creates your theme. You may build your theme using the NPM `dev` and `prod` commands:
 

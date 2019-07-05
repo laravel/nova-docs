@@ -52,7 +52,8 @@ module.exports = [
       "cards",
       "fields",
       "frontend",
-      "filters"
+      "filters",
+      "themes"
     ])
   }
   // {
