@@ -153,7 +153,7 @@ Your Nova resources will not require any changes during this upgrade; however, y
 
 ## Customizing Nova's Authentication Guard
 
-Nova uses the default authentication guard defined in you `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration.
+Nova uses the default authentication guard defined in your `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration.
 
 ## Authorizing Nova
 
