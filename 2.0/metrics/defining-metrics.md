@@ -336,7 +336,7 @@ return $this->countByDays($request, User::class)
             ->prefix('$');
 ```
 
-If your trend metric is displaying a monetary value, you may use the `dollars` and `euros` short-cut methods for quickly prefixing a dollar or euro sign to the trend values:
+If your trend metric is displaying a monetary value, you may use the `dollars` and `euros` short-cut methods for quickly prefixing a Dollar or Euro sign to the trend values:
 
 ```php
 return $this->countByDays($request, User::class)
