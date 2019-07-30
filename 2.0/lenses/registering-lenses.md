@@ -65,7 +65,7 @@ public function lenses(Request $request)
 
 # Actions
 
-Lenses by default will inherit their actions from the parent `Resource` class. However, you may wish for your Lenses to have their own separate set of Actions tailorwed specifically for them. You can do this by defining the `actions` method on your Lens class:
+Lenses by default will inherit their actions from the parent `Resource` class. However, you may wish for your Lenses to have their own separate set of Actions tailored specifically for them. You can do this by defining the `actions` method on your Lens class:
 
 ```php
 /**
