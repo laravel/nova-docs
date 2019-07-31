@@ -158,7 +158,7 @@ If a resource contains an `Avatar` field, that field will be displayed next to t
 
 ### Badge Field
 
-The `Badge` field can be used to display the status of a `Resource` in the index and detail views.
+The `Badge` field can be used to display the status of a `Resource` in the index and detail views:
 
 ```php
 use Laravel\Nova\Fields\Badge;
@@ -168,7 +168,7 @@ Badge::make('Status', function () {
 });
 ```
 
-By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning` however, you can override the mapping by passing an associative array of your `Resource` types to the built-in types:
+By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning`; however, you can override this mapping by passing an associative array of your `Resource` types to the built-in types:
 
 ```php
 Badge::make('Status')->map([
@@ -186,7 +186,7 @@ Badge::make('Status')->types([
 ]);
 ```
 
-By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field, specifying the `onlyOnForms` option.
+By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field in combination with the `onlyOnForms` field option.
 
 ### Boolean Field
 
