@@ -262,7 +262,7 @@ Date::make('Birthday')->format('DD MMM'),
 
 #### Customize First Day Of Week
 
-You can customize the first day of the week with the `firstDayOfWeek` method.
+You can customize the first day of the week using the `firstDayOfWeek` method:
 
 ```php
 Date::make('Birthday')->firstDayOfWeek(1), // First day of the week is Monday
