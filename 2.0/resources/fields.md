@@ -260,6 +260,14 @@ You may customize the display format of your `Date` fields using the `format` me
 Date::make('Birthday')->format('DD MMM'),
 ```
 
+#### Customize First Day Of Week
+
+You can customize the first day of the week using the `firstDayOfWeek` method:
+
+```php
+Date::make('Birthday')->firstDayOfWeek(1), // First day of the week is Monday
+```
+
 ### DateTime Field
 
 The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
