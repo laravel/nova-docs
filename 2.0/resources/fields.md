@@ -118,6 +118,7 @@ This portion of the documentation only discusses non-relationship fields. To lea
 Nova ships with a variety of field types. So, let's explore all of the available types and their options:
 
 - [Avatar](#avatar-field)
+- [Badge](#badge-field)
 - [Boolean](#boolean-field)
 - [Code](#code-field)
 - [Country](#country-field)
@@ -154,6 +155,38 @@ Avatar::make('Avatar')
 If a resource contains an `Avatar` field, that field will be displayed next to the resource's title when the resource is displayed in search results:
 
 ![Avatar Search Results](./img/avatar-search-results.png)
+
+### Badge Field
+
+The `Badge` field can be used to display the status of a `Resource` in the index and detail views:
+
+```php
+use Laravel\Nova\Fields\Badge;
+
+Badge::make('Status', function () {
+    return User::statuses[$this->status];
+});
+```
+
+By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning`; however, you can override this mapping by passing an associative array of your `Resource` types to the built-in types:
+
+```php
+Badge::make('Status')->map([
+    'draft' => 'danger',
+    'published' => 'success',
+]);
+```
+
+You can also use `types` to completely replace the built-in types and their associate CSS classes:
+
+```php
+Badge::make('Status')->types([
+    'draft' => 'custom classes', // Classes can be a string
+    'published' => ['custom', 'class',] // Classes can also be an array
+]);
+```
+
+By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field in combination with the `onlyOnForms` field option.
 
 ### Boolean Field
 
