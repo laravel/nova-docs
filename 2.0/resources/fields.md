@@ -186,6 +186,14 @@ Badge::make('Status')->types([
 ]);
 ```
 
+If you would only like to add one or more types to the built-in ones you can use the `addTypes` method:
+
+```php
+Badge::make('Status')->addTypes([
+    'draft' => 'custom classes',
+]);
+```
+
 By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field in combination with the `onlyOnForms` field option.
 
 ### Boolean Field
