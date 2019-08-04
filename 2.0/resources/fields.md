@@ -186,7 +186,7 @@ Badge::make('Status')->types([
 ]);
 ```
 
-If you would only like to add one or more types to the built-in ones you can use the `addTypes` method:
+To supplement the built-in types you may use the `addTypes` method:
 
 ```php
 Badge::make('Status')->addTypes([
