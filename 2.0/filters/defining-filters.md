@@ -183,6 +183,20 @@ If you would like to change the filter title that is displayed in Nova's filter 
 public $name = 'Filter Title';
 ```
 
+If the name of your filter needs to be dynamic, you may create a `name` method on the filter class.
+
+```php
+/**
+ * Get the displayable name of the filter.
+ *
+ * @return string
+ */
+public function name()
+{
+    return 'Filter by '.$this->customProperty;
+}
+```
+
 ## Filter Default Values
 
 If you would like to set the default value of a filter, you may define a `default` method on the filter class:
@@ -196,5 +210,72 @@ If you would like to set the default value of a filter, you may define a `defaul
 public function default()
 {
     return true;
+}
+```
+
+## Dynamic Filters
+
+There may be times when you want to create a dynamic filter, which filters on different columns. Aside from passing through the column name that we want to filter in the constructor, we'll also need to override the `key` method, so that Nova runs the correct filter.
+
+Let's take a look at an example `TimestampFilter` filter:
+
+```php
+<?php
+
+namespace App\Nova\Filters;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Laravel\Nova\Filters\DateFilter;
+
+class TimestampFilter extends DateFilter
+{
+    protected $column;
+
+    public function __construct($column)
+    {
+        $this->column = $column;
+    }
+
+    /**
+     * Apply the filter to the given query.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $value
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function apply(Request $request, $query, $value)
+    {
+        return $query->where($this->column, '<=', Carbon::parse($value));
+    }
+
+    /**
+     * Get the key for the filter.
+     *
+     * @return string
+     */
+    public function key()
+    {
+        return 'timestamp_'.$this->column;
+    }
+}
+```
+
+When registering this filter on the resource, we'll need to pass it the name of the column we'll want to filter against:
+
+```php
+/**
+ * Get the filters available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function filters(Request $request)
+{
+    return [
+        new Filters\TimestampFilter('created_at'),
+        new Filters\TimestampFilter('deleted_at'),
+    ];
 }
 ```
