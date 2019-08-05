@@ -183,7 +183,7 @@ If you would like to change the filter title that is displayed in Nova's filter 
 public $name = 'Filter Title';
 ```
 
-If the name of your filter needs to be dynamic, you may create a `name` method on the filter class.
+If the name of your filter needs to be dynamic, you should create a `name` method on the filter class:
 
 ```php
 /**
@@ -193,7 +193,7 @@ If the name of your filter needs to be dynamic, you may create a `name` method o
  */
 public function name()
 {
-    return 'Filter by '.$this->customProperty;
+    return 'Filter By '.$this->customProperty;
 }
 ```
 
@@ -215,9 +215,7 @@ public function default()
 
 ## Dynamic Filters
 
-There may be times when you want to create a dynamic filter, which filters on different columns. Aside from passing through the column name that we want to filter in the constructor, we'll also need to override the `key` method, so that Nova runs the correct filter.
-
-Let's take a look at an example `TimestampFilter` filter:
+There may be times when you want to create a dynamic filter which filters on different columns. In addition to passing the column name that we want to filter on in the constructor, we'll also need to override the `key` method so that Nova runs the correct version of the filter. Let's take a look at an example `TimestampFilter` filter:
 
 ```php
 <?php
@@ -230,8 +228,19 @@ use Laravel\Nova\Filters\DateFilter;
 
 class TimestampFilter extends DateFilter
 {
+    /**
+     * The column that should be filtered on.
+     *
+     * @var string
+     */
     protected $column;
 
+    /**
+     * Create a new filter instance.
+     *
+     * @param  string  $column
+     * @return void
+     */
     public function __construct($column)
     {
         $this->column = $column;
@@ -262,7 +271,7 @@ class TimestampFilter extends DateFilter
 }
 ```
 
-When registering this filter on the resource, we'll need to pass it the name of the column we'll want to filter against:
+When registering the filter on a resource, pass the name of the column you wish to filter on:
 
 ```php
 /**
