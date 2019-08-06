@@ -63,7 +63,7 @@ When Nova generates your theme, a `resources/css/theme.css` file is generated fo
 
 ### Compiling Assets
 
-Your Nova theme contains a `webpack.mix.js` file, which is generated when Nova creates your theme. You may build your theme using the NPM `dev` and `prod` commands:
+You may build your theme using the NPM `dev` and `prod` commands:
 
 ```bash
 // Compile your assets for local development...
