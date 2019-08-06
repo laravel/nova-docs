@@ -98,8 +98,9 @@ You may designate an action as destructive or dangerous by having your action cl
 
 ![Destructive Action](./img/action-destructive.png)
 
-::: warning Destructive Actions and Policies
-When a destructive action is added to a resource  with a policy, the `delete` method must return `true` for the action to run.
+::: warning Destructive Actions & Policies
+
+When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 :::
 
 ## Action Fields
