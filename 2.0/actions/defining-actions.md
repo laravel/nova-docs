@@ -176,6 +176,19 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
+#### Vue Redirect Responses
+
+For a internal redirect, you may use the `Action::redirectRouter` method:
+
+```php
+return Action::redirectRouter('/nova/resources/users');
+```
+You can also add optional query parameters :
+
+```php
+return Action::redirectRouter('/resources/users', ['users_per_page' => 100]);
+```
+
 #### Download Responses
 
 To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
