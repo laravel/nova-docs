@@ -555,7 +555,7 @@ When using the `Place` field as a city search, the `state` and `country` fields 
 
 #### Configuring Field Auto-Completion
 
-By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, `country`, `latitude` and `longitude`. However, you may customize the field names that should be auto-completed using the following methods:
+By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, `suburb`, `country`, `latitude` and `longitude`. However, you may customize the field names that should be auto-completed using the following methods:
 
 - `secondAddressLine($column)`
 - `city($column)`
