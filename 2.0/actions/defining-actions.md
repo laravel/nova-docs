@@ -98,6 +98,10 @@ You may designate an action as destructive or dangerous by having your action cl
 
 ![Destructive Action](./img/action-destructive.png)
 
+::: warning Destructive Actions and Policies
+When a destructive action is added to a resource  with a policy, the `delete` method must return `true` for the action to run.
+:::
+
 ## Action Fields
 
 Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
