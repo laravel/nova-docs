@@ -561,6 +561,18 @@ Select::make('Size')->options([
 ])->displayUsingLabels()
 ```
 
+If your options are dynamically generated you may pass a `Closure`:
+
+```php
+Select::make('Size')->options(function () {
+    return array_filter([
+        Size::SMALL => Size::MAX_SIZE === SIZE_SMALL ? 'Small' : null,
+        Size::MEDIUM => Size::MAX_SIZE === SIZE_MEDIUM ? 'Medium' : null,
+        Size::LARGE => Size::MAX_SIZE === SIZE_LARGE ? 'Large' : null,
+    ]);
+});
+```
+
 ### Status Field
 
 The `Status` field may be used to display a "progress state" column. Internally, Nova uses the `Status` field to indicate the current state (waiting, running, or finished) of queued actions. However, you are free to use this field for your own purposes as needed:
