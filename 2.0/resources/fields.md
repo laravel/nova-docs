@@ -475,6 +475,7 @@ protected function addressFields()
         Text::make('City')->hideFromIndex(),
         Text::make('State')->hideFromIndex(),
         Text::make('Postal Code')->hideFromIndex(),
+        Text::make('Suburb')->hideFromIndex(),
         Country::make('Country')->hideFromIndex(),
         Text::make('Latitude')->hideFromIndex(),
         Text::make('Longitude')->hideFromIndex(),
@@ -511,6 +512,7 @@ By default, the place field will auto-complete the associated address fields bas
 - `city($column)`
 - `state($column)`
 - `postalCode($column)`
+- `suburb($column)`
 - `country($column)`
 
 For example:
@@ -521,6 +523,7 @@ Place::make('Address', 'address_line_1')
     ->city('city_name')
     ->state('state_code')
     ->postalCode('zip_code')
+    ->suburb('suburb')
     ->country('country_code')
     ->latitude('latitude')
     ->longitude('longitude')
