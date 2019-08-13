@@ -91,6 +91,7 @@ public function boot()
     Nova::serving(function (ServingNova $event) {
         Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
         Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
+        Nova::translations(__DIR__.'/../resources/lang/en/age-range.json');
     });
 }
 ```

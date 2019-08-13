@@ -152,6 +152,7 @@ public function boot()
     Nova::serving(function (ServingNova $event) {
         Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
         Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
+        Nova::translations(__DIR__.'/../resources/lang/en/card.json');
     });
 }
 ```

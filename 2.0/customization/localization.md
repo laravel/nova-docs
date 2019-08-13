@@ -142,3 +142,21 @@ public function name()
     return __('Total Users');
 }
 ```
+
+### Frontend
+
+To propagate your localizations to the frontend, you may use `Nova::translations` within your `NovaServiceProvider`:
+
+```php
+Nova::translations($pathToFile);
+```
+
+You may also pass an array of key / value pairs for each string:
+
+```php
+Nova::translations([
+    'Total Users' => 'Total Users'
+]);
+```
+
+You can use the same `__` helper within your custom Vue components to access these translations.
