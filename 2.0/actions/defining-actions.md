@@ -181,6 +181,16 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
+To redirect the user to an internal route use:
+
+```php
+return Action::push('/resources/posts/new', [
+    'viaResource' => 'users',
+    'viaResourceId' => 1,
+    'viaRelationship' => 'posts',
+]);
+```
+
 #### Download Responses
 
 To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
