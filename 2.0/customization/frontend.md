@@ -26,6 +26,10 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 })
 ```
 
+### Localizations
+
+Localizations can be passed to the frontend from within your `NovaServiceProvider`. To learn more, check out the [full custom localization documentation](./../customization/localization#Frontend).
+
 ### Event Bus
 
 The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by Vue](https://vuejs.org/v2/api/#Instance-Methods-Events):
