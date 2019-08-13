@@ -28,7 +28,7 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 
 ### Localizations
 
-Localizations can be passed to the frontend from within your `NovaServiceProvider`. [Read more](./../customization/localization#Frontend).
+Localizations can be passed to the frontend from within your `NovaServiceProvider`. To learn more, check out the [full custom localization documentation](./../customization/localization#Frontend).
 
 ### Event Bus
 

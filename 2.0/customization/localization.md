@@ -145,13 +145,13 @@ public function name()
 
 ### Frontend
 
-To propagate your localizations to the frontend, you may use `Nova::translations` within your `NovaServiceProvider`:
+To propagate your localizations to the frontend, you should call the `Nova::translations`method within your `NovaServiceProvider`:
 
 ```php
 Nova::translations($pathToFile);
 ```
 
-You may also pass an array of key / value pairs for each string:
+You may also pass an array of key / value pairs representing each localization:
 
 ```php
 Nova::translations([
@@ -159,4 +159,4 @@ Nova::translations([
 ]);
 ```
 
-You can use the same `__` helper within your custom Vue components to access these translations.
+As in Laravel, you may use the `__` helper within your custom Vue components to access these translations.
