@@ -610,9 +610,9 @@ Text::make('Name')->withMeta(['extraAttributes' => [
 ])
 ```
 
-#### Formatting text as a link
+#### Formatting Text As Links
 
-It is possible to format a Text field as a link:
+To format text as a link, you may use the `asHtml` method:
 
 ```php
 Text::make('Twitter Profile', function () {
