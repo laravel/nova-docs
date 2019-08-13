@@ -610,6 +610,18 @@ Text::make('Name')->withMeta(['extraAttributes' => [
 ])
 ```
 
+#### Formatting Text As Links
+
+To format text as a link, you may use the `asHtml` method:
+
+```php
+Text::make('Twitter Profile', function () {
+    $username = $this->twitterUsername;
+
+    return '<a href="https://twitter.com/{$username}">@{$username}</a>';
+})->asHtml()
+```
+
 ### Textarea Field
 
 The `Textarea` field provides a `textarea` control:
