@@ -150,10 +150,10 @@ When using the `storeOriginalName` method, the file field's "Download" link with
 
 ## Pruning & Deletion
 
-The `deletable` method will instruct Nova to allow users to delete the file:
+File fields are deletable by default, but you can override this behavior by using the `deletable` method:
 
 ```php
-File::make('Photo')->disk('public')->deletable()
+File::make('Photo')->disk('public')->deletable(false)
 ```
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
