@@ -47,6 +47,7 @@ module.exports = [
     collapsable: false,
     children: prefix("customization", [
       "localization",
+      "dashboards",
       "tools",
       "resource-tools",
       "cards",
