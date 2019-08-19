@@ -56,6 +56,21 @@ You may chain any of these methods onto your field's definition in order to inst
 Text::make('Name')->hideFromIndex()
 ```
 
+Alternatively, you may pass a callback to the following methods.
+
+- `hideFromIndex`
+- `hideFromDetail`
+- `hideWhenCreating`
+- `hideWhenUpdating`
+
+The field will be hidden if the given callback returns `true`:
+
+```php
+Text::make('Name')->hideWhenUpdating(function () {
+    return $this->name === 'Taylor Otwell';
+});
+```
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
