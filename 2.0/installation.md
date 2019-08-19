@@ -191,8 +191,6 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 
 ```bash
 php artisan nova:publish --force
-
-php artisan view:clear
 ```
 
 ## Bug Reports
