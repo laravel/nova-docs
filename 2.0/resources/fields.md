@@ -56,7 +56,7 @@ You may chain any of these methods onto your field's definition in order to inst
 Text::make('Name')->hideFromIndex()
 ```
 
-You may optionally pass a callback that returns a bool to following methods:
+You may optionally pass a callback that returns `true` to following methods:
 
 - `hideFromIndex`
 - `hideFromDetail`
