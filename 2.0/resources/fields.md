@@ -56,14 +56,14 @@ You may chain any of these methods onto your field's definition in order to inst
 Text::make('Name')->hideFromIndex()
 ```
 
-You may optionally pass a callback that returns `true` to following methods:
+Alternatively, you may pass a callback to the following methods.
 
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
 - `hideWhenUpdating`
 
-For example:
+The field will be hidden if the given callback returns `true`:
 
 ```php
 Text::make('Name')->hideWhenUpdating(function () {
