@@ -41,6 +41,10 @@ Often, you will only want to display a field in certain situations. For example,
 
 The following methods may be used to show / hide fields based on the display context:
 
+- `showOnIndex`
+- `showOnDetail`
+- `showOnCreating`
+- `showOnUpdating`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -58,15 +62,27 @@ Text::make('Name')->hideFromIndex()
 
 Alternatively, you may pass a callback to the following methods.
 
+- `showOnIndex`
+- `showOnDetail`
+- `showOnCreating`
+- `showOnUpdating`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
 - `hideWhenUpdating`
 
-The field will be hidden if the given callback returns `true`:
+For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideWhenUpdating(function () {
+Text::make('Name')->showOnIndex(function () {
+    return $this->name === 'Taylor Otwell';
+});
+```
+
+For `hide*` methods, the field will be hidden if the given callback returns `true`:
+
+```php
+Text::make('Name')->hideFromIndex(function () {
     return $this->name === 'Taylor Otwell';
 });
 ```
