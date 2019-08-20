@@ -168,14 +168,42 @@ You may press the `C` key on a resource index to navigate to the "Create Resourc
 
 ## Pagination
 
-Nova has the ability to show pagination links for your Resource listings in two different styles: a beautiful "simple" style which uses "Previous" and "Next" links and a more-traditional page-based "links" format:
+Nova has the ability to show pagination links for your Resource listings. You can choose between three different styles: "simple", "load-more", and "links", depending on your application's needs:
 
 ![Simple Pagination](./img/simple-pagination.png)
 
+![Load-more Pagination](./img/load-more-pagination.png)
+
 ![Links Pagination](./img/links-pagination.png)
 
-By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use the "links" style. You can enable this by setting the `pagination` option in your `config/nova.php` configuration file:
+By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use either the "load-more" or "links" style. You can enable this by setting the `pagination` option in your `config/nova.php` configuration file:
 
 ```php
 'pagination' => 'links',
 ```
+
+## Customizing Pagination
+
+If you'd like to customize the pagination amounts shown on each resource's "per page" filter menu, you can do so by customizing its `perPageOptions` property:
+
+```php
+/**
+ * The pagination per-page options configured for this resource.
+ *
+ * @return array
+ */
+public static $perPageOptions = [50, 100, 150];
+```
+
+Alternatively, you can override the `perPageOptions` method on the `Resource`:
+
+```php
+public static function perPageOptions()
+{
+    return [50, 100, 150];
+}
+```
+
+:::tip Customizing `perPageOptions` affects the initial amount of resources fetched.
+Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
+:::
