@@ -71,10 +71,18 @@ Alternatively, you may pass a callback to the following methods.
 - `hideWhenCreating`
 - `hideWhenUpdating`
 
-The field will be displayed if the given callback returns `true`:
+For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideWhenUpdating(function () {
+Text::make('Name')->showOnIndex(function () {
+    return $this->name === 'Taylor Otwell';
+});
+```
+
+For `hide*` methods, the field will be hidden if the given callback returns `true`:
+
+```php
+Text::make('Name')->hideFromIndex(function () {
     return $this->name === 'Taylor Otwell';
 });
 ```
