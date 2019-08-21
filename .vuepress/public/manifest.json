@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/index.html",
+    "start_url": "/2.0/installation.html",
     "display": "standalone",
     "background_color": "#ddd",
     "theme_color": "#4099DE"
