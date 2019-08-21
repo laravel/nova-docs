@@ -3,6 +3,8 @@ module.exports = {
   description: "Master Your Universe",
   base: "/docs/",
 
+  serviceWorker: true,
+
   plugins: [
     '@vuepress/pwa',
     require('./plugins/metaVersion.js')
@@ -18,6 +20,21 @@ module.exports = {
         type: "text/css"
       }
     ],
+    // Used for PWA
+    [
+      "link",
+      {
+        rel: 'manifest',
+        href: '/manifest.json'
+      }
+    ],
+    [
+      "link",
+      {
+        rel: 'icon',
+        href: '/icon.png'
+      }
+    ]
   ],
 
   themeConfig: {
