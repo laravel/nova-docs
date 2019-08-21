@@ -4,7 +4,8 @@ module.exports = {
   base: "/docs/",
 
   plugins: [
-    '@vuepress/pwa'
+    '@vuepress/pwa',
+    require('./plugins/metaVersion.js')
   ],
 
   head: [
@@ -17,13 +18,6 @@ module.exports = {
         type: "text/css"
       }
     ],
-    [
-      "meta",
-      {
-        name: "docsearch:version",
-        content: "2.0.0"
-      }
-    ]
   ],
 
   themeConfig: {
