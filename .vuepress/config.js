@@ -3,6 +3,10 @@ module.exports = {
   description: "Master Your Universe",
   base: "/docs/",
 
+  plugins: [
+    '@vuepress/pwa'
+  ],
+
   head: [
     [
       "link",

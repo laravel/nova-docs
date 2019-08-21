@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "vuepress": "^0.14.5"
+    "@vuepress/plugin-pwa": "^1.0.3",
+    "vuepress": "^1.0.3"
   },
   "scripts": {
     "start": "npm run docs:dev",
