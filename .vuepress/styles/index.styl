@@ -56,7 +56,7 @@ h2
     background-image linear-gradient(0deg, #7e8ea1 0%, #3c4655 100%)
 
   .sidebar-heading
-    padding 0 1.7rem
+    padding 0 1.4rem
     margin-bottom: 0.5rem
 
   .sidebar-group:not(.first)
@@ -130,15 +130,15 @@ h5 .header-anchor:hover,
 h6 .header-anchor:hover
   text-decoration none !important
 
-.content:not(.custom)
+.theme-default-content:not(.custom)
   padding 4rem 2.5rem 1rem
 
-.content img {
+.theme-default-content img {
   border-radius: 6px
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05)
 }
 
-.content img {
+.theme-default-content img {
   zoom: 50%;
 }
 
@@ -172,7 +172,7 @@ h6 .header-anchor:hover
 
 /* Prev/Next Links
 -----------------------------------------------------------------------------*/
-@require './override'
+// @require './override'
 
 $tipColor = #A48CD3
 
@@ -227,11 +227,11 @@ div[class*="language-"]
   -moz-osx-font-smoothing subpixel-antialiased
   box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
 
-.content pre, .content pre[class*="language-"]
+.theme-default-content pre, .theme-default-content pre[class*="language-"]
   line-height 1.7
 
-.content pre code, .content pre[class*="language-"] code
-  color #666
+.theme-default-content pre code, .theme-default-content pre[class*="language-"] code
+  color #666 !important
 
 div[class~="language-php"]:before
   content "php"
