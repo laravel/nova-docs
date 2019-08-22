@@ -120,7 +120,7 @@ public function calculate(Request $request)
                 ->prefix('$')
                 ->suffix('per unit');
 }
-````
+```
 
 You may also use the `currency` method to specify the prefix for the result. By default the currency symbol will be `$`, but you may also pass in your own symbol:
 
@@ -130,7 +130,7 @@ public function calculate(Request $request)
     return $this->count($request, User::class)
                 ->currency('£');
 }
-````
+```
 
 To customize the display format, you can use the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
 
@@ -141,7 +141,6 @@ public function calculate(Request $request)
                 ->format('0,0');
 }
 ```
-
 
 ### Value Ranges
 
