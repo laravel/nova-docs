@@ -877,6 +877,28 @@ Text::make('Last Name')->help(
 );
 ```
 
+### Field Stacking
+
+By default, Nova displays fields next to their labels, however some fields like "Code", "Markdown", and "Trix" may be better suited to a wider size. Fields can be stacked underneath their label using the `stacked` method:
+
+```php
+Trix::make('Content')->stacked();
+```
+
+### Field Text Alignment
+
+You may change the text alignment of fields by using the `textAlign` method:
+
+```php
+Text::make('Phone Number')->textAlign('left');
+```
+
+The following alignments are valid:
+
+- `left`
+- `center`
+- `right`
+
 ### Field Resolution / Formatting
 
 The `resolveUsing` method allows you to customize how a field is formatted after it is retrieved from your database but before it is sent to the Nova front-end. This method accepts a callback which receives the raw value of the underlying database column:
