@@ -868,6 +868,14 @@ Text::make('Last Name')->help(
 );
 ```
 
+### Field Stacking
+
+By default, Nova displays fields next to their labels, however some fields like; Code, Markdown and Trix may be better suited to a wider size and can be stacked underneath their label by using the `stacked` method:
+
+```php
+Trix::make('Content')->stacked();
+```
+
 ### Field Text Alignment
 
 You may change the text alignment of fields by using the `textAlign` method:
