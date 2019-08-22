@@ -132,7 +132,7 @@ public function calculate(Request $request)
 }
 ```
 
-To customize the display format, you can use the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+To customize the display format, you can use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/format.html):
 
 ```php
 public function calculate(Request $request)
