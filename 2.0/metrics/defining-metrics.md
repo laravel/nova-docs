@@ -122,6 +122,10 @@ public function calculate(Request $request)
 }
 ````
 
+:::tip Disable Suffix Singular / Plural Conversion
+You may pass `false` as the second argument to the `suffix` method to prevent Nova from pluralising the suffix value.
+:::
+
 You may also use the `currency` method to specify the prefix for the result. By default the currency symbol will be `$`, but you may also pass in your own symbol:
 
 ```php
