@@ -41,7 +41,7 @@ Field names may be localized when you attach the field to your resource. The fir
 ```php
 use Laravel\Nova\Fields\Text;
 
-Text::make(__('Email Address'), 'email_address')
+Text::make(__('Email Address'), 'email_address');
 ```
 
 ### Relationships
@@ -52,7 +52,7 @@ Relationship field names may be customized by localizing the first argument pass
 use App\Nova\Post;
 use Laravel\Nova\Fields\HasMany;
 
-HasMany::make(__('Posts'), 'posts', Post::class)
+HasMany::make(__('Posts'), 'posts', Post::class);
 ```
 
 In addition, you should also override the `label` and `singularLabel` methods on the resource:

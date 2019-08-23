@@ -15,7 +15,7 @@ Next, let's attach the file field to our `User` resource. In this example, we wi
 ```php
 use Laravel\Nova\Fields\File;
 
-File::make('Profile Photo')->disk('public')
+File::make('Profile Photo')->disk('public');
 ```
 
 ### Disabling File Downloads
@@ -68,13 +68,13 @@ The `Image` field behaves exactly like the `File` field; however, instead of onl
 ```php
 use Laravel\Nova\Fields\Image;
 
-Image::make('Profile Photo')->disk('public')
+Image::make('Profile Photo')->disk('public');
 ```
 
 To set the width of the `Image` field when being displayed, you can use the `maxWidth` method:
 
 ```php
-Image::make('Profile Photo')->maxWidth(100)
+Image::make('Profile Photo')->maxWidth(100);
 ```
 
 You can also use the `maxWidth` method on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
@@ -86,7 +86,7 @@ The `Avatar` field behaves exactly like the `File` field; however, instead of on
 ```php
 use Laravel\Nova\Fields\Avatar;
 
-Avatar::make('Poster')->disk('public')
+Avatar::make('Poster')->disk('public');
 ```
 
 In addition to displaying a thumbnail preview of the underlying file, an `Avatar` field will also be automatically displayed in Nova search results. An `Avatar` field is not limited to "user" resources - you may attach `Avatar` fields to any resource within your Nova application:
@@ -140,7 +140,7 @@ Route::get('/download', function () {
     return Storage::download(
         $user->attachment, $user->attachment_name
     );
-})
+});
 ```
 
 :::tip File Downloads
@@ -153,13 +153,13 @@ When using the `storeOriginalName` method, the file field's "Download" link with
 File fields are deletable by default, but you can override this behavior by using the `deletable` method:
 
 ```php
-File::make('Photo')->disk('public')->deletable(false)
+File::make('Photo')->disk('public')->deletable(false);
 ```
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
 
 ```php
-File::make('Profile Photo')->disk('public')->prunable()
+File::make('Profile Photo')->disk('public')->prunable();
 ```
 
 :::warning Non-Nova Deletes
@@ -185,7 +185,7 @@ File::make('Attachment')
     ->path($request->user()->id.'-attachments')
     ->storeAs(function (Request $request) {
         return sha1($request->attachment->getClientOriginalName());
-    })
+    });
 ```
 
 #### Customizing The Entire Storage Process
@@ -202,7 +202,7 @@ File::make('Attachment')
             'attachment_name' => $request->attachment->getClientOriginalName(),
             'attachment_size' => $request->attachment->getSize(),
         ];
-    })
+    });
 ```
 
 As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
@@ -212,7 +212,7 @@ As you can see in the example above, the `store` callback is returning an array 
 Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
 ```php
-File::make('Attachment')->store(new StoreAttachment)
+File::make('Attachment')->store(new StoreAttachment);
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -268,7 +268,7 @@ File::make('Attachment')
             'attachment_name' => null,
             'attachment_size' => null,
         ];
-    })
+    });
 ```
 
 As you can see in the example above, the `delete` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored. Typically, when deleting a field, you will insert `NULL` into the relevant database columns.
@@ -278,7 +278,7 @@ As you can see in the example above, the `delete` callback is returning an array
 Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
 
 ```php
-File::make('Attachment')->delete(new DeleteAttachment)
+File::make('Attachment')->delete(new DeleteAttachment);
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -335,7 +335,7 @@ Image::make('Profile Photo')
         return $value
                     ? Storage::disk($disk)->url($value)
                     : null;
-    })
+    });
 ```
 
 :::tip Preview Size
@@ -359,7 +359,7 @@ Image::make('Profile Photo')
         return $value
                     ? Storage::disk($disk)->url($value)
                     : null;
-    })
+    });
 ```
 
 :::tip Thumbnail Size
