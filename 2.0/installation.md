@@ -218,19 +218,11 @@ To ensure Nova's assets are updated when a new version is downloaded, you may ad
 }
 ```
 
-## 3rd Party Package Installation
+## Code Distribution
 
-Offering Nova support to 3rd party Laravel packages is perfectly acceptable. Distributing the Nova source code in your package is not permitted. Distributing your own Nova "resources" & other custom Nova components is permiitted. For example: a "Laravel comments" package can advertise "Nova Support", meaning the package automatically registers a `Comment` resource for managing comments.
+Nova's license does not allow the public distribution of its source code. So, you may not build an application using Nova and distribute that application public via open source repository hosting platforms or any other code distribution platform.
 
-Check that Nova exists & add resources in your package's service provider like so:
-
-```php
-if (class_exists(\Laravel\Nova\Nova::class)) {
-    \Laravel\Nova\Nova::resources([
-        \Package\Nova\Comment::class,
-    ]);
-}
-```
+If you would like to develop a third party package that augments Nova's functionality, you are free to do so. However, you may not distribute the Nova source code along with your package.
 
 ## Bug Reports
 
