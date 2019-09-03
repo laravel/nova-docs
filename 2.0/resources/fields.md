@@ -436,6 +436,8 @@ By default, the `Image` field allows the user to download the linked file. To di
 Image::make('Photo')->disableDownload();
 ```
 
+You may use the `squaredThumbnail` method to display the thumbnail as a square instead of the default circle.
+
 :::tip File Fields
 
 To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
