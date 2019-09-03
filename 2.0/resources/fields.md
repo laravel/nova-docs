@@ -187,6 +187,8 @@ If a resource contains an `Avatar` field, that field will be displayed next to t
 
 ![Avatar Search Results](./img/avatar-search-results.png)
 
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+
 ### Badge Field
 
 The `Badge` field can be used to display the status of a `Resource` in the index and detail views:
@@ -382,6 +384,8 @@ Gravatar::make()
 Gravatar::make('Avatar', 'email_address')
 ```
 
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+
 ### Heading Field
 
 The `Heading` field does not correspond to any column in your application's database. It is used to display a banner across your forms and can function as a separator for long lists of fields:
@@ -436,7 +440,7 @@ By default, the `Image` field allows the user to download the linked file. To di
 Image::make('Photo')->disableDownload();
 ```
 
-You may use the `squaredThumbnail` method to display the thumbnail as a square instead of the default circle.
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
 
 :::tip File Fields
 
