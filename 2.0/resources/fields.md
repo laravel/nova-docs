@@ -141,7 +141,7 @@ You may limit the amount of fields shown in a panel by using the `limit` method:
 ]))->limit(1),
 ```
 
-Panels with a limit will display a **Show All Fields** link which will load display the remaining fields.
+Panels with a limit set will display a **Show All Fields** button which shows all fields when clicked.
 
 ## Sortable Fields
 
