@@ -41,6 +41,10 @@ Often, you will only want to display a field in certain situations. For example,
 
 The following methods may be used to show / hide fields based on the display context:
 
+- `showOnIndex`
+- `showOnDetail`
+- `showOnCreating`
+- `showOnUpdating`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -58,15 +62,27 @@ Text::make('Name')->hideFromIndex();
 
 Alternatively, you may pass a callback to the following methods.
 
+- `showOnIndex`
+- `showOnDetail`
+- `showOnCreating`
+- `showOnUpdating`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
 - `hideWhenUpdating`
 
-The field will be hidden if the given callback returns `true`:
+For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideWhenUpdating(function () {
+Text::make('Name')->showOnIndex(function () {
+    return $this->name === 'Taylor Otwell';
+});
+```
+
+For `hide*` methods, the field will be hidden if the given callback returns `true`:
+
+```php
+Text::make('Name')->hideFromIndex(function () {
     return $this->name === 'Taylor Otwell';
 });
 ```
@@ -114,6 +130,18 @@ protected function addressFields()
     ];
 }
 ```
+
+You may limit the amount of fields shown in a panel by using the `limit` method:
+
+```php
+(new Panel('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+]))->limit(1),
+```
+
+Panels with a limit set will display a **Show All Fields** button which shows all fields when clicked.
 
 ## Sortable Fields
 
@@ -170,6 +198,8 @@ Avatar::make('Avatar');
 If a resource contains an `Avatar` field, that field will be displayed next to the resource's title when the resource is displayed in search results:
 
 ![Avatar Search Results](./img/avatar-search-results.png)
+
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
 
 ### Badge Field
 
@@ -316,6 +346,14 @@ You may customize the display format of your `Date` fields using the `format` me
 Date::make('Birthday')->format('DD MMM'),
 ```
 
+To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
+
+```
+Date::make('Birthday')->pickerFormat('d.m.Y'),
+```
+
+To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
+
 #### Customize First Day Of Week
 
 You can customize the first day of the week using the `firstDayOfWeek` method:
@@ -335,6 +373,14 @@ DateTime::make('Updated At')->hideFromIndex();
 ```
 
 You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
+
+To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
+
+```
+Date::make('Birthday')->pickerFormat('d.m.Y'),
+```
+
+To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
 
 ```php
 DateTime::make('Created At')->format('DD MMM YYYY'),
@@ -365,6 +411,8 @@ Gravatar::make()
 // Using the "email_address" column...
 Gravatar::make('Avatar', 'email_address');
 ```
+
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
 
 ### Heading Field
 
@@ -419,6 +467,8 @@ By default, the `Image` field allows the user to download the linked file. To di
 ```php
 Image::make('Photo')->disableDownload();
 ```
+
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
 
 :::tip File Fields
 
