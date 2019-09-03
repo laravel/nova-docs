@@ -131,6 +131,18 @@ protected function addressFields()
 }
 ```
 
+You may limit the amount of fields shown in a panel by using the `limit` method:
+
+```php
+(new Panel('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+]))->limit(1),
+```
+
+Panels with a limit set will display a **Show All Fields** button which shows all fields when clicked.
+
 ## Sortable Fields
 
 When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
