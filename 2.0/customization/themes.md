@@ -4,7 +4,7 @@
 
 ## Overview
 
-There are times when you'd like to customize the visual style of Nova to match your brand or colors. Nova provides a few ways to customize the look and feel of the admin panel.
+There are times when you'd like the visual style of Nova to match your brand or colors. Nova provides a few ways to customize the look and feel of the admin panel.
 
 Here's a video with a quick overview of how to change the main colors of the Nova admin: [Customizing Laravel Nova's CSS and Logo](https://www.youtube.com/watch?v=InK-mRH9z5M&t=85s)
 
@@ -61,20 +61,12 @@ When Nova generates your theme, a `resources/css/theme.css` file is generated fo
 }
 ```
 
-### Compiling Assets
+### Publishing Your Theme's
 
-You may build your theme using the NPM `dev` and `prod` commands:
-
-```bash
-// Compile your assets for local development...
-npm run dev
-
-// Compile and minify your assets...
-npm run prod
-```
-
-In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
+After creating your theme, you need to place the theme's public CSS file in the `public` folder of your application. The easiest way to do this is to use the `vendor:publish` Artisan command:
 
 ```bash
-npm run watch
+php artisan vendor:publish
 ```
+
+After running this command, you will be given a list of publishable assets from the various packages installed in your application. Pick the number corresponding to the theme you just generated.

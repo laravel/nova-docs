@@ -54,6 +54,14 @@ module.exports = {
     sidebar: {
       "/1.0/": require("./1.0"),
       "/2.0/": require("./2.0")
+    },
+
+    algolia: {
+      indexName: 'laravel_nova',
+      apiKey: '5aa44fede3f10262000a8c4f046033d5',
+      algoliaOptions: {
+        facetFilters: ["version:2.0.0"]
+      }
     }
   }
 };
