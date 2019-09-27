@@ -8,6 +8,10 @@ Once an action has been attached to a resource definition, you may initiate it f
 
 ![Action](./img/action.png)
 
+If an action is enabled for dispaly on the resource's table row, you may initiate it from the resource's action dropdown menu:
+
+![Inline Action](./img/inline-actions.png)
+
 ## Overview
 
 Nova actions may be generated using the `nova:action` Artisan command. By default, all actions are placed in the `app/Nova/Actions` directory:
