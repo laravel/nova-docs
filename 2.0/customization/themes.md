@@ -61,7 +61,7 @@ When Nova generates your theme, a `resources/css/theme.css` file is generated fo
 }
 ```
 
-### Publishing Your Theme's
+### Publishing Your Themes
 
 After creating your theme, you need to place the theme's public CSS file in the `public` folder of your application. The easiest way to do this is to use the `vendor:publish` Artisan command:
 
