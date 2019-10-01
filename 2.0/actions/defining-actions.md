@@ -8,6 +8,10 @@ Once an action has been attached to a resource definition, you may initiate it f
 
 ![Action](./img/action.png)
 
+If an action is enabled for dispaly on the resource's table row, you may initiate it from the resource's action dropdown menu:
+
+![Inline Action](./img/inline-actions.png)
+
 ## Overview
 
 Nova actions may be generated using the `nova:action` Artisan command. By default, all actions are placed in the `app/Nova/Actions` directory:
@@ -34,13 +38,12 @@ use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmailAccountProfile extends Action
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable;
 
     /**
      * Perform the action on the given models.
@@ -74,23 +77,17 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 ## Action Visibility
 
-By default, actions are visible on both the resource index and detail screens. You may designate an action to be visible exclusively on either the index or detail screen by setting one of the following properties on the action:
+By default, actions are visible on both the resource index and detail screens. In addition, they are hidden from the row's actions dropdown. You may designate an action visibility by setting one of the following methods on the action when defining it:
 
-```php
-/**
- * Indicates if this action is only available on the resource index view.
- *
- * @var bool
- */
-public $onlyOnIndex = true;
-
-/**
- * Indicates if this action is only available on the resource detail view.
- *
- * @var bool
- */
-public $onlyOnDetail = true;
-```
+- `onlyOnIndex`
+- `exceptOnIndex`
+- `showOnIndex`
+- `onlyOnDetail`
+- `exceptOnDetail`
+- `showOnDetail`
+- `onlyOnTableRow`
+- `exceptOnTableRow`
+- `showOnTableRow`
 
 ## Destructive Actions
 
@@ -213,13 +210,12 @@ use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue, Queueable;
 
     // ...
 }
