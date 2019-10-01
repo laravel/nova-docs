@@ -8,7 +8,7 @@ Once an action has been attached to a resource definition, you may initiate it f
 
 ![Action](./img/action.png)
 
-If an action is enabled for dispaly on the resource's table row, you may initiate it from the resource's action dropdown menu:
+If an action is enabled for display on the resource's table row, you may initiate it from the resource's action dropdown menu:
 
 ![Inline Action](./img/inline-actions.png)
 
