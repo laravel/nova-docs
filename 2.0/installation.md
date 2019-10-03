@@ -155,6 +155,10 @@ Your Nova resources will not require any changes during this upgrade; however, y
 
 Nova uses the default authentication guard defined in your `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration.
 
+## Customizing Nova's Password Reset Functionality
+
+Nova uses the default password reset broker defined in your `auth` configuration file. If you'd like to customize this broker, you may set the `passwords` value inside of Nova's configuration.
+
 ## Authorizing Nova
 
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
