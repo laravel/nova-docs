@@ -10,7 +10,7 @@ To illustrate the behavior of Nova file upload fields, let's assume our applicat
 
 ### Defining The Field
 
-Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your `config/filesystems.php` configuration file:
+Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your `filesystems` configuration file:
 
 ```php
 use Laravel\Nova\Fields\File;
