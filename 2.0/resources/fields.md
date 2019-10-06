@@ -732,7 +732,7 @@ To format text as a link, you may use the `asHtml` method:
 Text::make('Twitter Profile', function () {
     $username = $this->twitterUsername;
 
-    return '<a href="https://twitter.com/{$username}">@{$username}</a>';
+    return "<a href='https://twitter.com/{$username}'>@{$username}</a>";
 })->asHtml();
 ```
 
