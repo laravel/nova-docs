@@ -6,18 +6,19 @@
 
 Laravel Nova has a few requirements you should be aware of before installing:
 
--   Composer
--   Laravel Framework 5.6+
--   Laravel Mix
--   Node.js & NPM
+- Composer
+- Laravel Framework 5.6+
+- Laravel Mix
+- Node.js & NPM
 
 ## Browser Support
 
 Nova supports reasonably recent versions of the following browsers:
 
--   Google Chrome
--   Apple Safari
--   Microsoft Edge
+- Google Chrome
+- Apple Safari
+- Microsoft Edge
+- Mozilla Firefox
 
 ## Installing Nova
 

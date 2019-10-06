@@ -13,13 +13,13 @@ The `HasOne` field corresponds to a `hasOne` Eloquent relationship. For example,
 ```php
 use Laravel\Nova\Fields\HasOne;
 
-HasOne::make('Address')
+HasOne::make('Address');
 ```
 
 Like other types of fields, relationship fields will automatically "snake case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
 
 ```php
-HasOne::make('Dirección', 'address')
+HasOne::make('Dirección', 'address');
 ```
 
 ## HasMany
@@ -29,7 +29,7 @@ The `HasMany` field corresponds to a `hasMany` Eloquent relationship. For exampl
 ```php
 use Laravel\Nova\Fields\HasMany;
 
-HasMany::make('Posts')
+HasMany::make('Posts');
 ```
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
@@ -39,7 +39,7 @@ Once the field has been added to your resource, it will be displayed on the reso
 When defining `HasMany` relationships, make sure to use the plural form of the relationship so Nova can infer the correct singular resource name:
 
 ```php
-HasMany::make('Posts')
+HasMany::make('Posts');
 ```
 
 :::
@@ -51,14 +51,14 @@ The `BelongsTo` field corresponds to a `belongsTo` Eloquent relationship. For ex
 ```php
 use Laravel\Nova\Fields\BelongsTo;
 
-BelongsTo::make('User')
+BelongsTo::make('User');
 ```
 
 :::tip Customizing Resource Classes
 You can customize the resource class used by the relation field by setting the second and third parameters of the `make` method:
 
 ```php
-BelongsTo::make('Author', 'author', 'App\Nova\User')
+BelongsTo::make('Author', 'author', 'App\Nova\User');
 ```
 
 :::
@@ -70,7 +70,7 @@ If you would like your `BelongsTo` relationship to be `nullable`, chain the `nul
 ```php
 use Laravel\Nova\Fields\BelongsTo;
 
-BelongsTo::make('User')->nullable()
+BelongsTo::make('User')->nullable();
 ```
 
 #### Title Attributes
@@ -106,7 +106,7 @@ The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship
 ```php
 use Laravel\Nova\Fields\BelongsToMany;
 
-BelongsToMany::make('Roles')
+BelongsToMany::make('Roles');
 ```
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
@@ -123,7 +123,7 @@ BelongsToMany::make('Roles')
         return [
             Text::make('Notes'),
         ];
-    })
+    });
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define its inverse on the `Role` resource:
@@ -134,13 +134,13 @@ BelongsToMany::make('Users')
         return [
             Text::make('Notes'),
         ];
-    })
+    });
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
 
 ```php
-BelongsToMany::make('Users')->fields(new RoleUserFields)
+BelongsToMany::make('Users')->fields(new RoleUserFields);
 ```
 
 In this example, the `RoleUserFields` class would be a simple, invokable class that returns the array of pivot fields:
@@ -178,7 +178,7 @@ BelongsToMany::make('Roles')
         return [
             new Actions\MarkAsActive,
         ];
-    })
+    });
 ```
 
 Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
@@ -221,7 +221,7 @@ The `MorphOne` field corresponds to a `morphOne` Eloquent relationship. For exam
 ```php
 use Laravel\Nova\Fields\MorphOne;
 
-MorphOne::make('Image')
+MorphOne::make('Image');
 ```
 
 ## MorphMany
@@ -231,7 +231,7 @@ The `MorphMany` field corresponds to a `morphMany` Eloquent relationship. For ex
 ```php
 use Laravel\Nova\Fields\MorphMany;
 
-MorphMany::make('Comments')
+MorphMany::make('Comments');
 ```
 
 ## MorphTo
@@ -246,7 +246,7 @@ use Laravel\Nova\Fields\MorphTo;
 MorphTo::make('Commentable')->types([
     Post::class,
     Video::class,
-])
+]);
 ```
 
 As you can see in the example above, the `types` method is used to instruct the `MorphTo` field what types of resources it may be associated with. Nova will use this information to populate the `MorphTo` field's type selection menu on the creation and update screens:
@@ -270,7 +270,7 @@ use Laravel\Nova\Fields\MorphTo;
 MorphTo::make('Commentable')->types([
     Post::class,
     Video::class,
-])->nullable()
+])->nullable();
 ```
 
 ## MorphToMany
@@ -280,7 +280,7 @@ The `MorphToMany` field corresponds to a `morphToMany` Eloquent relationship. Fo
 ```php
 use Laravel\Nova\Fields\MorphToMany;
 
-MorphToMany::make('Tags')
+MorphToMany::make('Tags');
 ```
 
 #### Pivot Fields
@@ -295,7 +295,7 @@ MorphToMany::make('Tags')
         return [
             Text::make('Notes'),
         ];
-    })
+    });
 ```
 
 Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
@@ -306,13 +306,13 @@ MorphToMany::make('Posts')
         return [
             Text::make('Notes'),
         ];
-    })
+    });
 ```
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
 
 ```php
-MorphToMany::make('Users')->fields(new TaggableFields)
+MorphToMany::make('Users')->fields(new TaggableFields);
 ```
 
 In this example, the `TaggableFields` class would be a simple, invokable class that returns the array of pivot fields:
@@ -377,5 +377,5 @@ Instead of displaying a drop-down selection menu, you may mark your relationship
 To mark as relationship as `searchable`, chain the `searchable` method onto the field's definition:
 
 ```php
-BelongsTo::make('User')->searchable()
+BelongsTo::make('User')->searchable();
 ```

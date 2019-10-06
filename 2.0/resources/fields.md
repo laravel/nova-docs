@@ -32,7 +32,7 @@ public function fields(Request $request)
 As noted above, Nova will "snake case" the displayable name of the field to determine the underlying database column. However, if necessary, you may pass the column name as the second argument to the field's `make` method:
 
 ```php
-Text::make('Name', 'name_column')
+Text::make('Name', 'name_column');
 ```
 
 ## Showing / Hiding Fields
@@ -57,7 +57,7 @@ The following methods may be used to show / hide fields based on the display con
 You may chain any of these methods onto your field's definition in order to instruct Nova where the field should be displayed:
 
 ```php
-Text::make('Name')->hideFromIndex()
+Text::make('Name')->hideFromIndex();
 ```
 
 Alternatively, you may pass a callback to the following methods.
@@ -148,7 +148,7 @@ Panels with a limit set will display a **Show All Fields** button which shows al
 When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
 
 ```php
-Text::make('Name', 'name_column')->sortable()
+Text::make('Name', 'name_column')->sortable();
 ```
 
 ## Field Types
@@ -192,7 +192,7 @@ The `Avatar` field extends the [Image field](#image-field) and accepts the same 
 ```php
 use Laravel\Nova\Fields\Avatar;
 
-Avatar::make('Avatar')
+Avatar::make('Avatar');
 ```
 
 If a resource contains an `Avatar` field, that field will be displayed next to the resource's title when the resource is displayed in search results:
@@ -248,7 +248,7 @@ The `Boolean` field may be used to represent a boolean / "tiny integer" column i
 ```php
 use Laravel\Nova\Fields\Boolean;
 
-Boolean::make('Active')
+Boolean::make('Active');
 ```
 
 #### Customizing True / False Values
@@ -268,7 +268,7 @@ The `Code` fields provides a beautiful code editor within your Nova administrati
 ```php
 use Laravel\Nova\Fields\Code;
 
-Code::make('Snippet')
+Code::make('Snippet');
 ```
 
 :::tip Code Fields On The Index
@@ -281,7 +281,7 @@ By default, Nova will never display a `Code` field on a resource index listing.
 If you intend to use a given `Code` field instance to only edit JSON, you may chain the `json` method onto your field definition:
 
 ```php
-Code::make('Options')->json()
+Code::make('Options')->json();
 ```
 
 #### Syntax Highlighting
@@ -289,7 +289,7 @@ Code::make('Options')->json()
 You may customize the language syntax highlighting of the `Code` field using the `language` method:
 
 ```php
-Code::make('Snippet')->language('php')
+Code::make('Snippet')->language('php');
 ```
 
 The `Code` field's currently supported languages are:
@@ -313,7 +313,7 @@ The `Country` field generates a `Select` field containing a list of the world's 
 ```php
 use Laravel\Nova\Fields\Country;
 
-Country::make('Country', 'country_code')
+Country::make('Country', 'country_code');
 ```
 
 ### Currency Field
@@ -335,7 +335,7 @@ The `Date` field may be used to store a date value (without time). For more info
 ```php
 use Laravel\Nova\Fields\Date;
 
-Date::make('Birthday')
+Date::make('Birthday');
 ```
 
 #### Date Formats
@@ -369,7 +369,7 @@ The `DateTime` field may be used to store a date-time value. For more informatio
 ```php
 use Laravel\Nova\Fields\DateTime;
 
-DateTime::make('Updated At')->hideFromIndex()
+DateTime::make('Updated At')->hideFromIndex();
 ```
 
 You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
@@ -393,7 +393,7 @@ To learn more about defining file fields and handling uploads, check out the add
 ```php
 use Laravel\Nova\Fields\File;
 
-File::make('Attachment')
+File::make('Attachment');
 ```
 
 ### Gravatar Field
@@ -409,7 +409,7 @@ use Laravel\Nova\Fields\Gravatar;
 Gravatar::make()
 
 // Using the "email_address" column...
-Gravatar::make('Avatar', 'email_address')
+Gravatar::make('Avatar', 'email_address');
 ```
 
 You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
@@ -421,13 +421,13 @@ The `Heading` field does not correspond to any column in your application's data
 ![Heading Field](./img/heading-field.png)
 
 ```php
-Heading::make('Meta')
+Heading::make('Meta');
 ```
 
 If you need to render HTML content within the `Heading` field, use the `asHtml` method:
 
 ```php
-Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
+Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml();
 ```
 
 ::: tip Headings And Indexes
@@ -449,7 +449,7 @@ ID::make()
 ID::make('ID', 'id_column')
 
 // Resolve BIGINT ID fields
-ID::make()->asBigInt()
+ID::make()->asBigInt();
 ```
 
 ### Image Field
@@ -459,7 +459,7 @@ The `Image` field extends the [File field](#file-field) and accepts the same opt
 ```php
 use Laravel\Nova\Fields\Image;
 
-Image::make('Photo')
+Image::make('Photo');
 ```
 
 By default, the `Image` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
@@ -482,7 +482,7 @@ The `KeyValue` field provides a convenient interface to edit _flat_, key-value d
 ```php
 use Laravel\Nova\Fields\KeyValue;
 
-KeyValue::make('Meta')->rules('json')
+KeyValue::make('Meta')->rules('json');
 ```
 
 This would give you an interface similar to this:
@@ -501,7 +501,7 @@ The `Markdown` field provides a WYSIWYG Markdown editor for its associated field
 ```php
 use Laravel\Nova\Fields\Markdown;
 
-Markdown::make('Biography')
+Markdown::make('Biography');
 ```
 
 By default, Markdown fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Markdown field should always display its content by calling the `alwaysShow` method on the field itself:
@@ -517,13 +517,13 @@ The `Number` field provides an `input` control with a `type` attribute of `numbe
 ```php
 use Laravel\Nova\Fields\Number;
 
-Number::make('price')
+Number::make('price');
 ```
 
 You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
 ```php
-Number::make('price')->min(1)->max(1000)->step(0.01)
+Number::make('price')->min(1)->max(1000)->step(0.01);
 ```
 
 ### Password Field
@@ -533,7 +533,7 @@ The `Password` field provides an `input` control with a `type` attribute of `pas
 ```php
 use Laravel\Nova\Fields\Password;
 
-Password::make('Password')
+Password::make('Password');
 ```
 
 The `Password` field will automatically preserve the password that is currently stored in the database if the incoming password field is empty. Therefore, a typical password field definition might look like the following:
@@ -602,7 +602,7 @@ protected function addressFields()
 By default, the `Place` field will search all addresses around the world. If you would like to limit the countries included in the search, you may use the `countries` method:
 
 ```php
-Place::make('Address', 'address_line_1')->countries(['US', 'CA'])
+Place::make('Address', 'address_line_1')->countries(['US', 'CA']);
 ```
 
 #### City Search
@@ -610,7 +610,7 @@ Place::make('Address', 'address_line_1')->countries(['US', 'CA'])
 If you intend to use the `Place` field to search for cities instead of addresses, you may use the `onlyCities` method to instruct the field to only list cities in its results:
 
 ```php
-Place::make('City')->onlyCities()
+Place::make('City')->onlyCities();
 ```
 
 :::tip City Auto-Completion
@@ -640,7 +640,7 @@ Place::make('Address', 'address_line_1')
     ->suburb('suburb')
     ->country('country_code')
     ->latitude('latitude')
-    ->longitude('longitude')
+    ->longitude('longitude');
 ```
 
 ### Select Field
@@ -654,7 +654,7 @@ Select::make('Size')->options([
     'S' => 'Small',
     'M' => 'Medium',
     'L' => 'Large',
-])
+]);
 ```
 
 On the resource index and detail screens, the `Select` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
@@ -664,7 +664,7 @@ Select::make('Size')->options([
     'S' => 'Small',
     'M' => 'Medium',
     'L' => 'Large',
-])->displayUsingLabels()
+])->displayUsingLabels();
 ```
 
 You may also display select options in groups:
@@ -675,7 +675,7 @@ Select::make('Size')->options([
     'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
     'WS' => ['label' => 'Small', 'group' => 'Women Sizes'],
     'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
-])->displayUsingLabels()
+])->displayUsingLabels();
 ```
 
 If your options are dynamically generated you may pass a `Closure`:
@@ -703,7 +703,7 @@ use Laravel\Nova\Fields\Status;
 
 Status::make('Status')
         ->loadingWhen(['waiting', 'running'])
-        ->failedWhen(['failed'])
+        ->failedWhen(['failed']);
 ```
 
 ### Text Field
@@ -713,7 +713,7 @@ The `Text` field provides an `input` control with a `type` attribute of `text`:
 ```php
 use Laravel\Nova\Fields\Text;
 
-Text::make('Name')
+Text::make('Name');
 ```
 
 Text fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
@@ -721,7 +721,7 @@ Text fields may be customized further by setting any attribute on the field. Thi
 ```php
 Text::make('Name')->withMeta(['extraAttributes' => [
     'placeholder' => 'David Hemphill']
-])
+]);
 ```
 
 #### Formatting Text As Links
@@ -732,8 +732,8 @@ To format text as a link, you may use the `asHtml` method:
 Text::make('Twitter Profile', function () {
     $username = $this->twitterUsername;
 
-    return '<a href="https://twitter.com/{$username}">@{$username}</a>';
-})->asHtml()
+    return "<a href='https://twitter.com/{$username}'>@{$username}</a>";
+})->asHtml();
 ```
 
 ### Textarea Field
@@ -743,7 +743,7 @@ The `Textarea` field provides a `textarea` control:
 ```php
 use Laravel\Nova\Fields\Textarea;
 
-Textarea::make('Biography')
+Textarea::make('Biography');
 ```
 
 By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `alwaysShow` method on the field itself:
@@ -763,7 +763,7 @@ Textarea fields may be customized further by setting any attribute on the field.
 ```php
 Textarea::make('Excerpt')->withMeta(['extraAttributes' => [
     'placeholder' => 'Make it less than 50 characters']
-])
+]);
 ```
 
 ### Timezone Field
@@ -773,7 +773,7 @@ The `Timezone` field generates a `Select` field containing a list of the world's
 ```php
 use Laravel\Nova\Fields\Timezone;
 
-Timezone::make('Timezone')
+Timezone::make('Timezone');
 ```
 
 ### Trix Field
@@ -783,7 +783,7 @@ The `Trix` field provides a [Trix editor](https://github.com/basecamp/trix) for 
 ```php
 use Laravel\Nova\Fields\Trix;
 
-Trix::make('Biography')
+Trix::make('Biography');
 ```
 
 By default, Trix fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Trix field should always display its content by calling the `alwaysShow` method on the field itself:
@@ -799,7 +799,7 @@ If you would like to allow users to drag-and-drop photos into the Trix field, ch
 ```php
 use Laravel\Nova\Fields\Trix;
 
-Trix::make('Biography')->withFiles('public')
+Trix::make('Biography')->withFiles('public');
 ```
 
 In addition, you should define two database tables to store pending and persisted Trix uploads. To do so, create a migration with the following table definitions:
@@ -843,7 +843,7 @@ In addition to displaying fields that are associated with columns in your databa
 ```php
 Text::make('Name', function () {
     return $this->first_name.' '.$this->last_name;
-})
+});
 ```
 
 :::tip Model Attribute Access
@@ -858,7 +858,7 @@ Text::make('Status', function () {
     return view('partials.status', [
         'is_passing' => $this->isPassing(),
     ])->render();
-})->asHtml()
+})->asHtml();
 ```
 
 ## Customization
@@ -956,7 +956,7 @@ The `resolveUsing` method allows you to customize how a field is formatted after
 ```php
 Text::make('Name')->resolveUsing(function ($name) {
     return strtoupper($name);
-})
+});
 ```
 
 If you would like to customize how a field is formatted only when it is displayed on a resource's "index" or "detail" screen, you may use the `displayUsing` method. Like the `resolveUsing` method, this method accepts a single callback:
@@ -964,5 +964,5 @@ If you would like to customize how a field is formatted only when it is displaye
 ```php
 Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
-})
+});
 ```

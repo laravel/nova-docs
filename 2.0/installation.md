@@ -18,6 +18,7 @@ Nova supports reasonably recent versions of the following browsers:
 - Google Chrome
 - Apple Safari
 - Microsoft Edge
+- Mozilla Firefox
 
 ## Installing Nova
 
