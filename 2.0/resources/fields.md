@@ -887,6 +887,36 @@ Text::make('Email')->readonly(function ($request) {
 }),
 ```
 
+### Required Fields
+
+By default, Nova will use a red asterisk to indicate a field is required:
+
+![Required Fields](./img/required-field.png)
+
+Nova does this by looking for the `required` rules inside the field's validation rules to determine if it should show the required state. For example, a field with this definition would receive the required treatment:
+
+```php
+Text::make('Email')->rules('required'),
+```
+
+However, you can also manually mark the field as required by passing a boolean to the `required` method on the field definition:
+
+```php
+Text::make('Email')->required(true),
+```
+
+In addition, you may also pass a closure to the `required` method to determine if the field should be marked as required. The closure will recieve an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
+
+```php
+Text::make('Email')->required(function ($request) {
+    return $request->isUpdateOrUpdateAttachedRequest();
+}),
+
+Text::make('Email')->required(function ($request) {
+    return $this->account_locked !== true;
+}),
+```
+
 ### Nullable Fields
 
 By default, Nova attempts to store all fields with a value, however, there are times where you'd like to explicitly direct Nova to store a `null` value when the field is empty. To do this, you may use the `nullable` method on your field:
