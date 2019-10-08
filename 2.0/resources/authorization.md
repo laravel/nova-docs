@@ -294,6 +294,36 @@ public static function relatableQuery(NovaRequest $request, $query)
 }
 ```
 
+You can filter individual relationships by using a dynamic function. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource has different types, you can use a dynamic `relatableQuery`:
+
+```php
+/**
+ * Build a "relatable" query for the given resource.
+ *
+ * This query determines which instances of the model may be attached to other resources.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @return \Illuminate\Database\Eloquent\Builder
+ */
+public static function relatableTags(NovaRequest $request, $query)
+{
+    return $query->where('type', 'posts');
+}
+```
+
+Further, if you need to filter `Tag` resource dynamically, you can access the route parameters like so:
+
+```php
+public static function relatableTags(NovaRequest $request, $query)
+{
+    $resource = $request->route('resource'); // Returns the resource type.
+    $resourceId = $request->route('resourceId'); // Returns the resource id.
+
+    return $query->where('type', $resource);
+}
+```
+
 ## Scout Filtering
 
 If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource:
