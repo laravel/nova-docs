@@ -719,8 +719,10 @@ Text::make('Name');
 Text fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
 
 ```php
-Text::make('Name')->withMeta(['extraAttributes' => [
-    'placeholder' => 'David Hemphill']
+Text::make('Name')->withMeta([
+    'extraAttributes' => [
+        'placeholder' => 'David Hemphill',
+    ],
 ]);
 ```
 
