@@ -43,31 +43,31 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmailAccountProfile extends Action
 {
-    use InteractsWithQueue, Queueable;
+  use InteractsWithQueue, Queueable;
 
-    /**
-     * Perform the action on the given models.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Support\Collection  $models
-     * @return mixed
-     */
-    public function handle(ActionFields $fields, Collection $models)
-    {
-        foreach ($models as $model) {
-            (new AccountData($model))->send();
-        }
+  /**
+   * Perform the action on the given models.
+   *
+   * @param  \Laravel\Nova\Fields\ActionFields  $fields
+   * @param  \Illuminate\Support\Collection  $models
+   * @return mixed
+   */
+  public function handle(ActionFields $fields, Collection $models)
+  {
+    foreach ($models as $model) {
+      (new AccountData($model))->send();
     }
+  }
 
-    /**
-     * Get the fields available on the action.
-     *
-     * @return array
-     */
-    public function fields()
-    {
-        return [];
-    }
+  /**
+   * Get the fields available on the action.
+   *
+   * @return array
+   */
+  public function fields()
+  {
+    return [];
+  }
 }
 ```
 
@@ -142,6 +142,32 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+## Action Modal Customization
+
+By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by specifying the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\ActivateUser)
+            ->confirmText('Are you sure you want to activate this user?')
+            ->confirmButtonText('Activate')
+            ->cancelButtonText("Don't activate"),
+    ];
+}
+```
+
+This will customize the modal to look something like this:
+
+![Action Customization](./img/action-customization.png)
+
 ## Action Responses
 
 Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
@@ -182,9 +208,9 @@ To redirect the user to an internal route use the `Action::push` method:
 
 ```php
 return Action::push('/resources/posts/new', [
-    'viaResource' => 'users',
-    'viaResourceId' => 1,
-    'viaRelationship' => 'posts',
+  'viaResource' => 'users',
+  'viaResourceId' => 1,
+  'viaRelationship' => 'posts'
 ]);
 ```
 
@@ -215,9 +241,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable;
+  use InteractsWithQueue, Queueable;
 
-    // ...
+  // ...
 }
 ```
 
@@ -265,9 +291,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Actionable, Notifiable;
+  use Actionable, Notifiable;
 
-    // ...
+  // ...
 }
 ```
 
