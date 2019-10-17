@@ -907,7 +907,7 @@ However, you can also manually mark the field as required by passing a boolean t
 Text::make('Email')->required(true),
 ```
 
-In addition, you may also pass a closure to the `required` method to determine if the field should be marked as required. The closure will recieve an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
+In addition, you may also pass a closure to the `required` method to determine if the field should be marked as required. The closure will receive an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
 
 ```php
 Text::make('Email')->required(function ($request) {
