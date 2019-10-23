@@ -150,7 +150,7 @@ Nova 2.0 is primarily a maintenance release to provide compatibility with Larave
 
 Update your `laravel/nova` dependency to ~2.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 
-Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel 5.8 upgrade guide](https://laravel.com/docs/5.8/upgrade) and the [Laravel 6.x upgrade guide](https://laravel.com/docs/6.x/upgrade).
+Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
 
 ## Customizing Nova's Authentication Guard
 
