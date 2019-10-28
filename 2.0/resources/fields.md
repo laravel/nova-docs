@@ -489,6 +489,17 @@ This would give you an interface similar to this:
 
 ![Key/Value Field](./img/key-value-field.png)
 
+#### Customizing KeyValue Labels
+
+You can customize the text values used in the component by specifying the `keyLabel`, `valueLabel`, and `actionText` methods when defining the field:
+
+```php
+KeyValue::make('Meta')
+    ->keyLabel('Item') // Customize the key heading
+    ->valueLabel('Label') // Customize the value heading
+    ->actionText('Add Item'), // Customize the "add row" button text
+```
+
 :::tip KeyValue Fields On The Index
 
 By default, Nova will never display a `KeyValue` field on a resource index listing.
