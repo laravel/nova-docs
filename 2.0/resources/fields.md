@@ -275,7 +275,7 @@ BooleanGroup::make('Permissions')->options([
 ]),
 ```
 
-The user will be presented with a grouped set of checkboxes which, will be converted to JSON format:
+The user will be presented with a grouped set of checkboxes which, when saved, will be converted to JSON format:
 
 ```json
 {
