@@ -163,6 +163,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Avatar](#avatar-field)
 - [Badge](#badge-field)
 - [Boolean](#boolean-field)
+- [Boolean Group](#boolean-group-field)
 - [Code](#code-field)
 - [Country](#country-field)
 - [Currency](#currency-field)
@@ -259,6 +260,30 @@ If you are using values other than `true`, `false`, `1`, or `0` to represent "tr
 Boolean::make('Active')
         ->trueValue('On')
         ->falseValue('Off');
+```
+
+### Boolean Group Field
+
+The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are eventually stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by passing in a set of keys and labels for each option:
+
+```php
+BooleanGroup::make('Permissions')->options([
+    'create' => 'Create',
+    'read' => 'Read',
+    'update' => 'Update',
+    'delete' => 'Delete',
+]),
+```
+
+The user will be presented with a grouped set of checkboxes which, will be converted to JSON format:
+
+```json
+{
+  "create": true,
+  "read": false,
+  "update": false,
+  "delete": false
+}
 ```
 
 ### Code Field
