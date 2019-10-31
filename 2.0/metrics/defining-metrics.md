@@ -170,12 +170,12 @@ public function ranges()
 You may customize these ranges to suit your needs; however, if you are using the built-in "Month To Date", "Quarter To Date", or "Year To Date" ranges, you should not change their keys.
 :::
 
-### Zeroed Data Results
+### Zero Result Values
 
-By default, Nova will handle results of `0` as a result containing no data. This may not always be correct, which is why you can use the `zeroedData` method to prevent this from happening:
+By default, Nova will handle results of `0` as a result containing no data. This may not always be correct, which is why you can use the `allowZeroResult` method to prevent this from happening:
 
 ```php
-return $this->result(0)->zeroedData();
+return $this->result(0)->allowZeroResult();
 ```
 
 ### Manually Building Value Results
