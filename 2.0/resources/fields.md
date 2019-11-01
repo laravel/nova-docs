@@ -180,6 +180,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Password](#password-field)
 - [Place](#place-field)
 - [Select](#select-field)
+- [Sparkline](#sparkline-field)
 - [Status](#status-field)
 - [Text](#text-field)
 - [Textarea](#textarea-field)
@@ -713,6 +714,47 @@ Select::make('Size')->options(function () {
         Size::LARGE => Size::MAX_SIZE === SIZE_LARGE ? 'Large' : null,
     ]);
 }),
+```
+
+### Sparkline Field
+
+The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, `callable` (which returns an array) or an instance of a `Trend` metric:
+
+```php
+// Array of data.
+Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+// Callable.
+Sparkline::make('Post Views')->data(function () {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+});
+
+// Trend class.
+Sparkline::make('Post Views')->data(new PostViewsOverTime);
+```
+
+
+
+If it's better suited to your data, you can use `asBarChart()` to show your sparklines as bars:
+
+```php
+Sparkline::make('Post Views')
+           ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+           ->asBarChart();
+```
+
+:::tip Using Trend Classes
+
+Trend classes will use the first range in the `ranges` method.
+:::
+
+By default, Sparklines will appear on the detail view and you're able to customize the dimensions of the chart using the `height` and `width` methods:
+
+```php
+Sparkline::make('Post Views')
+           ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+           ->height(200)
+           ->width(600);
 ```
 
 ### Status Field
