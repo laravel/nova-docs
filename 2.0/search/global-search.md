@@ -109,6 +109,19 @@ class CoverField extends Field implements Cover
 }
 ```
 
+### Limiting Global Search Results
+
+You can limit the number of results that are returned in the global search by overriding the `globalSearchResults` property on the resource:
+
+```php
+/**
+ * The number of results to display in the global search.
+ *
+ * @var int
+ */
+public static $globalSearchResults = 5;
+```
+
 ### Disabling Global Search
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
