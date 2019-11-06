@@ -70,6 +70,20 @@ php artisan nova:install
 php artisan migrate
 ```
 
+:::warning UUID's
+
+If you use UUID's in your project you will need to add an additional migration.
+
+```php
+        Schema::table('action_events', function (Blueprint $table) {
+            $table->string('actionable_id', 36)->change();
+            $table->string('model_id', 36)->change();
+            $table->string('target_id', 36)->change();
+            $table->string('user_id', 36)->change();
+        });
+```
+:::
+
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
@@ -119,6 +133,20 @@ php artisan nova:install
 
 php artisan migrate
 ```
+
+:::warning UUID's
+
+If you use UUID's in your project you will need to add an additional migration.
+
+```php
+        Schema::table('action_events', function (Blueprint $table) {
+            $table->string('actionable_id', 36)->change();
+            $table->string('model_id', 36)->change();
+            $table->string('target_id', 36)->change();
+            $table->string('user_id', 36)->change();
+        });
+```
+:::
 
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
