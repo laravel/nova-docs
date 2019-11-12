@@ -718,22 +718,44 @@ Select::make('Size')->options(function () {
 
 ### Sparkline Field
 
-The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, `callable` (which returns an array) or an instance of a `Trend` metric:
+The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array) or an instance of a `Trend` metric class:
 
 ```php
-// Array of data.
-Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+// Using an array of data
+Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
 
-// Callable.
+// Using a Callable
 Sparkline::make('Post Views')->data(function () {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-});
+    return json_decode($this->views_data);
+}),
 
-// Trend class.
-Sparkline::make('Post Views')->data(new PostViewsOverTime);
+// Using a Trend class
+Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
 ```
 
+#### Using Trend Metrics
 
+If your `Sparkline` contains complicated data, you can use your existing `Trend` metrics:
+
+```php
+Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
+```
+
+Note that in the example above, we're passing through a value to the metric class. This value will become the `resourceId` parameter within the `Metric` class. In the example `PostViewsOverTime` class, we can use this value:
+
+```php
+return $this->countByDays(
+    $request,
+    PostView::where('post_id', '=', $request->resourceId)
+);
+```
+
+:::tip Default Ranges
+
+A `Sparkline` will always use the first range defined in the `ranges` method of a `Trend`.
+:::
+
+#### Customising the Chart
 
 If it's better suited to your data, you can use `asBarChart()` to show your sparklines as bars:
 
@@ -743,12 +765,7 @@ Sparkline::make('Post Views')
            ->asBarChart();
 ```
 
-:::tip Using Trend Classes
-
-Trend classes will use the first range in the `ranges` method.
-:::
-
-By default, Sparklines will appear on the detail view and you're able to customize the dimensions of the chart using the `height` and `width` methods:
+By default, a `Sparkline` will appear on the detail view. You can customize the dimensions of the chart using the `height` and `width` methods:
 
 ```php
 Sparkline::make('Post Views')
