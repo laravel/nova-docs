@@ -718,30 +718,30 @@ Select::make('Size')->options(function () {
 
 ### Sparkline Field
 
-The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array) or an instance of a `Trend` metric class:
+The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
 
 ```php
-// Using an array of data
+// Using an array...
 Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
 
-// Using a Callable
+// Using a callable...
 Sparkline::make('Post Views')->data(function () {
     return json_decode($this->views_data);
 }),
 
-// Using a Trend class
+// Using a Trend instance...
 Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
 ```
 
 #### Using Trend Metrics
 
-If your `Sparkline` contains complicated data, you can use your existing `Trend` metrics:
+If your `Sparkline` contains complicated data, you may leverage your existing `Trend` metrics:
 
 ```php
 Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
 ```
 
-Note that in the example above, we're passing through a value to the metric class. This value will become the `resourceId` parameter within the `Metric` class. In the example `PostViewsOverTime` class, we can use this value:
+Note that in the example above, we're passing through a value to the metric class. This value will become the `resourceId` parameter within the `Metric` class. In the example `PostViewsOverTime` class, we can access this value via `$request->resourceId`:
 
 ```php
 return $this->countByDays(
@@ -755,9 +755,9 @@ return $this->countByDays(
 A `Sparkline` will always use the first range defined in the `ranges` method of a `Trend`.
 :::
 
-#### Customising the Chart
+#### Customizing The Chart
 
-If it's better suited to your data, you can use `asBarChart()` to show your sparklines as bars:
+If a bar chart is better suited to your data, you may use the `asBarChart()` method:
 
 ```php
 Sparkline::make('Post Views')
