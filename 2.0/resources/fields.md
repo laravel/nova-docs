@@ -180,6 +180,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Password](#password-field)
 - [Place](#place-field)
 - [Select](#select-field)
+- [Sparkline](#sparkline-field)
 - [Status](#status-field)
 - [Text](#text-field)
 - [Textarea](#textarea-field)
@@ -713,6 +714,64 @@ Select::make('Size')->options(function () {
         Size::LARGE => Size::MAX_SIZE === SIZE_LARGE ? 'Large' : null,
     ]);
 }),
+```
+
+### Sparkline Field
+
+The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
+
+```php
+// Using an array...
+Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+
+// Using a callable...
+Sparkline::make('Post Views')->data(function () {
+    return json_decode($this->views_data);
+}),
+
+// Using a Trend instance...
+Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
+```
+
+#### Using Trend Metrics
+
+If your `Sparkline` contains complicated data, you may leverage your existing `Trend` metrics:
+
+```php
+Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
+```
+
+Note that in the example above, we're passing through a value to the metric class. This value will become the `resourceId` parameter within the `Metric` class. In the example `PostViewsOverTime` class, we can access this value via `$request->resourceId`:
+
+```php
+return $this->countByDays(
+    $request,
+    PostView::where('post_id', '=', $request->resourceId)
+);
+```
+
+:::tip Default Ranges
+
+A `Sparkline` will always use the first range defined in the `ranges` method of a `Trend`.
+:::
+
+#### Customizing The Chart
+
+If a bar chart is better suited to your data, you may use the `asBarChart()` method:
+
+```php
+Sparkline::make('Post Views')
+           ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+           ->asBarChart();
+```
+
+By default, a `Sparkline` will appear on the detail view. You can customize the dimensions of the chart using the `height` and `width` methods:
+
+```php
+Sparkline::make('Post Views')
+           ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+           ->height(200)
+           ->width(600);
 ```
 
 ### Status Field
