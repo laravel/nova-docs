@@ -228,7 +228,3 @@ To ensure Nova's assets are updated when a new version is downloaded, you may ad
 Nova's license does not allow the public distribution of its source code. So, you may not build an application using Nova and distribute that application public via open source repository hosting platforms or any other code distribution platform.
 
 If you would like to develop a third party package that augments Nova's functionality, you are free to do so. However, you may not distribute the Nova source code along with your package.
-
-## Bug Reports
-
-If you discover a bug in Laravel Nova, please open an issue on the [Nova issues GitHub repository](https://github.com/laravel/nova-issues).
