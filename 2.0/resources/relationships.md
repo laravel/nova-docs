@@ -99,6 +99,14 @@ public function title()
 }
 ```
 
+#### Disable Trashed Items
+
+By default, the `BelongsTo` field will allow users to select trashed options; however, this can be disabled:
+
+```php
+BelongsTo::make('User')->withoutTrashed();
+```
+
 ## BelongsToMany
 
 The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models. We may add the relationship to our `User` Nova resource like so:
