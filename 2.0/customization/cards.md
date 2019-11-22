@@ -79,10 +79,11 @@ class Analytics extends Card
 }
 ```
 
-:::tip Registering With Options
+After registering your custom card, don't forget to actually call any custom option methods you defined:
 
-Note that when you register your custom card you will need to manually call the custom options method `(new Acme\Analytics\Analytics)->currentVisitors()`.
-:::
+```php
+(new Acme\Analytics\Analytics)->currentVisitors()
+```
 
 ## Building Cards
 
