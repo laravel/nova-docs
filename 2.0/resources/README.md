@@ -160,7 +160,35 @@ public function boot()
 
 ## Preventing Conflicts
 
-If the model has been updated since the retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource.
+If the model has been updated since the retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as "Traffic Cop".
+
+### Disabling Traffic Cop
+
+If you are not concerned with preventing conflicts, you can disable the Traffic Cop feature:
+
+```php
+/**
+ * Indicates whether Nova should check for modifications between viewing and updating a resource.
+ *
+ * @var bool
+ */
+public static $trafficCop = true;
+```
+
+You may also override the `trafficCop` method on the resource:
+
+```php
+/**
+ * Indicates whether Nova should check for modifications between viewing and updating a resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return  bool
+*/
+public static function trafficCop(Request $request)
+{
+    return static::$trafficCop;
+}
+```
 
 ## Keyboard Shortcuts
 
