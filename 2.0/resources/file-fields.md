@@ -383,3 +383,20 @@ Image::make('Profile Photo')
 
 By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for "retina displays").
 :::
+
+### Customizing Accepted File Types
+
+By default, the `File` field will allow any files to be selected and uploaded. However, you may customize the accepted file types using the `acceptedTypes` method:
+
+```php
+File::make('Disk Image')->acceptedTypes('.dmg|.exe')
+```
+
+When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of this is valid:
+
+- `.dmg`
+- `.dmg|.exe|.deb`
+- `image/*`
+- `audio/*`
+- `video/*`
+- All media types listed at http://www.iana.org/assignments/media-types/
