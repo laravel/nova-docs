@@ -196,7 +196,7 @@ After downloading the Zip file, replace the current contents of your application
 composer update
 ```
 
-### Updating Nova's assets
+### Updating Nova's Assets
 
 After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using `nova:publish` and clear any cached views with `view:clear`. This will ensure the newly-updated Nova version is using the latest versions.
 

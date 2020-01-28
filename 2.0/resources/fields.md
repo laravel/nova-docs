@@ -310,6 +310,10 @@ If you intend to use a given `Code` field instance to only edit JSON, you may ch
 Code::make('Options')->json(),
 ```
 
+:::warning Code field JSON validation
+Note: Nova does not apply the `json` validation for `Code` fields automatically. It's up to the user to specify this rule.
+:::
+
 #### Syntax Highlighting
 
 You may customize the language syntax highlighting of the `Code` field using the `language` method:

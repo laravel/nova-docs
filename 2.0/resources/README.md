@@ -190,6 +190,10 @@ public static function trafficCop(Request $request)
 }
 ```
 
+:::tip Time Synchronization
+Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP. 
+:::
+
 ## Keyboard Shortcuts
 
 You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
