@@ -4,6 +4,7 @@
       "files": ["*.php"],
       "options": {
         "trailingComma": "all",
+        "tabWidth": 4,
       }
     }
   ]
