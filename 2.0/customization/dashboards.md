@@ -14,7 +14,7 @@ Nova ships with a default dashboard which pulls cards and metrics from the `card
 
 Custom dashboards may be generated using the `nova:dashboard` Artisan command. By default, all new dashboards will be placed in the `app/Nova/Dashboards` directory:
 
-```
+```sh
 php artisan nova:dashboard UserInsights
 ```
 

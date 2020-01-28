@@ -109,6 +109,19 @@ class CoverField extends Field implements Cover
 }
 ```
 
+### Limiting Global Search Results
+
+You can limit the number of results that are returned in the global search by overriding the `globalSearchResults` property on the resource:
+
+```php
+/**
+ * The number of results to display in the global search.
+ *
+ * @var int
+ */
+public static $globalSearchResults = 5;
+```
+
 ### Disabling Global Search
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
@@ -120,4 +133,33 @@ By default, all Nova resources are globally searchable; however, you may exclude
  * @var bool
  */
 public static $globallySearchable = false;
+```
+
+### Customizing Global Search Links
+
+By default, clicking a result will take you to resource's detail page; however, you may customize this to instead take you to the edit page.
+
+```php
+/**
+ * Where should the global search link to?
+ *
+ * @var string
+ */
+public static $globalSearchLink = 'edit';
+```
+
+If you need to fine-tuned control over which link is used, you can override the `globalSearchLink` method on the resource:
+
+```php
+/**
+ * Detetermine whether the global search links will take the user to the detail page.
+ *
+ * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+ *
+ * @return string
+ */
+public function globalSearchLink(NovaRequest $request)
+{
+    return static::$globalSearchLink;
+}
 ```

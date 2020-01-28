@@ -50,6 +50,33 @@ this.$toasted.show('It worked!', { type: 'success' })
 this.$toasted.show('It failed!', { type: 'error' })
 ```
 
+### Shortcuts
+
+Nova provides two convenience methods for managing keyboard shortcuts, powered by [Mousetrap](https://craig.is/killing/mice). You may use this within your custom components to register and unregister shortcuts:
+
+```js
+// Add single keyboard shortcut...
+Nova.addShortcut('ctrl+k', event => {
+    // Callback...
+})
+
+// Add multiple keyboard shortcuts...
+Nova.addShortcut(['ctrl+k', 'command+k'], event => {
+    // Callback...
+})
+
+// Add a sequence shortcut...
+Nova.addShortcut('* a', event => {
+    // Callback...
+})
+
+// Remove a shortcut...
+Nova.removeShortcut('ctrl+k')
+
+// Remove multiple shortcuts...
+Nova.removeShortcut(['ctrl+k', 'command+k'])
+```
+
 ### Global Variables
 
 The global `Nova` JavaScript object's `config` property contains the current Nova `base` path and `userId`:
