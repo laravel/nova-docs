@@ -392,7 +392,7 @@ By default, the `File` field will allow any files to be selected and uploaded. H
 File::make('Disk Image')->acceptedTypes('.dmg|.exe')
 ```
 
-When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of this is valid:
+When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of these media types are valid:
 
 - `.dmg`
 - `.dmg|.exe|.deb`
