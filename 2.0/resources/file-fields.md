@@ -214,8 +214,8 @@ use Illuminate\Http\Request;
 
 File::make('Attachment')
     ->store(function (Request $request, $model) {
-        return function () use ($resource, $request) {
-            $media = $resource->media()->updateOrCreate([], [
+        return function () use ($request, $model) {
+            $media = $model->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
             ]);
 
@@ -392,7 +392,7 @@ By default, the `File` field will allow any files to be selected and uploaded. H
 File::make('Disk Image')->acceptedTypes('.dmg|.exe')
 ```
 
-When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of this is valid:
+When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of these media types are valid:
 
 - `.dmg`
 - `.dmg|.exe|.deb`
