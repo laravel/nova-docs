@@ -214,8 +214,8 @@ use Illuminate\Http\Request;
 
 File::make('Attachment')
     ->store(function (Request $request, $model) {
-        return function () use ($resource, $request) {
-            $media = $resource->media()->updateOrCreate([], [
+        return function () use ($request, $model) {
+            $media = $model->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
             ]);
 
