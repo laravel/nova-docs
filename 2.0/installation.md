@@ -116,7 +116,7 @@ Next, you may either manually add `laravel/nova` to your list of required packag
 },
 ```
 
-and subsequently, once your `composer.json` file has been updated, run the `composer update` command in your console terminal:
+And subsequently, once your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
 ```bash
 composer update
