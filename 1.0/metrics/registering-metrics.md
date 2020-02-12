@@ -36,7 +36,7 @@ public function cards(Request $request)
 }
 ```
 
-Of course, you will need to modify your metric's query to only gather metric data on the resource for which it is currently being displayed. To accomplish this, your metric's `calculate` method may access the `resourceId` property on the incoming `$request`:
+You will need to modify your metric's query to only gather metric data on the resource for which it is currently being displayed. To accomplish this, your metric's `calculate` method may access the `resourceId` property on the incoming `$request`:
 
 ```php
 use App\Podcast;
@@ -133,4 +133,3 @@ public function cards(Request $request)
     ];
 }
 ```
-

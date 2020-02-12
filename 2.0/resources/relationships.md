@@ -134,7 +134,7 @@ BelongsToMany::make('Roles')
     });
 ```
 
-Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define its inverse on the `Role` resource:
+It is likely we would also define this field on the inverse of the relationship. So, if we define the `BelongsToMany` field on the `User` resource, we would define its inverse on the `Role` resource:
 
 ```php
 BelongsToMany::make('Users')
@@ -306,7 +306,7 @@ MorphToMany::make('Tags')
     });
 ```
 
-Of course, it is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
+It is likely we would also define this field on the inverse of the relationship. So, if we define the `MorphToMany` field on the `Post` resource, we would define it's inverse on the `Tag` resource:
 
 ```php
 MorphToMany::make('Posts')

@@ -78,7 +78,7 @@ Your Nova tool is generated with an `Authorize` middleware. This middleware auto
 
 ### Navigation
 
-Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. Of course, a default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:
+Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. A default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:
 
 ```php
 /**

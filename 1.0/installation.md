@@ -70,7 +70,7 @@ php artisan nova:install
 php artisan migrate
 ```
 
-After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. If your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
@@ -123,7 +123,7 @@ php artisan nova:install
 php artisan migrate
 ```
 
-After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. If your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
@@ -171,7 +171,7 @@ To update your Nova installation, you may simply download a release Zip file fro
 
 :::tip Composer Installations
 
-Of course, if you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
+If you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
 :::
 
 After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` and `nova:publish` commands:
