@@ -44,7 +44,7 @@ Route::post('/photo', function (Request $request) {
 });
 ```
 
-Of course, once the file has been stored, you may retrieve it within your application using the Laravel `Storage` facade:
+Once the file has been stored, you may retrieve it within your application using the Laravel `Storage` facade:
 
 ```php
 use Illuminate\Support\Facades\Storage;
@@ -209,7 +209,7 @@ As you can see in the example above, the `store` callback is returning an array 
 
 #### Invokables
 
-Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
+Performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
 ```php
 File::make('Attachment')->store(new StoreAttachment)
@@ -275,7 +275,7 @@ As you can see in the example above, the `delete` callback is returning an array
 
 #### Invokables
 
-Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
+Performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
 
 ```php
 File::make('Attachment')->delete(new DeleteAttachment)

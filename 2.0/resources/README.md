@@ -2,7 +2,7 @@
 
 [[toc]]
 
-Laravel Nova is a beautiful administration dashboard for Laravel applications. Of course, the primary feature of Nova is the ability to administer your underlying database records using Eloquent. Nova accomplishes this by allowing you to define a Nova "resource" that corresponds to each Eloquent model in your application.
+Laravel Nova is a beautiful administration dashboard for Laravel applications. The primary feature of Nova is the ability to administer your underlying database records using Eloquent. Nova accomplishes this by allowing you to define a Nova "resource" that corresponds to each Eloquent model in your application.
 
 ## Defining Resources
 

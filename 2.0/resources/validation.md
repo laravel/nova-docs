@@ -14,7 +14,7 @@ Text::make('Name')
     ->rules('required', 'max:255'),
 ```
 
-Of course, if you are leveraging Laravel's support for [validation rule objects](https://laravel.com/docs/validation#using-rule-objects), you may attach those to resources as well:
+If you are leveraging Laravel's support for [validation rule objects](https://laravel.com/docs/validation#using-rule-objects), you may attach those to resources as well:
 
 ```php
 use App\Rules\ValidState;

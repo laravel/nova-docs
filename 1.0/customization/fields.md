@@ -166,7 +166,7 @@ class ColorPicker extends Field
 }
 ```
 
-This method receives several arguments. Of course, it receives the incoming HTTP request and the model that is being updated. The method also receives the `$requestAttribute`, which is the name of the incoming form field on the HTTP request. Additionally, it receives the `$attribute`, which is the name of the model attribute the field's value should be placed in.
+This method receives several arguments. The most important of which are the incoming HTTP request and the model that is being updated. The method also receives the `$requestAttribute`, which is the name of the incoming form field on the HTTP request. Additionally, it receives the `$attribute`, which is the name of the model attribute the field's value should be placed in.
 
 ### Assets
 
