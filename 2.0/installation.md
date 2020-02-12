@@ -84,10 +84,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Nova package via our private Satis repository.
 
-:::tip Package Authentication
-
-Note that installing Nova via Composer will require authentication for the Nova website. These credentials will authenticate your Composer session as having permission to download the Nova source code. To avoid manually typing these credentials upon package installation, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while optionally using your [API token](https://nova.laravel.com/settings#password) in place of your password.
-:::
+Installing Nova via Composer will require you to authenticate with the Nova website. To avoid manually typing these credentials upon package installation, you may create a [Composer `auth.json` file](https://getcomposer.org/doc/articles/http-basic-authentication.md) and use your [Nova API token](https://nova.laravel.com/settings#password) in place of your Nova website password.
 
 To get started, add the Nova repository to your application's `composer.json` file:
 
@@ -99,13 +96,8 @@ To get started, add the Nova repository to your application's `composer.json` fi
     }
 ],
 ```
-Alternatively by running the command `composer config repositories.nova composer https://nova.laravel.com` in your console terminal:
 
-```bash
-composer config repositories.nova composer https://nova.laravel.com
-```
-
-Next, you may either manually add `laravel/nova` to your list of required packages in your `composer.json` file:
+Next, you may add `laravel/nova` to your list of required packages in your `composer.json` file:
 
 ```json
 "require": {
@@ -116,19 +108,11 @@ Next, you may either manually add `laravel/nova` to your list of required packag
 },
 ```
 
-And subsequently, once your `composer.json` file has been updated, run the `composer update` command in your console terminal:
+After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
 ```bash
 composer update
 ```
-
-Alternatively, require Laravel Nova by runing the `composer require laravel/nova` command in your console terminal:
-
-```bash
-composer require laravel/nova
-``` 
-
-When requiring Laravel Nova, you will be prompted to provide your login credentials for the Nova website. These credentials will authenticate your Composer session as having permission to download the Nova source code. To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while optionally using your [API token](https://nova.laravel.com/settings#password) in place of your password.
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
@@ -156,7 +140,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Authenticating Nova in Continuous Integration (CI) Environments
 
-It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing either your Nova username and password or optionally using your Nova username and [API token](https://nova.laravel.com/settings#password) in place of your password:
+It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing either your Nova username and password or your Nova username and [Nova API token](https://nova.laravel.com/settings#password) in place of your password:
 
 ```sh
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
