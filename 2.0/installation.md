@@ -99,7 +99,7 @@ To get started, add the Nova repository to your application's `composer.json` fi
     }
 ],
 ```
-or by running the command `composer config repositories.nova composer https://nova.laravel.com` in your console terminal:
+Alternatively by running the command `composer config repositories.nova composer https://nova.laravel.com` in your console terminal:
 
 ```bash
 composer config repositories.nova composer https://nova.laravel.com
