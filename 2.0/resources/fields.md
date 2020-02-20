@@ -348,14 +348,32 @@ Country::make('Country', 'country_code'),
 
 ### Currency Field
 
-The `Currency` field generates a `Number` field that is automatically displayed using PHP's `money_format` function. You may specify the display format using the `format` method; otherwise, the `%i` format will be used:
+:::tip Currency Field Versioning
+
+This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to this, the field was incompatible with PHP 7.4.
+
+:::
+
+
+The `Currency` field generates a `Number` field that is automatically formatted using `brick/money`. Nova will use `USD` as the default currency however, this can be changed by modifiying the `nova.currency` value.
 
 ```php
 use Laravel\Nova\Fields\Currency;
 
 Currency::make('Price'),
+```
 
-Currency::make('Price')->format('%.2n'),
+You may override the currency per-field by using the `currency` method:
+
+```php
+Currency::make('Price')->currency('EUR'),
+```
+
+The field is formatted by default to the `locale` found in `app.locale`. You can override this by providing a locale code:
+
+
+```php
+Currency::make('Price')->locale('fr'),
 ```
 
 ### Date Field
