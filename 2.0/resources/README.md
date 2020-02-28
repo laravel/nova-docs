@@ -251,3 +251,45 @@ public static function perPageOptions()
 :::tip Customizing `perPageOptions` affects the initial amount of resources fetched.
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
+
+
+## Customizing Redirect Behavior
+
+By default, after creating, updating, and deleting resources, Nova will redirect you to the detail views and index views for the resource. This behavior can be customized by implementing the `redirectAfterCreate`, `redirectAfterUpdate`, and `redirectAfterDelete` methods on the `Resource` class:
+
+```php
+/**
+ * Return the location to redirect the user after creation.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Laravel\Nova\Resource  $resource
+ * @return string
+ */
+public static function redirectAfterCreate(NovaRequest $request, $resource)
+{
+    return '/resources/'.static::uriKey().'/'.$resource->getKey();
+}
+
+/**
+ * Return the location to redirect the user after update.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Laravel\Nova\Resource  $resource
+ * @return string
+ */
+public static function redirectAfterUpdate(NovaRequest $request, $resource)
+{
+    return '/resources/'.static::uriKey().'/'.$resource->getKey();
+}
+
+/**
+ * Return the location to redirect the user after deletion.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return string
+ */
+public static function redirectAfterDelete(NovaRequest $request)
+{
+    return '/resources/'.static::uriKey();
+}
+```
