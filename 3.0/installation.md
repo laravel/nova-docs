@@ -7,7 +7,7 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 6.0+
+- Laravel Framework 7.0+
 - Laravel Mix
 - Node.js & NPM
 
@@ -44,9 +44,9 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
-    "php": "^7.1.3",
-    "fideloper/proxy": "^4.0",
-    "laravel/framework": "^6.0",
+    "php": "^7.2.5",
+    "fideloper/proxy": "^4.2",
+    "laravel/framework": "^7.0",
     "laravel/nova": "*"
 },
 ```
@@ -97,9 +97,9 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^7.1.3",
-    "fideloper/proxy": "^4.0",
-    "laravel/framework": "^6.0",
+    "php": "^7.2.5",
+    "fideloper/proxy": "^4.2",
+    "laravel/framework": "^7.0",
     "laravel/nova": "~3.0"
 },
 ```
@@ -146,7 +146,7 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 ## Upgrade Guide
 
-Nova 3.0 is primarily a maintenance release to provide compatibility with Laravel 6.x or greater. Nova 3.0 should **only** be used with Laravel 6.x or greater, as it is not compatible with previous releases of Laravel.
+Nova 3.0 is primarily a maintenance release to provide compatibility with Laravel 7.x or greater. Nova 3.0 should **only** be used with Laravel 7.x or greater, as it is not compatible with previous releases of Laravel.
 
 Update your `laravel/nova` dependency to ~3.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 
