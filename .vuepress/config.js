@@ -47,7 +47,7 @@ module.exports = {
       {
         text: "Version",
         link: "/",
-        items: [{ text: "1.0", link: "/1.0/" }, { text: "2.0", link: "/2.0/" }, { text: "2.9", link: "/3.0/" }]
+        items: [{ text: "1.0", link: "/1.0/" }, { text: "2.0", link: "/2.0/" }, { text: "3.0", link: "/3.0/" }]
       }
     ],
 
