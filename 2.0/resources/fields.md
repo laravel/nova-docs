@@ -287,11 +287,11 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-Make sure the database field is casted to an array:
+Finally, ensure that your Eloquent attribute is cast to an `array` (or equivalent) within your Eloquent model class:
 
 ```php
 protected $casts = [
-        'permissions' => 'array'
+    'permissions' => 'array'
 ];
 ```
 
