@@ -287,6 +287,14 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
+Make sure the database field is casted to an array:
+
+```php
+protected $casts = [
+        'permissions' => 'array'
+];
+```
+
 ### Code Field
 
 The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns. However, you may also attach them to `JSON` database columns:
