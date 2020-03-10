@@ -87,6 +87,43 @@ Text::make('Name')->hideFromIndex(function () {
 }),
 ```
 
+If your application requires it, you can also specify different list of fields for specific display contexts. For example, you might have a resource with the following list of fields:
+
+```php
+public function fields(Request $request)
+{
+    return [
+        Text::make('First Name'),
+        Text::make('Last Name'),
+        Text::make('Job Title'),
+    ];
+}
+```
+
+On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail()` method which returns a new list of fields:
+
+```php
+public function fieldsForDetail(Request $request)
+{
+    return [
+        Text::make('Name', function () {
+            return sprintf('%s %s', $this->first_name, $this->last_name);
+        }),
+
+        Text::make('Job Title'),
+    ];
+}
+```
+
+The available methods for individual display contexts are:
+
+- `fieldsForIndex`
+- `fieldsForDetail`
+- `fieldsForCreate`
+- `fieldsForUpdate`
+
+The `fields()` method will continue to work as normal, but if one of these methods exists in a resource, the list of fields returned from it will take precedance.
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
