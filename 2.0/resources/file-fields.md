@@ -207,7 +207,7 @@ File::make('Attachment')
 
 As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
 
-Here's another example of customizing the storage process. In this example, we're using the `store` method to store the original file in public storage, create thumbnails using Laravel's queue system, and finally populating values in the resource's `media` relationship: 
+Here's another example of customizing the storage process. In this example, we're using the `store` method to store the original file in public storage, create thumbnails using Laravel's queue system, and finally populating values in the resource's `media` relationship:
 
 ```php
 use Illuminate\Http\Request;
@@ -248,9 +248,13 @@ class StoreAttachment
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  string  $attribute
+     * @param  string  $requestAttribute
+     * @param  string  $disk
+     * @param  string  $storagePath
      * @return array
      */
-    public function __invoke(Request $request, $model)
+    public function __invoke(Request $request, $model, $attribute, $requestAttribute, $disk, $storagePath)
     {
         return [
             'attachment' => $request->attachment->store('/', 's3'),
