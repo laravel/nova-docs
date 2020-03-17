@@ -911,7 +911,7 @@ By default, Trix fields will not display their content when viewing a resource o
 Trix::make('Biography')->alwaysShow(),
 ```
 
-#### File Uploads
+#### Trix File Uploads
 
 If you would like to allow users to drag-and-drop photos into the Trix field, chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
 
@@ -954,6 +954,35 @@ $schedule->call(function () {
     (new PruneStaleAttachments)();
 })->daily(),
 ```
+
+### Vapor File Field
+
+Vapor file fields provide convenience and compatibility for uploading files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com): 
+
+```php
+use Laravel\Nova\Fields\VaporFile;
+
+VaporFile::make('Document'),
+```
+
+When uploading a file using a `VaporFile` field, Nova will first generate a signed storage URL on Amazon S3. Nova will then upload the file directly to temporary storage in the Amazon S3 bucket. When the resource is saved, Nova will move the folder to permanent storage.
+
+### Vapor Image Field
+
+Vapor file fields provide convenience and compatibility for uploading image files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com): 
+
+```php
+use Laravel\Nova\Fields\VaporImage;
+
+VaporImage::make('Avatar'),
+```
+
+Vapor image files support many of the same methods available to [`Image`](#image-field) fields.
+
+:::tip File Fields
+
+To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
+:::
 
 ## Computed Fields
 
