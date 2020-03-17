@@ -44,7 +44,7 @@ Route::post('/photo', function (Request $request) {
 });
 ```
 
-Once the file has been stored, you may retrieve it within your application using the Laravel `Storage` facade:
+Of course, once the file has been stored, you may retrieve it within your application using the Laravel `Storage` facade:
 
 ```php
 use Illuminate\Support\Facades\Storage;
@@ -214,8 +214,8 @@ use Illuminate\Http\Request;
 
 File::make('Attachment')
     ->store(function (Request $request, $model) {
-        return function () use ($request, $model) {
-            $media = $model->media()->updateOrCreate([], [
+        return function () use ($resource, $request) {
+            $media = $resource->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
             ]);
 
@@ -226,7 +226,7 @@ File::make('Attachment')
 
 #### Invokables
 
-Performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
+Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
 ```php
 File::make('Attachment')->store(new StoreAttachment);
@@ -296,7 +296,7 @@ As you can see in the example above, the `delete` callback is returning an array
 
 #### Invokables
 
-Performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
+Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
 
 ```php
 File::make('Attachment')->delete(new DeleteAttachment);
@@ -387,20 +387,3 @@ Image::make('Profile Photo')
 
 By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for "retina displays").
 :::
-
-### Customizing Accepted File Types
-
-By default, the `File` field will allow any files to be selected and uploaded. However, you may customize the accepted file types using the `acceptedTypes` method:
-
-```php
-File::make('Disk Image')->acceptedTypes('.dmg|.exe')
-```
-
-When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of these media types are valid:
-
-- `.dmg`
-- `.dmg|.exe|.deb`
-- `image/*`
-- `audio/*`
-- `video/*`
-- All media types listed at http://www.iana.org/assignments/media-types/

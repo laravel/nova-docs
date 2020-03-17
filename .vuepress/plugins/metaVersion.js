@@ -1,4 +1,4 @@
-var versions = ["1.0", "2.0"];
+var versions = ["1.0", "2.0", "3.0"];
 
 module.exports = (options = {}, context) => ({
   extendPageData($page) {

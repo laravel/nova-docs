@@ -7,7 +7,7 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 5.8+ or 6.x
+- Laravel Framework 7.0+
 - Laravel Mix
 - Node.js & NPM
 
@@ -44,9 +44,9 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
-    "php": "^7.1.3",
-    "fideloper/proxy": "^4.0",
-    "laravel/framework": "5.8.*",
+    "php": "^7.2.5",
+    "fideloper/proxy": "^4.2",
+    "laravel/framework": "^7.0",
     "laravel/nova": "*"
 },
 ```
@@ -70,7 +70,7 @@ php artisan nova:install
 php artisan migrate
 ```
 
-After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. If your application does not use the `App` namespace, you should update the provider class name as needed.
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
@@ -82,11 +82,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Installing Nova Via Composer
 
-Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Nova package via our private Satis repository.
-
-Installing Nova via Composer will require you to authenticate with the Nova website. To avoid manually typing these credentials upon package installation, you may create a [Composer `auth.json` file](https://getcomposer.org/doc/articles/http-basic-authentication.md) and use your [Nova API token](https://nova.laravel.com/settings#password) in place of your Nova website password.
-
-To get started, add the Nova repository to your application's `composer.json` file:
+Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Nova package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
 "repositories": [
@@ -101,10 +97,10 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^7.1.3",
-    "fideloper/proxy": "^4.0",
-    "laravel/framework": "5.8.*",
-    "laravel/nova": "~2.0"
+    "php": "^7.2.5",
+    "fideloper/proxy": "^4.2",
+    "laravel/framework": "^7.0",
+    "laravel/nova": "~3.0"
 },
 ```
 
@@ -114,6 +110,8 @@ After your `composer.json` file has been updated, run the `composer update` comm
 composer update
 ```
 
+When running `composer update`, you will be prompted to provide your login credentials for the Nova website. These credentials will authenticate your Composer session as having permission to download the Nova source code. To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while optionally using your [API token](https://nova.laravel.com/settings#password) in place of your password.
+
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
 ```bash
@@ -122,7 +120,7 @@ php artisan nova:install
 php artisan migrate
 ```
 
-After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. If your application does not use the `App` namespace, you should update the provider class name as needed.
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
@@ -140,7 +138,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Authenticating Nova in Continuous Integration (CI) Environments
 
-It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing either your Nova username and password or your Nova username and [Nova API token](https://nova.laravel.com/settings#password) in place of your password:
+It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
 
 ```sh
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
@@ -148,9 +146,9 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 ## Upgrade Guide
 
-Nova 2.0 is primarily a maintenance release to provide compatibility with Laravel 5.8 or greater. Nova 2.0 should **only** be used with Laravel 5.8 or greater, as it is not compatible with previous releases of Laravel.
+Nova 3.0 is primarily a maintenance release to provide compatibility with Laravel 7.x or greater. Nova 3.0 should **only** be used with Laravel 7.x or greater, as it is not compatible with previous releases of Laravel.
 
-Update your `laravel/nova` dependency to ~2.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
+Update your `laravel/nova` dependency to ~3.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 
 Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
 
@@ -189,7 +187,7 @@ protected function gate()
 To update your Nova installation, you may simply download a release Zip file from the Nova website.
 
 :::tip Composer Installations
-If you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
+Of course, if you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
 :::
 
 After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` command:
