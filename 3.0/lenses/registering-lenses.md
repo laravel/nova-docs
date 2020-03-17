@@ -19,6 +19,25 @@ public function lenses(Request $request)
 }
 ```
 
+Alternatively, you may use the `make` method to instantiate your lens: 
+
+```php
+/**
+ * Get the lenses available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function lenses(Request $request)
+{
+    return [
+        Lenses\MostValuableUsers::make(),
+    ];
+}
+```
+
+Any arguments passed to the `make` method will be passed to the constructor of your lens.
+
 ## Authorization
 
 If you would like to only expose a given lens to certain users, you may chain the `canSee` method onto your lens registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:

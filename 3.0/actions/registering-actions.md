@@ -13,9 +13,30 @@ Once you have defined an action, you are ready to attach it to a resource. Each 
  */
 public function actions(Request $request)
 {
-    return [new Actions\EmailAccountProfile];
+    return [
+        new Actions\EmailAccountProfile
+    ];
 }
 ```
+
+Alternatively, you may use the `make` method to instantiate your action: 
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        Actions\EmailAccountProfile::make()
+    ];
+}
+```
+
+Any arguments passed to the `make` method will be passed to the constructor of your action.
 
 ## Authorization
 
