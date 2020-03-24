@@ -538,3 +538,10 @@ public function cacheFor()
     return now()->addMinutes(5);
 }
 ```
+
+## Customizing Metrics
+
+To change the displayed title of your metric add the following to your metric class:
+```
+public $name = 'My Metric Title';
+```
