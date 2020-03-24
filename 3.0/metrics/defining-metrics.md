@@ -9,7 +9,7 @@ Nova offers three types of built-in metrics: value, trend, and partition. We'll 
 
 ## Customizing Metric Titles
 
-To change the displayed title provide override the name property of your metric class:
+To change the displayed title override the name property of your metric class:
 ```
 /**
 * The displayable name of the metric.
