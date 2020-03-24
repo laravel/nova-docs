@@ -20,7 +20,6 @@ php artisan nova:value NewUsers
 
 Once your value metric class has been generated, you're ready to customize it. Each value metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ValueResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
 
-
 In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model for the selected range, as well as automatically retrieve the count for the "previous" range:
 
 ```php
