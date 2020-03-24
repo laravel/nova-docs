@@ -6,6 +6,20 @@ Nova metrics allow you to quickly gain insight on key business indicators for yo
 
 Nova offers three types of built-in metrics: value, trend, and partition. We'll examine each type of metric and demonstrate their usage below.
 
+
+## Customizing Metric Titles
+
+To change the displayed title provide override the name property of your metric class:
+```
+/**
+* The displayable name of the metric.
+*
+* @var string
+*/
+
+public $name;
+```
+
 ## Value Metrics
 
 Value metrics display a single value and, if desired, its change compared to a previous time interval. For example, a value metric might display the total number of users created in the last thirty days compared with the previous thirty days:
