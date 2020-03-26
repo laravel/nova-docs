@@ -87,10 +87,12 @@ Text::make('Name')->hideFromIndex(function () {
 }),
 ```
 
-If your application requires it, you can also specify different list of fields for specific display contexts. For example, you might have a resource with the following list of fields:
+## Dynamic Field Methods
+
+If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
 
 ```php
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         Text::make('First Name'),
@@ -100,10 +102,10 @@ public function fields(Request $request)
 }
 ```
 
-On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail()` method which returns a new list of fields:
+On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail` method which returns a separate list of fields:
 
 ```php
-public function fieldsForDetail(Request $request)
+public function fieldsForDetail(NovaRequest $request)
 {
     return [
         Text::make('Name', function () {
@@ -122,7 +124,9 @@ The available methods for individual display contexts are:
 - `fieldsForCreate`
 - `fieldsForUpdate`
 
-The `fields()` method will continue to work as normal, but if one of these methods exists in a resource, the list of fields returned from it will take precedance.
+:::tip Dynamic Field Methods Precedence ::
+The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
+:::
 
 ## Field Panels
 

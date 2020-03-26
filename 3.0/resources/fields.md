@@ -87,6 +87,47 @@ Text::make('Name')->hideFromIndex(function () {
 }),
 ```
 
+## Dynamic Field Methods
+
+If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
+
+```php
+public function fields(NovaRequest $request)
+{
+    return [
+        Text::make('First Name'),
+        Text::make('Last Name'),
+        Text::make('Job Title'),
+    ];
+}
+```
+
+On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail` method which returns a separate list of fields:
+
+```php
+public function fieldsForDetail(NovaRequest $request)
+{
+    return [
+        Text::make('Name', function () {
+            return sprintf('%s %s', $this->first_name, $this->last_name);
+        }),
+
+        Text::make('Job Title'),
+    ];
+}
+```
+
+The available methods for individual display contexts are:
+
+- `fieldsForIndex`
+- `fieldsForDetail`
+- `fieldsForCreate`
+- `fieldsForUpdate`
+
+:::tip Dynamic Field Methods Precedence ::
+The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
+:::
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
