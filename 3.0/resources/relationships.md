@@ -392,7 +392,7 @@ BelongsTo::make('User')->searchable();
 
 When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update screen, you have the ability to create the related resource inline in a modal window without leaving the current view.
 
-![Belongs To Search](./img/inline-relations.png)
+![Creating Inline Relations](./img/inline-relations.png)
 
 To enable this behavior, chain the `showCreateRelationButton` method onto the field's definition:
 
