@@ -142,6 +142,19 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+## Action Titles
+
+If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
+
+```php
+/**
+ * The displayable name of the action.
+ *
+ * @var string
+ */
+public $name = 'Action Title';
+```
+
 ## Action Modal Customization
 
 By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by specifying the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
