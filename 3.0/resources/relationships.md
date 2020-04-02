@@ -387,3 +387,36 @@ To mark as relationship as `searchable`, chain the `searchable` method onto the 
 ```php
 BelongsTo::make('User')->searchable();
 ```
+
+## Creating Inline Relations
+
+When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update screen, you have the ability to create the related resource inline in a modal window without leaving the current view.
+
+![Creating Inline Relations](./img/inline-relations.png)
+
+To enable this behavior, chain the `showCreateRelationButton` method onto the field's definition:
+
+```php
+BelongsTo::make('User')->showCreateRelationButton();
+```
+
+You may also pass a callback method to conditionally show the inline creation button:
+
+```php
+BelongsTo::make('User')->showCreateRelationButton(function ($request) {
+    //
+});
+```
+
+To hide the inline creation button, chain the `hideCreateRelationButton` method onto the field's definition:
+
+```php
+BelongsTo::make('User')->hideCreateRelationButton();
+```
+
+The inline relation button respects any [authorization policies](./authorization.md) you have set.
+
+:::warning Inline Creation Limitations
+
+Inline relation creation only supports creating relations **one level deep**. This means you cannot trigger an additional inline creation modal inside an existing inline modal, and you will instead be limited to selecting an existing resource.
+:::
