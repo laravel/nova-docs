@@ -328,6 +328,22 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
+You may filter out values that are `true` or `false` from the index view by using:
+
+- `hideFalseOnIndex`
+- `hideTrueOnIndex`
+
+In the event that the field contains no values, Nova will display "No Data". You may customize this text:
+
+```php
+BooleanGroup::make('Permissions')->options([
+    'create' => 'Create',
+    'read' => 'Read',
+    'update' => 'Update',
+    'delete' => 'Delete',
+])->hideFalseOnIndex()->noDataText('No permissions selected.'),
+```
+
 ### Code Field
 
 The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns. However, you may also attach them to `JSON` database columns:
@@ -998,7 +1014,7 @@ $schedule->call(function () {
 
 ### Vapor File Field
 
-Vapor file fields provide convenience and compatibility for uploading files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com): 
+Vapor file fields provide convenience and compatibility for uploading files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com):
 
 ```php
 use Laravel\Nova\Fields\VaporFile;
@@ -1010,7 +1026,7 @@ When uploading a file using a `VaporFile` field, Nova will first generate a sign
 
 ### Vapor Image Field
 
-Vapor file fields provide convenience and compatibility for uploading image files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com): 
+Vapor file fields provide convenience and compatibility for uploading image files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com):
 
 ```php
 use Laravel\Nova\Fields\VaporImage;
