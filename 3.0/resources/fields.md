@@ -333,7 +333,7 @@ You may filter out values that are `true` or `false` from the index view by usin
 - `hideFalseOnIndex`
 - `hideTrueOnIndex`
 
-In the event that the field contains no values, Nova will display "No Data". You may customize this text:
+In the event that the field contains no values, Nova will display "No Data". You may customize this text using the `noDataText` method:
 
 ```php
 BooleanGroup::make('Permissions')->options([
