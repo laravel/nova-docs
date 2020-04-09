@@ -128,6 +128,17 @@ The available methods for individual display contexts are:
 The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
 :::
 
+## Default Values
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
+
+```php
+BelongsTo::make('Name')->default($request->user()->getKey());
+
+Text::make('Uuid')->default(function ($request) {
+    return Str::orderedUuid();
+});
+```
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
