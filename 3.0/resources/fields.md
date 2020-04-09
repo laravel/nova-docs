@@ -564,6 +564,23 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 `Heading` fields are automatically hidden from the resource index screen.
 :::
 
+### Hidden Field
+
+The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource: 
+
+```php
+Hidden::make('Slug');
+Hidden::make('Slug')->default(Str::random(64));
+```
+
+Combined with [Default Values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
+
+```php
+Hidden::make('User', 'user_id')->default(function ($request) {
+    return $request->user()->id;
+});
+```
+
 ### ID Field
 
 The `ID` field represents the primary key of your resource's database table. Typically, each Nova resource you define should contain an `ID` field. By default, the `ID` field assumes the underlying database column is named `id`:
