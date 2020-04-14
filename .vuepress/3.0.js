@@ -54,7 +54,8 @@ module.exports = [
       "fields",
       "frontend",
       "filters",
-      "themes"
+      "themes",
+      "stubs"
     ])
   }
   // {
