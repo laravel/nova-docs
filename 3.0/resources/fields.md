@@ -128,6 +128,17 @@ The available methods for individual display contexts are:
 The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
 :::
 
+## Default Values
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
+
+```php
+BelongsTo::make('Name')->default($request->user()->getKey());
+
+Text::make('Uuid')->default(function ($request) {
+    return Str::orderedUuid();
+});
+```
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
@@ -552,6 +563,23 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 
 `Heading` fields are automatically hidden from the resource index screen.
 :::
+
+### Hidden Field
+
+The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource: 
+
+```php
+Hidden::make('Slug');
+Hidden::make('Slug')->default(Str::random(64));
+```
+
+Combined with [Default Values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
+
+```php
+Hidden::make('User', 'user_id')->default(function ($request) {
+    return $request->user()->id;
+});
+```
 
 ### ID Field
 
