@@ -388,6 +388,12 @@ To mark as relationship as `searchable`, chain the `searchable` method onto the 
 BelongsTo::make('User')->searchable();
 ```
 
+You may also instruct the relation field to display the [resource's subtitle](./../search/global-search) by chaining the `withSubtitles` method to the field:
+
+```php
+BelongsTo::make('User')->searchable()->withSubtitles();
+```
+
 ## Creating Inline Relations
 
 When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update screen, you have the ability to create the related resource inline in a modal window without leaving the current view.
