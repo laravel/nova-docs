@@ -382,7 +382,7 @@ Instead of displaying a drop-down selection menu, you may mark your relationship
 
 ![Belongs To Search](./img/belongs-to-search.png)
 
-To mark as relationship as `searchable`, chain the `searchable` method onto the field's definition:
+To mark a relationship as `searchable`, chain the `searchable` method onto the field's definition:
 
 ```php
 BelongsTo::make('User')->searchable();
