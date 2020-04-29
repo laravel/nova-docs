@@ -859,7 +859,7 @@ Select::make('Size')->searchable()->options([
 ])->displayUsingLabels(),
 ```
 
-When using this field, Nova will display an `input` field which allows you to filter the list based on it's label:
+When using this field, Nova will display an `input` field which allows you to filter the list based on its label:
 
 ![Searchable Select Fields](./img/searchable-select.png)
 
