@@ -847,6 +847,22 @@ Select::make('Size')->options(function () {
 }),
 ```
 
+#### Searchable Select Fields
+
+At times it's convenient to be able to search or filter the list of options in a `Select` field. You can enable this by calling the `searchable` method on the field:
+
+```php
+Select::make('Size')->searchable()->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels(),
+```
+
+When using this field, Nova will display an `input` field which allows you to filter the list based on its label:
+
+![Searchable Select Fields](./img/searchable-select.png)
+
 ### Sparkline Field
 
 The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
