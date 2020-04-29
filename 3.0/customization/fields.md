@@ -43,7 +43,7 @@ public function fields(Request $request)
 
 ### Field Options
 
-Often, you will need to allow the consumer's of your field to customize run-time configuration options on the field. You may do this by exposing methods on your field class. These methods may call the field's underlying `withMeta` method to add information to the field's metadata, which [will be available](#field-properties) within your field's Vue components. The `withMeta` method accepts an array of key / value options:
+Often, you will need to allow the consumers of your field to customize run-time configuration options on the field. You may do this by exposing methods on your field class. These methods may call the field's underlying `withMeta` method to add information to the field's metadata, which [will be available](#field-properties) within your field's Vue components. The `withMeta` method accepts an array of key / value options:
 
 ```php
 <?php
