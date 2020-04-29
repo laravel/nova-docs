@@ -651,6 +651,35 @@ KeyValue::make('Meta')
 By default, Nova will never display a `KeyValue` field on a resource index listing.
 :::
 
+If you would like to disable the user's ability to edit the keys of the field, you may use the `disabledEditingKeys` method to accomplish this:
+
+```php
+KeyValue::make('Meta')
+    ->disabledEditingKeys()
+``` 
+
+:::tip Disabling Editing KeyValue Keys
+
+Disabling editing keys with the `disabledEditingKeys` method will automatically disable adding rows as well.
+:::
+
+You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
+
+```php
+KeyValue::make('Meta')
+    ->disableAddingRows()
+``` 
+
+In addition you may also wish to remove the user's ability to delete exisiting rows in the field by using the `disableDeletingRows` method:
+
+```php
+KeyValue::make('Meta')
+    ->disableDeletingRows()
+``` 
+
+
+
+
 ### Markdown Field
 
 The `Markdown` field provides a WYSIWYG Markdown editor for its associated field. Typically, this field will correspond to a `TEXT` column in your database. The `Markdown` field will store the raw Markdown text within the associated database column:
