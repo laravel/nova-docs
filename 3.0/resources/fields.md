@@ -651,16 +651,16 @@ KeyValue::make('Meta')
 By default, Nova will never display a `KeyValue` field on a resource index listing.
 :::
 
-If you would like to disable the user's ability to edit the keys of the field, you may use the `disabledEditingKeys` method to accomplish this:
+If you would like to disable the user's ability to edit the keys of the field, you may use the `disableEditingKeys` method to accomplish this:
 
 ```php
 KeyValue::make('Meta')
-    ->disabledEditingKeys()
+    ->disableEditingKeys()
 ``` 
 
 :::tip Disabling Editing KeyValue Keys
 
-Disabling editing keys with the `disabledEditingKeys` method will automatically disable adding rows as well.
+Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well.
 :::
 
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
