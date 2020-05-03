@@ -269,7 +269,7 @@ At this time, Nova does not support attaching `File` fields to a queued action. 
 
 #### Customizing The Connection And Queue
 
-You may customize the queue connection and queue name that the action is queued on by defining the `$connection` and `$queue` properties on your action within constructor:
+You may customize the queue connection and queue name that the action is queued on by setting the `$connection` and `$queue` properties within the action's constructor:
 
 ```php
 class EmailAccountProfile extends Action implements ShouldQueue
