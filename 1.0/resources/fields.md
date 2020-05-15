@@ -702,7 +702,7 @@ Text::make('Status', function () {
 
 ## Customization
 
-### Nullable fileds
+### Nullable Fields
 
 By default, Nova attempts to store all fields with a value, however, there are times where you'd like to explicitly direct Nova to store a `null` value when the field is empty. To do this, you may use the `nullable` method on your field:
 
