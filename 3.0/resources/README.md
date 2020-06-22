@@ -25,6 +25,20 @@ public static $model = 'App\Post';
 
 Freshly created Nova resources only contain an `ID` field definition. Don't worry, we'll add more fields to our resource soon.
 
+:::warning Reserved Resource Names
+
+Nova contains a few reserved words, which may not be used for resource names.
+
+- Field
+- Script
+- Resource
+- Card
+- Tool
+- Dashbaord
+- Metric
+
+:::
+
 ## Registering Resources
 
 :::tip Automatic Registration
