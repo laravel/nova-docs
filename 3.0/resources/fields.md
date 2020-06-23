@@ -234,6 +234,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Select](#select-field)
 - [Sparkline](#sparkline-field)
 - [Status](#status-field)
+- [Stack](#stack-field)
 - [Text](#text-field)
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
@@ -623,7 +624,7 @@ To learn more about defining file fields and handling uploads, check out the add
 
 ### KeyValue Field
 
-The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a JSON column type name `meta`:
+The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a [JSON column type name](https://laravel.com/docs/7.x/eloquent-mutators#array-and-json-casting) `meta`:
 
 ```php
 use Laravel\Nova\Fields\KeyValue;
@@ -876,6 +877,22 @@ Select::make('Size')->options(function () {
 }),
 ```
 
+#### Searchable Select Fields
+
+At times it's convenient to be able to search or filter the list of options in a `Select` field. You can enable this by calling the `searchable` method on the field:
+
+```php
+Select::make('Size')->searchable()->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels(),
+```
+
+When using this field, Nova will display an `input` field which allows you to filter the list based on its label:
+
+![Searchable Select Fields](./img/searchable-select.png)
+
 ### Sparkline Field
 
 The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
@@ -950,6 +967,55 @@ Status::make('Status')
     ->failedWhen(['failed']),
 ```
 
+### Stack Field
+
+As you resource classes grow, you may find it useful to be able to group fields together to simplify your index and detail views. A `Stack` field allows one to display fields like `BelongsTo`, `Text`, and others in vertical orientation:
+
+```php
+Stack::make('Details', [
+    Text::make('Name'),
+    Text::make('Slug')->resolveUsing(function () {
+        return Str::slug(optional($this->resource)->name);
+    }),
+]),
+```
+
+![Stack Field](./img/stack-field.png)
+
+`Stack` fields are not shown on forms, and are only for stacking lines of text for display on the index and detail resource views.
+
+#### Line Fields
+To gain more control over how the individual fields in a `Stack` are displayed, you can opt to use the special `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
+
+- `asHeading`
+- `asSubTitle`
+- `asSmall`
+- `asBase`
+
+![Line presentational methods](./img/stack-field-lines.png)
+
+In addition to `Lines` presentational methods, you may also pass any additional classes to the field to increase the visual customization of the `Line`:
+
+```php
+Stack::make('Details', [
+    Line::make('Title')->extraClasses('italic font-medium text-80'),
+]),
+```
+
+#### Passing Closures to Line Fields
+
+In addition to passing normal `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a `Closure`, which will automatically get converted to a `Line` instance:
+
+```php
+Stack::make('Details', [
+    Line::make('Name')->asHeading(),
+    function () {
+        return optional($this->resource)->position;
+    }
+]),
+``` 
+
+
 ### Text Field
 
 The `Text` field provides an `input` control with a `type` attribute of `text`:
@@ -969,6 +1035,13 @@ Text::make('Name')->withMeta([
     ],
 ]);
 ```
+
+#### Text Field Suggestions
+
+If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions, which will be used to populate a `datalist`:
+
+![Field Suggestions](./img/field-suggestions.png)
+
 
 #### Formatting Text As Links
 

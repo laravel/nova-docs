@@ -7,6 +7,7 @@
     <input
       id="algolia-search-input"
       class="search-query"
+      :placeholder="placeholder"
     >
   </form>
 </template>
@@ -15,8 +16,15 @@
 export default {
   props: ['options'],
 
+  data() {
+    return {
+      placeholder: undefined
+    }
+  },
+
   mounted () {
     this.initialize(this.options, this.$lang)
+    this.placeholder = this.$site.themeConfig.searchPlaceholder || ''
   },
 
   methods: {
@@ -55,7 +63,7 @@ export default {
     },
 
     update (options, lang) {
-      this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">dddd'
+      this.$el.innerHTML = '<input id="algolia-search-input" class="search-query">'
       this.initialize(options, lang)
     }
   },

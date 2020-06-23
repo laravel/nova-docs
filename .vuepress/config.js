@@ -39,8 +39,11 @@ module.exports = {
 
   themeConfig: {
     logo: "/assets/img/logo.svg",
-    displayAllHeaders: true,
-    sidebarDepth: 2,
+    displayAllHeaders: false,
+    activeHeaderLinks: false,
+    searchPlaceholder: 'Search...',
+    lastUpdated: 'Last Updated', // string | boolean
+    sidebarDepth: 0,
 
     nav: [
       { text: "Home", link: "https://nova.laravel.com" },
