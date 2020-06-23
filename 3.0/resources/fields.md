@@ -1007,6 +1007,13 @@ Text::make('Name')->withMeta([
 ]);
 ```
 
+#### Text Field Suggestions
+
+If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions, which will be used to populate a `datalist`:
+
+![Field Suggestions](./img/field-suggestions.png)
+
+
 #### Formatting Text As Links
 
 To format text as a link, you may use the `asHtml` method:
