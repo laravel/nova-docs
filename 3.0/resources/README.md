@@ -100,6 +100,46 @@ If you would like to separate resources into different sidebar groups, you may o
 public static $group = 'Admin';
 ```
 
+## Resource Table Style Customization
+
+Nova supports a few visual customization options for your resources.
+
+### Table styles
+
+Sometimes it's convenient to show more data on your resource index tables. To accomplish this, you can use the "tight" table style option designed to increase the visual density of your table rows. Override the static `$tableStyle` property or the static `tableStyle` method on your Resource class:
+
+```php
+/**
+ * The visual style used for the table. Available options are 'tight' and 'default'.
+ *
+ * @var string
+ */
+public static $tableStyle = 'default';
+```
+
+This will display your table rows with less visual height, enabling more data to be shown:
+
+![Tight Table Style](./img/resource-tight-table.png)
+
+
+### Column Borders
+
+You can show borders on the sides of columns by overriding the static `$showColumnBorders` property or the static `showColumnBorders` method on your Resource class:
+
+```php
+/**
+ * Whether to show borders for each column on the X-axis.
+ *
+ * @var bool
+ */
+public static $showColumnBorders = true;
+```
+
+This will display the table with borders on every table item:
+
+
+![Table Column Borders](./img/resource-column-borders.png)
+
 ## Eager Loading
 
 If you routinely need to access a resource's relationships within your fields, [resource title](./../search/global-search.md#title-subtitle-attributes), or [resource subtitle](./../search/global-search.md#title-subtitle-attributes), it may be a good idea to add the relationship to the `with` property of your resource. This property instructs Nova to always eager load the listed relationships when retrieving the resource.
