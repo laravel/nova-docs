@@ -100,6 +100,8 @@ cd -
 php artisan nova:publish
 ```
 
+Please note, compiling Nova's assets for production purposes is not supported.
+
 ### Other Available Libraries
 
 In addition to Axios, the [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
