@@ -507,7 +507,7 @@ You may customize the display format of your `DateTime` fields using the `format
 To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
 
 ```php
-DateTime::make('Birthday')->pickerFormat('d.m.Y'),
+DateTime::make('Updated At')->pickerFormat('d.m.Y'),
 ```
 
 To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
