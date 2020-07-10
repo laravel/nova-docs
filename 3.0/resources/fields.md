@@ -132,11 +132,11 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
 
 ```php
-BelongsTo::make('Name')->default($request->user()->getKey());
+BelongsTo::make('Name')->default($request->user()->getKey()),
 
 Text::make('Uuid')->default(function ($request) {
     return Str::orderedUuid();
-});
+}),
 ```
 
 ## Field Panels
@@ -265,7 +265,7 @@ use Laravel\Nova\Fields\Badge;
 
 Badge::make('Status', function () {
     return User::statuses[$this->status];
-});
+}),
 ```
 
 By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning`; however, you can override this mapping by passing an associative array of your `Resource` types to the built-in types:
@@ -570,8 +570,8 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource: 
 
 ```php
-Hidden::make('Slug');
-Hidden::make('Slug')->default(Str::random(64));
+Hidden::make('Slug'),
+Hidden::make('Slug')->default(Str::random(64)),
 ```
 
 Combined with [Default Values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
@@ -579,7 +579,7 @@ Combined with [Default Values](#default-values), `Hidden` fields are useful for 
 ```php
 Hidden::make('User', 'user_id')->default(function ($request) {
     return $request->user()->id;
-});
+}),
 ```
 
 ### ID Field
@@ -939,7 +939,7 @@ If a bar chart is better suited to your data, you may use the `asBarChart()` met
 ```php
 Sparkline::make('Post Views')
            ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-           ->asBarChart();
+           ->asBarChart(),
 ```
 
 By default, a `Sparkline` will appear on the detail view. You can customize the dimensions of the chart using the `height` and `width` methods:
@@ -948,7 +948,7 @@ By default, a `Sparkline` will appear on the detail view. You can customize the 
 Sparkline::make('Post Views')
            ->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
            ->height(200)
-           ->width(600);
+           ->width(600),
 ```
 
 ### Status Field
@@ -1033,7 +1033,7 @@ Text::make('Name')->withMeta([
     'extraAttributes' => [
         'placeholder' => 'David Hemphill',
     ],
-]);
+]),
 ```
 
 #### Text Field Suggestions
