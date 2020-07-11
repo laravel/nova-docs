@@ -34,7 +34,7 @@ Nova contains a few reserved words, which may not be used for resource names.
 - Resource
 - Card
 - Tool
-- Dashbaord
+- Dashboard
 - Metric
 
 :::
