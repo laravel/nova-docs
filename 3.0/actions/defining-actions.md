@@ -100,6 +100,22 @@ You may designate an action as destructive or dangerous by having your action cl
 When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 :::
 
+## Customizing Action Confirmation Buttons
+
+You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
+
+```php
+/**
+ * Return the CSS classes for the Action.
+ *
+ * @return string
+ */
+public function actionClass()
+{
+    return 'bg-success text-white';
+}
+```
+
 ## Action Fields
 
 Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
