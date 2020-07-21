@@ -316,6 +316,27 @@ return $this->minByHours($request, Order::class, 'total');
 return $this->minByMinutes($request, Order::class, 'total');
 ```
 
+#### Showing the sum of values
+
+By default, Nova only displays the last value of a Trend metric. You may wish to show a total count of the trend. You can do this by specifying the `showSumValue` method when returning your values from a Metric:
+
+```php
+class UsersPerDay extends Trend
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    public function calculate(Request $request)
+    {
+        return $this
+            ->count($request, User::class)
+            ->showSumValue();
+    }
+```
+
 ### Trend Ranges
 
 Every trend metric class contains a `ranges` method. This method determines the ranges that will be available in the trend metric's range selection menu. The array's keys determine the number of time interval units (months, weeks, days, etc.) that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
