@@ -55,6 +55,7 @@ module.exports = [
       "frontend",
       "filters",
       "themes",
+      "assets",
       "stubs"
     ])
   }
