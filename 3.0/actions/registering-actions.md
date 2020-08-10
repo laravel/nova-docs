@@ -38,6 +38,35 @@ public function actions(Request $request)
 
 Any arguments passed to the `make` method will be passed to the constructor of your action.
 
+## Action Visibility
+
+By default, actions are visible on both the resource index and detail screens. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when registering it:
+
+- `onlyOnIndex`
+- `exceptOnIndex`
+- `showOnIndex`
+- `onlyOnDetail`
+- `exceptOnDetail`
+- `showOnDetail`
+- `onlyOnTableRow`
+- `exceptOnTableRow`
+- `showOnTableRow`
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new ConsolidateTransaction())->showOnTableRow()
+    ];
+}
+```
+
 ## Authorization
 
 If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your action registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
