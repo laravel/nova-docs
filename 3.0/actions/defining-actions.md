@@ -75,20 +75,6 @@ The most important method of an action is the `handle` method. The `handle` meth
 
 Within the `handle` method, you may perform whatever tasks are necessary to complete the action. You are free to update database records, send emails, call other services, etc. The sky is the limit!
 
-## Action Visibility
-
-By default, actions are visible on both the resource index and detail screens. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when defining it:
-
-- `onlyOnIndex`
-- `exceptOnIndex`
-- `showOnIndex`
-- `onlyOnDetail`
-- `exceptOnDetail`
-- `showOnDetail`
-- `onlyOnTableRow`
-- `exceptOnTableRow`
-- `showOnTableRow`
-
 ## Destructive Actions
 
 You may designate an action as destructive or dangerous by having your action class inherit from `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
