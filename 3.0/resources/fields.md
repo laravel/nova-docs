@@ -207,7 +207,7 @@ Text::make('Name', 'name_column')->sortable(),
 
 :::tip Relationship Fields
 
-This portion of the documentation only discusses non-relationship fields. To learn more about relationship fields, [check out their documentation](/1.0/resources/relationships.html).
+This portion of the documentation only discusses non-relationship fields. To learn more about relationship fields, [check out their documentation](/3.0/resources/relationships.html).
 :::
 
 Nova ships with a variety of field types. So, let's explore all of the available types and their options:
