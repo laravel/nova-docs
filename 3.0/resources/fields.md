@@ -504,6 +504,10 @@ DateTime::make('Updated At')->hideFromIndex(),
 
 You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
 
+```php
+DateTime::make('Created At')->format('DD MMM YYYY'),
+```
+
 To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
 
 ```php
@@ -511,10 +515,6 @@ DateTime::make('Updated At')->pickerFormat('d.m.Y'),
 ```
 
 To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
-
-```php
-DateTime::make('Created At')->format('DD MMM YYYY'),
-```
 
 ### File Field
 
