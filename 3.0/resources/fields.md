@@ -139,6 +139,14 @@ Text::make('Uuid')->default(function ($request) {
 }),
 ```
 
+## Field Placeholder Text
+
+By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports it by using the `placeholder` method:
+
+```php
+Text::make('Name')->placeholder('My New Post'),
+```
+
 ## Field Panels
 
 If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
