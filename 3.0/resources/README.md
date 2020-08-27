@@ -248,6 +248,19 @@ public static function trafficCop(Request $request)
 Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP. 
 :::
 
+## Preventing Accidental Resource Form Abandonment
+
+When creating and editing resource forms with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your resources by setting the static `preventFormAbandonment` property to `true`:
+
+```php
+/**
+ * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
+ *
+ * @var bool
+ */
+public static $preventFormAbandonment = false;
+```
+
 ## Keyboard Shortcuts
 
 You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
