@@ -901,6 +901,20 @@ When using this field, Nova will display an `input` field which allows you to fi
 
 ![Searchable Select Fields](./img/searchable-select.png)
 
+### Slug Field
+
+Some times you may need a unique, human-readable identifier generated from another field in your Nova resource for use in URLs. You can automatically generate these URL "slugs" with the `Slug` field:
+
+```php
+Slug::make('Slug')->from('Title'),
+```
+
+By default, the field will take a string like 'My Cool Post' and create a slug like 'my-cool-post'. If you'd like the field to use underscores instead of dashes, use the `separator` method:
+
+```php
+Slug::make('Slug')->from('Title')->separator('_'),
+```
+
 ### Sparkline Field
 
 The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
