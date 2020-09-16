@@ -122,6 +122,14 @@ You can limit the number of results that are returned in the global search by ov
 public static $globalSearchResults = 5;
 ```
 
+### Global Search Debounce
+
+You can configure the debounce timing of global search by using the `globalSearchDebounce` method. Normally, this would be called from your `NovaServiceProvider`:
+
+```php
+Nova::globalSearchDebounce(1); // 1 second
+``` 
+
 ### Disabling Global Search
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:

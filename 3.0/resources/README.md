@@ -306,3 +306,16 @@ public static function perPageOptions()
 :::tip Customizing `perPageOptions` affects the initial amount of resources fetched.
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
+
+### Resource Index Search Debounce
+
+You may wish to customize the debounce timing of an individual resource's index listing. For example the queries ran may take longer than other resources. You can customize an individual resource's debounce by setting the `debounce` property on the resource class:
+
+```php
+/**
+ * The debounce amount to use when searching this resource.
+ *
+ * @var float
+ */
+public static $debounce = 0.5; // 0.5 seconds
+``` 
