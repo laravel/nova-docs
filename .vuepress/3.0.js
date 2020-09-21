@@ -2,7 +2,7 @@ module.exports = [
   {
     title: "Getting Started",
     collapsable: false,
-    children: ["installation", "contributions"]
+    children: ["installation", "contributions", "support", "code-of-conduct"]
   },
   {
     title: "Resources",
