@@ -52,7 +52,7 @@ yarn link laravel-nova
 ```
 
 #### Unlinking Nova-JS
-When your done submitting changes to Nova-JS, make sure to unlink the package and reinstall your node modules in the main Nova repository to restore Nova's to its released state:
+When you're done submitting changes to Nova-JS, make sure to unlink the package and reinstall your node modules in the main Nova repository to restore Nova's to its released state:
 
 ```sh
 cd ~/Sites/nova-lib
