@@ -25,7 +25,7 @@ Laravel Nova is a closed-source project and as such is not publicly available; h
 You will need to disconnect the currently connected account before re-authorizing another.
 ::: 
 
-### Download Laravel Nova's Composer package
+### Download the Laravel Nova Composer package repository
 
 To get started contributing to Laravel Nova, you need to have a local environment to test your changes against. You can download Nova's Git repository from GitHub after authenticating your Nova account:
 
@@ -35,7 +35,7 @@ To get started contributing to Laravel Nova, you need to have a local environmen
 
 ### Download the Laravel Nova NPM package repository
 
-Nova's team also maintains the `laravel-nova` NPM package, which is used inside custom fields and for Nova's internal use. You can download its repository, if you're change requires it:
+Nova's team also maintains the `laravel-nova` NPM package, which is used inside custom fields and for Nova's internal use. You can download its repository, if your change requires it:
 
 - HTTPS: https://github.com/laravel/nova-js.git
 - SSH: git@github.com:laravel/nova-js.git
