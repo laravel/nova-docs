@@ -75,6 +75,29 @@ The most important method of an action is the `handle` method. The `handle` meth
 
 Within the `handle` method, you may perform whatever tasks are necessary to complete the action. You are free to update database records, send emails, call other services, etc. The sky is the limit!
 
+## Handling Multiple Results
+
+When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the field:
+
+```php
+/**
+ * Handle chunk results.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  array  $results
+ *
+ * @return mixed
+ */
+public function handleResult(ActionFields $fields, $results)
+{
+    $models = collect($results)->flatten();
+
+    dispatch(GenerateReport::class, $models);
+
+    return Action::message($models->count());
+}
+```
+
 ## Destructive Actions
 
 You may designate an action as destructive or dangerous by having your action class inherit from `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
