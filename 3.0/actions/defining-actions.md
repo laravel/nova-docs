@@ -92,7 +92,7 @@ public function handleResult(ActionFields $fields, $results)
 {
     $models = collect($results)->flatten();
 
-    dispatch(GenerateReport::class, $models);
+    dispatch(new GenerateReport($models));
 
     return Action::message($models->count());
 }
