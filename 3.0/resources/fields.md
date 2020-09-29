@@ -557,7 +557,7 @@ Gravatar::make(),
 Gravatar::make('Avatar', 'email_address'),
 ```
 
-You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges:
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display the images with fully-rounded edges:
 
 ```php
 Gravatar::make('Avatar', 'email_address')->squared(),
