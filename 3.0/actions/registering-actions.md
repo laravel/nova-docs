@@ -98,7 +98,7 @@ public function actions(Request $request)
 
 ## Authorizing Actions Per-Resource
 
-Sometimes it is useful to conditionally show an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
+Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
 
 ```php
 /**
@@ -118,6 +118,7 @@ public function actions(Request $request)
 ```
 
 :::warning
+
 It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, it's important to check for the existence of the model, instead of assuming one is available.
 :::
 
