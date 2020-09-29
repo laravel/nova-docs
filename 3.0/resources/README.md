@@ -247,7 +247,7 @@ public static function trafficCop(Request $request)
 
 :::tip Time Synchronization
 
-Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP.
+If you are experiencing issues with traffic cop you may first want to check that the system time is correctly synchronized using NTP.
 :::
 
 ## Preventing Accidental Resource Form Abandonment
