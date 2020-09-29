@@ -19,11 +19,11 @@ Laravel Nova's GitHub issue trackers are not intended to provide Nova help or su
 
 ## Contributing
 
-Laravel Nova is a closed-source project and as such is not publicly available; however, you may authorize one GitHub account to the Nova repository for contributing or keeping an eye on development. You can manage the authorized account at [https://nova.laravel.com/settings#github](https://nova.laravel.com/settings#github)
+Laravel Nova is a closed-source project and as such is not publicly available; however, you may authorize one GitHub account to the Nova repository for contributing or keeping an eye on development. You can manage the authorized account at: [https://nova.laravel.com/settings#github](https://nova.laravel.com/settings#github)
 
 :::tip Changing Authorized Account
 You will need to disconnect the currently connected account before re-authorizing another.
-::: 
+:::
 
 ### Download the Laravel Nova Composer package repository
 
@@ -37,12 +37,13 @@ To get started contributing to Laravel Nova, you need to have a local environmen
 
 Nova's team also maintains the `laravel-nova` NPM package, which is used inside custom fields and for Nova's internal use. You can download its repository, if your change requires it:
 
-- HTTPS: https://github.com/laravel/nova-js.git
-- SSH: git@github.com:laravel/nova-js.git
-- GitHub CLI: gh repo clone laravel/nova-js
+- HTTPS: `https://github.com/laravel/nova-js.git`
+- SSH: `git@github.com:laravel/nova-js.git`
+- GitHub CLI: `gh repo clone laravel/nova-js`
 
-#### Linking Nova-JS to Nova's Composer package
-When needing to make changes to the Nova-JS library, make sure to link your development version of the package to your core Nova library:
+#### Linking Nova-JS To Nova's Composer Package
+
+When you need to make changes to the Nova-JS library, make sure to link your development version of the package to your core Nova library:
 
 ```sh
 cd ~/Sites/nova-js
@@ -52,7 +53,8 @@ yarn link laravel-nova
 ```
 
 #### Unlinking Nova-JS
-When you're done submitting changes to Nova-JS, make sure to unlink the package and reinstall your node modules in the main Nova repository to restore Nova's to its released state:
+
+When you're done submitting changes to Nova-JS, make sure to unlink the package and reinstall your node modules in the main Nova repository to restore Nova's modules to its released state:
 
 ```sh
 cd ~/Sites/nova-lib
@@ -60,8 +62,11 @@ yarn unlink laravel-nova
 yarn install --force
 ```
 
-:::tip
-If you are submitting a change that will affect a compiled file, such as most of the files in `resources/sass` or `resources/js` of the `laravel/nova` repository, do not commit the compiled files. Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel Nova. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
+:::tip Compiled Files
+
+If you are submitting a change that will affect a compiled file, such as most of the files in `resources/sass` or `resources/js` of the `laravel/nova` repository, do not commit the compiled files.
+
+Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel Nova. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
 :::
 
 ### Create a testing Laravel Nova application
