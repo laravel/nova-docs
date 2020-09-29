@@ -211,7 +211,7 @@ The `nova:publish` command will re-publish Nova's public assets, configuration, 
 php artisan nova:publish --force
 ```
 
-### Keeping Nova's Assets Up-to-date
+### Keeping Nova's Assets Updated
 
 To ensure Nova's assets are updated when a new version is downloaded, you may add a Composer hook inside your project's `composer.json` file to automatically publish Nova's latest assets:
 
