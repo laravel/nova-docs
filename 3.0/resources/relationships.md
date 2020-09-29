@@ -99,9 +99,9 @@ public function title()
 }
 ```
 
-#### Disable Trashed Items
+#### Filter Trashed Items
 
-By default, the `BelongsTo` field will allow users to select trashed options; however, this can be disabled:
+By default, the `BelongsTo` field will allow users to select soft-deleted models; however, this can be disabled using the `withoutTrashed` method:
 
 ```php
 BelongsTo::make('User')->withoutTrashed();

@@ -20,7 +20,7 @@ File::make('Profile Photo')->disk('public');
 
 ### Disabling File Downloads
 
-By default, the `File` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
+By default, the `File` field allows the user to download the linked file. To disable this, you can call the `disableDownload` method on the field definition:
 
 ```php
 File::make('Profile Photo')->disableDownload();
