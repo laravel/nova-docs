@@ -883,7 +883,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-If your options are dynamically generated you may pass a `Closure`:
+If you would like more dynamic control over generating the options available within the field, you may pass a `Closure` to the `options` method:
 
 ```php
 Select::make('Size')->options(function () {
