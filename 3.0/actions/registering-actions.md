@@ -19,7 +19,7 @@ public function actions(Request $request)
 }
 ```
 
-Alternatively, you may use the `make` method to instantiate your action: 
+Alternatively, you may use the `make` method to instantiate your action:
 
 ```php
 /**
@@ -51,6 +51,10 @@ By default, actions are visible on both the resource index and detail screens. I
 - `onlyOnTableRow`
 - `exceptOnTableRow`
 - `showOnTableRow`
+
+### Inline Actions
+
+Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showOnTableRow` method when attaching the action to the resource:
 
 ```php
 /**
