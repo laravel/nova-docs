@@ -652,7 +652,7 @@ use Laravel\Nova\Fields\KeyValue;
 KeyValue::make('Meta')->rules('json'),
 ```
 
-This would give you an interface similar to this:
+Given the field definition above, the following interface would be rendered:
 
 ![Key/Value Field](./img/key-value-field.png)
 
