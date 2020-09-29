@@ -453,7 +453,7 @@ This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to
 :::
 
 
-The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifiying the `nova.currency` value.
+The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifying the `nova.currency` value.
 
 ```php
 use Laravel\Nova\Fields\Currency;
