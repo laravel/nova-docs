@@ -615,7 +615,7 @@ ID::make(),
 // Using the "id_column" column...
 ID::make('ID', 'id_column'),
 
-// Resolve BIGINT ID fields
+// Resolve BIGINT ID fields...
 ID::make()->asBigInt(),
 ```
 
