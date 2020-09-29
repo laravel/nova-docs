@@ -109,22 +109,6 @@ You may designate an action as destructive or dangerous by having your action cl
 When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 :::
 
-## Customizing Action Confirmation Buttons
-
-You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
-
-```php
-/**
- * Return the CSS classes for the Action.
- *
- * @return string
- */
-public function actionClass()
-{
-    return 'bg-success text-white';
-}
-```
-
 ## Action Fields
 
 Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
@@ -180,32 +164,6 @@ If you would like to change the action title that is displayed in Nova's action 
 public $name = 'Action Title';
 ```
 
-## Action Modal Customization
-
-By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by specifying the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return array
- */
-public function actions(Request $request)
-{
-    return [
-        (new Actions\ActivateUser)
-            ->confirmText('Are you sure you want to activate this user?')
-            ->confirmButtonText('Activate')
-            ->cancelButtonText("Don't activate"),
-    ];
-}
-```
-
-This will customize the modal to look something like this:
-
-![Action Customization](./img/action-customization.png)
-
 ## Action Responses
 
 Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
@@ -242,7 +200,7 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
-To redirect the user to an internal route use the `Action::push` method:
+To redirect the user to an internal route, you may use the `Action::push` method:
 
 ```php
 return Action::push('/resources/posts/new', [
@@ -407,5 +365,47 @@ public function handle(ActionFields $fields, Collection $models)
             $this->markAsFailed($model, $e);
         }
     }
+}
+```
+
+## Action Modal Customization
+
+By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by calling the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\ActivateUser)
+            ->confirmText('Are you sure you want to activate this user?')
+            ->confirmButtonText('Activate')
+            ->cancelButtonText("Don't activate"),
+    ];
+}
+```
+
+This will customize the modal using your provided text:
+
+![Action Customization](./img/action-customization.png)
+
+## Customizing Action Confirmation Buttons
+
+You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
+
+```php
+/**
+ * Return the CSS classes for the Action.
+ *
+ * @return string
+ */
+public function actionClass()
+{
+    return 'bg-success text-white';
 }
 ```
