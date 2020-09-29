@@ -129,7 +129,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 :::
 
 ## Default Values
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -348,7 +348,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field: 
+You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -575,7 +575,7 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 
 ### Hidden Field
 
-The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource: 
+The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource:
 
 ```php
 Hidden::make('Slug'),
@@ -665,7 +665,7 @@ If you would like to disable the user's ability to edit the keys of the field, y
 ```php
 KeyValue::make('Meta')
     ->disableEditingKeys()
-``` 
+```
 
 :::tip Disabling Editing KeyValue Keys
 
@@ -677,14 +677,14 @@ You may also remove the user's ability to add new rows to the field by chaining 
 ```php
 KeyValue::make('Meta')
     ->disableAddingRows()
-``` 
+```
 
 In addition you may also wish to remove the user's ability to delete exisiting rows in the field by using the `disableDeletingRows` method:
 
 ```php
 KeyValue::make('Meta')
     ->disableDeletingRows()
-``` 
+```
 
 
 
@@ -1035,7 +1035,7 @@ Stack::make('Details', [
         return optional($this->resource)->position;
     }
 ]),
-``` 
+```
 
 
 ### Text Field
