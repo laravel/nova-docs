@@ -31,14 +31,13 @@ Freshly created Nova resources only contain an `ID` field definition. Don't worr
 
 Nova contains a few reserved words, which may not be used for resource names.
 
-- Field
-- Script
-- Resource
 - Card
-- Tool
 - Dashboard
+- Field
 - Metric
-
+- Resource
+- Script
+- Tool
 :::
 
 ## Registering Resources
