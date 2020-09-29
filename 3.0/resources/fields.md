@@ -529,7 +529,7 @@ To customize the display format used for the JavaScript date picker widget, you 
 DateTime::make('Updated At')->pickerFormat('d.m.Y'),
 ```
 
-To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
+To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 ### File Field
 
@@ -557,7 +557,11 @@ Gravatar::make(),
 Gravatar::make('Avatar', 'email_address'),
 ```
 
-You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges:
+
+```php
+Gravatar::make('Avatar', 'email_address')->squared(),
+```
 
 ### Heading Field
 
