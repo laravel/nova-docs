@@ -312,7 +312,7 @@ Changing the value of `perPageOptions` on your `Resource` will cause Nova to fet
 
 ### Resource Index Search Debounce
 
-You may wish to customize the debounce timing of an individual resource's index listing. For example the queries ran may take longer than other resources. You can customize an individual resource's debounce by setting the `debounce` property on the resource class:
+You may wish to customize the search debounce timing of an individual resource's index listing. For example, the queries executed to retrieve some resources may take longer than others. You can customize an individual resource's search debounce by setting the `debounce` property on the resource class:
 
 ```php
 /**
