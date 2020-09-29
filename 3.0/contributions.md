@@ -109,6 +109,6 @@ You may also create a new user for your Nova application by using the `nova:user
 php artisan nova:user
 ```
 
-### Configuring Webpack for development
+### Configuring Webpack For Development
 
-Nova's repository ships with a `webpack.mix.js.dist` file to help you get started contributing to Nova. You should create a copy of this file and name it `webpack.mix.js`. Take care to change the value of the line `.copy('public', '../nova-app/public/vendor/nova')` to point to your testing application's path. Doing so will ensure when you change code inside of Nova's JavaScript assets that your testing application's front-end assets are also updated.
+Nova's repository ships with a `webpack.mix.js.dist` file to help you get started contributing to Nova. You should create a copy of this file and name it `webpack.mix.js`. Take care to change the value of the line `.copy('public', '../nova-app/public/vendor/nova')` to point to your testing application's path. Doing so will ensure that when you change code inside of Nova's JavaScript assets that your testing application's front-end assets are also updated.
