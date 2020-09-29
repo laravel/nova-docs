@@ -191,7 +191,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-If you would like to attach any observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
+If you would like to attach an observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
 
 ```php
 use App\User;
