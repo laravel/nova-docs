@@ -1071,10 +1071,9 @@ Text::make('Name')->withMeta([
 
 #### Text Field Suggestions
 
-If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions, which will be used to populate a `datalist`:
+If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions. These suggestions will be used to populate the field's `datalist`:
 
 ![Field Suggestions](./img/field-suggestions.png)
-
 
 #### Formatting Text As Links
 
@@ -1274,7 +1273,7 @@ By default, Nova will use a red asterisk to indicate a field is required:
 
 ![Required Fields](./img/required-field.png)
 
-Nova does this by looking for the `required` rules inside the field's validation rules to determine if it should show the required state. For example, a field with this definition would receive the required treatment:
+Nova does this by looking for the `required` rules inside the field's validation rules to determine if it should show the required state. For example, a field with this definition would receive a "required" indicator in the Nova UI:
 
 ```php
 Text::make('Email')->rules('required'),
