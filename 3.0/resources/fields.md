@@ -590,10 +590,11 @@ The `Hidden` field allows users to pass a value in a hidden text input. You may 
 
 ```php
 Hidden::make('Slug'),
+
 Hidden::make('Slug')->default(Str::random(64)),
 ```
 
-Combined with [Default Values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
+Combined with [default values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
 
 ```php
 Hidden::make('User', 'user_id')->default(function ($request) {
