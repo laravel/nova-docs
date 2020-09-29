@@ -141,7 +141,7 @@ Text::make('Uuid')->default(function ($request) {
 
 ## Field Placeholder Text
 
-By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports it by using the `placeholder` method:
+By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports placeholders by using the `placeholder` method:
 
 ```php
 Text::make('Name')->placeholder('My New Post'),
