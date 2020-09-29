@@ -280,7 +280,7 @@ Badge::make('Status', function () {
 }),
 ```
 
-By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning`; however, you can override this mapping by passing an associative array of your `Resource` types to the built-in types:
+By default, the `Badge` field supports four variations: `info`, `success`, `danger`, and `warning`. You may define your possible field values to their associated badge types using the `map` method:
 
 ```php
 Badge::make('Status')->map([
@@ -289,16 +289,16 @@ Badge::make('Status')->map([
 ]),
 ```
 
-You can also use `types` to completely replace the built-in types and their associate CSS classes:
+Alternatively, you may use the `types` method to completely replace the built-in badge types and their associate CSS classes. The CSS classes may be provided as a string or an array:
 
 ```php
 Badge::make('Status')->types([
-    'draft' => 'custom classes', // Classes can be a string
-    'published' => ['custom', 'class'] // Classes can also be an array
+    'draft' => 'custom classes',
+    'published' => ['custom', 'class'],
 ]),
 ```
 
-To supplement the built-in types you may use the `addTypes` method:
+If you only wish to supplement the built-in badge types instead of overwriting all of them, you may use the `addTypes` method:
 
 ```php
 Badge::make('Status')->addTypes([
@@ -306,7 +306,10 @@ Badge::make('Status')->addTypes([
 ]),
 ```
 
+:::tip Editing Badge Types
+
 By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field in combination with the `onlyOnForms` field option.
+:::
 
 ### Boolean Field
 
