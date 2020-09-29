@@ -19,5 +19,5 @@ Laravel Nova's GitHub issue trackers are not intended to provide Nova help or su
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel Nova, please send an email to nova@laravel.com. All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within Laravel Nova, please send an email to `nova@laravel.com`. All security vulnerabilities will be promptly addressed.
 
