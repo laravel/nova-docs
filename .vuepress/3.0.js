@@ -46,16 +46,16 @@ module.exports = [
     title: "Customization",
     collapsable: false,
     children: prefix("customization", [
-      "localization",
       "dashboards",
       "tools",
       "resource-tools",
       "cards",
       "fields",
-      "frontend",
       "filters",
+      "frontend",
       "themes",
       "assets",
+      "localization",
       "stubs"
     ])
   }
