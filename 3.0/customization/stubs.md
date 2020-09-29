@@ -8,7 +8,7 @@ When creating new resources, actions, filters, lens and metrics, Nova will publi
 
 :::tip Laravel Stub Customization
 
-To learn more about stub customization, see the [Laravel docs](https://laravel.com/docs/master/artisan#stub-customization).
+To learn more about stub customization, please consult the [Laravel documentation](https://laravel.com/docs/master/artisan#stub-customization).
 
 :::
 
