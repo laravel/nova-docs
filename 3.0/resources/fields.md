@@ -614,8 +614,11 @@ ID::make(),
 
 // Using the "id_column" column...
 ID::make('ID', 'id_column'),
+```
 
-// Resolve BIGINT ID fields...
+If your application contains very large integer IDs, you may need to use the `asBigInt` method in order for the Nova client to render the integer:
+
+```php
 ID::make()->asBigInt(),
 ```
 
