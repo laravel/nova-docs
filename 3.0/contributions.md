@@ -69,7 +69,7 @@ If you are submitting a change that will affect a compiled file, such as most of
 Due to their large size, they cannot realistically be reviewed by a maintainer. This could be exploited as a way to inject malicious code into Laravel Nova. In order to defensively prevent this, all compiled files will be generated and committed by Laravel maintainers.
 :::
 
-### Create a testing Laravel Nova application
+### Create A Test Laravel Nova Application
 
 To test your changes to Nova in context of a real application, you should create a new Laravel application and install your local version of Nova inside it. You can create a new Laravel package using the [Laravel Installer](https://github.com/laravel/installer):
 
@@ -91,7 +91,7 @@ Next, add Nova to your new application's `composer.json` file:
 ]
 ```
 
-Now run `composer update` to install the package:
+After adding the repository, run `composer update` to install the package:
 
 ```php
 composer update
