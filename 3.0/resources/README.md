@@ -230,7 +230,7 @@ If you are not concerned with preventing conflicts, you can disable the Traffic 
 public static $trafficCop = false;
 ```
 
-You may also override the `trafficCop` method on the resource:
+You may also override the `trafficCop` method on the resource if you require more intense customization when determining if this feature should be enabled:
 
 ```php
 /**
@@ -246,6 +246,7 @@ public static function trafficCop(Request $request)
 ```
 
 :::tip Time Synchronization
+
 Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP.
 :::
 
