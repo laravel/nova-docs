@@ -74,7 +74,7 @@ All routes within this file are automatically defined inside a route group by yo
 
 #### Routing Authorization
 
-Your Nova tool is generated with an `Authorize` middleware. This middleware automatically determines that the authenticated user can "see" the tool before it processes any requests to routes within your tool's route group; however, you are free to modify this middleware if needed.
+Your Nova tool is generated with an `Authorize` middleware. This middleware automatically determines whether the authenticated user can "see" the tool before it processes any requests to routes within your tool's route group; however, you are free to modify this middleware if needed.
 
 ### Navigation
 
