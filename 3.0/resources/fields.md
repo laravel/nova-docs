@@ -409,7 +409,7 @@ Code::make('Options')->json(),
 
 :::warning Code Field JSON Validation
 
-Nova does not apply the `json` validation for `Code` fields automatically. It's up to the user to specify this rule.
+Nova does not automatically apply the `json` validation rule for `Code` fields. It's up to the user to specify this rule.
 :::
 
 #### Syntax Highlighting
