@@ -14,6 +14,6 @@ To learn more about stub customization, please consult the [Laravel documentatio
 
 ## Publishing Stubs
 
-To publish the stubs used by Nova to generate the different classes, run `php artisan nova:stubs`. Nova will copy all of the stub files into `./stubs/nova`, where you may then customize the files.
+To publish the stubs used by Nova to generate various classes, run the `php artisan nova:stubs` Artisan command in your terminal. Nova will copy all of the stub files into `./stubs/nova`, where you may then customize the files.
 
-If you do not wish to customize a stub, you may delete it and Nova will continue to use the default.
+If you do not wish to customize a particular stub, you may delete the stub and Nova will continue to use the default.
