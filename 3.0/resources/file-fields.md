@@ -2,7 +2,7 @@
 
 [[toc]]
 
-Nova offers several types of file fields: `File`, `Image`, `Avatar`, and `VaporFile`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` field classes. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
+Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`, and `VaporImage`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` field classes. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
 
 ## Overview
 
