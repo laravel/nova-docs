@@ -260,7 +260,7 @@ When creating and editing resource forms with many fields, you may wish to preve
  *
  * @var bool
  */
-public static $preventFormAbandonment = false;
+public static $preventFormAbandonment = true;
 ```
 
 ## Keyboard Shortcuts
