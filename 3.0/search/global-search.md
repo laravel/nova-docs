@@ -90,25 +90,6 @@ public function subtitle()
 If your subtitle accesses information on a related resource, you should consider adding the related resource to your resource's [eager load array](./../resources/README.md#eager-loading).
 :::
 
-### Custom Avatars / Covers
-
-If you are building a custom field that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This contract requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
-
-```php
-class CoverField extends Field implements Cover
-{
-    /**
-     * Resolve the thumbnail URL for the field.
-     *
-     * @return string|null
-     */
-    public function resolveThumbnailUrl()
-    {
-        return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
-    }
-}
-```
-
 ### Limiting Global Search Results
 
 You can limit the number of results that are returned in the global search by overriding the `globalSearchResults` property on the resource:
@@ -128,7 +109,7 @@ You can configure the debounce timing of global search by using the `globalSearc
 
 ```php
 Nova::globalSearchDebounce(1); // 1 second
-``` 
+```
 
 ### Disabling Global Search
 
@@ -169,5 +150,24 @@ If you need to fine-tuned control over which link is used, you can override the 
 public function globalSearchLink(NovaRequest $request)
 {
     return static::$globalSearchLink;
+}
+```
+
+### Custom Avatars / Covers
+
+If you are building a custom field that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This contract requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
+
+```php
+class CoverField extends Field implements Cover
+{
+    /**
+     * Resolve the thumbnail URL for the field.
+     *
+     * @return string|null
+     */
+    public function resolveThumbnailUrl()
+    {
+        return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
+    }
 }
 ```
