@@ -72,10 +72,10 @@ php artisan migrate
 
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
-The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
+The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
 ```php
-public static $model = 'App\\Models\\User';
+public static $model = 'App\\User';
 ```
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
@@ -122,10 +122,10 @@ php artisan migrate
 
 After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
-The default `App\Nova\User` Nova resource references the `App\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
+The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
 ```php
-public static $model = 'App\\Models\\User';
+public static $model = 'App\\User';
 ```
 
 If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
