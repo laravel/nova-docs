@@ -1017,7 +1017,8 @@ Stack::make('Details', [
 `Stack` fields are not shown on forms, and are only for stacking lines of text for display on the index and detail resource views.
 
 #### Line Fields
-To gain more control over how the individual fields in a `Stack` are displayed, you can opt to use the special `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
+
+To gain more control over how the individual fields in a `Stack` are displayed, you may use the `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
 
 - `asHeading`
 - `asSubTitle`
@@ -1036,7 +1037,7 @@ Stack::make('Details', [
 
 #### Passing Closures to Line Fields
 
-In addition to passing normal `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a `Closure`, which will automatically get converted to a `Line` instance:
+In addition to passing `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a `Closure`. The result of the Closure will automatically be converted to a `Line` instance:
 
 ```php
 Stack::make('Details', [
