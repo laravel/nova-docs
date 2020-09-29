@@ -629,7 +629,7 @@ use Laravel\Nova\Fields\Image;
 Image::make('Photo'),
 ```
 
-By default, the `Image` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
+By default, the `Image` field allows the user to download the linked file. To disable downloads, you may use the `disableDownload` method on the field definition:
 
 ```php
 Image::make('Photo')->disableDownload(),
