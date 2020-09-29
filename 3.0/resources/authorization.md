@@ -294,7 +294,9 @@ public static function relatableQuery(NovaRequest $request, $query)
 }
 ```
 
-You can filter individual relationships by using a dynamic function. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource has different types, you can use a dynamic `relatableQuery`:
+#### Dynamic Relatable Methods
+
+You can customize the "relatable" query for individual relationships by using a dynamic method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
 
 ```php
 /**
@@ -312,7 +314,7 @@ public static function relatableTags(NovaRequest $request, $query)
 }
 ```
 
-Further, if you need to filter `Tag` resource dynamically, you can access the route parameters like so:
+If necessary, you may access the `resource` and `resourceId` for the request via the `NovaRequest` instance that is passed to your method:
 
 ```php
 public static function relatableTags(NovaRequest $request, $query)
