@@ -319,8 +319,8 @@ If necessary, you may access the `resource` and `resourceId` for the request via
 ```php
 public static function relatableTags(NovaRequest $request, $query)
 {
-    $resource = $request->route('resource'); // Returns the resource type.
-    $resourceId = $request->route('resourceId'); // Returns the resource id.
+    $resource = $request->route('resource'); // The resource type...
+    $resourceId = $request->route('resourceId'); // The resource ID...
 
     return $query->where('type', $resource);
 }
