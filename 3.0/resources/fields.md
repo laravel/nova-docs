@@ -658,7 +658,7 @@ Given the field definition above, the following interface would be rendered:
 
 #### Customizing KeyValue Labels
 
-You can customize the text values used in the component by specifying the `keyLabel`, `valueLabel`, and `actionText` methods when defining the field:
+You can customize the text values used in the component by calling the `keyLabel`, `valueLabel`, and `actionText` methods when defining the field:
 
 ```php
 KeyValue::make('Meta')
@@ -672,17 +672,12 @@ KeyValue::make('Meta')
 By default, Nova will never display a `KeyValue` field on a resource index listing.
 :::
 
-If you would like to disable the user's ability to edit the keys of the field, you may use the `disableEditingKeys` method to accomplish this:
+If you would like to disable the user's ability to edit the keys of the field, you may use the `disableEditingKeys` method to accomplish this. Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well:
 
 ```php
 KeyValue::make('Meta')
     ->disableEditingKeys()
 ```
-
-:::tip Disabling Editing KeyValue Keys
-
-Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well.
-:::
 
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
 
