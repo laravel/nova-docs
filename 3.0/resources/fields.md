@@ -262,7 +262,11 @@ If a resource contains an `Avatar` field, that field will be displayed next to t
 
 ![Avatar Search Results](./img/avatar-search-results.png)
 
-You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges:
+
+```php
+Avatar::make('Avatar')->squared(),
+```
 
 ### Badge Field
 
