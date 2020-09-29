@@ -333,7 +333,7 @@ Boolean::make('Active')
 
 ### Boolean Group Field
 
-The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are eventually stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by passing in a set of keys and labels for each option:
+The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are then stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by providing a set of keys and labels for each option:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -355,7 +355,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
+Sometimes, you may wish to hide values that are `true` or `false` to avoid cluttering the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -407,8 +407,9 @@ If you intend to use a given `Code` field instance to only edit JSON, you may ch
 Code::make('Options')->json(),
 ```
 
-:::warning Code field JSON validation
-Note: Nova does not apply the `json` validation for `Code` fields automatically. It's up to the user to specify this rule.
+:::warning Code Field JSON Validation
+
+Nova does not apply the `json` validation for `Code` fields automatically. It's up to the user to specify this rule.
 :::
 
 #### Syntax Highlighting
