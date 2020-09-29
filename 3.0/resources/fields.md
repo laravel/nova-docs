@@ -449,11 +449,10 @@ Country::make('Country', 'country_code'),
 :::tip Currency Field Versioning
 
 This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to this, the field was incompatible with PHP 7.4.
-
 :::
 
 
-The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifying the `nova.currency` value.
+The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifying the `nova.currency` configuration value:
 
 ```php
 use Laravel\Nova\Fields\Currency;
@@ -461,7 +460,7 @@ use Laravel\Nova\Fields\Currency;
 Currency::make('Price'),
 ```
 
-You may override the currency per-field by using the `currency` method:
+You may override the currency on a per-field basis using the `currency` method:
 
 ```php
 Currency::make('Price')->currency('EUR'),
@@ -498,9 +497,9 @@ To customize the display format used for the JavaScript date picker widget, you 
 Date::make('Birthday')->pickerFormat('d.m.Y'),
 ```
 
-To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
+To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
-#### Customize First Day Of Week
+#### Customizing The First Day Of Week
 
 You can customize the first day of the week using the `firstDayOfWeek` method:
 
