@@ -2,6 +2,8 @@
 
 [[toc]]
 
+## Introduction
+
 Laravel Nova is a beautiful administration dashboard for Laravel applications. Of course, the primary feature of Nova is the ability to administer your underlying database records using Eloquent. Nova accomplishes this by allowing you to define a Nova "resource" that corresponds to each Eloquent model in your application.
 
 ## Defining Resources
@@ -245,7 +247,7 @@ public static function trafficCop(Request $request)
 ```
 
 :::tip Time Synchronization
-Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP. 
+Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP.
 :::
 
 ## Preventing Accidental Resource Form Abandonment
@@ -318,4 +320,4 @@ You may wish to customize the debounce timing of an individual resource's index 
  * @var float
  */
 public static $debounce = 0.5; // 0.5 seconds
-``` 
+```
