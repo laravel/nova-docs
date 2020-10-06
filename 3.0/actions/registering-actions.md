@@ -38,6 +38,25 @@ public function actions(Request $request)
 
 Any arguments passed to the `make` method will be passed to the constructor of your action.
 
+## Disabling Action Confirmation
+
+By default, when running an action, a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        Actions\EmailAccountProfile::make()->withoutConfirmation()
+    ];
+}
+```
+
 ## Action Visibility
 
 By default, actions are visible on both the resource index and detail screens. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when registering it:
