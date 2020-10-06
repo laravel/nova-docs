@@ -40,7 +40,7 @@ Any arguments passed to the `make` method will be passed to the constructor of y
 
 ## Disabling Action Confirmation
 
-By default, when running an action, a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
+By default, when running an action a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
 
 ```php
 /**
