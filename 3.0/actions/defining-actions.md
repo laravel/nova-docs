@@ -146,7 +146,7 @@ public function handle(ActionFields $fields, Collection $models)
 
 ### Action Fields Default Values
 
-You should use `default()` method to set default value for field instead of `resolveUsing()` or `displayUsing()`:
+You may use the `default` method to set the default value for an action field:
 
 ```php
 Text::make('Subject')->default(function ($request) {
