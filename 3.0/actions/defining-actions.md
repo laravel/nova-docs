@@ -151,6 +151,16 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+### Action Fields Default Values
+
+You may use the `default` method to set the default value for an action field:
+
+```php
+Text::make('Subject')->default(function ($request) {
+    return 'Test: Subject';
+}),
+```
+
 ## Action Titles
 
 If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
