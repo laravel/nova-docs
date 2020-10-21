@@ -144,6 +144,16 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+### Action Fields Default Values
+
+You should use `default()` method to set default value for field instead of `resolveUsing()` or `displayUsing()`:
+
+```php
+Text::make('Subject')->default(function ($request) {
+    return 'Test: Subject';
+}),
+```
+
 ## Action Titles
 
 If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
