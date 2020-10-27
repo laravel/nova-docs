@@ -44,6 +44,26 @@ HasMany::make('Posts');
 
 :::
 
+## HasOneThrough
+
+The `HasOneThrough` field corresponds to a `hasOneThrough` Eloquent relationship. For example, let's assume a `Mechanic` model has one `Car`, and each `Car` may have one `Owner`. While the `Mechanic` and the `Owner` have no direct connection, the `Mechanic` can access the `Owner` through the `Car` itself. You can display this relationship by adding it to your Nova resource:
+
+```php
+use Laravel\Nova\Fields\HasOneThrough;
+
+HasOneThrough::make('Owner');
+```
+
+## HasManyThrough
+
+The `HasManyThrough` field corresponds to a `hasManyThrough` Eloquent relationship. For example, a `Country` model might have many `Post` models through an intermediate `User` model. In this example, you could easily gather all blog posts for a given country. To display this relationship inside Nova, you can add it to your Nova resource:
+
+```php
+use Laravel\Nova\Fields\HasManyThrough;
+
+HasManyThrough::make('Posts');
+```
+
 ## BelongsTo
 
 The `BelongsTo` field corresponds to a `belongsTo` Eloquent relationship. For example, let's assume a `Post` model `belongsTo` a `User` model. We may add the relationship to our `Post` Nova resource like so:
