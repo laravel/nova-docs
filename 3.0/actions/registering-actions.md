@@ -88,7 +88,7 @@ public function actions(Request $request)
 
 ## Standalone Actions
 
-By default, actions run on selected resources. If you have an action that does not require any resources / models to run, you may register the standalone action by chaining the `standalone` method when registering an action. This action always receives an empty collection of models in the `handle` method.
+Typically, actions executed against on selected resources from a resource index or from a resource's detail screen. If you have an action that does not require any resources / models to run, you may register it as a "standalone" action by chaining the `standalone` method when registering the action. This action always receives an empty collection of models in its `handle` method:
 
 ```php
 /**
