@@ -250,7 +250,7 @@ Before disabling Traffic Cop, if you are experiencing issues you may first want 
 
 ## Resource Polling
 
-Nova can automatically fetch the latest records for a resource at a specified interval. To enable polling, override the `$polling` property of your Resource class:
+Nova can automatically fetch the latest records for a resource at a specified interval. To enable polling, override the `polling` property of your Resource class:
 
 ```php
 /**
@@ -261,7 +261,7 @@ Nova can automatically fetch the latest records for a resource at a specified in
 public static $polling = true;
 ```
 
-To customize the polling interval, you may override the `$pollingInterval` property on your resource class with the number of seconds Nova should wait before fetching new resource records:
+To customize the polling interval, you may override the `pollingInterval` property on your resource class with the number of seconds Nova should wait before fetching new resource records:
 
 ```php
 /**
@@ -271,6 +271,24 @@ To customize the polling interval, you may override the `$pollingInterval` prope
  */
 public static $pollingInterval = 5;
 ```
+
+## Toggling Resource Polling
+
+By default, when resource polling is enabled, there is no way to disable it once the page loads. You can instruct Nova to display a start/stop toggle button for resource polling by setting the `showPollingToggle` property on your resource class:
+
+```php
+/**
+ * Indicates whether to show the polling toggle button inside Nova.
+ *
+ * @var bool
+ */
+public static $showPollingToggle = true;
+```
+
+Nova will then display a clickable button inside the interface:
+
+![Nova Resource Polling Toggle Button](./img/polling-toggle.png)
+
 
 ## Preventing Accidental Resource Form Abandonment
 
