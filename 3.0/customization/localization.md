@@ -34,6 +34,29 @@ public static function singularLabel()
 }
 ```
 
+To customize labels for create and update buttons, override the `createButtonLabel` and `updateButtonLabel` methods.
+
+```php
+/**
+ * Get the text for the create resource button.
+ *
+ * @return string|null
+ */
+public static function createButtonLabel()
+{
+    return __('Publish Post');
+}
+/**
+ * Get the text for the update resource button.
+ *
+ * @return string|null
+ */
+public static function updateButtonLabel()
+{
+    return __('Save Changes');
+}
+```
+
 ### Fields
 
 Field names may be localized when you attach the field to your resource. The first argument to all fields is its display name, which you may customize. For example, you might localize the title of an email address field like so:
