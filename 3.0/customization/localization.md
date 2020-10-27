@@ -34,7 +34,7 @@ public static function singularLabel()
 }
 ```
 
-To customize labels for create and update buttons, override the `createButtonLabel` and `updateButtonLabel` methods.
+To customize labels for the resource's create and update buttons, you may override the `createButtonLabel` and `updateButtonLabel` methods on the resource:
 
 ```php
 /**
@@ -46,6 +46,7 @@ public static function createButtonLabel()
 {
     return __('Publish Post');
 }
+
 /**
  * Get the text for the update resource button.
  *
