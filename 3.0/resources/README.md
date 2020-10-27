@@ -248,6 +248,30 @@ public static function trafficCop(Request $request)
 Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP. 
 :::
 
+## Resource Polling
+
+Nova supports resource polling, where Nova will automatically fetch the latest records for a Resource at a specific interval. To enable polling, override the `$polling` property of your Resource class.
+
+```php
+/**
+ * Indicates whether the resource should automatically poll for new resources.
+ *
+ * @var bool
+ */
+public static $polling = true;
+```
+
+To customize the polling interval, you may override the `$pollingInterval` property on your Resource class with a number of seconds Nova should wait before fetching new records.
+
+```php
+/**
+ * The interval at which Nova should poll for new resources.
+ *
+ * @var int
+ */
+public static $pollingInterval = 5;
+```
+
 ## Preventing Accidental Resource Form Abandonment
 
 When creating and editing resource forms with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your resources by setting the static `preventFormAbandonment` property to `true`:
