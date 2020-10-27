@@ -90,6 +90,25 @@ public function actions(Request $request)
 }
 ```
 
+## Standalone Actions
+
+By default, actions run on selected resources. If you have an action that does not require any resources / models to run, you may register the standalone action by chaining the `standalone` method when registering an action. This action always receives an empty collection of models in the `handle` method.
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        Actions\InviteUser::make()->standalone()
+    ];
+}
+```
+
 ## Authorization
 
 If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your action registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
