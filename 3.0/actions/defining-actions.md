@@ -229,6 +229,12 @@ return Action::push('/resources/posts/new', [
 ]);
 ```
 
+To redirect the user to a new location in a new tab, you may use the `Action::openInNewTab` method:
+
+```php
+return Action::openInNewTab('https://example.com');
+```
+
 #### Download Responses
 
 To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
