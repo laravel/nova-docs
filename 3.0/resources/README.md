@@ -250,7 +250,7 @@ Before disabling Traffic Cop, if you are experiencing issues you may first want 
 
 ## Resource Polling
 
-Nova supports resource polling, where Nova will automatically fetch the latest records for a Resource at a specific interval. To enable polling, override the `$polling` property of your Resource class.
+Nova can automatically fetch the latest records for a resource at a specified interval. To enable polling, override the `$polling` property of your Resource class:
 
 ```php
 /**
@@ -261,7 +261,7 @@ Nova supports resource polling, where Nova will automatically fetch the latest r
 public static $polling = true;
 ```
 
-To customize the polling interval, you may override the `$pollingInterval` property on your Resource class with a number of seconds Nova should wait before fetching new records.
+To customize the polling interval, you may override the `$pollingInterval` property on your resource class with the number of seconds Nova should wait before fetching new resource records:
 
 ```php
 /**
