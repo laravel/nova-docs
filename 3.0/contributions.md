@@ -2,21 +2,6 @@
 
 [[toc]]
 
-## Bug Reports
-
-If you discover a bug in Laravel Nova, please open an issue on the [Nova issues GitHub repository](https://github.com/laravel/nova-issues).
-
-## Support Questions
-
-Laravel Nova's GitHub issue trackers are not intended to provide Nova help or support. Instead, use one of the following channels:
-
-- [Laracasts Forums](https://laracasts.com/discuss)
-- [Laravel.io Forums](https://laravel.io/forum)
-- [StackOverflow](https://stackoverflow.com/questions/tagged/laravel-nova)
-- [Discord](https://discordapp.com/invite/KxwQuKb)
-- [Larachat](https://larachat.co/)
-- [IRC](https://webchat.freenode.net/?nick=artisan&amp;channels=%23laravel&amp;prompt=1)
-
 ## Contributing
 
 Laravel Nova is a closed-source project and as such is not publicly available; however, you may authorize one GitHub account to the Nova repository for contributing or keeping an eye on development. You can manage the authorized account at: [https://nova.laravel.com/settings#github](https://nova.laravel.com/settings#github)
