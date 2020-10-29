@@ -145,7 +145,7 @@ public function actions(Request $request)
 {
     return [
         (new Actions\CancelTrial)->canSee(function ($request) {
-            return optional($request->findModelQuery()->first())->isOnTrial();
+            return optional($request->model()->first())->isOnTrial();
         }),
     ];
 }
