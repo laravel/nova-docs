@@ -1206,6 +1206,19 @@ Vapor image files support many of the same methods available to [`Image`](#image
 To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
 :::
 
+### Custom Validation for Vapor File and Image Field
+
+Validating Vapor field require accessing the temporary file in the Amazon S3 bucket using Laravel `Storage`:
+
+```php
+VaporFile::make('Document')
+    ->rules('bail', 'required', function($attribute, $value, $fail) use ($request) {
+        if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
+            return $fail('The document should not have more than 1 MB');
+        }
+    }),
+```
+
 ## Computed Fields
 
 In addition to displaying fields that are associated with columns in your database, Nova allows you to create "computed fields". Computed fields may be used to display computed values that are not associated with a database column. Since they are not associated with a database column, computed fields may not be `sortable`. These fields may be created by passing a callable (instead of a column name) as the second argument to the field's `make` method:
