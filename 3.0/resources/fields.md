@@ -1206,15 +1206,17 @@ Vapor image files support many of the same methods available to [`Image`](#image
 To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
 :::
 
-### Custom Validation for Vapor File and Image Field
+#### Validating Vapor Image / File Fields
 
-Validating Vapor field require accessing the temporary file in the Amazon S3 bucket using Laravel `Storage`:
+In order to validate the size or other attributes of a Vapor file, you will need to inspect the file directly using the `Storage` facade:
 
 ```php
+use Illuminate\Support\Facades\Storage;
+
 VaporFile::make('Document')
     ->rules('bail', 'required', function($attribute, $value, $fail) use ($request) {
         if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
-            return $fail('The document should not have more than 1 MB');
+            return $fail('The document size may not be greater than 1 MB');
         }
     }),
 ```
