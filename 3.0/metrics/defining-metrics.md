@@ -332,7 +332,7 @@ class UsersPerDay extends Trend
     public function calculate(Request $request)
     {
         return $this
-            ->count($request, User::class)
+            ->countByDays($request, User::class)
             ->showSumValue();
     }
 ```
