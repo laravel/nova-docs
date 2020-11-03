@@ -568,3 +568,19 @@ public function cacheFor()
     return now()->addMinutes(5);
 }
 ```
+
+## Customize Metric Name
+
+By default, Nova will use the class name as the name of your metric. You may customize the name of the metric displayed on the card by overriding the `name` method within your metric class:
+
+```php
+/**
+ * Get the displayable name of the metric
+ *
+ * @return string
+ */
+public function name()
+{
+    return 'Users created';
+}
+```
