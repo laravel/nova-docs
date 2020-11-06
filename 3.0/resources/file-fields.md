@@ -390,9 +390,7 @@ By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for 
 
 ### Customizing Downloads
 
-By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method.
-
-The `download` method accepts a callable which should return custom `Storage::download()`:
+By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method. The `download` method accepts a callable which should return the result of your own call to the  `Storage::download` method:
 
 ```php
 use Laravel\Nova\Fields\Image;
