@@ -148,9 +148,9 @@ By default, the placeholder text of a field will be it's name. You can override 
 Text::make('Name')->placeholder('My New Post'),
 ```
 
-## Filling Values From Create/Update Request
+## Field Hydration
 
-On every create or update request field will automatically fill the value from the request, however you can customise the process if needed using the `fillUsing` method:
+On every create or update request the field's corresponding model attribute will automatically be filled; however, you can customise the hydration behavior of a given field using the `fillUsing` method. This method allows you to totally customize how the field's corresponding model attribute is hydrated:
 
 ```php
 Text::::make('Name', 'name')
