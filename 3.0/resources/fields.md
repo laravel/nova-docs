@@ -129,6 +129,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 :::
 
 ## Default Values
+
 There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the resource creation view:
 
 ```php
@@ -145,6 +146,17 @@ By default, the placeholder text of a field will be it's name. You can override 
 
 ```php
 Text::make('Name')->placeholder('My New Post'),
+```
+
+## Field Hydration
+
+On every create or update request the field's corresponding model attribute will automatically be filled; however, you can customise the hydration behavior of a given field using the `fillUsing` method. This method allows you to totally customize how the field's corresponding model attribute is hydrated:
+
+```php
+Text::::make('Name', 'name')
+    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
+        $model->{$attribute} = Str::title($request->input($attribute));
+    }),
 ```
 
 ## Field Panels
@@ -1215,6 +1227,21 @@ Vapor image files support many of the same methods available to [`Image`](#image
 
 To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
 :::
+
+#### Validating Vapor Image / File Fields
+
+In order to validate the size or other attributes of a Vapor file, you will need to inspect the file directly using the `Storage` facade:
+
+```php
+use Illuminate\Support\Facades\Storage;
+
+VaporFile::make('Document')
+    ->rules('bail', 'required', function($attribute, $value, $fail) use ($request) {
+        if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
+            return $fail('The document size may not be greater than 1 MB');
+        }
+    }),
+```
 
 ## Computed Fields
 

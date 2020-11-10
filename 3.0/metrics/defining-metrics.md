@@ -332,7 +332,7 @@ class UsersPerDay extends Trend
     public function calculate(Request $request)
     {
         return $this
-            ->count($request, User::class)
+            ->countByDays($request, User::class)
             ->showSumValue();
     }
 ```
@@ -566,5 +566,21 @@ Occasionally the calculation of a metric's values can be slow and expensive. For
 public function cacheFor()
 {
     return now()->addMinutes(5);
+}
+```
+
+## Customizing Metric Names
+
+By default, Nova will use the metric class name as the displayable name of your metric. You may customize the name of the metric displayed on the metric card by overriding the `name` method within your metric class:
+
+```php
+/**
+ * Get the displayable name of the metric
+ *
+ * @return string
+ */
+public function name()
+{
+    return 'Users Created';
 }
 ```

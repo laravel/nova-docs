@@ -8,6 +8,14 @@ Nova may be fully localized using Laravel's [localization services](https://lara
 
 Within this directory, you may customize the `en.json` file or create a new JSON translation file for your language. In addition, the `en` directory contains a few additional validation translation lines that are utilized by Nova.
 
+#### Creating New Localization Files
+
+To quickly create a new translation file for your language, you may execute the `nova:translate` Artisan command. This command will simply copy the default `en.json` translation file, allowing you to begin translating the strings into your own language:
+
+```bash
+php artisan nova:translate es
+```
+
 ### Resources
 
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
