@@ -223,6 +223,16 @@ To ensure Nova's assets are updated when a new version is downloaded, you may ad
 }
 ```
 
+### Nova's Translation Files
+
+Nova provides default english translation file published to `resources/lang/vendor/nova/en.json` using `nova:publish` artisan command. However for Laravel Nova application that uses locale other than `en` it would be advisable to publish the translation file for the supported language to avoid [key/file conflict](https://laravel.com/docs/8.x/localization#using-translation-strings-as-keys) as described in Laravel documentation. 
+
+For example, if you need to support `es` locale, this by using `nova:translate` command:
+
+```bash
+php artisan nova:translate es
+```
+
 ## Code Distribution
 
 Nova's license does not allow the public distribution of its source code. So, you may not build an application using Nova and distribute that application public via open source repository hosting platforms or any other code distribution platform.
