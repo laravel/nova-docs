@@ -129,6 +129,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 :::
 
 ## Default Values
+
 There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
 
 ```php
@@ -145,6 +146,17 @@ By default, the placeholder text of a field will be it's name. You can override 
 
 ```php
 Text::make('Name')->placeholder('My New Post'),
+```
+
+## Field Hydration
+
+On every create or update request the field's corresponding model attribute will automatically be filled; however, you can customise the hydration behavior of a given field using the `fillUsing` method. This method allows you to totally customize how the field's corresponding model attribute is hydrated:
+
+```php
+Text::::make('Name', 'name')
+    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
+        $model->{$attribute} = Str::title($request->input($attribute));
+    }),
 ```
 
 ## Field Panels
