@@ -159,12 +159,10 @@ public function fields(Request $request)
         ID::make('ID', 'id')->sortable(),
 
         // Will be available on the field via `perPage: 25`
-        StripeInspector::make()->perPage(25)
+        StripeInspector::make()->perPage(25),
 
         // Will be available on the field via `issuesRefund: true`
-        StripInspector::make()->issuesRefund()
-
-
+        StripeInspector::make()->issuesRefund()
     ];
 }
 ```
