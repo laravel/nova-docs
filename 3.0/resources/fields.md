@@ -391,7 +391,7 @@ BooleanGroup::make('Permissions')->options([
 
 ### Code Field
 
-The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns.
+The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns:
 
 ```php
 use Laravel\Nova\Fields\Code;
@@ -399,7 +399,7 @@ use Laravel\Nova\Fields\Code;
 Code::make('Snippet'),
 ```
 
-However, you may also attach them to `JSON` database columns. By default it will display the value as JSON string but you can cast the column to `array`, `collection`, `object` or `json` to display the value correctly.
+You may also attach `Code` fields to `JSON` database columns. By default, the field will display the value as a JSON string but you may cast the column to `array`, `collection`, `object`, or `json` to display the value as required by your application:
 
 ```php
 use Laravel\Nova\Fields\Code;
