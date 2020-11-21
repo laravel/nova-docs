@@ -38,7 +38,7 @@ The global `Nova` JavaScript object may be used as an event bus by your custom c
 Nova.$on(event, callback)
 Nova.$once(event, callback)
 Nova.$off(event, callback)
-Nova.$emit(event, callback)
+Nova.$emit(event, [...args])
 ```
 
 ### Notifications
