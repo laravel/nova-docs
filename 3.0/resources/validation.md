@@ -36,6 +36,11 @@ Text::make('State')
     });
 ```
 
+:::warning Setting a Closure as the first rule
+
+Instead of a list of rules, the `rules()` method also accepts a function that returns an array of rules. If you must use a Closure as the first validation rule, wrap it in an array.
+:::
+
 ### Creation Rules
 
 If you would like to define rules that only apply when a resource is being created, you may use the `creationRules` method:
