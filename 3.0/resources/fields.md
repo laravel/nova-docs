@@ -482,7 +482,7 @@ Currency::make('Price')->currency('EUR'),
 You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
 ```php
-Number::make('price')->min(1)->max(1000)->step(0.01),
+Currency::make('price')->min(1)->max(1000)->step(0.01),
 ```
 
 :::warning Currency Step Limitation
