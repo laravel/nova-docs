@@ -487,7 +487,7 @@ Number::make('price')->min(1)->max(1000)->step(0.01),
 
 :::warning Currency Step Limitation
 
-When customising `step()`, be aware that following command will over `step()`:
+When customising `step()`, be aware that following command will override `step()` value:
 
 * `currency()`
 * `asMinorUnits()`
