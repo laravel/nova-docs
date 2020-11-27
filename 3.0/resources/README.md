@@ -303,6 +303,69 @@ When creating and editing resource forms with many fields, you may wish to preve
 public static $preventFormAbandonment = false;
 ```
 
+## Redirection
+
+Nova provides few convenience redirection methods for resource.
+
+:::warning Redirection limitation
+
+Behind the scene the feature uses `push()` method from `vue-router` to make the redirection, this means the redirection is limited to only paths within Laravel Nova
+:::
+
+### After Creating
+
+When creating a resource, you can customize the redirection after creating using by overriding the following method:
+
+```php
+    /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    }
+```
+
+### After Updating
+
+When editing a resource, you can customize the redirection after updating using by overriding the following method:
+
+```php
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    }
+```
+
+### After Deletion
+
+When deleting a single resource, you can customize the redirection after deletion using by overriding the following method:
+
+```php
+    /**
+     * Return the location to redirect the user after deletion.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return string|null
+     */
+    public static function redirectAfterDelete(NovaRequest $request)
+    {
+        return null;
+    }
+```
+
+
 ## Keyboard Shortcuts
 
 You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
