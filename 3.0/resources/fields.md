@@ -479,8 +479,25 @@ You may override the currency per-field by using the `currency` method:
 Currency::make('Price')->currency('EUR'),
 ```
 
-The field is formatted by default to the `locale` found in `app.locale`. You can override this by providing a locale code:
+You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
+```php
+Number::make('price')->min(1)->max(1000)->step(0.01),
+```
+
+:::warning Currency Step Limitation
+
+When customising `step()`, be aware that following command will over `step()`:
+
+* `currency()`
+* `asMinorUnits()`
+* `asMajorUnits()`
+
+Add `step()` as the last in method chaining if you need to use it with above methods.
+
+:::
+
+The field is formatted by default to the `locale` found in `app.locale`. You can override this by providing a locale code:
 
 ```php
 Currency::make('Price')->locale('fr'),
