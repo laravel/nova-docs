@@ -245,7 +245,7 @@ public static function trafficCop(Request $request)
 ```
 
 :::tip Time Synchronization
-Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP. 
+Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP.
 :::
 
 ## Resource Polling
@@ -305,20 +305,20 @@ public static $preventFormAbandonment = false;
 
 ## Redirection
 
-Nova provides few convenience redirection methods for resource:
+Nova allows you to easily customize where a user is redirected after performing resource actions such as creating or updating a resource:
 
 * [redirectAfterCreate()](#after-creating-redirection)
 * [redirectAfterUpdate()](#after-updating-redirection)
 * [redirectAfterDelete()](#after-deletion-redirection)
 
-:::warning Redirection limitation
+:::warning Redirection Limitation
 
-Behind the scene the feature uses `push()` method from `vue-router` to make the redirection, this means the redirection is limited to only paths within Laravel Nova
+Behind the scene, Nova's redirect features use the Vue router's `push()` method. Because of this, redirection is limited to paths within Laravel Nova.
 :::
 
-### After Creating Redirection
+#### After Creating Redirection
 
-When creating a resource, you can customize the redirection after creating using by overriding the following method:
+You may customize where a user is redirected after creating a resource using by overriding your resource's `redirectAfterCreate` method:
 
 ```php
     /**
@@ -334,9 +334,9 @@ When creating a resource, you can customize the redirection after creating using
     }
 ```
 
-### After Updating Redirection
+#### After Updating Redirection
 
-When editing a resource, you can customize the redirection after updating using by overriding the following method:
+You may customize where a user is redirected after updating a resource using by overriding your resource's `redirectAfterUpdate` method:
 
 ```php
     /**
@@ -352,9 +352,9 @@ When editing a resource, you can customize the redirection after updating using 
     }
 ```
 
-### After Deletion Redirection
+#### After Deletion Redirection
 
-When deleting a single resource, you can customize the redirection after deletion using by overriding the following method:
+You may customize where a user is redirected after deleting a resource using by overriding your resource's `redirectAfterDelete` method:
 
 ```php
     /**
