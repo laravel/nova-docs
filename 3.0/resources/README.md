@@ -305,14 +305,18 @@ public static $preventFormAbandonment = false;
 
 ## Redirection
 
-Nova provides few convenience redirection methods for resource.
+Nova provides few convenience redirection methods for resource:
+
+* [redirectAfterCreate()](#after-creating-redirection)
+* [redirectAfterUpdate()](#after-updating-redirection)
+* [redirectAfterDelete()](#after-deletion-redirection)
 
 :::warning Redirection limitation
 
 Behind the scene the feature uses `push()` method from `vue-router` to make the redirection, this means the redirection is limited to only paths within Laravel Nova
 :::
 
-### After Creating
+### After Creating Redirection
 
 When creating a resource, you can customize the redirection after creating using by overriding the following method:
 
@@ -330,7 +334,7 @@ When creating a resource, you can customize the redirection after creating using
     }
 ```
 
-### After Updating
+### After Updating Redirection
 
 When editing a resource, you can customize the redirection after updating using by overriding the following method:
 
@@ -348,7 +352,7 @@ When editing a resource, you can customize the redirection after updating using 
     }
 ```
 
-### After Deletion
+### After Deletion Redirection
 
 When deleting a single resource, you can customize the redirection after deletion using by overriding the following method:
 
@@ -364,7 +368,6 @@ When deleting a single resource, you can customize the redirection after deletio
         return null;
     }
 ```
-
 
 ## Keyboard Shortcuts
 
