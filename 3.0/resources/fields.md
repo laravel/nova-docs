@@ -360,7 +360,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field: 
+You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -461,9 +461,7 @@ Country::make('Country', 'country_code'),
 :::tip Currency Field Versioning
 
 This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to this, the field was incompatible with PHP 7.4.
-
 :::
-
 
 The `Currency` field generates a `Number` field that is automatically formatted using `brick/money`. Nova will use `USD` as the default currency however, this can be changed by modifiying the `nova.currency` value.
 
@@ -479,8 +477,18 @@ You may override the currency per-field by using the `currency` method:
 Currency::make('Price')->currency('EUR'),
 ```
 
-The field is formatted by default to the `locale` found in `app.locale`. You can override this by providing a locale code:
+You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
+```php
+Currency::make('price')->min(1)->max(1000)->step(0.01),
+```
+
+:::warning Currency Step Limitation
+
+If you plan to customize the currency "step" amount using the `step` method, you should ensure you always call the `step` method after the `currency`, `asMinorUnits`, and `asMajorUnits`. Calling these methods after the `step` method will override the `step` method's behavior.
+:::
+
+The field's locale will respect the value in your application's `app.locale` configuration value. You can override this behavior by providing a locale code to the `locale` method:
 
 ```php
 Currency::make('Price')->locale('fr'),
@@ -595,7 +603,7 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 
 ### Hidden Field
 
-The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource: 
+The `Hidden` field allows users to pass a value in a hidden text input. You may use this to pass any value that doesn't need to be changed by the user but is required for saving the resource:
 
 ```php
 Hidden::make('Slug'),
@@ -685,7 +693,7 @@ If you would like to disable the user's ability to edit the keys of the field, y
 ```php
 KeyValue::make('Meta')
     ->disableEditingKeys()
-``` 
+```
 
 :::tip Disabling Editing KeyValue Keys
 
@@ -697,14 +705,14 @@ You may also remove the user's ability to add new rows to the field by chaining 
 ```php
 KeyValue::make('Meta')
     ->disableAddingRows()
-``` 
+```
 
 In addition you may also wish to remove the user's ability to delete exisiting rows in the field by using the `disableDeletingRows` method:
 
 ```php
 KeyValue::make('Meta')
     ->disableDeletingRows()
-``` 
+```
 
 
 
@@ -1055,7 +1063,7 @@ Stack::make('Details', [
         return optional($this->resource)->position;
     }
 ]),
-``` 
+```
 
 
 ### Text Field
