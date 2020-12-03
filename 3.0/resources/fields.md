@@ -130,7 +130,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the create view:
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -142,7 +142,7 @@ Text::make('Uuid')->default(function ($request) {
 
 ## Field Placeholder Text
 
-By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports it by using the `placeholder` method:
+By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports placeholders by using the `placeholder` method:
 
 ```php
 Text::make('Name')->placeholder('My New Post'),
@@ -213,7 +213,7 @@ You may limit the amount of fields shown in a panel by using the `limit` method:
 ]))->limit(1),
 ```
 
-Panels with a limit set will display a **Show All Fields** button which shows all fields when clicked.
+Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields.
 
 ## Sortable Fields
 
@@ -274,7 +274,11 @@ If a resource contains an `Avatar` field, that field will be displayed next to t
 
 ![Avatar Search Results](./img/avatar-search-results.png)
 
-You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges:
+
+```php
+Avatar::make('Avatar')->squared(),
+```
 
 ### Badge Field
 
@@ -288,7 +292,7 @@ Badge::make('Status', function () {
 }),
 ```
 
-By default, the `Badge` field supports four `Resource` values: `info`, `success`, `danger` and `warning`; however, you can override this mapping by passing an associative array of your `Resource` types to the built-in types:
+By default, the `Badge` field supports four variations: `info`, `success`, `danger`, and `warning`. You may define your possible field values to their associated badge types using the `map` method:
 
 ```php
 Badge::make('Status')->map([
@@ -297,16 +301,16 @@ Badge::make('Status')->map([
 ]),
 ```
 
-You can also use `types` to completely replace the built-in types and their associate CSS classes:
+Alternatively, you may use the `types` method to completely replace the built-in badge types and their associate CSS classes. The CSS classes may be provided as a string or an array:
 
 ```php
 Badge::make('Status')->types([
-    'draft' => 'custom classes', // Classes can be a string
-    'published' => ['custom', 'class'] // Classes can also be an array
+    'draft' => 'custom classes',
+    'published' => ['custom', 'class'],
 ]),
 ```
 
-To supplement the built-in types you may use the `addTypes` method:
+If you only wish to supplement the built-in badge types instead of overwriting all of them, you may use the `addTypes` method:
 
 ```php
 Badge::make('Status')->addTypes([
@@ -314,7 +318,10 @@ Badge::make('Status')->addTypes([
 ]),
 ```
 
+:::tip Editing Badge Types
+
 By default the `Badge` field is not shown on the edit or update views. If you wish to modify the value represented by the `Badge` field on your edit forms, use another field in combination with the `onlyOnForms` field option.
+:::
 
 ### Boolean Field
 
@@ -338,7 +345,7 @@ Boolean::make('Active')
 
 ### Boolean Group Field
 
-The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are eventually stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by passing in a set of keys and labels for each option:
+The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are then stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by providing a set of keys and labels for each option:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -360,7 +367,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
+Sometimes, you may wish to hide values that are `true` or `false` to avoid cluttering the view. You may do this by using the `hideFalseValues`  and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -420,8 +427,9 @@ If you intend to use a given `Code` field instance to only edit JSON, you may ch
 Code::make('Options')->json(),
 ```
 
-:::warning Code field JSON validation
-Note: Nova does not apply the `json` validation for `Code` fields automatically. It's up to the user to specify this rule.
+:::warning Code Field JSON Validation
+
+Nova does not automatically apply the `json` validation rule for `Code` fields. This rule must be manually specified during validation if you wish for it to be applied.
 :::
 
 #### Syntax Highlighting
@@ -463,7 +471,7 @@ Country::make('Country', 'country_code'),
 This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to this, the field was incompatible with PHP 7.4.
 :::
 
-The `Currency` field generates a `Number` field that is automatically formatted using `brick/money`. Nova will use `USD` as the default currency however, this can be changed by modifiying the `nova.currency` value.
+The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifying the `nova.currency` configuration value:
 
 ```php
 use Laravel\Nova\Fields\Currency;
@@ -471,7 +479,7 @@ use Laravel\Nova\Fields\Currency;
 Currency::make('Price'),
 ```
 
-You may override the currency per-field by using the `currency` method:
+You may override the currency on a per-field basis using the `currency` method:
 
 ```php
 Currency::make('Price')->currency('EUR'),
@@ -518,9 +526,9 @@ To customize the display format used for the JavaScript date picker widget, you 
 Date::make('Birthday')->pickerFormat('d.m.Y'),
 ```
 
-To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
+To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
-#### Customize First Day Of Week
+#### Customizing The First Day Of Week
 
 You can customize the first day of the week using the `firstDayOfWeek` method:
 
@@ -550,7 +558,7 @@ To customize the display format used for the JavaScript date picker widget, you 
 DateTime::make('Updated At')->pickerFormat('d.m.Y'),
 ```
 
-To learn about the available options, you may see the flatpickr reference here: [https://flatpickr.js.org/formatting/](https://flatpickr.js.org/formatting/).
+To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 ### File Field
 
@@ -578,7 +586,11 @@ Gravatar::make(),
 Gravatar::make('Avatar', 'email_address'),
 ```
 
-You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges.
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display the images with fully-rounded edges:
+
+```php
+Gravatar::make('Avatar', 'email_address')->squared(),
+```
 
 ### Heading Field
 
@@ -607,10 +619,11 @@ The `Hidden` field allows users to pass a value in a hidden text input. You may 
 
 ```php
 Hidden::make('Slug'),
+
 Hidden::make('Slug')->default(Str::random(64)),
 ```
 
-Combined with [Default Values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
+Combined with [default values](#default-values), `Hidden` fields are useful for passing things like related ID's to your forms:
 
 ```php
 Hidden::make('User', 'user_id')->default(function ($request) {
@@ -630,8 +643,11 @@ ID::make(),
 
 // Using the "id_column" column...
 ID::make('ID', 'id_column'),
+```
 
-// Resolve BIGINT ID fields
+If your application contains very large integer IDs, you may need to use the `asBigInt` method in order for the Nova client to render the integer:
+
+```php
 ID::make()->asBigInt(),
 ```
 
@@ -645,7 +661,7 @@ use Laravel\Nova\Fields\Image;
 Image::make('Photo'),
 ```
 
-By default, the `Image` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
+By default, the `Image` field allows the user to download the linked file. To disable downloads, you may use the `disableDownload` method on the field definition:
 
 ```php
 Image::make('Photo')->disableDownload(),
@@ -660,7 +676,7 @@ To learn more about defining file fields and handling uploads, check out the add
 
 ### KeyValue Field
 
-The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you may store profile information inside a [JSON column type name](https://laravel.com/docs/7.x/eloquent-mutators#array-and-json-casting) `meta`:
+The `KeyValue` field provides a convenient interface to edit _flat_, key-value data stored inside `JSON` column types. For example, you might store profile information inside a [JSON column type](https://laravel.com/docs/eloquent-mutators#array-and-json-casting) named `meta`:
 
 ```php
 use Laravel\Nova\Fields\KeyValue;
@@ -668,13 +684,13 @@ use Laravel\Nova\Fields\KeyValue;
 KeyValue::make('Meta')->rules('json'),
 ```
 
-This would give you an interface similar to this:
+Given the field definition above, the following interface would be rendered:
 
 ![Key/Value Field](./img/key-value-field.png)
 
 #### Customizing KeyValue Labels
 
-You can customize the text values used in the component by specifying the `keyLabel`, `valueLabel`, and `actionText` methods when defining the field:
+You can customize the text values used in the component by calling the `keyLabel`, `valueLabel`, and `actionText` methods when defining the field:
 
 ```php
 KeyValue::make('Meta')
@@ -688,17 +704,12 @@ KeyValue::make('Meta')
 By default, Nova will never display a `KeyValue` field on a resource index listing.
 :::
 
-If you would like to disable the user's ability to edit the keys of the field, you may use the `disableEditingKeys` method to accomplish this:
+If you would like to disable the user's ability to edit the keys of the field, you may use the `disableEditingKeys` method to accomplish this. Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well:
 
 ```php
 KeyValue::make('Meta')
     ->disableEditingKeys()
 ```
-
-:::tip Disabling Editing KeyValue Keys
-
-Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well.
-:::
 
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
 
@@ -713,9 +724,6 @@ In addition you may also wish to remove the user's ability to delete exisiting r
 KeyValue::make('Meta')
     ->disableDeletingRows()
 ```
-
-
-
 
 ### Markdown Field
 
@@ -901,7 +909,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-If your options are dynamically generated you may pass a `Closure`:
+If you would like more dynamic control over generating the options available within the field, you may pass a `Closure` to the `options` method:
 
 ```php
 Select::make('Size')->options(function () {
@@ -1035,7 +1043,8 @@ Stack::make('Details', [
 `Stack` fields are not shown on forms, and are only for stacking lines of text for display on the index and detail resource views.
 
 #### Line Fields
-To gain more control over how the individual fields in a `Stack` are displayed, you can opt to use the special `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
+
+To gain more control over how the individual fields in a `Stack` are displayed, you may use the `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
 
 - `asHeading`
 - `asSubTitle`
@@ -1054,7 +1063,7 @@ Stack::make('Details', [
 
 #### Passing Closures to Line Fields
 
-In addition to passing normal `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a `Closure`, which will automatically get converted to a `Line` instance:
+In addition to passing `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a `Closure`. The result of the Closure will automatically be converted to a `Line` instance:
 
 ```php
 Stack::make('Details', [
@@ -1088,10 +1097,9 @@ Text::make('Name')->withMeta([
 
 #### Text Field Suggestions
 
-If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions, which will be used to populate a `datalist`:
+If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions. These suggestions will be used to populate the field's `datalist`:
 
 ![Field Suggestions](./img/field-suggestions.png)
-
 
 #### Formatting Text As Links
 
@@ -1306,19 +1314,19 @@ By default, Nova will use a red asterisk to indicate a field is required:
 
 ![Required Fields](./img/required-field.png)
 
-Nova does this by looking for the `required` rules inside the field's validation rules to determine if it should show the required state. For example, a field with this definition would receive the required treatment:
+Nova does this by looking for the `required` rules inside the field's validation rules to determine if it should show the required state. For example, a field with this definition would receive a "required" indicator in the Nova UI:
 
 ```php
 Text::make('Email')->rules('required'),
 ```
 
-However, you can also manually mark the field as required by passing a boolean to the `required` method on the field definition:
+However, you can manually mark the field as required by passing a boolean to the `required` method when defining the field:
 
 ```php
 Text::make('Email')->required(true),
 ```
 
-In addition, you may also pass a closure to the `required` method to determine if the field should be marked as required. The closure will receive an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
+In addition, you may also pass a Closure to the `required` method to determine if the field should be marked as required. The Closure will receive an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
 
 ```php
 Text::make('Email')->required(function ($request) {

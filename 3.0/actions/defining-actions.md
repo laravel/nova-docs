@@ -75,6 +75,29 @@ The most important method of an action is the `handle` method. The `handle` meth
 
 Within the `handle` method, you may perform whatever tasks are necessary to complete the action. You are free to update database records, send emails, call other services, etc. The sky is the limit!
 
+## Handling Multiple Results
+
+When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the field:
+
+```php
+/**
+ * Handle chunk results.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  array  $results
+ *
+ * @return mixed
+ */
+public function handleResult(ActionFields $fields, $results)
+{
+    $models = collect($results)->flatten();
+
+    dispatch(new GenerateReport($models));
+
+    return Action::message($models->count());
+}
+```
+
 ## Destructive Actions
 
 You may designate an action as destructive or dangerous by having your action class inherit from `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
@@ -85,22 +108,6 @@ You may designate an action as destructive or dangerous by having your action cl
 
 When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 :::
-
-## Customizing Action Confirmation Buttons
-
-You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
-
-```php
-/**
- * Return the CSS classes for the Action.
- *
- * @return string
- */
-public function actionClass()
-{
-    return 'bg-success text-white';
-}
-```
 
 ## Action Fields
 
@@ -144,6 +151,16 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
+### Action Fields Default Values
+
+You may use the `default` method to set the default value for an action field:
+
+```php
+Text::make('Subject')->default(function ($request) {
+    return 'Test: Subject';
+}),
+```
+
 ## Action Titles
 
 If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
@@ -156,32 +173,6 @@ If you would like to change the action title that is displayed in Nova's action 
  */
 public $name = 'Action Title';
 ```
-
-## Action Modal Customization
-
-By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by specifying the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return array
- */
-public function actions(Request $request)
-{
-    return [
-        (new Actions\ActivateUser)
-            ->confirmText('Are you sure you want to activate this user?')
-            ->confirmButtonText('Activate')
-            ->cancelButtonText("Don't activate"),
-    ];
-}
-```
-
-This will customize the modal to look something like this:
-
-![Action Customization](./img/action-customization.png)
 
 ## Action Responses
 
@@ -219,7 +210,7 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
-To redirect the user to an internal route use the `Action::push` method:
+To redirect the user to an internal route, you may use the `Action::push` method:
 
 ```php
 return Action::push('/resources/posts/new', [
@@ -390,5 +381,47 @@ public function handle(ActionFields $fields, Collection $models)
             $this->markAsFailed($model, $e);
         }
     }
+}
+```
+
+## Action Modal Customization
+
+By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by calling the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\ActivateUser)
+            ->confirmText('Are you sure you want to activate this user?')
+            ->confirmButtonText('Activate')
+            ->cancelButtonText("Don't activate"),
+    ];
+}
+```
+
+This will customize the modal using your provided text:
+
+![Action Customization](./img/action-customization.png)
+
+## Customizing Action Confirmation Buttons
+
+You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
+
+```php
+/**
+ * Return the CSS classes for the Action.
+ *
+ * @return string
+ */
+public function actionClass()
+{
+    return 'bg-success text-white';
 }
 ```

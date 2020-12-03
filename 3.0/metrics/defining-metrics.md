@@ -316,9 +316,9 @@ return $this->minByHours($request, Order::class, 'total');
 return $this->minByMinutes($request, Order::class, 'total');
 ```
 
-#### Showing the sum of values
+#### Showing The Sum Of Values
 
-By default, Nova only displays the last value of a Trend metric. You may wish to show a total count of the trend. You can do this by specifying the `showSumValue` method when returning your values from a Metric:
+By default, Nova only displays the last value of a Trend metric. You may wish to show a total count of the trend. You can do this by calling the `showSumValue` method when returning your values from a metric:
 
 ```php
 class UsersPerDay extends Trend

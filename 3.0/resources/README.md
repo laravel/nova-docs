@@ -2,6 +2,8 @@
 
 [[toc]]
 
+## Introduction
+
 Laravel Nova is a beautiful administration dashboard for Laravel applications. Of course, the primary feature of Nova is the ability to administer your underlying database records using Eloquent. Nova accomplishes this by allowing you to define a Nova "resource" that corresponds to each Eloquent model in your application.
 
 ## Defining Resources
@@ -29,14 +31,13 @@ Freshly created Nova resources only contain an `ID` field definition. Don't worr
 
 Nova contains a few reserved words, which may not be used for resource names.
 
-- Field
-- Script
-- Resource
 - Card
-- Tool
 - Dashboard
+- Field
 - Metric
-
+- Resource
+- Script
+- Tool
 :::
 
 ## Registering Resources
@@ -190,7 +191,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-If you would like to attach any observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
+If you would like to attach an observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
 
 ```php
 use App\User;
@@ -214,7 +215,7 @@ public function boot()
 
 ## Preventing Conflicts
 
-If the model has been updated since the retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as "Traffic Cop".
+If the model has been updated since its last retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as "Traffic Cop".
 
 ### Disabling Traffic Cop
 
@@ -226,10 +227,10 @@ If you are not concerned with preventing conflicts, you can disable the Traffic 
  *
  * @var bool
  */
-public static $trafficCop = true;
+public static $trafficCop = false;
 ```
 
-You may also override the `trafficCop` method on the resource:
+You may also override the `trafficCop` method on the resource if you require more intense customization when determining if this feature should be enabled:
 
 ```php
 /**
@@ -245,7 +246,8 @@ public static function trafficCop(Request $request)
 ```
 
 :::tip Time Synchronization
-Before disabling Traffic Cop, if you are experiencing issues you may first want to check that the system time is correctly synchronized using NTP.
+
+If you are experiencing issues with traffic cop you may first want to check that the system time is correctly synchronized using NTP.
 :::
 
 ## Resource Polling
@@ -300,7 +302,7 @@ When creating and editing resource forms with many fields, you may wish to preve
  *
  * @var bool
  */
-public static $preventFormAbandonment = false;
+public static $preventFormAbandonment = true;
 ```
 
 ## Redirection
@@ -411,6 +413,20 @@ public static function perPageOptions()
 }
 ```
 
-:::tip Customizing `perPageOptions` affects the initial amount of resources fetched.
+:::tip Customizing `perPageOptions` & Resource Fetching
+
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
+
+### Resource Index Search Debounce
+
+You may wish to customize the search debounce timing of an individual resource's index listing. For example, the queries executed to retrieve some resources may take longer than others. You can customize an individual resource's search debounce by setting the `debounce` property on the resource class:
+
+```php
+/**
+ * The debounce amount to use when searching this resource.
+ *
+ * @var float
+ */
+public static $debounce = 0.5; // 0.5 seconds
+```

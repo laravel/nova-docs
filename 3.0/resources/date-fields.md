@@ -44,7 +44,7 @@ public function boot()
 
 ### Customizing The First Day of the Week
 
-By default, Nova's Date and DateTime fields recognize Sunday as the first day of the week (as the United States, Canada, and Japan do). If you wish to customize this to follow the international standard `ISO 8601`, you can set the `firstDayOfWeek` option on the field:
+By default, Nova's Date and DateTime fields recognize Sunday as the first day of the week (as the United States, Canada, and Japan do). If you wish to customize this to follow the international standard `ISO 8601`, you may call the `firstDayOfWeek` method when defining the field:
 
 ```php
 Date::make('Birthday')->firstDayOfWeek(1);

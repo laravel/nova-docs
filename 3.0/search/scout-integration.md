@@ -26,3 +26,14 @@ public static function scoutQuery(NovaRequest $request, $query)
     return $query;
 }
 ```
+
+### Customizing Scout Search Results Amount
+
+You can customize the amount of search results retured from your Scout driver by setting the `scoutSearchResults` property on the `Resource` class using Scout:
+
+```php
+/**
+ * The number of results to display when searching the resource using Scout.
+ */
+public static $scoutSearchResults = 200;
+```

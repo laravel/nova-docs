@@ -19,7 +19,7 @@ public function actions(Request $request)
 }
 ```
 
-Alternatively, you may use the `make` method to instantiate your action: 
+Alternatively, you may use the `make` method to instantiate your action:
 
 ```php
 /**
@@ -40,7 +40,7 @@ Any arguments passed to the `make` method will be passed to the constructor of y
 
 ## Disabling Action Confirmation
 
-By default, when running an action, a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
+By default, when running an action a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
 
 ```php
 /**
@@ -70,6 +70,10 @@ By default, actions are visible on both the resource index and detail screens. I
 - `onlyOnTableRow`
 - `exceptOnTableRow`
 - `showOnTableRow`
+
+### Inline Actions
+
+Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showOnTableRow` method when attaching the action to the resource:
 
 ```php
 /**
@@ -132,7 +136,7 @@ public function actions(Request $request)
 
 ## Authorizing Actions Per-Resource
 
-Sometimes it is useful to conditionally show an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
+Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
 
 ```php
 /**
@@ -152,6 +156,7 @@ public function actions(Request $request)
 ```
 
 :::warning
+
 It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, it's important to check for the existence of the model, instead of assuming one is available.
 :::
 

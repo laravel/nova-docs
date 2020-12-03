@@ -2,7 +2,7 @@
 
 [[toc]]
 
-Nova offers several types of file fields: `File`, `Image`, `Avatar`, and `VaporFile`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` field classes. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
+Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`, and `VaporImage`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` field classes. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
 
 ## Overview
 
@@ -20,7 +20,7 @@ File::make('Profile Photo')->disk('public');
 
 ### Disabling File Downloads
 
-By default, the `File` field allows the user to download the linked file. To disable this you can use the `disableDownload` method on the field definition:
+By default, the `File` field allows the user to download the linked file. To disable this, you can call the `disableDownload` method on the field definition:
 
 ```php
 File::make('Profile Photo')->disableDownload();

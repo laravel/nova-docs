@@ -2,7 +2,7 @@ module.exports = [
   {
     title: "Getting Started",
     collapsable: false,
-    children: ["installation", "contributions"]
+    children: ["installation", "contributions", "support", "code-of-conduct"]
   },
   {
     title: "Resources",
@@ -46,16 +46,16 @@ module.exports = [
     title: "Customization",
     collapsable: false,
     children: prefix("customization", [
-      "localization",
       "dashboards",
       "tools",
       "resource-tools",
       "cards",
       "fields",
-      "frontend",
       "filters",
+      "frontend",
       "themes",
       "assets",
+      "localization",
       "stubs"
     ])
   }
