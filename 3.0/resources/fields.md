@@ -367,7 +367,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues and`hideTrueValues` methods on the field:
+You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues` and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -710,15 +710,6 @@ If you would like to disable the user's ability to edit the keys of the field, y
 KeyValue::make('Meta')
     ->disableEditingKeys()
 ```
-
-# <<<<<<< HEAD
-
-:::tip Disabling Editing KeyValue Keys
-
-Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well.
-:::
-
-> > > > > > > develop
 
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
 
