@@ -38,7 +38,7 @@ Nova contains a few reserved words, which may not be used for resource names.
 - Resource
 - Script
 - Tool
-:::
+  :::
 
 ## Registering Resources
 
@@ -122,7 +122,6 @@ This will display your table rows with less visual height, enabling more data to
 
 ![Tight Table Style](./img/resource-tight-table.png)
 
-
 ### Column Borders
 
 You can show borders on the sides of columns by overriding the static `$showColumnBorders` property or the static `showColumnBorders` method on your Resource class:
@@ -137,7 +136,6 @@ public static $showColumnBorders = true;
 ```
 
 This will display the table with borders on every table item:
-
 
 ![Table Column Borders](./img/resource-column-borders.png)
 
@@ -291,7 +289,6 @@ Nova will then display a clickable button inside the interface:
 
 ![Nova Resource Polling Toggle Button](./img/polling-toggle.png)
 
-
 ## Preventing Accidental Resource Form Abandonment
 
 When creating and editing resource forms with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your resources by setting the static `preventFormAbandonment` property to `true`:
@@ -303,6 +300,72 @@ When creating and editing resource forms with many fields, you may wish to preve
  * @var bool
  */
 public static $preventFormAbandonment = true;
+```
+
+## Redirection
+
+Nova allows you to easily customize where a user is redirected after performing resource actions such as creating or updating a resource:
+
+- [redirectAfterCreate()](#after-creating-redirection)
+- [redirectAfterUpdate()](#after-updating-redirection)
+- [redirectAfterDelete()](#after-deletion-redirection)
+
+:::warning Redirection Limitation
+
+Behind the scene, Nova's redirect features use the Vue router's `push()` method. Because of this, redirection is limited to paths within Laravel Nova.
+:::
+
+#### After Creating Redirection
+
+You may customize where a user is redirected after creating a resource using by overriding your resource's `redirectAfterCreate` method:
+
+```php
+    /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    }
+```
+
+#### After Updating Redirection
+
+You may customize where a user is redirected after updating a resource using by overriding your resource's `redirectAfterUpdate` method:
+
+```php
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    }
+```
+
+#### After Deletion Redirection
+
+You may customize where a user is redirected after deleting a resource using by overriding your resource's `redirectAfterDelete` method:
+
+```php
+    /**
+     * Return the location to redirect the user after deletion.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return string|null
+     */
+    public static function redirectAfterDelete(NovaRequest $request)
+    {
+        return null;
+    }
 ```
 
 ## Keyboard Shortcuts

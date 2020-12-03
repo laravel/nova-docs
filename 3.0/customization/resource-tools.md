@@ -165,6 +165,31 @@ Your resource tool's `Tool.vue` component receives several Vue `props`: `resourc
 const issuesRefunds = this.panel.fields[0].issuesRefunds;
 ```
 
+Resource tools also offer the ability to _dynamically set options_ on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
+
+```php
+use Acme\StripeInspector\StripeInspector;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
+{
+    return [
+        ID::make('ID', 'id')->sortable(),
+
+        // Will be available on the field via `perPage: 25`
+        StripeInspector::make()->perPage(25),
+
+        // Will be available on the field via `issuesRefund: true`
+        StripeInspector::make()->issuesRefund()
+    ];
+}
+```
+
 #### Registering Assets
 
 Your Nova tool's service provider registers your tool's compiled assets so that they will be available to the Nova front-end:

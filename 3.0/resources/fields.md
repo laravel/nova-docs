@@ -367,7 +367,7 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-Sometimes, you may wish to hide values that are `true` or `false` to avoid cluttering the view. You may do this by using the `hideFalseValues  and `hideTrueValues` methods on the field:
+You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues and`hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
@@ -398,12 +398,20 @@ BooleanGroup::make('Permissions')->options([
 
 ### Code Field
 
-The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns. However, you may also attach them to `JSON` database columns:
+The `Code` fields provides a beautiful code editor within your Nova administration panel. Generally, code fields should be attached to `TEXT` database columns:
 
 ```php
 use Laravel\Nova\Fields\Code;
 
 Code::make('Snippet'),
+```
+
+You may also attach `Code` fields to `JSON` database columns. By default, the field will display the value as a JSON string but you may cast the column to `array`, `collection`, `object`, or `json` to display the value as required by your application:
+
+```php
+use Laravel\Nova\Fields\Code;
+
+Code::make('Options')->json(),
 ```
 
 :::tip Code Fields On The Index
@@ -463,7 +471,6 @@ Country::make('Country', 'country_code'),
 This documentation refers to the `Currency` field from v2.11.0 onwards. Prior to this, the field was incompatible with PHP 7.4.
 :::
 
-
 The `Currency` field generates a `Number` field that is automatically formatted using the `brick/money` PHP package. Nova will use `USD` as the default currency; however, this can be changed by modifying the `nova.currency` configuration value:
 
 ```php
@@ -478,8 +485,18 @@ You may override the currency on a per-field basis using the `currency` method:
 Currency::make('Price')->currency('EUR'),
 ```
 
-The field is formatted by default to the `locale` found in `app.locale`. You can override this by providing a locale code:
+You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
+```php
+Currency::make('price')->min(1)->max(1000)->step(0.01),
+```
+
+:::warning Currency Step Limitation
+
+If you plan to customize the currency "step" amount using the `step` method, you should ensure you always call the `step` method after the `currency`, `asMinorUnits`, and `asMajorUnits`. Calling these methods after the `step` method will override the `step` method's behavior.
+:::
+
+The field's locale will respect the value in your application's `app.locale` configuration value. You can override this behavior by providing a locale code to the `locale` method:
 
 ```php
 Currency::make('Price')->locale('fr'),
@@ -694,6 +711,15 @@ KeyValue::make('Meta')
     ->disableEditingKeys()
 ```
 
+# <<<<<<< HEAD
+
+:::tip Disabling Editing KeyValue Keys
+
+Disabling editing keys with the `disableEditingKeys` method will automatically disable adding rows as well.
+:::
+
+> > > > > > > develop
+
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
 
 ```php
@@ -707,9 +733,6 @@ In addition you may also wish to remove the user's ability to delete exisiting r
 KeyValue::make('Meta')
     ->disableDeletingRows()
 ```
-
-
-
 
 ### Markdown Field
 
@@ -1059,7 +1082,6 @@ Stack::make('Details', [
     }
 ]),
 ```
-
 
 ### Text Field
 
