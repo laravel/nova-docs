@@ -75,7 +75,7 @@ After running this command, verify that the `App\Providers\NovaServiceProvider` 
 The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
 ```php
-public static $model = 'App\\User';
+public static $model = 'App\\Models\\User';
 ```
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
