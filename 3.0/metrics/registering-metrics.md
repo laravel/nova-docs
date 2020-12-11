@@ -58,7 +58,7 @@ public function cards(Request $request)
 Of course, you will need to modify your metric's query to only gather metric data on the resource for which it is currently being displayed. To accomplish this, your metric's `calculate` method may access the `resourceId` property on the incoming `$request`:
 
 ```php
-use App\Podcast;
+use App\Models\Podcast;
 
 return $this->count($request, Podcast::where('user_id', $request->resourceId));
 ```
@@ -162,7 +162,7 @@ You may also use HTML when defining your help text:
 If you would like to only expose a given metric to certain users, you may chain the `canSee` method onto your metric registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the cards available for the resource.
@@ -183,7 +183,7 @@ public function cards(Request $request)
 In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewUsersPerDay` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the cards available for the resource.

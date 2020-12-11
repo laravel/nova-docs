@@ -33,7 +33,7 @@ To learn how to define Nova actions, let's look at an example. In this example, 
 
 namespace App\Nova\Actions;
 
-use App\AccountData;
+use App\Models\AccountData;
 use Illuminate\Bus\Queueable;
 use Laravel\Nova\Actions\Action;
 use Illuminate\Support\Collection;

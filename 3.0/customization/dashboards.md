@@ -101,7 +101,7 @@ protected function dashboards()
 If you would like to only expose a given dashboard to certain users, you may chain the `canSee` method on to your dashboard registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the extra dashboards that should be displayed on the Nova dashboard.
@@ -121,7 +121,7 @@ protected function dashboards()
 In the example above, we are using Laravel's `Authorizable` trait's can method on our `User` model to determine if the authorized user is authorized for the `viewUserInsights` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the extra dashboards that should be displayed on the Nova dashboard.

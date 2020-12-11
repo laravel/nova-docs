@@ -8,8 +8,9 @@ Nova offers two types of date fields: `Date` and `DateTime`. As you may have gue
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 
-Date::make('Birthday');
-DateTime::make('Created At');
+Date::make('Birthday'),
+
+DateTime::make('Created At'),
 ```
 
 ### Timezones
@@ -47,6 +48,7 @@ public function boot()
 By default, Nova's Date and DateTime fields recognize Sunday as the first day of the week (as the United States, Canada, and Japan do). If you wish to customize this to follow the international standard `ISO 8601`, you may call the `firstDayOfWeek` method when defining the field:
 
 ```php
-Date::make('Birthday')->firstDayOfWeek(1);
-DateTime::make('Created At')->firstDayOfWeek(1);
+Date::make('Birthday')->firstDayOfWeek(1),
+
+DateTime::make('Created At')->firstDayOfWeek(1),
 ```
