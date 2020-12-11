@@ -10,7 +10,7 @@ If you discover a bug in Laravel Nova, please open an issue on the [Nova issues 
 
 Laravel Nova's GitHub issue trackers are not intended to provide Nova help or support. Instead, use one of the following channels:
 
-- [Laracasts Forums](https://laracasts.com/discuss)
+- [Laracasts Forums](https://laracasts.com/discuss/channels/nova)
 - [Laravel.io Forums](https://laravel.io/forum)
 - [StackOverflow](https://stackoverflow.com/questions/tagged/laravel-nova)
 - [Discord](https://discordapp.com/invite/KxwQuKb)
