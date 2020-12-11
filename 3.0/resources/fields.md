@@ -786,7 +786,7 @@ PasswordConfirmation::make('Password Confirmation'),
 
 ### Place Field
 
-:::danger Places API has been deprecated
+:::danger Places API Deprecated
 
 Algolia has announced that their [Places API will stop functioning on May 31st, 2022](https://www.algolia.com/blog/sunseting-our-places-feature/).
 :::
