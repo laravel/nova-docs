@@ -125,7 +125,7 @@ After running this command, verify that the `App\Providers\NovaServiceProvider` 
 The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
 ```php
-public static $model = 'App\\User';
+public static $model = 'App\\Models\\User';
 ```
 
 If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
