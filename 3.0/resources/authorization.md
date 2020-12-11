@@ -25,8 +25,8 @@ No additional configuration is required! So, for example, to determine which use
 
 namespace App\Policies;
 
-use App\User;
-use App\Post;
+use App\Models\User;
+use App\Models\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
@@ -36,8 +36,8 @@ class PostPolicy
     /**
      * Determine whether the user can update the post.
      *
-     * @param  \App\User  $user
-     * @param  \App\Post  $post
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Post  $post
      * @return mixed
      */
     public function update(User $user, Post $post)
@@ -61,8 +61,8 @@ If you would like to hide an entire Nova resource from a subset of your dashboar
 
 namespace App\Policies;
 
-use App\User;
-use App\Post;
+use App\Models\User;
+use App\Models\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PostPolicy
@@ -72,7 +72,7 @@ class PostPolicy
     /**
      * Determine whether the user can view any posts.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -93,8 +93,8 @@ When working with relationships, Nova uses a simple policy method naming convent
 
 namespace App\Policies;
 
-use App\User;
-use App\Podcast;
+use App\Models\User;
+use App\Models\Podcast;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PodcastPolicy
@@ -104,8 +104,8 @@ class PodcastPolicy
     /**
      * Determine whether the user can add a comment to the podcast.
      *
-     * @param  \App\User  $user
-     * @param  \App\Podcast  $podcast
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Podcast  $podcast
      * @return mixed
      */
     public function addComment(User $user, Podcast $podcast)
@@ -126,9 +126,9 @@ For many-to-many relationships, Nova uses a similar naming convention. However, 
 
 namespace App\Policies;
 
-use App\Tag;
-use App\User;
-use App\Podcast;
+use App\Models\Tag;
+use App\Models\User;
+use App\Models\Podcast;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PodcastPolicy
@@ -138,9 +138,9 @@ class PodcastPolicy
     /**
      * Determine whether the user can attach a tag to a podcast.
      *
-     * @param  \App\User  $user
-     * @param  \App\Podcast  $podcast
-     * @param  \App\Tag  $tag
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Podcast  $podcast
+     * @param  \App\Models\Tag  $tag
      * @return mixed
      */
     public function attachTag(User $user, Podcast $podcast, Tag $tag)
@@ -151,9 +151,9 @@ class PodcastPolicy
     /**
      * Determine whether the user can detach a tag from a podcast.
      *
-     * @param  \App\User  $user
-     * @param  \App\Podcast  $podcast
-     * @param  \App\Tag  $tag
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Podcast  $podcast
+     * @param  \App\Models\Tag  $tag
      * @return mixed
      */
     public function detachTag(User $user, Podcast $podcast, Tag $tag)
@@ -170,8 +170,8 @@ In the previous examples, we are determining if a user is authorized to attach o
 
 namespace App\Policies;
 
-use App\User;
-use App\Podcast;
+use App\Models\User;
+use App\Models\Podcast;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class PodcastPolicy
@@ -181,8 +181,8 @@ class PodcastPolicy
     /**
      * Determine whether the user can attach any tags to the podcast.
      *
-     * @param  \App\User  $user
-     * @param  \App\Podcast  $podcast
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Podcast  $podcast
      * @return mixed
      */
     public function attachAnyTag(User $user, Podcast $podcast)

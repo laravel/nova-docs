@@ -708,21 +708,21 @@ If you would like to disable the user's ability to edit the keys of the field, y
 
 ```php
 KeyValue::make('Meta')
-    ->disableEditingKeys()
+    ->disableEditingKeys(),
 ```
 
 You may also remove the user's ability to add new rows to the field by chaining the `disableAddingRows` method:
 
 ```php
 KeyValue::make('Meta')
-    ->disableAddingRows()
+    ->disableAddingRows(),
 ```
 
 In addition you may also wish to remove the user's ability to delete exisiting rows in the field by using the `disableDeletingRows` method:
 
 ```php
 KeyValue::make('Meta')
-    ->disableDeletingRows()
+    ->disableDeletingRows(),
 ```
 
 ### Markdown Field

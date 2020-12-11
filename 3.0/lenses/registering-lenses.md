@@ -43,7 +43,7 @@ Any arguments passed to the `make` method will be passed to the constructor of y
 If you would like to only expose a given lens to certain users, you may chain the `canSee` method onto your lens registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the lenses available for the resource.

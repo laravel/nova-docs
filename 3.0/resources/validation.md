@@ -33,7 +33,7 @@ Text::make('State')
         if (strtoupper($value) !== $value) {
             return $fail('The '.$attribute.' field must be uppercase.');
         }
-    });
+    }),
 ```
 
 ### Creation Rules

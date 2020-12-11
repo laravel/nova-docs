@@ -27,7 +27,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 
 namespace App\Nova\Metrics;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Value;
 
@@ -209,7 +209,7 @@ In this example, we are using the `countByDays` helper, which will automatically
 
 namespace App\Nova\Metrics;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Trend;
 
@@ -428,7 +428,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 
 namespace App\Nova\Metrics;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 

@@ -22,7 +22,7 @@ The most basic and fundamental property of a resource is its `model` property. T
  *
  * @var string
  */
-public static $model = 'App\Post';
+public static $model = 'App\Models\Post';
 ```
 
 Freshly created Nova resources only contain an `ID` field definition. Don't worry, we'll add more fields to our resource soon.
@@ -163,7 +163,7 @@ All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` E
 ```php
 namespace App\Providers;
 
-use App\User;
+use App\Models\User;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
