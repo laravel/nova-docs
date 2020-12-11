@@ -1098,8 +1098,6 @@ Text::make('Name')->withMeta([
 
 If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions. These suggestions will be used to populate the field's `datalist`:
 
-![Field Suggestions](./img/field-suggestions.png)
-
 ```php
 Text::make('Name')->required()
     ->suggestions([
@@ -1108,6 +1106,8 @@ Text::make('Name')->required()
         'James Brooks',
     ]),
 ```
+
+![Field Suggestions](./img/field-suggestions.png)
 
 #### Formatting Text As Links
 
