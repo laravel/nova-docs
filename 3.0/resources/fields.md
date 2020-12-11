@@ -1319,7 +1319,7 @@ Nova does this by looking for the `required` rules inside the field's validation
 Text::make('Email')->rules('required'),
 ```
 
-However, you can manually mark the field as required by passing a boolean to the `required` method when defining the field:
+In the event where you have a complex `required` validation, you can manually mark the field as required by passing a boolean to the `required` method when defining the field to indicate "required" indicator in the Nova UI:
 
 ```php
 Text::make('Email')->required(true),
@@ -1328,14 +1328,17 @@ Text::make('Email')->required(true),
 In addition, you may also pass a Closure to the `required` method to determine if the field should be marked as required. The Closure will receive an instance of `NovaRequest`, which you may use to define any complex logic which should be used to evaluate the field's required state:
 
 ```php
-Text::make('Email')->required(function ($request) {
-    return $request->isUpdateOrUpdateAttachedRequest();
-}),
+use Illuminate\Validation\Rule;
 
 Text::make('Email')->required(function ($request) {
     return $this->account_locked !== true;
-}),
+})->rules([Rule::requiredIf($this->account_locked)]),
 ```
+
+:::warning required() limitation
+
+The `required()` method will only indicate "required" indicator to be added to the Nova UI. However you need to always define the related `rules()` to be used for validation.
+:::
 
 ### Nullable Fields
 
