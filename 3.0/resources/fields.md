@@ -786,6 +786,11 @@ PasswordConfirmation::make('Password Confirmation'),
 
 ### Place Field
 
+:::danger Places API Deprecated
+
+Algolia has announced that their [Places API will stop functioning on May 31st, 2022](https://www.algolia.com/blog/sunseting-our-places-feature/).
+:::
+
 The `Place` field leverages the power of the [Algolia Places API](https://community.algolia.com/places/) to provide ultra-fast address searching and auto-completion. An Algolia account is **not required** in order to leverage this field.
 
 Typically, a `Place` field will be defined alongside other related address fields. In this example, in order to keep our resource tidy, we will use the `merge` method to extract the address field definitions into their own method:
