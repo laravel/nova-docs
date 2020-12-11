@@ -328,17 +328,14 @@ public static function relatableTags(NovaRequest $request, $query)
 }
 ```
 
-When a resource depends on another resource more than once you can apply the 3rd parameters to use related query using different logic. 
+When a Nova resource depends on another resource more than once, you can supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize:
 
 ```php
-BelongsTo::make('Current Team', 'currentTeam', Team::class),
-
 HasMany::make('Owned Teams', 'ownedTeams', Team::class),
-
 BelongsToMany::make('Teams', 'teams', Team::class),
 ```
 
-You can filter relatable query to `Team` resources by using the following method:
+When customizing the "relatable" query, you may check the type of field to determine how to build the relationship query:
 
 ```php
 /**
@@ -354,7 +351,7 @@ You can filter relatable query to `Team` resources by using the following method
 public static function relatableTeams(NovaRequest $request, $query, Field $field)
 {
     if ($field instanceof BelongsToMany) {
-        // custom logic for BelongsToMany field
+        // ...
     }
 
     return $query;
