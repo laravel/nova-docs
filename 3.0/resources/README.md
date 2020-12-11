@@ -36,7 +36,9 @@ Nova contains a few reserved words, which may not be used for resource names.
 - Field
 - Metric
 - Resource
+- Search
 - Script
+- Style
 - Tool
   :::
 
