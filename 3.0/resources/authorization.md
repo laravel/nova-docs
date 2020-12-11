@@ -286,6 +286,7 @@ For example, if your application has a `Comment` resource that belongs to a `Pod
  *
  * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @param  \Laravel\Nova\Fields\Field  $field
  * @return \Illuminate\Database\Eloquent\Builder
  */
 public static function relatableQuery(NovaRequest $request, $query)
@@ -306,6 +307,7 @@ You can customize the "relatable" query for individual relationships by using a 
  *
  * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @param  \Laravel\Nova\Fields\Field  $field
  * @return \Illuminate\Database\Eloquent\Builder
  */
 public static function relatableTags(NovaRequest $request, $query)
@@ -323,6 +325,36 @@ public static function relatableTags(NovaRequest $request, $query)
     $resourceId = $request->route('resourceId'); // The resource ID...
 
     return $query->where('type', $resource);
+}
+```
+
+When a Nova resource depends on another resource more than once, you can supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize:
+
+```php
+HasMany::make('Owned Teams', 'ownedTeams', Team::class),
+BelongsToMany::make('Teams', 'teams', Team::class),
+```
+
+When customizing the "relatable" query, you may check the type of field to determine how to build the relationship query:
+
+```php
+/**
+ * Build a "relatable" query for the given resource.
+ *
+ * This query determines which instances of the model may be attached to other resources.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @param  \Laravel\Nova\Fields\Field  $field
+ * @return \Illuminate\Database\Eloquent\Builder
+ */
+public static function relatableTeams(NovaRequest $request, $query, Field $field)
+{
+    if ($field instanceof BelongsToMany) {
+        // ...
+    }
+
+    return $query;
 }
 ```
 
