@@ -1100,6 +1100,15 @@ If you'd like to offer users of your `Text` field a list of suggestions when typ
 
 ![Field Suggestions](./img/field-suggestions.png)
 
+```php
+Text::make('Name')->required()
+    ->suggestions([
+        'David Hemphill',
+        'Taylor Otwell',
+        'James Brooks',
+    ]),
+```
+
 #### Formatting Text As Links
 
 To format text as a link, you may use the `asHtml` method:
