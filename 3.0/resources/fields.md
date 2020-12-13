@@ -153,7 +153,7 @@ Text::make('Name')->placeholder('My New Post'),
 On every create or update request the field's corresponding model attribute will automatically be filled; however, you can customise the hydration behavior of a given field using the `fillUsing` method. This method allows you to totally customize how the field's corresponding model attribute is hydrated:
 
 ```php
-Text::::make('Name', 'name')
+Text::make('Name', 'name')
     ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
         $model->{$attribute} = Str::title($request->input($attribute));
     }),
