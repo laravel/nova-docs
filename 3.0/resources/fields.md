@@ -520,10 +520,10 @@ You may customize the display format of your `Date` fields using the `format` me
 Date::make('Birthday')->format('DD MMM'),
 ```
 
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
+To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
 
 ```php
-Date::make('Birthday')->pickerFormat('d.m.Y'),
+Date::make('Birthday')->pickerDisplayFormat('d.m.Y'),
 ```
 
 To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
@@ -552,10 +552,10 @@ You may customize the display format of your `DateTime` fields using the `format
 DateTime::make('Created At')->format('DD MMM YYYY'),
 ```
 
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerFormat` method:
+To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
 
 ```php
-DateTime::make('Updated At')->pickerFormat('d.m.Y'),
+DateTime::make('Updated At')->pickerDisplayFormat('d.m.Y'),
 ```
 
 To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
