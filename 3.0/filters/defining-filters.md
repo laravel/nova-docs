@@ -208,6 +208,15 @@ public function default()
 }
 ```
 
+:::tip Using <code>default()</code> 
+
+Adding a default value will ensure the filter will be applied by default when browsing the resource or lense with following considerations:
+
+* Query will applied the filter value by default.
+* Filter Menu will not indicate selected filters being selected due to the fact it's the default selection.
+* When other filters being applied, filters will shown as selected and "Reset Filter" is visible to reset filter back to configured `default()`.
+:::
+
 ## Dynamic Filters
 
 There may be times when you want to create a dynamic filter which filters on columns that are determined at runtime. In addition to passing the column name that we want to filter on in the constructor, we'll also need to override the `key` method so that Nova runs the correct version of the filter. Let's take a look at an example `TimestampFilter` filter:
