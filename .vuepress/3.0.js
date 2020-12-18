@@ -46,6 +46,7 @@ module.exports = [
     title: "Customization",
     collapsable: false,
     children: prefix("customization", [
+      "laravel",
       "dashboards",
       "tools",
       "resource-tools",
