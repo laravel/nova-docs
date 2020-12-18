@@ -70,3 +70,34 @@ php artisan vendor:publish
 ```
 
 After running this command, you will be given a list of publishable assets from the various packages installed in your application. Pick the number corresponding to the theme you just generated.
+
+## Applying Theme for Nova Authentication and Password Reset Routes
+
+By default Nova themes will only be applied on Nova admin panel and not the Authentication and Password Reset Routes. 
+
+If you want the theme to be implemented for those pages the route registration from `App\Providers\NovaServiceProvider` to implements the following:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        Nova::routes()
+                ->withAuthenticationRoutes(['web', DispatchServingNovaEvent::class])
+                ->withPasswordResetRoutes(['web', DispatchServingNovaEvent::class])
+                ->register();
+    }
+}
+```
