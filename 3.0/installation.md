@@ -182,6 +182,20 @@ protected function gate()
 }
 ```
 
+## Error Reporting
+
+Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report`. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
+
+```php
+use Laravel\Nova\Nova;
+
+Nova::report(funtion ($exception) {
+    if (app()->bound('sentry')) {
+        app('sentry')->captureException($exception);
+    }
+});
+```
+
 ## Updating Nova
 
 To update your Nova installation, you may simply download a release Zip file from the Nova website.
