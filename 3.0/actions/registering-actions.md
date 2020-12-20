@@ -136,9 +136,12 @@ public function actions(Request $request)
 
 ## Authorizing Actions Per-Resource
 
-Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using the `findModelQuery` method found on `NovaRequest`:
+Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using `$this->resource` method for Resource and Lens:
 
 ```php
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Http\Requests\ActionRequest;
+
 /**
  * Get the actions available for the resource.
  *
@@ -149,7 +152,11 @@ public function actions(Request $request)
 {
     return [
         (new Actions\CancelTrial)->canSee(function ($request) {
-            return optional($request->findModelQuery()->first())->isOnTrial();
+            if ($request instanceof ActionRequest) {
+                return true;  
+            }
+
+            return $this->resource instanceof Model && $this->resource->isOnTrial();
         }),
     ];
 }
@@ -157,7 +164,12 @@ public function actions(Request $request)
 
 :::warning
 
-It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, it's important to check for the existence of the model, instead of assuming one is available.
+It's important to remember that actions are not always resolved using an underlying `Model` instance in certain scenario including:
+
+* Running the action, we can check `$request` is an instance of `Laravel\Nova\Http\Requests\ActionRequest`.
+* Getting lists of actions for Resource and Lens where `$this->resource` can be `null` for Resource and `stdClass` for Lens.
+
+Because of this, it's important to check for the existence of the model, instead of assuming one is available.
 :::
 
 #### The `canRun` Method
