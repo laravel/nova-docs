@@ -189,7 +189,7 @@ Nova uses its own internal exception handler instead of using the default `App\E
 ```php
 use Laravel\Nova\Nova;
 
-Nova::report(funtion ($exception) {
+Nova::report(function ($exception) {
     if (app()->bound('sentry')) {
         app('sentry')->captureException($exception);
     }
