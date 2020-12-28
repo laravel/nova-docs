@@ -136,7 +136,7 @@ public function actions(Request $request)
 
 ## Authorizing Actions Per-Resource
 
-Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this you can retrieve the resource from the request using `$this->resource` method for Resource and Lens:
+Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this, you can retrieve the resource via the `resource` property on a resource or lens instance:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -161,16 +161,6 @@ public function actions(Request $request)
     ];
 }
 ```
-
-:::warning
-
-It's important to remember that actions are not always resolved using an underlying `Model` instance in certain scenario including:
-
-* Running the action, we can check `$request` is an instance of `Laravel\Nova\Http\Requests\ActionRequest`.
-* Getting lists of actions for Resource and Lens where `$this->resource` can be `null` for Resource and `stdClass` for Lens.
-
-Because of this, it's important to check for the existence of the model, instead of assuming one is available.
-:::
 
 #### The `canRun` Method
 
