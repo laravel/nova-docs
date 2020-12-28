@@ -134,6 +134,11 @@ public function actions(Request $request)
 }
 ```
 
+:::warning Resource Action Model Resolution
+
+It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, you should check for the existence of the model instead of assuming one is available.
+:::
+
 ## Authorizing Actions Per-Resource
 
 Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this, you can retrieve the resource via the `resource` property on a resource or lens instance:
