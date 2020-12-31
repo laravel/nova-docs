@@ -412,7 +412,7 @@ public static function perPageOptions()
 }
 ```
 
-:::tip Customizing `perPageOptions` & Resource Fetching
+:::tip Customizing <code>perPageOptions</code> & Resource Fetching
 
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::

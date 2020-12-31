@@ -1349,7 +1349,7 @@ Text::make('Email')->required(function ($request) {
 })->rules([Rule::requiredIf($this->account_locked)]),
 ```
 
-:::warning `required()` Limitations
+:::warning <code>required()</code> Limitations
 
 The `required()` method will only add a "required" indicator to the Nova UI. You must still define the related requirement `rules()` that should apply during validation.
 :::
