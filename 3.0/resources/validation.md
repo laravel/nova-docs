@@ -4,6 +4,8 @@
 
 Unless you like to live dangerously, any Nova fields that are displayed on the Nova creation / update screens will need some validation. Thankfully, it's a cinch to attach all of the Laravel validation rules you're familiar with to your Nova resource fields. Let's get started.
 
+## Rules
+
 ### Attaching Rules
 
 When defining a field on a resource, you may use the `rules` method to attach [validation rules](https://laravel.com/docs/validation#available-validation-rules) to the field:
@@ -58,4 +60,73 @@ Text::make('Email')
     ->rules('required', 'email', 'max:255')
     ->creationRules('unique:users,email')
     ->updateRules('unique:users,email,{{resourceId}}'),
+```
+
+## After Validation Hooks
+
+Similar to Laravel Framework, Resources in Nova also comes with After Validation Hooks methods:
+
+* [`afterValidation()`](#after-validation-method)
+* [`afterCreationValidation()`](#after-creation-validation-method)
+* [`afterUpdateValidation()`](#after-update-validation-method)
+
+#### After Validation Method
+
+`afterValidation` will always be called on create and update before calling `afterCreationValidation()` or `afterUpdateValidation()`:
+
+```php
+    /**
+     * Handle any post-validation processing.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterValidation(NovaRequest $request, $validator)
+    {
+        if ($this->somethingElseIsInvalid()) {
+            $validator->errors()->add('field', 'Something is wrong with this field!');
+        }
+    }
+```
+
+#### After Creation Validation Method
+
+Use `afterCreationValidation` to only attach additional validation during creation process:
+
+```php
+
+    /**
+     * Handle any post-creation validation processing.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterCreationValidation(NovaRequest $request, $validator)
+    {
+        if ($this->somethingElseIsInvalid()) {
+            $validator->errors()->add('field', 'Something is wrong with this field!');
+        }
+    }
+```
+#### After Update Validation Method
+
+Use `afterUpdateValidation` to only attach additional validation during update process:
+
+```php
+
+    /**
+     * Handle any post-update validation processing.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    protected static function afterUpdateValidation(NovaRequest $request, $validator)
+    {
+        if ($this->somethingElseIsInvalid()) {
+            $validator->errors()->add('field', 'Something is wrong with this field!');
+        }
+    }
 ```
