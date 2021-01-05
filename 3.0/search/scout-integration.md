@@ -37,3 +37,19 @@ You can customize the amount of search results returned from your Scout driver b
  */
 public static $scoutSearchResults = 200;
 ```
+
+### Disabling Scout Search
+
+You may disable Scout search support for a specific resource by defining a `usesScout` method on the resource class:
+
+```php
+/**
+ * Determine if this resource uses Laravel Scout.
+ *
+ * @return bool
+ */
+public static function usesScout()
+{
+    return false;
+}
+```
