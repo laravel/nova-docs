@@ -40,7 +40,7 @@ public static $scoutSearchResults = 200;
 
 ### Disabling Scout Search
 
-You can customize Nova to disable Scout Search for specific Resource if needed by overriding `usesScout()` method on the `Resource` class:
+You may disable Scout search support for a specific resource by defining a `usesScout` method on the resource class:
 
 ```php
 /**
