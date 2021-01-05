@@ -37,3 +37,19 @@ You can customize the amount of search results returned from your Scout driver b
  */
 public static $scoutSearchResults = 200;
 ```
+
+### Disabling Scout Search
+
+You can customize Nova to disable Scout Search for specific Resource if needed by overriding `usesScout()` method on the `Resource` class:
+
+```php
+/**
+ * Determine if this resource uses Laravel Scout.
+ *
+ * @return bool
+ */
+public static function usesScout()
+{
+    return false;
+}
+```
