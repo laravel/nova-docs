@@ -443,6 +443,7 @@ Code::make('Snippet')->language('php'),
 The `Code` field's currently supported languages are:
 
 - `dockerfile`
+- `htmlmixed`
 - `javascript`
 - `markdown`
 - `nginx`
@@ -450,9 +451,13 @@ The `Code` field's currently supported languages are:
 - `ruby`
 - `sass`
 - `shell`
+- `sql`
+- `twig`
 - `vue`
 - `xml`
 - `yaml`
+- `yaml-frontmatter`
+- `vim`
 
 ### Country Field
 
