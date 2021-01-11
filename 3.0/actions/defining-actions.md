@@ -77,7 +77,7 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 ## Handling Multiple Results
 
-When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the field:
+When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the action:
 
 ```php
 /**
