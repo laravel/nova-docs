@@ -414,6 +414,27 @@ You may also instruct the relation field to display the [resource's subtitle](./
 BelongsTo::make('User')->searchable()->withSubtitles(),
 ```
 
+You may also pass a callback method to conditionally use searchable:
+
+```php
+BelongsTo::make('User')->searchable(function ($request) {
+    //
+}),
+```
+
+### Limiting Relation Results
+
+You can limit the number of results that are returned in the relation search by overriding the `relatableSearchResults` property on the resource:
+
+```php
+/**
+ * The number of results to display when searching relatable resource without Scout.
+ *
+ * @var int
+ */
+public static $relatableSearchResults = 200;
+```
+
 ## Creating Inline Relations
 
 When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update screen, you have the ability to create the related resource inline in a modal window without leaving the current view.
