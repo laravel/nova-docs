@@ -402,10 +402,14 @@ Instead of displaying a drop-down selection menu, you may mark your relationship
 
 ![Belongs To Search](./img/belongs-to-search.png)
 
-To mark a relationship as `searchable`, chain the `searchable` method onto the field's definition:
+To mark a relationship as `searchable`, chain the `searchable` method onto the field's definition. If you would like to conditionally determine if a field should be searchable, you may pass a closure to the `searchable` method:
 
 ```php
 BelongsTo::make('User')->searchable(),
+
+BelongsTo::make('User')->searchable(function ($request) {
+    return true;
+}),
 ```
 
 You may also instruct the relation field to display the [resource's subtitle](./../search/global-search) by chaining the `withSubtitles` method to the field:
@@ -414,21 +418,13 @@ You may also instruct the relation field to display the [resource's subtitle](./
 BelongsTo::make('User')->searchable()->withSubtitles(),
 ```
 
-You may also pass a callback method to conditionally use searchable:
+#### Limiting Relation Results
 
-```php
-BelongsTo::make('User')->searchable(function ($request) {
-    //
-}),
-```
-
-### Limiting Relation Results
-
-You can limit the number of results that are returned in the relation search by overriding the `relatableSearchResults` property on the resource:
+You can limit the number of results that are returned when searching the field by defining a `relatableSearchResults` property on the class of the resource that you are searching for:
 
 ```php
 /**
- * The number of results to display when searching relatable resource without Scout.
+ * The number of results to display when searching for relatable resources without Scout.
  *
  * @var int
  */
