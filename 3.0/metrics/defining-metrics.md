@@ -163,13 +163,14 @@ public function ranges()
         'MTD' => 'Month To Date',
         'QTD' => 'Quarter To Date',
         'YTD' => 'Year To Date',
+        'ALL' => 'All Time'
     ];
 }
 ```
 
-:::danger TODAY / MTD / QTD / YTD Range Keys
+:::danger TODAY / MTD / QTD / YTD / ALL Range Keys
 
-You may customize these ranges to suit your needs; however, if you are using the built-in "Today", "Month To Date", "Quarter To Date", or "Year To Date" ranges, you should not change their keys.
+You may customize these ranges to suit your needs; however, if you are using the built-in "Today", "Month To Date", "Quarter To Date", "Year To Date", or "All Time" ranges, you should not change their keys.
 :::
 
 ### Zero Result Values
