@@ -426,7 +426,7 @@ You can limit the number of results that are returned when searching the field b
 /**
  * The number of results to display when searching for relatable resources without Scout.
  *
- * @var int
+ * @var int|null
  */
 public static $relatableSearchResults = 200;
 ```
