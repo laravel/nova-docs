@@ -138,11 +138,11 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 npm run watch
 ```
 
-#### Vue Components
+#### Vue Page Components
 
-Vue components for Tool has access to all plugins registered under Nova including `vue-meta`, `portal-vue` and `v-tooltip`.
+Vue Page Components for Tool has access to all plugins registered under Nova including `vue-meta`, `portal-vue` and `v-tooltip`.
 
-For example in the latest release, the `resources/js/components/Tool.vue` stub will contain a default page title as the following:
+For example in the latest release, the `resources/js/components/Tool.vue` published stub will contain a default page title as the following:
 
 ```js
 export default {
