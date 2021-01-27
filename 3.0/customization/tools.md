@@ -138,6 +138,20 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 npm run watch
 ```
 
+#### Vue Page Components & Nova Plugins
+
+Vue page components contained by your tool have access to all of the plugins registered by Nova, including `vue-meta`, `portal-vue`, and `v-tooltip`. For example, your tool's `resources/js/components/Tool.vue` stub will contain a default page title which is managed by the `vue-meta` plugin:
+
+```js
+export default {
+  metaInfo() {
+    return {
+      title: 'PriceTracker',
+    }
+  }
+}
+```
+
 ### Sidebar Icons
 
 Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.
