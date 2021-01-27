@@ -425,38 +425,3 @@ public function actionClass()
     return 'bg-success text-white';
 }
 ```
-
-## Action Response Modals
-
-In addition to the customization options provided before and during an action run, Nova also supports the ability to present a custom modal response to the user. This allows you to provide additional context or follow-up actions to the user, customized to your use-case.
-
-For example, let's say you had an action named `GenerateApiToken`, which creates unique tokens for use with a REST API. Using a custom action response modal, you could show the user running the action a modal allowing them to copy the newly-generated API token to their clipboard. 
-
-Using the `nova:asset` Artisan command, you would generate a new asset, and register the custom modal with Nova's Vue instance:
-
-```js
-import ApiTokenCopier from './components/ApiTokenCopier'
-
-Nova.booting(Vue => {
-  Vue.component('api-token-copier', ApiTokenCopier)
-})
-```
-
-You would then use the `modal` method inside your Action's `handle` method, which would instruct Nova to show the modal after running the action, passing the Vue component's name and any extra data to the component:
-
-```php
-public function handle(ActionFields $fields, Collection $models)
-{
-    if ($models->count() > 1) {
-        return Action::danger('Please run this on only one user resource.');
-    }
-
-    $models->first()->update(['api_token' => $token = Str::random(32)]);
-
-    return Action::modal('api-token-copier', [
-        'message' => 'The API token was generated!',
-        'token' => $token,
-    ]);
-}
-```
-
