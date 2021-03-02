@@ -554,6 +554,8 @@ return $this->result([
 ]);
 ```
 
+For values of float type you can control the rounding precision and rounding mode by overriding the `$roundingPrecision` and `$roundingMode` properties respectively.
+
 ## Caching
 
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
