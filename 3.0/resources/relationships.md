@@ -129,7 +129,16 @@ BelongsTo::make('User')->withoutTrashed(),
 
 ## BelongsToMany
 
-The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models. We may add the relationship to our `User` Nova resource like so:
+The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models:
+
+```php
+public function roles()
+{
+    return $this->belongsToMany(Role::class);
+}
+```
+
+We may add the relationship to our `User` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\BelongsToMany;
@@ -240,6 +249,33 @@ public function title()
 {
     return $this->name;
 }
+```
+
+#### Allowing Duplicate Relations
+
+By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, you may instruct Nova to allow duplicate relationship entries.
+
+To get started, you should ensure that your pivot record's `id` column is available by using `withPivot()` when defining the relationship on your Eloquent model. In this example, let's imagine that a `User` may purchase a `Book` one or more times:
+
+```php
+public function books()
+{
+    return $this->belongsToMany(Book::class)
+                ->using(BookPurchase::class)
+                ->withPivot('id', 'notes')
+                ->withTimestamps();
+}
+```
+
+Next, we can define the Nova relationship that allows duplicate relations using the `allowDuplicateRelations` method:
+
+```php
+BelongsToMany::make('Books')
+    ->fields(function () {
+        return [
+            Text::make('Notes'),
+        ];
+    })->allowDuplicateRelations(),
 ```
 
 ## MorphOne
