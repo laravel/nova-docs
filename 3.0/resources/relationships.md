@@ -260,6 +260,7 @@ public function title()
     return $this->name;
 }
 ```
+
 #### Duplicating Attached Pivot
 
 By default Laravel Nova consider belongs to many relationship should be unique, however if you have a requirement to allow same relationship to be attached more than one with different set of pivot value you may consider enabling duplicated attached pivot.
@@ -284,7 +285,6 @@ BelongsToMany::make('Books')
         ];
     })->allowDuplicateRelations(),
 ```
-
 
 ## MorphOne
 
