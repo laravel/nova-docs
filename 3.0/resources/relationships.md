@@ -129,7 +129,7 @@ BelongsTo::make('User')->withoutTrashed(),
 
 ## BelongsToMany
 
-The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models. 
+The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models:
 
 ```php
 public function roles()
@@ -205,16 +205,6 @@ class RoleUserFields
 }
 ```
 
-You may consider creating [an intermediate pivot model](https://laravel.com/docs/8.x/eloquent-relationships#defining-custom-intermediate-table-models) to handle fields which requires proper casting such as `Date`, `DateTime`, `KeyValue` etc.
-
-```php
-public function roles()
-{
-    return $this->belongsToMany(Role::class)
-                ->using(RoleUser::class);
-}
-```
-
 #### Pivot Actions
 
 Typically, [Nova actions](./../actions/defining-actions.md) operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
@@ -261,11 +251,11 @@ public function title()
 }
 ```
 
-#### Duplicating Attached Pivot
+#### Allowing Duplicate Relations
 
-By default Laravel Nova consider belongs to many relationship should be unique, however if you have a requirement to allow same relationship to be attached more than one with different set of pivot value you may consider enabling duplicated attached pivot.
+By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, you may instruct Nova to allow duplicate relationship entries.
 
-First, Laravel Nova would need to have access to pivot id, which can be done by using `withPivot()` when defining the relatioship. In this example let's imagine that a `User` may purchase `Book` one or multiple times.
+To get started, you should ensure that your pivot record's `id` column is available by using `withPivot()` when defining the relationship on your Eloquent model. In this example, let's imagine that a `User` may purchase a `Book` one or more times:
 
 ```php
 public function books()
@@ -276,6 +266,8 @@ public function books()
                 ->withTimestamps();
 }
 ```
+
+Next, we can define the Nova relationship that allows duplicate relations using the `allowDuplicateRelations` method:
 
 ```php
 BelongsToMany::make('Books')
