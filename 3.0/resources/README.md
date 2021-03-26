@@ -117,7 +117,7 @@ Sometimes it's convenient to show more data on your resource index tables. To ac
  *
  * @var string
  */
-public static $tableStyle = 'default';
+public static $tableStyle = 'tight';
 ```
 
 This will display your table rows with less visual height, enabling more data to be shown:
