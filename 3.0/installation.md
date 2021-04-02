@@ -82,7 +82,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Installing Nova Via Composer
 
-Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Nova package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
+Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
 "repositories": [
