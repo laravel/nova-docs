@@ -185,6 +185,9 @@ When Nova generates your field, `resources/js` and `resources/sass` directories 
 Your Nova field's service provider registers your field's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
+
 /**
  * Bootstrap any application services.
  *

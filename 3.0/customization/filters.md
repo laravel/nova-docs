@@ -102,6 +102,9 @@ const hues = this.filter.hues;
 Your Nova filter's service provider registers your filter's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
+
 /**
  * Bootstrap any application services.
  *

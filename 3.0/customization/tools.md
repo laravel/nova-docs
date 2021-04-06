@@ -103,6 +103,9 @@ The `Tool.vue` file is a single-file Vue component that contains your tool's fro
 Your Nova tool class contains a `boot` method. This method is executed when the tool is registered and available. By default, this method registers your tool's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
+
 /**
  * Perform any tasks that need to happen on tool registration.
  *
@@ -110,8 +113,10 @@ Your Nova tool class contains a `boot` method. This method is executed when the 
  */
 public function boot()
 {
-    Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
-    Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+    Nova::serving(function (ServingNova $event) {
+        Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
+        Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+    });
 }
 ```
 
