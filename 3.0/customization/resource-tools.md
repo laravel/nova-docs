@@ -195,6 +195,9 @@ public function fields(Request $request)
 Your Nova tool's service provider registers your tool's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+use Laravel\Nova\Nova;
+use Laravel\Nova\Events\ServingNova;
+
 /**
  * Bootstrap any application services.
  *
