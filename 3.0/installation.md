@@ -140,7 +140,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
 
-```sh
+```bash
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 ```
 
