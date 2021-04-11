@@ -146,6 +146,15 @@ use Laravel\Nova\Fields\BelongsToMany;
 BelongsToMany::make('Roles'),
 ```
 
+:::tip Customizing Resource Classes
+You can customize the resource class used by the relation field by setting the second and third parameters of the `make` method:
+
+```php
+BelongsToMany::make('Pseudonyms', 'pseudonyms', 'App\Nova\Author'),
+```
+
+:::
+
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
 #### Pivot Fields
