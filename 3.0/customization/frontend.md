@@ -67,10 +67,10 @@ Nova.addShortcut('* a', event => {
 })
 
 // Remove a shortcut...
-Nova.removeShortcut('ctrl+k')
+Nova.disableShortcut('ctrl+k')
 
 // Remove multiple shortcuts...
-Nova.removeShortcut(['ctrl+k', 'command+k'])
+Nova.disableShortcut(['ctrl+k', 'command+k'])
 ```
 
 ### Global Variables
