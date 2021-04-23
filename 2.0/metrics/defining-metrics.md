@@ -123,6 +123,18 @@ public function calculate(Request $request)
 }
 ```
 
+In event where you would like to disable string inflector being applied to suffix, use `withoutSuffixInflection()` on the `ValueResult`:
+
+```php
+public function calculate(Request $request)
+{
+    return $this->count($request, User::class)
+                ->prefix('$')
+                ->suffix('per unit')
+                ->withoutSuffixInflection();
+}
+```
+
 You may also use the `currency` method to specify the prefix for the result. By default the currency symbol will be `$`, but you may also pass in your own symbol:
 
 ```php
