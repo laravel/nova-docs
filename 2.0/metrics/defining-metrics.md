@@ -112,7 +112,7 @@ return $this->min($request, Order::class, 'total');
 
 ### Value Result Formatting
 
-You can add a prefix and/or suffix to the Value metric's result by calling the `prefix` and `suffix` methods when returning the `ValueResult`:
+You can add a prefix and / or suffix to the Value metric's result by calling the `prefix` and `suffix` methods when returning the `ValueResult`:
 
 ```php
 public function calculate(Request $request)
@@ -123,7 +123,7 @@ public function calculate(Request $request)
 }
 ```
 
-In event where you would like to disable string inflector being applied to suffix, use `withoutSuffixInflection()` on the `ValueResult`:
+If you would like to disable string pluralization / inflection from being applied to the suffix, you may invoke the `withoutSuffixInflection` method on the `ValueResult`:
 
 ```php
 public function calculate(Request $request)
