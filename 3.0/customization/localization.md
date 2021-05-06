@@ -16,6 +16,16 @@ To quickly create a new translation file for your language, you may execute the 
 php artisan nova:translate es
 ```
 
+#### Using The Translation Manager
+
+Or you can also use the [translation manager](https://github.com/andrey-helldar/laravel-lang-publisher), which includes the translation of all keys to 78 localizations:
+
+```bash
+php artisan lang:add de ro zh_CN lv
+
+php artisan lang:update
+```
+
 ### Resources
 
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
