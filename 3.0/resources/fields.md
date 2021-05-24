@@ -367,7 +367,15 @@ The user will be presented with a grouped set of checkboxes which, when saved, w
 }
 ```
 
-You may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues` and `hideTrueValues` methods on the field:
+Before using this field type, you should ensure that your Eloquent attribute is configured to cast to an `array` (or equivalent) within your Eloquent model class:
+
+```php
+protected $casts = [
+    'permissions' => 'array'
+];
+```
+
+Sometimes, you may wish to filter out values that are either `true` or `false` from display to avoid cluttering up the view. You may do this by using the `hideFalseValues` and `hideTrueValues` methods on the field:
 
 ```php
 BooleanGroup::make('Permissions')->options([
