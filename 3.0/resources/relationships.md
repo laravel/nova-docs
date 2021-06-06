@@ -119,7 +119,9 @@ public function title()
 }
 ```
 
-You can also disable this behaviour and order the relationship directly from [Relatable Filtering](/3.0/resources/authorization.html#relatable-filtering) by using the `dontReorderAssociatables` method:
+##### Disable Ordering by Title
+
+You can disable ordering by Title behaviour and instead orders the select dropdown relationship directly from [Relatable Filtering](/3.0/resources/authorization.html#relatable-filtering) by using the `dontReorderAssociatables` method:
 
 ```php
 BelongsTo::make('User')->dontReorderAssociatables(),
