@@ -571,15 +571,11 @@ To customize the display format used for the JavaScript date picker widget, you 
 DateTime::make('Updated At')->pickerDisplayFormat('d.m.Y'),
 ```
 
-To customize the date picker hour increments configuration (default to `1`), you can use the `incrementPickerHourBy` method:
+By default, the date picker will increment hours by 1 hour per increment and minutes by 5 minutes per increment. You can use the `incrementPickerHourBy` and `incrementPickerMinuteBy` methods to customize this behavior:
 
 ```php
 DateTime::make('Updated At')->incrementPickerHourBy(2),
-```
 
-To customize the date picker minute increments configuration (default to `5`), you can use the `incrementPickerMinuteBy` method:
-
-```php
 DateTime::make('Updated At')->incrementPickerMinuteBy(2),
 ```
 
