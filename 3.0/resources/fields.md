@@ -571,6 +571,14 @@ To customize the display format used for the JavaScript date picker widget, you 
 DateTime::make('Updated At')->pickerDisplayFormat('d.m.Y'),
 ```
 
+By default, the date picker will increment hours by 1 hour per increment and minutes by 5 minutes per increment. You can use the `incrementPickerHourBy` and `incrementPickerMinuteBy` methods to customize this behavior:
+
+```php
+DateTime::make('Updated At')->incrementPickerHourBy(2),
+
+DateTime::make('Updated At')->incrementPickerMinuteBy(2),
+```
+
 To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 ### File Field
