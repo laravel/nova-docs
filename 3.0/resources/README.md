@@ -191,11 +191,11 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-If you would like to attach an observer **only during** Nova related HTTP requests, you may register observers within `Nova::serving` event listener in your application's `NovaServiceProvider`. This listener will only be executed during Nova requests:
+If you would like to attach an observer whose methods are invoked **only during** Nova related HTTP requests, you may register observers using the `Laravel\Nova\Observable` class in your application's `NovaServiceProvider`:
 
 ```php
 use App\User;
-use Laravel\Nova\Nova;
+use Laravel\Nova\Observable;
 use App\Observers\UserObserver;
 
 /**
@@ -207,11 +207,38 @@ public function boot()
 {
     parent::boot();
 
-    Nova::serving(function () {
-        User::observe(UserObserver::class);
-    });
+    Observable::make(User::class, UserObserver::class);
 }
 ```
+
+Alternatively, you can determine if the current HTTP request is serving a Nova related request within the `Observer` itself:
+
+```php
+namespace App\Observers;
+
+use App\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
+class UserObserver
+{
+    /**
+     * Handle the User "created" event.
+     *
+     * @param  \App\Models\User  $user
+     * @return void
+     */
+    public function created(User $user)
+    {
+        Nova::whenServing(function (NovaRequest $request) use ($user) {
+            // Only invoked during Nova requests...
+        });
+
+        // Always invoked...
+    }
+}
+```
+
 
 ## Preventing Conflicts
 
