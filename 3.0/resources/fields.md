@@ -809,7 +809,7 @@ PasswordConfirmation::make('Password Confirmation'),
 
 :::danger Places API Deprecated
 
-Algolia has announced that their [Places API will stop functioning on May 31st, 2022](https://www.algolia.com/blog/sunseting-our-places-feature/).
+Algolia has announced that their [Places API will stop functioning on May 31st, 2022](https://www.algolia.com/blog/product/sunsetting-our-places-feature/).
 :::
 
 The `Place` field leverages the power of the [Algolia Places API](https://community.algolia.com/places/) to provide ultra-fast address searching and auto-completion. An Algolia account is **not required** in order to leverage this field.
