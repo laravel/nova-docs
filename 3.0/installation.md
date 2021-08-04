@@ -35,6 +35,12 @@ First, unzip the contents of the Nova release into a `nova` directory within you
 ],
 ```
 
+Or, you may use the following CLI command to add the path repository to your `composer.json` file:
+
+```bash
+composer config repositories.nova '{"type": "path", "url": "./nova"}' --file composer.json
+```
+
 :::warning Hidden Files
 
 When unzipping Nova into your application's `nova` directory, make sure all of Nova's "hidden" files (such as its `.gitignore` file) are included.
@@ -91,6 +97,12 @@ Instead of downloading Zip files containing the Nova source code, you may also i
         "url": "https://nova.laravel.com"
     }
 ],
+```
+
+Or, you may use the following CLI command to add the Composer repository to your `composer.json` file:
+
+```bash
+composer config repositories.nova '{"type": "composer", "url": "https://nova.laravel.com"}' --file composer.json
 ```
 
 Next, you may add `laravel/nova` to your list of required packages in your `composer.json` file:
