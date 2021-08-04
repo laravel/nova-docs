@@ -35,7 +35,7 @@ First, unzip the contents of the Nova release into a `nova` directory within you
 ],
 ```
 
-Or use the following CLI command:
+Or, you may use the following CLI command to add the path repository to your `composer.json` file:
 
 ```bash
 composer config repositories.nova '{"type": "path", "url": "./nova"}' --file composer.json
@@ -99,7 +99,7 @@ Instead of downloading Zip files containing the Nova source code, you may also i
 ],
 ```
 
-Or use the following CLI command:
+Or, you may use the following CLI command to add the Composer repository to your `composer.json` file:
 
 ```bash
 composer config repositories.nova '{"type": "composer", "url": "https://nova.laravel.com"}' --file composer.json
