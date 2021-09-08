@@ -139,6 +139,11 @@ public function actions(Request $request)
 It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, you should check for the existence of the model instead of assuming one is available.
 :::
 
+:::warning `canSee` and Policies
+
+If you have defined a policy with an `update` method for your resource, it will be checked before allowing the user to perform any actions on that resource, even if `canSee` returns true and the action is visible. If you want to allow the user to execute an action without being able to `update` the resource, you need to chain the [`canRun`](#canRun) method explicitly.
+:::
+
 ## Authorizing Actions Per-Resource
 
 Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this, you can retrieve the resource via the `resource` property on a resource or lens instance:
@@ -166,7 +171,7 @@ public function actions(Request $request)
     ];
 }
 ```
-
+<a name="canRun"></a>
 #### The `canRun` Method
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
