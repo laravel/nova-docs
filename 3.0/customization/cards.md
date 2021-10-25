@@ -129,7 +129,7 @@ When building routes for your card, you should **always** add authorization to t
 
 When Nova generates your card, `resources/js` and `resources/sass` directories are generated for you. These directories contain your card's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Card.vue` and `resources/sass/card.scss`.
 
-The `Card.vue` file is a single-file Vue component that contains your card's front-end. From this file, you are free to build your card however you want. Your card can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `underscore.js` libraries are globally available.
+The `Card.vue` file is a single-file Vue component that contains your card's front-end. From this file, you are free to build your card however you want. Your card can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `lodash` libraries are globally available.
 
 #### Card Properties
 
