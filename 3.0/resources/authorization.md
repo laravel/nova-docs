@@ -54,7 +54,7 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | Policy Action | Default Permission
 |:----------|:-------
 | `viewAny` | Allowed
-| `view` | Allowed
+| `view` | Disallowed
 | `create` | Disallowed
 | `update` | Disallowed
 | `delete` | Disallowed
