@@ -223,13 +223,14 @@ class RoleUserFields
 
 #### Pivot Computed Fields
 
-Laravel Nova also allows you to define Computed Fields to `belongsToMany` fields. To accomplish this, you may use the following fields's definition:
+Laravel Nova also allows you to define computed fields within the field list of a `belongsToMany` relationship field:
 
 ```php
 BelongsToMany::make('Users')
     ->fields(function ($request, $relatedModel) {
         return [
             Text::make('Notes'),
+
             Boolean::make('Has Notes', function ($pivot) {
                 return ! empty($pivot->notes);
             }),
