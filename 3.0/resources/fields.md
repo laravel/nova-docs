@@ -1301,6 +1301,14 @@ Text::make('Name', function () {
 }),
 ```
 
+Alternatively, you could also use the following syntax:
+
+```php
+Text::make('Name', function ($model) {
+    return $model->first_name.' '.$model->last_name;
+}),
+```
+
 :::tip Model Attribute Access
 
 As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
