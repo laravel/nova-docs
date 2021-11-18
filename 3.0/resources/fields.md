@@ -1301,7 +1301,7 @@ Text::make('Name', function () {
 }),
 ```
 
-Alternatively, you could also use the following syntax:
+The model instance will be passed to the computed field callable, allowing you to access the model's properties while computing the field's value:
 
 ```php
 Text::make('Name', function ($model) {
