@@ -1301,6 +1301,14 @@ Text::make('Name', function () {
 }),
 ```
 
+The model instance will be passed to the computed field callable, allowing you to access the model's properties while computing the field's value:
+
+```php
+Text::make('Name', function ($model) {
+    return $model->first_name.' '.$model->last_name;
+}),
+```
+
 :::tip Model Attribute Access
 
 As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
