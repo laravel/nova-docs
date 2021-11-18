@@ -170,7 +170,7 @@ For example, let's assume our `User` model `belongsToMany` `Role` models. On our
 
 ```php
 BelongsToMany::make('Roles')
-    ->fields(function () {
+    ->fields(function ($request, $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -181,7 +181,7 @@ Of course, it is likely we would also define this field on the inverse of the re
 
 ```php
 BelongsToMany::make('Users')
-    ->fields(function () {
+    ->fields(function ($request, $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -208,15 +208,34 @@ class RoleUserFields
     /**
      * Get the pivot fields for the relationship.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $relatedModel
      * @return array
      */
-    public function __invoke()
+    public function __invoke($request, $relatedModel)
     {
         return [
             Text::make('Notes'),
         ];
     }
 }
+```
+
+#### Pivot Computed Fields
+
+Laravel Nova also allows you to define computed fields within the field list of a `belongsToMany` relationship field:
+
+```php
+BelongsToMany::make('Users')
+    ->fields(function ($request, $relatedModel) {
+        return [
+            Text::make('Notes'),
+
+            Boolean::make('Has Notes', function ($pivot) {
+                return ! empty($pivot->notes);
+            }),
+        ];
+    }),
 ```
 
 #### Pivot Actions
@@ -369,7 +388,7 @@ For example, on our `taggables` intermediate table, let's imagine we have a `not
 
 ```php
 MorphToMany::make('Tags')
-    ->fields(function () {
+    ->fields(function ($request, $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -380,7 +399,7 @@ Of course, it is likely we would also define this field on the inverse of the re
 
 ```php
 MorphToMany::make('Posts')
-    ->fields(function () {
+    ->fields(function ($request, $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -407,9 +426,11 @@ class TaggableFields
     /**
      * Get the pivot fields for the relationship.
      *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $relatedModel
      * @return array
      */
-    public function __invoke()
+    public function __invoke($request, $relatedModel)
     {
         return [
             Text::make('Notes'),
