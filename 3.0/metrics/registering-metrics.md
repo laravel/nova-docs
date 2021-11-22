@@ -36,6 +36,22 @@ public function cards(Request $request)
 
 Any arguments passed to the `make` method will be passed to the constructor of your metric.
 
+#### Resource Metrics Refresh Events
+
+Laravel Nova will automatically fetch updated results (without requiring the user to refresh the page) for metrics attached to a resource based on following events:
+
+| Event    | Behaviour
+|:---------|:------------
+| `resources-deleted` | Automatic Updates
+| `resources-restored` | Automatic Updates
+| `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
+
+You can also force metrics to refresh manually using JavaScript by emitting a `metric-refresh` event:
+
+```js
+Nova.$emit('metric-refresh')
+```
+
 ## Resource Detail Metrics
 
 In addition to placing metrics on the resource index screen, you may also attach a metric to the resource detail screen. For example, if you are building a podcasting application, you may wish to display the total number of podcasts created by users over time. To instruct a metric to be displayed on the detail page instead of the index page, chain the `onlyOnDetail` method onto your metric registration:
@@ -128,7 +144,7 @@ public function cards(Request $request)
 
 ## Metric Help / Tooltips
 
-Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to it. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/2.0/resources/fields.html#field-help-text):
+Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to it. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/3.0/resources/fields.html#field-help-text):
 
 ![Metric Help Tooltip](./img/metric-tooltip-help.png)
 
