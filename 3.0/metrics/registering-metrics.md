@@ -36,6 +36,22 @@ public function cards(Request $request)
 
 Any arguments passed to the `make` method will be passed to the constructor of your metric.
 
+#### Resource Metrics Refresh Events
+
+Laravel Nova will automatically fetch updated results for metrics attached to a resource based on following events:
+
+| Event    | Behaviour
+|:---------|:------------
+| `resources-deleted` | Always Updates
+| `resources-restored` | Always Updates
+| `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
+
+You can also refresh metrics manually using JavaScript by emitting a `metric-refresh` event:
+
+```js
+Nova.$emit('metric-refresh')
+```
+
 ## Resource Detail Metrics
 
 In addition to placing metrics on the resource index screen, you may also attach a metric to the resource detail screen. For example, if you are building a podcasting application, you may wish to display the total number of podcasts created by users over time. To instruct a metric to be displayed on the detail page instead of the index page, chain the `onlyOnDetail` method onto your metric registration:
@@ -61,22 +77,6 @@ Of course, you will need to modify your metric's query to only gather metric dat
 use App\Models\Podcast;
 
 return $this->count($request, Podcast::where('user_id', $request->resourceId));
-```
-
-## Resource Metrics Refresh Events
-
-Laravel Nova will automatically fetch an updated results for each metrics registered to the resource based on following events:
-
-| Event    | Behaviour
-|:---------|:------------
-| `resources-deleted` | Enabled
-| `resources-restored` | Enabled
-| `action-executed` | [Only if metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
-
-You can also trigger metrics refresh using JavaScript by emitting `metric-refresh` event:
-
-```js
-Nova.$emit('metric-refresh')
 ```
 
 ## Dashboard Metrics
