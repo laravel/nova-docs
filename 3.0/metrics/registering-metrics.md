@@ -38,15 +38,15 @@ Any arguments passed to the `make` method will be passed to the constructor of y
 
 #### Resource Metrics Refresh Events
 
-Laravel Nova will automatically fetch updated results for metrics attached to a resource based on following events:
+Laravel Nova will automatically fetch updated results (without requiring the user to refresh the page) for metrics attached to a resource based on following events:
 
 | Event    | Behaviour
 |:---------|:------------
-| `resources-deleted` | Always Updates
-| `resources-restored` | Always Updates
+| `resources-deleted` | Automatic Updates
+| `resources-restored` | Automatic Updates
 | `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
 
-You can also refresh metrics manually using JavaScript by emitting a `metric-refresh` event:
+You can also force metrics to refresh manually using JavaScript by emitting a `metric-refresh` event:
 
 ```js
 Nova.$emit('metric-refresh')
