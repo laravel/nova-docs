@@ -586,9 +586,9 @@ public function name()
 }
 ```
 
-## Refresh After Running an Action
+## Refresh After Actions
 
-By default, Nova wouldn't update metric results after running an Action. You may customize the behaviour by overriding the `` within your metric class:
+By default, Nova does not update metric results after running an action is executed; however, you may enable this behavior by defining a `refreshWhenActionRuns` property on your metric class:
 
 ```php
 /**
