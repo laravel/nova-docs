@@ -585,3 +585,16 @@ public function name()
     return 'Users Created';
 }
 ```
+
+## Refresh After Running an Action
+
+By default, Nova wouldn't update metric results after running an Action. You may customize the behaviour by overriding the `` within your metric class:
+
+```php
+/**
+ * Indicates whether the metric should be refreshed when actions run.
+ *
+ * @var bool
+ */
+public $refreshWhenActionRuns = true;
+```
