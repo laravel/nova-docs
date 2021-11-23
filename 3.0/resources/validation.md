@@ -112,7 +112,7 @@ protected static function afterCreationValidation(NovaRequest $request, $validat
 
 #### The `afterUpdateValidation` Method
 
-The `afterCreationValidation` method will be called after a resource that is being updated has been validated:
+The `afterUpdateValidation` method will be called after a resource that is being updated has been validated:
 
 ```php
 /**
