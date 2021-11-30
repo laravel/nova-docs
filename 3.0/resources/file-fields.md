@@ -405,13 +405,13 @@ Image::make('Profile Photo')
 
 ### Customizing Accepted File Types
 
-By default, the `File` field will allow any files to be selected and uploaded. However, you may customize the accepted file types using the `acceptedTypes` method:
+By default, the `File` field will allow any files to be selected and uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
 
 ```php
 File::make('Disk Image')->acceptedTypes('.dmg,.exe')
 ```
 
-When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to the file picker, meaning that all of these media types are valid:
+When using the `acceptedTypes` method, Nova adds the `accepts` attribute to the file input element; therefore, all of the following media types are valid:
 
 - `.dmg`
 - `.dmg,.exe,.deb`
@@ -419,3 +419,5 @@ When using the `acceptedTypes` method, Nova is adding the `accepts` attribute to
 - `audio/*`
 - `video/*`
 - All media types listed at http://www.iana.org/assignments/media-types/
+
+Since the `acceptedTypes` method only performed client-side validation, you should also validate the file type using server-side validation rules.
