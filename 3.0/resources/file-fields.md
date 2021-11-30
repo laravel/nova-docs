@@ -420,4 +420,4 @@ When using the `acceptedTypes` method, Nova adds the `accepts` attribute to the 
 - `video/*`
 - All media types listed at http://www.iana.org/assignments/media-types/
 
-Since the `acceptedTypes` method only performed client-side validation, you should also validate the file type using server-side validation rules.
+Since the `acceptedTypes` method only performs client-side validation, you should also validate the file type using server-side validation rules.
