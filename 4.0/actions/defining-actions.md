@@ -406,25 +406,7 @@ public function actions(Request $request)
 }
 ```
 
-This will customize the modal using your provided text:
-
-![Action Customization](./img/action-customization.png)
-
-## Customizing Action Confirmation Buttons
-
-You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
-
-```php
-/**
- * Return the CSS classes for the Action.
- *
- * @return string
- */
-public function actionClass()
-{
-    return 'bg-success text-white';
-}
-```
+This will customize the modal using your provided text.
 
 ## Action Response Modals
 
