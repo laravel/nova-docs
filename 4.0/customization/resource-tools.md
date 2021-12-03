@@ -28,10 +28,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -96,10 +96,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -125,10 +125,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -173,10 +173,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
