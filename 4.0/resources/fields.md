@@ -525,24 +525,6 @@ use Laravel\Nova\Fields\Date;
 Date::make('Birthday'),
 ```
 
-#### Date Formats
-
-You may customize the display format of your `Date` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
-
-```php
-Date::make('Birthday')->format('DD MMM'),
-```
-
-To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
-
-#### Customizing The First Day Of Week
-
-You can customize the first day of the week using the `firstDayOfWeek` method:
-
-```php
-Date::make('Birthday')->firstDayOfWeek(1), // First day of the week is Monday
-```
-
 ### DateTime Field
 
 The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
@@ -552,22 +534,6 @@ use Laravel\Nova\Fields\DateTime;
 
 DateTime::make('Updated At')->hideFromIndex(),
 ```
-
-You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
-
-```php
-DateTime::make('Created At')->format('DD MMM YYYY'),
-```
-
-By default, the date picker will increment hours by 1 hour per increment and minutes by 5 minutes per increment. You can use the `incrementPickerHourBy` and `incrementPickerMinuteBy` methods to customize this behavior:
-
-```php
-DateTime::make('Updated At')->incrementPickerHourBy(2),
-
-DateTime::make('Updated At')->incrementPickerMinuteBy(2),
-```
-
-To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 ### File Field
 
