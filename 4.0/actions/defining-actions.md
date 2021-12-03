@@ -34,40 +34,43 @@ To learn how to define Nova actions, let's look at an example. In this example, 
 namespace App\Nova\Actions;
 
 use App\Models\AccountData;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  /**
-   * Perform the action on the given models.
-   *
-   * @param  \Laravel\Nova\Fields\ActionFields  $fields
-   * @param  \Illuminate\Support\Collection  $models
-   * @return mixed
-   */
-  public function handle(ActionFields $fields, Collection $models)
-  {
-    foreach ($models as $model) {
-      (new AccountData($model))->send();
+    /**
+    * Perform the action on the given models.
+    *
+    * @param  \Laravel\Nova\Fields\ActionFields  $fields
+    * @param  \Illuminate\Support\Collection  $models
+    * @return mixed
+    */
+    public function handle(ActionFields $fields, Collection $models)
+    {
+        foreach ($models as $model) {
+            (new AccountData($model))->send();
+        }
+  }
+
+    /**
+    * Get the fields available on the action.
+    *
+    * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+    * @return array
+    */
+    public function fields(NovaRequest $request)
+    {
+        return [];
     }
-  }
-
-  /**
-   * Get the fields available on the action.
-   *
-   * @return array
-   */
-  public function fields()
-  {
-    return [];
-  }
 }
 ```
 
@@ -123,9 +126,10 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields available on the action.
  *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields()
+public function fields(NovaRequest $request)
 {
     return [
         Text::make('Subject'),
@@ -214,9 +218,9 @@ To redirect the user to an internal route, you may use the `Action::visit` metho
 
 ```php
 return Action::visit('/resources/posts/new', [
-  'viaResource' => 'users',
-  'viaResourceId' => 1,
-  'viaRelationship' => 'posts'
+    'viaResource' => 'users',
+    'viaResourceId' => 1,
+    'viaRelationship' => 'posts'
 ]);
 ```
 
@@ -244,18 +248,19 @@ Occasionally, you may have actions that take a while to finish running. For this
 namespace App\Nova\Actions;
 
 use App\AccountData;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  // ...
+    // ...
 }
 ```
 
@@ -273,13 +278,13 @@ You may customize the queue connection and queue name that the action is queued 
 ```php
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  public function __construct()
-  {
-      $this->connection = 'redis';
-      $this->queue = 'emails';
-  }
+    public function __construct()
+    {
+        $this->connection = 'redis';
+        $this->queue = 'emails';
+    }
 }
 ```
 
@@ -300,9 +305,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use Actionable, Notifiable;
+    use Actionable, Notifiable;
 
-  // ...
+    // ...
 }
 ```
 
@@ -329,10 +334,10 @@ Or, using the `withoutActionEvents` method, you may disable the action log for a
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new SomeAction)->withoutActionEvents()
@@ -392,10 +397,10 @@ By default, actions will ask the user for confirmation before running. You can c
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\ActivateUser)
