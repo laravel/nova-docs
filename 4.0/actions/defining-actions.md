@@ -210,10 +210,10 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
-To redirect the user to an internal route, you may use the `Action::push` method:
+To redirect the user to an internal route, you may use the `Action::visit` method:
 
 ```php
-return Action::push('/resources/posts/new', [
+return Action::visit('/resources/posts/new', [
   'viaResource' => 'users',
   'viaResourceId' => 1,
   'viaRelationship' => 'posts'
