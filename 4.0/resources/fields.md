@@ -533,12 +533,6 @@ You may customize the display format of your `Date` fields using the `format` me
 Date::make('Birthday')->format('DD MMM'),
 ```
 
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
-
-```php
-Date::make('Birthday')->pickerDisplayFormat('d.m.Y'),
-```
-
 To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 #### Customizing The First Day Of Week
@@ -563,12 +557,6 @@ You may customize the display format of your `DateTime` fields using the `format
 
 ```php
 DateTime::make('Created At')->format('DD MMM YYYY'),
-```
-
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
-
-```php
-DateTime::make('Updated At')->pickerDisplayFormat('d.m.Y'),
 ```
 
 By default, the date picker will increment hours by 1 hour per increment and minutes by 5 minutes per increment. You can use the `incrementPickerHourBy` and `incrementPickerMinuteBy` methods to customize this behavior:
