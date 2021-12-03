@@ -157,9 +157,9 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 ## Upgrade Guide
 
-Nova 3.0 is primarily a maintenance release to provide compatibility with Laravel 7.x or greater. Nova 3.0 should **only** be used with Laravel 7.x or greater, as it is not compatible with previous releases of Laravel.
+Nova 4.0 is primarily a maintenance release to provide compatibility with Laravel 8.x or greater. Nova 4.0 should **only** be used with Laravel 8.x or greater, as it is not compatible with previous releases of Laravel.
 
-Update your `laravel/nova` dependency to ~3.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
+Update your `laravel/nova` dependency to `~4.0` in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 
 Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
 
