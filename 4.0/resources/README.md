@@ -341,7 +341,13 @@ Nova allows you to easily customize where a user is redirected after performing 
 
 :::warning Redirection Limitation
 
-Behind the scene, Nova's redirect features use the Vue router's `push()` method. Because of this, redirection is limited to paths within Laravel Nova.
+Behind the scene, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. In order to redirect to external URL you should use the following:
+
+```php
+use Laravel\Nova\URL;
+
+return URL::remote('https://nova.laravel.com');
+```
 :::
 
 #### After Creating Redirection
