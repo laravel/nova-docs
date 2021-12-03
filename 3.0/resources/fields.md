@@ -92,7 +92,13 @@ Text::make('Name')->hideFromIndex(function () {
 If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
 
 ```php
-public function fields(NovaRequest $request)
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fields(Request $request)
 {
     return [
         Text::make('First Name'),
@@ -105,7 +111,13 @@ public function fields(NovaRequest $request)
 On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail` method which returns a separate list of fields:
 
 ```php
-public function fieldsForDetail(NovaRequest $request)
+/**
+ * Get the fields displayed by the resource on detail page.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function fieldsForDetail(Request $request)
 {
     return [
         Text::make('Name', function () {
