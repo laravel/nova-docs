@@ -7,8 +7,8 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 7.0+
-- Laravel Mix
+- Laravel Framework 8.0+
+- Laravel Mix 6
 - Node.js (Version 14)
 - NPM
 
@@ -51,9 +51,8 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
-    "php": "^7.2.5",
-    "fideloper/proxy": "^4.2",
-    "laravel/framework": "^7.0",
+    "php": "^7.3|^8.0",
+    "laravel/framework": "^8.0",
     "laravel/nova": "*"
 },
 ```
@@ -110,10 +109,9 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^7.2.5",
-    "fideloper/proxy": "^4.2",
-    "laravel/framework": "^7.0",
-    "laravel/nova": "~3.0"
+    "php": "^7.3|^8.0",
+    "laravel/framework": "^8.0",
+    "laravel/nova": "~4.0"
 },
 ```
 
