@@ -8,10 +8,10 @@ Once you have defined an action, you are ready to attach it to a resource. Each 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         new Actions\EmailAccountProfile
@@ -25,10 +25,10 @@ Alternatively, you may use the `make` method to instantiate your action:
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\EmailAccountProfile::make()
@@ -46,10 +46,10 @@ By default, when running an action a confirmation modal is displayed to the user
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\EmailAccountProfile::make()->withoutConfirmation()
@@ -79,10 +79,10 @@ Inline actions are actions that are displayed as buttons directly on the index t
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new ConsolidateTransaction())->showOnTableRow()
@@ -98,10 +98,10 @@ Typically, actions executed against on selected resources from a resource index 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\InviteUser::make()->standalone()
@@ -119,10 +119,10 @@ use App\User;
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\EmailAccountProfile)->canSee(function ($request) {
@@ -150,10 +150,10 @@ use Laravel\Nova\Http\Requests\ActionRequest;
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\CancelTrial)->canSee(function ($request) {
@@ -175,10 +175,10 @@ Sometimes a user may be able to "see" that an action exists but only "run" that 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\EmailAccountProfile)->canSee(function ($request) {
