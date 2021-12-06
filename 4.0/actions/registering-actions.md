@@ -69,11 +69,11 @@ By default, actions are visible on both the resource index and detail screens. I
 - `showOnDetail`
 - `onlyOnTableRow`
 - `exceptOnTableRow`
-- `showOnTableRow`
+- `showInline`
 
 ### Inline Actions
 
-Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showOnTableRow` method when attaching the action to the resource:
+Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
 
 ```php
 /**
@@ -85,7 +85,7 @@ Inline actions are actions that are displayed as buttons directly on the index t
 public function actions(NovaRequest $request)
 {
     return [
-        (new ConsolidateTransaction())->showOnTableRow()
+        (new ConsolidateTransaction())->showInline()
     ];
 }
 ```
