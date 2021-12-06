@@ -6,19 +6,9 @@
 
 When building custom Nova tools, resource tools, cards, and fields, you may use a variety of helpers that are globally available to your JavaScript components.
 
-### Axios
-
-The [Axios HTTP library](https://github.com/axios/axios) is globally available, allowing you to easily make requests to your custom component's Laravel controllers:
-
-```js
-axios.get('/nova-vendor/stripe-inspector/endpoint').then(response => {
-    // ...
-})
-```
-
 #### Nova Requests
 
-As an alternative to using Axios directly, you may use the `Nova.request()` method. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level server errors:
+You may use the `Nova.request()` method to make XHR request using `axios` API. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level server errors:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
