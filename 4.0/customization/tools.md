@@ -120,10 +120,15 @@ public function boot()
 }
 ```
 
-:::tip JavaScript Bootstrap & Routing
+#### JavaScript Bootstrap & Components
 
-Your component is bootstrapped and front-end routes are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
-:::
+Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
+
+```js
+Nova.booting((Vue, store) => {
+  Nova.inertia('PriceTracker', require('./components/Tool').default)
+})
+```
 
 #### Compiling Assets
 
