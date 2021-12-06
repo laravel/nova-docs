@@ -53,7 +53,7 @@ Laravel Nova will automatically fetch updated results (without requiring the use
 | `resources-deleted` | Automatic Updates
 | `resources-restored` | Automatic Updates
 | `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
-| Filter Changed | See [Refresh on Filter Changed](#refresh-on-filter-changed)
+| Filters Change | See [Refresh on Filters Change](#refresh-on-filters-change)
 
 You can also force metrics to refresh manually using JavaScript by emitting a `metric-refresh` event:
 
@@ -61,9 +61,9 @@ You can also force metrics to refresh manually using JavaScript by emitting a `m
 Nova.$emit('metric-refresh')
 ```
 
-##### Refresh on Filter Changed
+##### Refresh on Filters Change
 
-Laravel Nova will only updates metric on filter changed if metric configured using `refreshWhenFiltersChange`:
+Laravel Nova will only updates the metric on filters changed if configured using `refreshWhenFiltersChange`:
 
 ```php
 public function cards(NovaRequest $request)
