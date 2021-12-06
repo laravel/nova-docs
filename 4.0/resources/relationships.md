@@ -24,7 +24,7 @@ HasOne::make('Dirección', 'address'),
 
 ### One of Many
 
-The `HasOne::ofMany()` field corresponds to a `hasOne->ofMany()` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
+The `HasOne` field can also corresponds to a `hasOne->ofMany()` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\HasOne;
