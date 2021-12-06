@@ -22,6 +22,16 @@ Like other types of fields, relationship fields will automatically "snake case" 
 HasOne::make('Dirección', 'address'),
 ```
 
+### One of Many
+
+The `HasOne::ofMany()` field corresponds to a `hasOne->ofMany()` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\HasOne;
+
+HasOne::ofMany('Latest Posts', 'latestPost', 'App\Nova\Post'),
+```
+
 ## HasMany
 
 The `HasMany` field corresponds to a `hasMany` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
@@ -33,6 +43,7 @@ HasMany::make('Posts'),
 ```
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
+
 
 :::warning Plural Resource Names
 
