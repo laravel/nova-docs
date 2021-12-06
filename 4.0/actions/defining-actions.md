@@ -59,7 +59,7 @@ class EmailAccountProfile extends Action
         foreach ($models as $model) {
             (new AccountData($model))->send();
         }
-  }
+    }
 
     /**
     * Get the fields available on the action.
@@ -240,7 +240,7 @@ return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
 
 ## Queued Actions
 
-Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action instead of running it synchronously, mark the action with the `ShouldQueue` interface:
+Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action as [batchable jobs](https://laravel.com/docs/queues#job-batching) instead of running it synchronously, mark the action with the `ShouldQueue` interface:
 
 ```php
 <?php
@@ -285,6 +285,34 @@ class EmailAccountProfile extends Action implements ShouldQueue
         $this->connection = 'redis';
         $this->queue = 'emails';
     }
+}
+```
+
+#### Job Batching Completion Callbacks
+
+Nova allows you to configure job batching completion callbacks by registering the callbacks from `withBatch` method:
+
+```php
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\PendingBatch;
+use Laravel\Nova\Fields\ActionFields;
+
+/**
+ * Register `then`, `catch` and `finally` event on batchable job.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Bus\PendingBatch  $batch
+ * @return void
+ */
+public function withBatch(ActionFields $fields, PendingBatch $batch)
+{
+    $batch->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->catch(function (Batch $batch, Throwable $e) {
+        // First batch job failure detected...
+    })->finally(function (Batch $batch) {
+        // The batch has finished executing...
+    });
 }
 ```
 
