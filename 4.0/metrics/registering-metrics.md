@@ -6,14 +6,15 @@ Once you have defined a metric, you are ready to attach it to a resource. Each r
 
 ```php
 use App\Nova\Metrics\UsersPerDay;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the cards available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         new UsersPerDay
@@ -25,8 +26,15 @@ Alternatively, you may use the `make` method to instantiate your metric:
 
 ```php
 use App\Nova\Metrics\UsersPerDay;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-public function cards(Request $request)
+/**
+ * Get the cards available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function cards(NovaRequest $request)
 {
     return [
         UsersPerDay::make()
@@ -60,10 +68,10 @@ In addition to placing metrics on the resource index screen, you may also attach
 /**
  * Get the cards available for the request.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         (new Metrics\PodcastCount)->onlyOnDetail(),
@@ -127,10 +135,10 @@ By default, metrics take up one-third of the Nova content area. However, you are
 /**
  * Get the cards available for the request.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         // Two-thirds of the content area...
@@ -154,10 +162,10 @@ To enable the tooltip, simply call `help` on the metric instance and pass in you
 /**
  * Get the cards available for the request.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         (new TotalUsers)
@@ -183,10 +191,10 @@ use App\Models\User;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         (new Metrics\UsersPerDay)->canSee(function ($request) {
@@ -204,10 +212,10 @@ use App\Models\User;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [
         (new Metrics\UsersPerDay)->canSeeWhen(

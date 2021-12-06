@@ -28,7 +28,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
 class NewUsers extends Value
@@ -36,10 +36,10 @@ class NewUsers extends Value
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->count($request, User::class);
     }
@@ -136,7 +136,7 @@ public function calculate(Request $request)
 To customize the display format, you can use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
 
 ```php
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
                 ->format('0,0');
@@ -211,7 +211,7 @@ In this example, we are using the `countByDays` helper, which will automatically
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 
 class UsersPerDay extends Trend
@@ -219,10 +219,10 @@ class UsersPerDay extends Trend
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->countByDays($request, User::class);
     }
@@ -327,10 +327,10 @@ class UsersPerDay extends Trend
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this
             ->countByDays($request, User::class)
@@ -430,7 +430,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 
 class UsersPerPlan extends Partition
@@ -438,10 +438,10 @@ class UsersPerPlan extends Partition
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->count($request, User::class, 'stripe_plan');
     }
@@ -503,10 +503,10 @@ Often, the column values that divide your partition metrics into groups will be 
 /**
  * Calculate the value of the metric.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return mixed
  */
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class, 'stripe_plan')
             ->label(function ($value) {
@@ -528,10 +528,10 @@ By default, Nova will choose the colors used in a partition metric. Sometimes, y
 /**
  * Calculate the value of the metric.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return mixed
  */
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     // This metric has `audio`, `video`, and `photo` types
     return $this->count($request, Post::class, 'type')->colors([
@@ -562,7 +562,7 @@ Occasionally the calculation of a metric's values can be slow and expensive. For
 /**
  * Determine for how many minutes the metric should be cached.
  *
- * @return  \DateTimeInterface|\DateInterval|float|int
+ * @return \DateTimeInterface|\DateInterval|float|int|null
  */
 public function cacheFor()
 {
