@@ -21,13 +21,13 @@ To learn more, let's take a look at a complete lens definition that displays use
 
 namespace App\Nova\Lenses;
 
-use Laravel\Nova\Fields\ID;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Lenses\Lens;
-use Laravel\Nova\Fields\Number;
 use Illuminate\Support\Facades\DB;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\LensRequest;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Lenses\Lens;
 
 class MostValuableUsers extends Lens
 {
@@ -65,10 +65,10 @@ class MostValuableUsers extends Lens
     /**
      * Get the fields available to the lens.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function fields(Request $request)
+    public function fields(NovaRequest $request)
     {
         return [
             ID::make('ID', 'id'),
@@ -83,10 +83,10 @@ class MostValuableUsers extends Lens
     /**
      * Get the cards available for the lens.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function cards(Request $request)
+    public function cards(NovaRequest $request)
     {
         return [];
     }
@@ -94,10 +94,10 @@ class MostValuableUsers extends Lens
     /**
      * Get the filters available for the lens.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function filters(Request $request)
+    public function filters(NovaRequest $request)
     {
         return [];
     }
@@ -105,10 +105,10 @@ class MostValuableUsers extends Lens
     /**
      * Get the actions available for the lens.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array
      */
-    public function actions(Request $request)
+    public function actions(NovaRequest $request)
     {
         return [];
     }
@@ -147,10 +147,10 @@ use App\Nova\Metrics\NewUsers;
 /**
  * Get the cards available for the lens.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [new NewUsers];
 }
@@ -166,10 +166,10 @@ use App\Nova\Filters\UserType;
 /**
  * Get the filters available for the lens.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function filters(Request $request)
+public function filters(NovaRequest $request)
 {
     return [new UserType];
 }
@@ -185,10 +185,10 @@ use App\Nova\Actions\Export;
 /**
  * Get the actions available for the lens.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [new Export];
 }

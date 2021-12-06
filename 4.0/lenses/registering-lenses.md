@@ -8,10 +8,10 @@ Once you have defined a lens, you are ready to attach it to a resource. Each res
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function lenses(Request $request)
+public function lenses(NovaRequest $request)
 {
     return [
         new Lenses\MostValuableUsers,
@@ -25,10 +25,10 @@ Alternatively, you may use the `make` method to instantiate your lens:
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function lenses(Request $request)
+public function lenses(NovaRequest $request)
 {
     return [
         Lenses\MostValuableUsers::make(),
@@ -48,10 +48,10 @@ use App\Models\User;
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function lenses(Request $request)
+public function lenses(NovaRequest $request)
 {
     return [
         (new Lenses\MostValuableUsers)->canSee(function ($request) {
@@ -69,10 +69,10 @@ In the example above, we are using Laravel's `Authorizable` trait's `can` method
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function lenses(Request $request)
+public function lenses(NovaRequest $request)
 {
     return [
         (new Lenses\MostValuableUsers)->canSeeWhen(
