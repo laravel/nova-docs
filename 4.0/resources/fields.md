@@ -20,7 +20,6 @@ use Laravel\Nova\Fields\Text;
  */
 public function fields(NovaRequest $request)
 {
-{
     return [
         ID::make()->sortable(),
         Text::make('Name')->sortable(),
