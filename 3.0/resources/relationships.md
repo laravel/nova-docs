@@ -121,7 +121,7 @@ public function title()
 
 ##### Disable Ordering By Title
 
-By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAssociatables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](/3.0/resources/authorization.html#relatable-filtering):
+By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAssociatables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](./authorization.html#relatable-filtering):
 
 ```php
 BelongsTo::make('User')->dontReorderAssociatables(),
