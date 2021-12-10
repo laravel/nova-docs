@@ -354,7 +354,7 @@ You may customize where a user is redirected after creating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return \Laravel\Nova\URL|string
+     * @return string
      */
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
@@ -372,7 +372,7 @@ You may customize where a user is redirected after updating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return \Laravel\Nova\URL|string
+     * @return string
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
@@ -389,7 +389,7 @@ You may customize where a user is redirected after deleting a resource using by 
      * Return the location to redirect the user after deletion.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return \Laravel\Nova\URL|string|null
+     * @return string|null
      */
     public static function redirectAfterDelete(NovaRequest $request)
     {
