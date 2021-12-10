@@ -22,7 +22,7 @@ Like other types of fields, relationship fields will automatically "camel case" 
 HasOne::make('Dirección', 'address'),
 ```
 
-### One of Many
+### HasOne of Many
 
 The `HasOne` field can also corresponds to a `hasOne->ofMany()` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
 
@@ -329,6 +329,16 @@ The `MorphOne` field corresponds to a `morphOne` Eloquent relationship. For exam
 use Laravel\Nova\Fields\MorphOne;
 
 MorphOne::make('Image'),
+```
+
+### MorphOne of Many
+
+The `MorphOne` field can also corresponds to a `morphOne->ofMany()` Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\MorphOne;
+
+MorphOne::ofMany('Comments', 'latestComments', 'App\Nova\Comment'),
 ```
 
 ## MorphMany
