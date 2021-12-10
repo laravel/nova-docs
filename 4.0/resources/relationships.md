@@ -44,7 +44,6 @@ HasMany::make('Posts'),
 
 Once the field has been added to your resource, it will be displayed on the resource's detail screen.
 
-
 :::warning Plural Resource Names
 
 When defining `HasMany` relationships, make sure to use the plural form of the relationship so Nova can infer the correct singular resource name:

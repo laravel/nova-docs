@@ -59,7 +59,7 @@ You can also force metrics to refresh manually using JavaScript by emitting a `m
 
 ```js
 Nova.$emit('metric-refresh')
-````
+```
 
 ## Resource Detail Metrics
 
