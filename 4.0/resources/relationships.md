@@ -16,7 +16,7 @@ use Laravel\Nova\Fields\HasOne;
 HasOne::make('Address'),
 ```
 
-Like other types of fields, relationship fields will automatically "snake case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
+Like other types of fields, relationship fields will automatically "camel case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
 
 ```php
 HasOne::make('Dirección', 'address'),
