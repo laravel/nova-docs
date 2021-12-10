@@ -598,3 +598,16 @@ By default, Nova does not live update metric results after running an action is 
  */
 public $refreshWhenActionRuns = true;
 ```
+
+## Refresh After Filter Changes
+
+Laravel Nova will only updates the metric on filters changed if configured using `refreshWhenFiltersChange`:
+
+```php
+public function cards(NovaRequest $request)
+{
+    return [
+        TotalUsers::make()->refreshWhenFiltersChange(),
+    ];
+}
+```
