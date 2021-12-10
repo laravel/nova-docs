@@ -239,6 +239,14 @@ class UserObserver
 }
 ```
 
+### Resource After Events
+
+Laravel Nova also includes following static methods and only executed from within Laravel Nova:
+
+* `afterCreate`
+* `afterUpdate`
+* `afterDelete`
+* `afterForceDelete`
 
 ## Preventing Conflicts
 
