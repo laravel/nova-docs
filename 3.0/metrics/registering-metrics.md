@@ -44,7 +44,7 @@ Laravel Nova will automatically fetch updated results (without requiring the use
 |:---------|:------------
 | `resources-deleted` | Automatic Updates
 | `resources-restored` | Automatic Updates
-| `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](/3.0/metrics/defining-metrics.html#refresh-after-running-an-action)
+| `action-executed` | [Only updates if the metric's `refreshWhenActionRuns` property is set to `true`](./defining-metrics.html#refresh-after-actions)
 
 You can also force metrics to refresh manually using JavaScript by emitting a `metric-refresh` event:
 
@@ -144,7 +144,7 @@ public function cards(Request $request)
 
 ## Metric Help / Tooltips
 
-Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to it. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/3.0/resources/fields.html#field-help-text):
+Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to it. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](./../resources/fields.html#field-help-text):
 
 ![Metric Help Tooltip](./img/metric-tooltip-help.png)
 
