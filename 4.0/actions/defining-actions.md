@@ -170,12 +170,12 @@ Text::make('Subject')->default(function ($request) {
 When running action with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your actions by setting the `preventFormAbandonment` property to `true`:
 
 ```php
-    /**
-     * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
-     *
-     * @var bool
-     */
-    public $preventFormAbandonment = false;
+/**
+ * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
+ *
+ * @var bool
+ */
+public $preventFormAbandonment = false;
 ```
 
 ## Action Titles
