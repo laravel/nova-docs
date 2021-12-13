@@ -277,6 +277,14 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
+:::tip Generating Queued Action via Artisan
+Above example can be created using Artisan using:
+
+```bash
+php artisan nova:action EmailAccountProfile --queued
+```
+:::
+
 When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
 
 :::danger Queued Action Files
