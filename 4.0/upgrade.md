@@ -28,7 +28,7 @@ Laravel Nova 4 also introduce dependency requirement changes that may impact you
 
 ### `$request` parameter type-hint
 
-**Optional for PHP 7.4 and above**
+**Required on PHP 7.3 and optional for PHP 7.4 and above**
 
 In Laravel Nova 4, we have standardise the type-hint to use `Laravel\Nova\Http\Requests\NovaRequest` insteads of `Illuminate\Http\Request` except for methods that can be accessed outside of Laravel Nova requests. We advise everyone to update the following methods:
 
@@ -124,6 +124,10 @@ Laravel Nova 4 remove the ability to rely on client machine time to display time
 
 Please refer [Customizing The Timezone](./resources/date-fields.html#customizing-the-timezone) documentation for further detail.
 
+### `Date` and `DateTime` fields now uses native HTML5 Date Input
+
+// @TODO
+
 ## Medium Impact Changes
 
 ### Replacing Vue Router with Inertia.js
@@ -141,8 +145,6 @@ User::updating(function ($model) {
 ``` 
 
 Above code will cancel saving the Resource in Laravel Nova 4 and throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` excepton.
-
-### Reduce encoded filter string using a shorter key-value map
 
 ### `Field::default()` now only resolved for Create, Attach, and Action requests
 
@@ -164,24 +166,24 @@ class User extends Model
 }
 ```
 
+### Use a consistent approach to guess relationships between Laravel and Laravel Nova
+
+Given following definition, Laravel Nova 3 will translate the relationship name as `purchase_books` while Laravel Nova 4 would translate it as `purchaseBooks`.
+
+```php
+BelongsToMany::make('Purchase Books'),
+```
+
 ## Low Impact Changes
 
 ### Change `SelectFilter::options()` format to match with `Select` field
 
 // @TODO
 
-### Use a consistent approach to guess relationships between Laravel and Laravel Nova.
-
-// @TODO
-
-### Remove deprecated `Action::availableForEntireResource()`
-
-// @TODO
-
-### Register `viewNova` policy globally
-
-// @TODO
-
 ### `HasOneThrough` and `HasManyThrough` fields no longer can create new relation resources
 
-// @TODO
+Laravel Nova 4 will no longer allow creating `HasOneThrough` or `HasManyThrough` relationship from a Resource Detail, both relationship fields should be consider as read-only.
+
+### Reduce encoded filter string using a shorter key-value map
+
+Laravel Nova 4 has introduce shorter key-value map which reduces the length of encoded filters string value. This changes doesn't affect bookmarked URLs however 3rd party package tool developers may require to update projects code if have deep integration with Filters Vuex store. 
