@@ -120,22 +120,68 @@ public function uriKey()
 
 ### Remove detecting timezone from browser local time
 
+Laravel Nova 4 remove the ability to rely on client machine time to display timezone related information and instead utilise application's "server-side" timezone as defined by the timezone option in your app configuration file.
+
+Please refer [Customizing The Timezone](./resources/date-fields.html#customizing-the-timezone) documentation for further detail.
+
 ## Medium Impact Changes
 
 ### Replacing Vue Router with Inertia.js
 
+// @TODO
+
 ### Considers event cancellation when saving a Resource
 
+Laravel Nova 3 ignores event cancellation when saving a Resource. As an example the following code will still trigger saving the resource.
+
+```php
+User::updating(function ($model) {
+    return false;
+});
+``` 
+
+Above code will cancel saving the Resource in Laravel Nova 4 and throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` excepton.
+
 ### Reduce encoded filter string using a shorter key-value map
+
+### `Field::default()` now only resolved for Create, Attach, and Action requests
+
+Laravel Nova 4 will no longer resolve fields default values for Index and Detail requests, if you need to define default attribute values please utilise Eloquent's ` attributes` property, for example:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model 
+{
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'timezone' => 'UTC',
+    ];
+}
+```
 
 ## Low Impact Changes
 
 ### Change `SelectFilter::options()` format to match with `Select` field
 
+// @TODO
+
 ### Use a consistent approach to guess relationships between Laravel and Laravel Nova.
+
+// @TODO
 
 ### Remove deprecated `Action::availableForEntireResource()`
 
+// @TODO
+
 ### Register `viewNova` policy globally
 
+// @TODO
+
 ### `HasOneThrough` and `HasManyThrough` fields no longer can create new relation resources
+
+// @TODO
