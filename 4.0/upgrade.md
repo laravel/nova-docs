@@ -126,7 +126,14 @@ Please refer [Customizing The Timezone](./resources/date-fields.html#customizing
 
 ### `Date` and `DateTime` fields now uses native HTML5 Date Input
 
-// @TODO
+Laravel Nova 4 now will utilise `<input type="date" />` and `<input type="datetime-local" />` for `Date` and `DateTime` fields. Along with this changes also means that following methods has been removed:
+
+* `firstDayOfWeek()`
+* `format()`
+* `pickerFormat()`
+* `pickerDisplayFormat()`
+* `incrementPickerHourBy()`
+* `incrementPickerMinuteBy()`
 
 ## Medium Impact Changes
 
@@ -136,7 +143,7 @@ Please refer [Customizing The Timezone](./resources/date-fields.html#customizing
 
 ### Considers event cancellation when saving a Resource
 
-Laravel Nova 3 ignores event cancellation when saving a Resource. As an example the following code will still trigger saving the resource.
+Laravel Nova 3 completely ignores event cancellation when creating or updating a Resource, For example the following code will still trigger saving the User resource:
 
 ```php
 User::updating(function ($model) {
@@ -144,7 +151,7 @@ User::updating(function ($model) {
 });
 ``` 
 
-Above code will cancel saving the Resource in Laravel Nova 4 and throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` excepton.
+Above code however will starts to throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Laravel Nova 4.
 
 ### `Field::default()` now only resolved for Create, Attach, and Action requests
 
