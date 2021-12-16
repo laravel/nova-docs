@@ -34,7 +34,7 @@ In Laravel Nova 4, we have standardise the type-hint to use `Laravel\Nova\Http\R
 
 #### Resources
 
-`fields()`, `fieldsForIndex()`, `fieldsForDetail()`, `fieldsForCreate()`, `fieldsForUpdate()`, `cards()`, `filters()`, `lenses()` and `actions()` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+`fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsForUpdate`, `cards`, `filters`, `lenses` and `actions` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
 
 ```php
 class Resource {
@@ -52,7 +52,7 @@ class Resource {
 
 #### Lenses
 
-`fields()`, `filters()` and `actions()` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+`fields`, `filters` and `actions` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
 
 ```php
 class Lens {
@@ -64,7 +64,7 @@ class Lens {
 
 #### Actions
 
-`fields()` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+`fields` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
 
 ```php
 class Action {
@@ -74,7 +74,7 @@ class Action {
 
 #### Filters
 
-`apply()` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+`apply` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
 
 ```php
 class Filter {
@@ -84,7 +84,7 @@ class Filter {
 
 ### Main Dashboard class
 
-In Laravel Nova 3, you would only need to define Main dashboard cards via `App\Providers\NovaServiceProvider::cards()` method. In Laravel Nova 4, you would need to register a custom class for Main Dashboard by running the following command:
+In Laravel Nova 3, you would only need to define Main dashboard cards via `App\Providers\NovaServiceProvider::cards` method. In Laravel Nova 4, you would need to register a custom class for Main Dashboard by running the following command:
 
 ```bash
 php artisan nova:dashboard Main
@@ -94,7 +94,7 @@ Next, move the contain on `cards` method from `App\Providers\NovaServiceProvider
 
 ### Dynamic Dashboard classes
 
-In Laravel Nova 4, `cards()` and `uriKey()` methods are no longer defined as `public static function`, please change it to `public function` as shown in the example below:
+In Laravel Nova 4, `cards` and `uriKey` methods are no longer defined as `public static function`, please change it to `public function` as shown in the example below:
 
 ```php
 /**
@@ -153,7 +153,7 @@ User::updating(function ($model) {
 
 Above code however will starts to throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Laravel Nova 4.
 
-### `Field::default()` now only resolved for Create, Attach, and Action requests
+### `Field::default` method resolves value only for Create, Attach, and Action requests
 
 Laravel Nova 4 will no longer resolve fields default values for Index and Detail requests, if you need to define default attribute values please utilise Eloquent's ` attributes` property, for example:
 
@@ -181,9 +181,9 @@ Given following definition, Laravel Nova 3 will translate the relationship name 
 BelongsToMany::make('Purchase Books'),
 ```
 
-### Removal of `Action::actionClass()`
+### `Action::actionClass` method has been removed
 
-Laravel Nova 4 no longer give access to add custom CSS style using `actionClass()` method. In screnario where you still needs to create custom confirmation modal please create a custom Vue Component and assign the name to `$component` property:
+Laravel Nova 4 no longer give access to add custom CSS style to action confirmation modal button using values `actionClass` method and instead only handles `Action` and `DestructiveAction`. In screnario where you still needs to create custom confirmation modal please create a custom Vue Component and assign the name to `$component` property:
 
 ```php
 /**
@@ -196,7 +196,7 @@ public $component = 'CustomConfirmActionModal';
 
 ## Low Impact Changes
 
-### Change `SelectFilter::options()` format to match with `Select` field
+### Change `SelectFilter::options` format to match with `Select` field
 
 // @TODO
 
