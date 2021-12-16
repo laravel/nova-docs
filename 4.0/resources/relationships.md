@@ -24,7 +24,7 @@ HasOne::make('Dirección', 'address'),
 
 ### HasOne of Many
 
-The `HasOne` field can also corresponds to a `hasOne->ofMany()` Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
+The `HasOne` field can also corresponds to a "Has One Of Many" Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\HasOne;
@@ -333,7 +333,7 @@ MorphOne::make('Image'),
 
 ### MorphOne of Many
 
-The `MorphOne` field can also corresponds to a `morphOne->ofMany()` Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+The `MorphOne` field can also corresponds to a "Morph One of Many" Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\MorphOne;
