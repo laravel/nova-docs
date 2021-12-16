@@ -74,11 +74,12 @@ class Action {
 
 #### Filters
 
-`apply` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+`apply` and `options` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
 
 ```php
 class Filter {
     public function apply(NovaRequest $request, $query, $value) {}
+    public function options(NovaRequest $request) {}
 }
 ```
 
@@ -198,7 +199,27 @@ public $component = 'CustomConfirmActionModal';
 
 ### Change `SelectFilter::options` format to match with `Select` field
 
-// @TODO
+The following syntax has been updated for `SelectFilter::options` return `array` format to match `Select` field:
+
+```php
+// Before
+public function options(Request $request)
+{
+    return [
+        'yes' => ['name' => 'Yes'],
+        'no' => ['name' => 'No'],
+    ];
+} 
+
+// After
+public function options(NovaRequest $request)
+{
+    return [
+        'yes' => ['label' => 'Yes'],
+        'no' => ['label' => 'No'],
+    ]; 
+}
+```
 
 ### `HasOneThrough` and `HasManyThrough` fields no longer can create new relation resources
 
