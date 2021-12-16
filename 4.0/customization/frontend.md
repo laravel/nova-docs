@@ -122,4 +122,4 @@ Please note, compiling Nova's assets for production purposes is not supported.
 
 ### Other Available Libraries
 
-The [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
+The [Lodash](https://lodash.com/) library are globally available to your custom components.
