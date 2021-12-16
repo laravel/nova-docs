@@ -207,3 +207,15 @@ Laravel Nova 4 will no longer allow creating `HasOneThrough` or `HasManyThrough`
 ### Reduce encoded filter string using a shorter key-value map
 
 Laravel Nova 4 has introduce shorter key-value map which reduces the length of encoded filters string value. This changes doesn't affect bookmarked URLs however 3rd party package tool developers may require to update project code if it have deep integration with Filters Vuex store. 
+
+### `Action::showOnTableRow` method deprecation
+
+`Action::showOnTableRow` method has been deprecated starting on Laravel Nova 4 and we recommends everyone to update to `showInline` method instead:
+
+```php
+// Before
+(new ConsolidateTransaction())->showOnTableRow(),
+
+// AFter
+(new ConsolidateTransaction())->showInline(),
+```
