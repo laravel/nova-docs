@@ -174,6 +174,19 @@ Given following definition, Laravel Nova 3 will translate the relationship name 
 BelongsToMany::make('Purchase Books'),
 ```
 
+### Removal of `Action::actionClass()`
+
+Laravel Nova 4 no longer give access to add custom CSS style using `actionClass()` method. In screnario where you still needs to create custom confirmation modal please create a custom Vue Component and assign the name to `$component` property:
+
+```php
+/**
+ * The action's component.
+ *
+ * @var string
+ */
+public $component = 'CustomConfirmActionModal';
+```
+
 ## Low Impact Changes
 
 ### Change `SelectFilter::options()` format to match with `Select` field
@@ -186,4 +199,4 @@ Laravel Nova 4 will no longer allow creating `HasOneThrough` or `HasManyThrough`
 
 ### Reduce encoded filter string using a shorter key-value map
 
-Laravel Nova 4 has introduce shorter key-value map which reduces the length of encoded filters string value. This changes doesn't affect bookmarked URLs however 3rd party package tool developers may require to update projects code if have deep integration with Filters Vuex store. 
+Laravel Nova 4 has introduce shorter key-value map which reduces the length of encoded filters string value. This changes doesn't affect bookmarked URLs however 3rd party package tool developers may require to update project code if it have deep integration with Filters Vuex store. 
