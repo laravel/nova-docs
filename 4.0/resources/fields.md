@@ -249,6 +249,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Boolean](#boolean-field)
 - [Boolean Group](#boolean-group-field)
 - [Code](#code-field)
+- [Color](#color-field)
 - [Country](#country-field)
 - [Currency](#currency-field)
 - [Date](#date-field)
@@ -260,6 +261,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Image](#image-field)
 - [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
+- [MultiSelect](#multiselect-field)
 - [Number](#number-field)
 - [Password](#password-field)
 - [Place](#place-field)
@@ -271,6 +273,9 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [URL](#url-field)
+- [Vapor File](#vapor-file-field)
+- [Vapor Image](#vapor-image-field)
 
 ### Avatar Field
 
@@ -478,6 +483,10 @@ The `Code` field's currently supported languages are:
 - `yaml`
 - `yaml-frontmatter`
 - `vim`
+
+### Color Field
+
+// @TODO
 
 ### Country Field
 
@@ -727,6 +736,10 @@ By default, Markdown fields will not display their content when viewing a resour
 ```php
 Markdown::make('Biography')->alwaysShow(),
 ```
+
+### MultiSelect Field
+
+// @TODO
 
 ### Number Field
 
@@ -1212,6 +1225,10 @@ $schedule->call(function () {
     (new PruneStaleAttachments)();
 })->daily(),
 ```
+
+### URL Field
+
+// @TODO
 
 ### Vapor File Field
 
