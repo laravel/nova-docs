@@ -195,6 +195,16 @@ Laravel Nova 4 no longer give access to add custom CSS style to action confirmat
 public $component = 'CustomConfirmActionModal';
 ```
 
+### Batchable Queued Actions
+
+Laravel Nova 4 now requires Job Batching when dispatching Queued Job. Before getting started, you should create a database migration to build a table to contain meta information about your job batches, such as their completion percentage. This migration may be generated using the `queue:batches-table` Artisan command:
+
+```bash
+php artisan queue:batches-table
+
+php artisan migrate
+```
+
 ## Low Impact Changes
 
 ### Change `SelectFilter::options` format to match with `Select` field
