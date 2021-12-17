@@ -271,6 +271,8 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [Vapor File](#vapor-file-field)
+- [Vapor Image](#vapor-image-field)
 
 ### Avatar Field
 
