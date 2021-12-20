@@ -20,7 +20,11 @@ module.exports = [
   {
     title: "Search",
     collapsable: false,
-    children: prefix("search", ["global-search", "scout-integration"]),
+    children: prefix("search", [
+      "",
+      "global-search",
+      "scout-integration",
+    ]),
   },
   {
     title: "Filters",
