@@ -743,7 +743,38 @@ Markdown::make('Biography')->alwaysShow(),
 
 ### MultiSelect Field
 
-// @TODO
+The `MultiSelect` field provides `Select` field with multiple options. The field work best with model attribute casts as `array`:
+
+```php
+use Laravel\Nova\Fields\MultiSelect;
+
+MultiSelect::make('Sizes')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+]),
+``` 
+
+On the resource index and detail screens, the `MultiSelect` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
+
+```php
+MultiSelect::make('Size')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels(),
+```
+
+You may also display multi-select options in groups:
+
+```php
+MultiSelect::make('Sizes')->options([
+    'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+    'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
+    'WS' => ['label' => 'Small', 'group' => 'Women Sizes'],
+    'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
+])->displayUsingLabels(),
+```
 
 ### Number Field
 
