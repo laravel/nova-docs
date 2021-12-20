@@ -486,7 +486,11 @@ The `Code` field's currently supported languages are:
 
 ### Color Field
 
-// @TODO
+The `Color` field generate a color picker using HTML5 input element of type `color`:
+
+```php
+Color::make('Color', 'label_color'),
+```
 
 ### Country Field
 
@@ -1228,7 +1232,11 @@ $schedule->call(function () {
 
 ### URL Field
 
-// @TODO
+The `URL` field extends [Text field](#text-field) specifically for handling URL text field:
+
+```php
+URL::make('GitHub URL'),
+```
 
 ### Vapor File Field
 
