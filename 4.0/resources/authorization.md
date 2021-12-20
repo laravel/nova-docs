@@ -60,8 +60,8 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | `update` | Disallowed
 | `replicate` | Fallback using `create` and `update` policy action
 | `delete` | Disallowed
-| `forceDelete` | Disallowed
 | `restore` | Disallowed
+| `forceDelete` | Disallowed
 | `add{Model}` | Allowed
 | `attach{Model}` | Allowed
 | `detach{Model}` | Allowed
