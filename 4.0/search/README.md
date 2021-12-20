@@ -24,6 +24,12 @@ If you are using Nova's Scout integration, the `$search` column has no effect on
 
 ## Search Relations
 
+// @TODO
+
 ### Polymorphic Relationship
 
+// @TODO
+
 ## Search JSON paths
+
+// @TODOs

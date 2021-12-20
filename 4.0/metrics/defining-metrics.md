@@ -554,6 +554,47 @@ return $this->result([
 ]);
 ```
 
+## Progress Metric
+
+// @TODO
+
+```php
+return $this->count($request, User::class, function ($query) {
+    return $query->where('active', '=', 1);
+});
+```
+
+
+### Progress Query Types
+
+Progress metrics don't just ship with a `coun`t helper. You may also use following aggregate functions when building your metric.
+
+#### Sum
+
+The `sum` method may be used to calculate the sum of a given column within distinct groups. For example, the following call to the `sum` method will display a progress with the sum of completed transaction amounts against all transaction amounts:
+
+```php
+return $this->sum($request, Transaction::class, function ($query) {
+    return $query->where('completed', '=', 1);
+}, 'amount');
+```
+
+You can also manually set `$target` instead of calculating againsts all transaction amounts:
+
+```php
+return $this->sum($request, Transaction::class, function ($query) {
+    return $query->where('completed', '=', 1);
+}, 'amount', 200000);
+```
+
+### Manually Building Progress Results
+
+If you are not able to use the included query helpers for building your progress metric, you may manually provide the final values to the metric using the `result` method:
+
+```php
+return $this->result(80, 100);
+```
+
 ## Caching
 
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
