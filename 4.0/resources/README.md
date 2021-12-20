@@ -248,6 +248,30 @@ Laravel Nova also includes following static methods and only executed from withi
 * `afterDelete`
 * `afterForceDelete`
 
+For example, you may want to send email verification notification after a user has been created from Nova:
+
+```php
+use App\Models\User;
+use App\Nova\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
+{
+    /**
+     * Register a callback to be called after the resource is created.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public static function afterCreate(NovaRequest $request, Model $model)
+    {
+        $model->sendEmailVerificationNotification();
+    }
+}
+```
+
 ## Preventing Conflicts
 
 If the model has been updated since its last retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as "Traffic Cop".
