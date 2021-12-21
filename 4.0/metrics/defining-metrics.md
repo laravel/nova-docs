@@ -556,14 +556,55 @@ return $this->result([
 
 ## Progress Metric
 
-// @TODO
+Progress metrics display current progress againsts target value via a bar chart. For example, a progress metric might display the number of active users created againsts total users:
 
-```php
-return $this->count($request, User::class, function ($query) {
-    return $query->where('active', '=', 1);
-});
+// @SCREENSHOT
+
+Progress metrics may be generated using the `nova:progress` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
+
+```bash
+php artisan nova:progress ActiveUsers
 ```
 
+Once your trend metric class has been generated, you're ready to customize it. Each trend metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ProgressResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
+
+In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use App\Models\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Progress;
+
+class ActiveUsers extends Progress
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return mixed
+     */
+    public function calculate(NovaRequest $request)
+    {
+        return $this->count($request, User::class, function ($query) {
+            return $query->where('active', '=', 1);
+        });
+    }
+
+    /**
+     * Get the URI key for the metric.
+     *
+     * @return string
+     */
+    public function uriKey()
+    {
+        return 'active-users';
+    }
+}
+```
 
 ### Progress Query Types
 
