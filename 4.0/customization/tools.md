@@ -81,7 +81,7 @@ Your Nova tool is generated with an `Authorize` middleware. This middleware auto
 Your Nova tool class contains a `menu` method. This method should return a custom menu that renders your tool's sidebar links. You are free to customize this method as needed:
 
 ```php
-use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 
 /**
  * Build the menu that renders the navigation links for the tool.
