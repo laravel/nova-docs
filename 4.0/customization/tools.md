@@ -78,19 +78,25 @@ Your Nova tool is generated with an `Authorize` middleware. This middleware auto
 
 ### Navigation
 
-Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. Of course, a default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:
+Your Nova tool class contains a `menu` method. This method should return a custom menu that renders your tool's sidebar links. You are free to customize this method as needed:
 
 ```php
+use Laravel\Nova\Menu\MenuItem;
+
 /**
- * Build the view that renders the navigation links for the tool.
+ * Build the menu that renders the navigation links for the tool.
  *
- * @return \Illuminate\View\View
+ * @param  \Illuminate\Http\Request  $request
+ * @return mixed
  */
-public function renderNavigation()
+public function menu(Request $request)
 {
-    return view('price-tracker::navigation');
+    return MenuSection::make('Price Tracker')
+        ->path('/sidebar-tool')
+        ->icon('server');
 }
 ```
+
 
 ### Assets
 
