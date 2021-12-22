@@ -45,6 +45,7 @@ The following methods may be used to show / hide fields based on the display con
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
+- `showOnPreview`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -66,6 +67,7 @@ Alternatively, you may pass a callback to the following methods.
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
+- `showOnPreview`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
