@@ -138,11 +138,11 @@ Nova 4 now will utilise `<input type="date" />` and `<input type="datetime-local
 
 ## Medium Impact Changes
 
-### Replacing Vue Router with Inertia.js
+### Replacing Vue router with Inertia.js
 
 **Affect installation and Tool with custom Vue Routes**
 
-Nova 4 has replaced Vue Router with Inertia.js. You would need to migrate from registering Vue Routes component to registering Inertia.js page component and backend routes, Given below example in Nova 3:
+Nova 4 has replaced Vue router with Inertia.js. You would need to migrate from registering Vue Routes component to registering Inertia.js page component and backend routes, Given below example in Nova 3:
 
 ```js
 Nova.booting((Vue, router) => {

@@ -6,7 +6,7 @@ Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js suppo
 
 ### Inertia.js
 
-Nova 4 introduce official supports for [Inertia.js](https://inertiajs.com) as replacement for Vue Router. The change would also easier custom tool and page to be developed for Laravel Nova with minimal knowledge to Vue. 
+Nova 4 introduce official supports for [Inertia.js](https://inertiajs.com) as replacement for Vue router. The change would also easier custom tool and page to be developed for Laravel Nova with minimal knowledge to Vue. 
 
 ```js
 Nova.booting((Vue, store) => {
