@@ -31,6 +31,24 @@ Nova::router()
     });
 ```
 
+With the introduction of Inertia.js, Nova 4 also now offer a new `Laravel\Nova\URL` class to handle creating relative and remote URL to be use between backend and frontend: 
+
+```php
+use Laravel\Nova\URL;
+
+URL::make('/resources/users/3'); // returns '/nova/resources/users/3'
+
+URL::remote('https://nova.laravel.com'); // returns 'https://nova.laravel.com'
+```
+
+On the frontend, you also have access to `url` and `visit` helpers to generate relative URL and trigger Inertia.js visit:
+
+```js
+Nova.url('/resources/users/2') // returns /nova/resources/users/2
+
+Nova.visit('/resources/users/2') // navigate to /nova/resources/users/2
+Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of Laravel Nova to https://nova.laravel.com
+```
 ### Filterable Fields
 ### Dependable Fields
 ### Replicating Resource
