@@ -13,7 +13,7 @@ To define which resource fields are searchable, you may assign an array of datab
  * @var array
  */
 public static $search = [
-    'title', 'author',
+    'id', 'title', 'content',
 ];
 ```
 
@@ -24,12 +24,43 @@ If you are using Nova's Scout integration, the `$search` column has no effect on
 
 ## Search Relations
 
-// @TODO
+Aside from current resource attributes, you may also search relation by using `{relation}.{attribute}` notation, for example the below code would search `name` on `author` relation for the resource:
 
-### Polymorphic Relationship
+```php
+/**
+ * The columns that should be searched.
+ *
+ * @var array
+ */
+public static $search = [
+    'id', 'author.name'
+];
+```
 
-// @TODO
+### MorphTo Relationship
+
+MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Searching\MorphToSearch`:
+
+```php
+use Laravel\Nova\Searching\MorphToSearch;
+
+public static function searchableColumns()
+{
+    return ['id', new MorphToSearch('commentable', 'title', ['App\Nova\Post'])];
+}
+```
 
 ## Search JSON paths
 
-// @TODOs
+You can also search JSON path by using `{attribute}->{path}`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
+
+```php
+/**
+ * The columns that should be searched.
+ *
+ * @var array
+ */
+public static $search = [
+    'id', 'meta->address->postcode'
+];
+```
