@@ -54,6 +54,23 @@ Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of
 ### Filterable Fields
 ### Dependable Fields
 ### Replicating Resource
+
+Nova 4 introduce the ability to replicate a resource and this is enable by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
+
+```php
+    /**
+     * Determine whether the user can replicate the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+    public function replicate(User $user, User $model)
+    {
+        return false;
+    }
+```
+
 ### Resource Preview
 
 Nova 4 introduce a detail preview feature on resource index to allows users see a quick-view of the detail without having to navigate out of current view. The feature are available for most fields by adding `showOnPreview`, e.g:
