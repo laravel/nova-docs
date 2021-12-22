@@ -35,6 +35,13 @@ Nova::router()
 ### Dependable Fields
 ### Replicating Resource
 ### Resource Preview
+
+Nova 4 introduce a preview feature on resource index to allows users see a quick-view of the detail without having to navigate out of current view. The feature are available for most fields by adding `showOnPreview`, e.g:
+
+```php
+Text::make('Name')->showOnPreview(),
+```
+
 ### Custom Main & User Menu
 ### Nova Notification
 ### Batchable Queued Actions
