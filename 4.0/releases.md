@@ -128,9 +128,55 @@ public function withBatch(ActionFields $fields, PendingBatch $batch)
     });
 }
 ```
-### New Color, MultiSelect and URL Field
 
-// @TODO
+### Search Relations
+
+Nova 4 now includes support to natively allows searching columns as well as relations and JSON path: 
+
+```php
+use Laravel\Nova\Searching\MorphToSearch;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return [
+        'id', 
+        'author.name',
+        new MorphToSearch('commentable', 'title', ['App\Nova\Post']),
+        'meta->address->postcode',
+    ];
+}
+```
+
+### New Fields
+
+Nova 4 includes 3 new native fields:
+
+* Color
+* MultiSelect
+* URL
+
+```php
+use Laravel\Nova\Fields\Color;
+use Laravel\Nova\Fields\MultiSelect;
+use Laravel\Nova\Fields\URL;
+
+return [
+    Color::make('Color', 'label_color'),
+
+    MultiSelect::make('Size')->options([
+        'S' => 'Small',
+        'M' => 'Medium',
+        'L' => 'Large',
+    ])->displayUsingLabels(),
+
+    URL::make('GitHub URL'),
+];
+```
 
 ### New Progress Metric
 

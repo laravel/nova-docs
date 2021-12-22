@@ -44,6 +44,11 @@ MorphTo relationship requires a different syntax where you would needs to filter
 ```php
 use Laravel\Nova\Searching\MorphToSearch;
 
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
 public static function searchableColumns()
 {
     return ['id', new MorphToSearch('commentable', 'title', ['App\Nova\Post'])];
