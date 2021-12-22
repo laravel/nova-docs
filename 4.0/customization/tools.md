@@ -68,11 +68,23 @@ public function tools()
 
 ### Routing
 
-Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/api.php` routes file. If needed, you may use this file to define any routes your tool requires.
+Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/inertia.php` and `routes/api.php` routes file. If needed, you may use these files to define any routes your tool requires.
 
-All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive `nova/tool-name` prefix and all API routes using Axios should receive `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
-// @TODO depends on https://github.com/laravel/nova/pull/1576
+```js
+// resources/js/tool.js
+Nova.booting((Vue, store) => {
+  Nova.inertia('PriceTracker', require('./components/Logo').default)
+})
+```
+
+```php
+// routes/inertia.php
+Route::get('/', function ($request) {
+    return inertia('PriceTracker');
+});
+```
 
 #### Routing Authorization
 
@@ -98,7 +110,6 @@ public function menu(Request $request)
         ->icon('server');
 }
 ```
-
 
 ### Assets
 
