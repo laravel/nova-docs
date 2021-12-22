@@ -72,6 +72,8 @@ Often, you will need to define Laravel routes that are called by your tool. When
 
 All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
+// @TODO depends on https://github.com/laravel/nova/pull/1576
+
 #### Routing Authorization
 
 Your Nova tool is generated with an `Authorize` middleware. This middleware automatically determines whether the authenticated user can "see" the tool before it processes any requests to routes within your tool's route group; however, you are free to modify this middleware if needed.
@@ -92,7 +94,7 @@ use Laravel\Nova\Menu\MenuSection;
 public function menu(Request $request)
 {
     return MenuSection::make('Price Tracker')
-        ->path('/sidebar-tool')
+        ->path('/price-tracker')
         ->icon('server');
 }
 ```
@@ -132,7 +134,7 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Nova.inertia('PriceTracker', require('./components/Tool').default)
+  Vue.component('PriceTrackerLogo', require('./components/Logo').default)
 })
 ```
 
