@@ -1,6 +1,6 @@
 # Release Notes
 
-Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js supports ... and a variety of other bug fixes and usability improvements.
+Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js supports, Filterable Fields, Dependable Fields, Resource Replication, Resource Preview, Custom Main & User Menu, Nova Notification, Batchable Queued Actions, New Fields, New Progress Metric  and a variety of other bug fixes and usability improvements.
 
 [[toc]]
 
@@ -31,6 +31,8 @@ Nova::router()
     });
 ```
 
+#### Navigation Helpers
+
 With the introduction of Inertia.js, Nova 4 also now offer a new `Laravel\Nova\URL` class to handle creating relative and remote URL to be use between backend and frontend: 
 
 ```php
@@ -54,7 +56,7 @@ Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of
 ### Replicating Resource
 ### Resource Preview
 
-Nova 4 introduce a preview feature on resource index to allows users see a quick-view of the detail without having to navigate out of current view. The feature are available for most fields by adding `showOnPreview`, e.g:
+Nova 4 introduce a detail preview feature on resource index to allows users see a quick-view of the detail without having to navigate out of current view. The feature are available for most fields by adding `showOnPreview`, e.g:
 
 ```php
 Text::make('Name')->showOnPreview(),
