@@ -52,7 +52,13 @@ Nova.visit('/resources/users/2') // navigate to /nova/resources/users/2
 Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of Laravel Nova to https://nova.laravel.com
 ```
 ### Filterable Fields
+
+// @TODO
+
 ### Dependable Fields
+
+// @TODO
+
 ### Replicating Resource
 
 Nova 4 introduce the ability to replicate a resource and this is enable by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
@@ -80,7 +86,60 @@ Text::make('Name')->showOnPreview(),
 ```
 
 ### Custom Main & User Menu
+
+// @TODO
+
 ### Nova Notification
+
+// @TODO
+
 ### Batchable Queued Actions
+
+Nova 4 now requires Job Batching when dispatching Queued Job. Before getting started, you should create a database migration to build a table to contain meta information about your job batches, such as their completion percentage. This migration may be generated using the `queue:batches-table` Artisan command:
+
+```bash
+php artisan queue:batches-table
+
+php artisan migrate
+```
+
+Next, Nova allows you to configure job batching completion callbacks by registering the callbacks from withBatch method:
+
+```php
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\PendingBatch;
+use Laravel\Nova\Fields\ActionFields;
+
+/**
+ * Register `then`, `catch` and `finally` event on batchable job.
+ *
+ * @param  \Laravel\Nova\Fields\ActionFields  $fields
+ * @param  \Illuminate\Bus\PendingBatch  $batch
+ * @return void
+ */
+public function withBatch(ActionFields $fields, PendingBatch $batch)
+{
+    $batch->then(function (Batch $batch) {
+        // All jobs completed successfully...
+    })->catch(function (Batch $batch, Throwable $e) {
+        // First batch job failure detected...
+    })->finally(function (Batch $batch) {
+        // The batch has finished executing...
+    });
+}
+```
 ### New Color, MultiSelect and URL Field
+
+// @TODO
+
 ### New Progress Metric
+
+Progress metrics display current progress againsts target value via a bar chart. For example, a progress metric might display the number of active users created againsts total users:
+
+// @SCREENSHOT
+
+Progress metrics may be generated using the `nova:progress` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
+
+```bash
+php artisan nova:progress ActiveUsers
+```
