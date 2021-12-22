@@ -67,7 +67,6 @@ Alternatively, you may pass a callback to the following methods.
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
-- `showOnPreview`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -88,6 +87,16 @@ Text::make('Name')->hideFromIndex(function () {
     return $this->name === 'Taylor Otwell';
 }),
 ```
+
+### Resource Preview Modal
+
+On the resource index, you can also set fields available for preview by adding `showOnPreview` method such as following:
+
+```php
+Text::make('Name')->showOnPreview(),
+```
+
+// @SCREENSHOT
 
 ## Dynamic Field Methods
 
