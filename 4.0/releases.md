@@ -64,17 +64,17 @@ Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of
 Nova 4 introduce the ability to replicate a resource and this is enable by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
 
 ```php
-    /**
-     * Determine whether the user can replicate the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     * @return mixed
-     */
-    public function replicate(User $user, User $model)
-    {
-        return false;
-    }
+/**
+ * Determine whether the user can replicate the model.
+ *
+ * @param  \App\Models\User  $user
+ * @param  \App\Models\User  $model
+ * @return mixed
+ */
+public function replicate(User $user, User $model)
+{
+    return false;
+}
 ```
 
 ### Resource Preview
@@ -129,6 +129,8 @@ public function withBatch(ActionFields $fields, PendingBatch $batch)
 }
 ```
 
+To learn more about Batchable Queued Actions, please consult [the documentation](./actions/defining-actions.html#queued-actions).
+
 ### Search Relations
 
 Nova 4 now includes support to natively allows searching columns as well as relations and JSON path: 
@@ -152,13 +154,16 @@ public static function searchableColumns()
 }
 ```
 
+
+To learn more about Search Relations, please consult [the documentation](./search/#search-relations).
+
 ### New Fields
 
 Nova 4 includes 3 new native fields:
 
-* Color
-* MultiSelect
-* URL
+* [Color](./resources/fields.html#color-field)
+* [MultiSelect](./resources/fields.html#multiselect-field)
+* [URL](./resources/fields.html#url-field)
 
 ```php
 use Laravel\Nova\Fields\Color;
