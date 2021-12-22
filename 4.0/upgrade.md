@@ -140,7 +140,40 @@ Nova 4 now will utilise `<input type="date" />` and `<input type="datetime-local
 
 ### Replacing Vue Router with Inertia.js
 
-// @TODO
+**Affect installation and Tool with custom Vue Routes**
+
+Nova 4 has replaced Vue Router with Inertia.js. You would need to migrate from registering Vue Routes component to registering Inertia.js page component and backend routes, Given below example in Nova 3:
+
+```js
+Nova.booting((Vue, router) => {
+  router.addRoutes([
+    {
+      name: 'sidebar-tool',
+      path: '/sidebar-tool',
+      component: require('./components/Tool'),
+    },
+  ])
+})
+````
+
+In Nova 4, you would need to code the following:
+
+```js
+Nova.booting((Vue) => {
+  Nova.inertia('SidebarTool', require('./component/Tool').default)
+})
+```
+
+```php
+use Laravel\Nova\Nova;
+
+Nova::router()
+    ->group(function ($router) {
+        $router->get('sidebar-tool', function ($request) {
+            return inertia('SidebarTool');
+        }
+    });
+```
 
 ### Considers event cancellation when saving a Resource
 
