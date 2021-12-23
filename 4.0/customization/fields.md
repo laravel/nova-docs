@@ -132,6 +132,38 @@ fill(formData) {
 }
 ```
 
+#### Dependable Form Field
+
+By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependableFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
+
+```js
+// before 
+import { FormField, HandlesValidationErrors } from 'laravel-nova'
+
+export default {
+  mixins: [FormField, HandlesValidationErrors],
+
+  //
+}
+
+// After
+import { DependableFormField, HandlesValidationErrors } from 'laravel-nova'
+
+export default {
+  mixins: [DependableFormField, HandlesValidationErrors],
+
+  //
+}
+```
+
+Next, you may need to change `this.field` variable to `this.currentField` depending on whether the value should change or remain static. Refer to table below for further references:
+
+| Variable | Description
+|:---------|:---------
+| `this.field` | Refer to component props, and the static field value
+| `this.syncedField` | Refer to component data, only exists when field has changes
+| `this.currentField` | Refer to computed, will pick `this.syncedField` or fallback to `this.field`
+
 #### Hydrating The Model
 
 By default, when saving a model, your field class will simply copy the incoming form field value into the field's associated model attribute. However, you may customize how your field hydrates the resource model. To accomplish this, override the `fillAttributeFromRequest` method on your field class:

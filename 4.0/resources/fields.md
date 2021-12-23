@@ -1501,3 +1501,40 @@ Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
 }),
 ```
+
+### Filterable Field
+
+```php
+BelongsTo::make('User')->filterable(),
+```
+
+### Dependable Field
+
+The `dependsOn` method allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
+
+```php
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Select::make('Purchase Type', 'type')
+    ->options([
+        'personal' => 'Personal',
+        'gift' => 'Gift',
+    ]),
+
+// Receiver field should only be enabled only when Purchase Type has been set 
+// to "gift" and enable "required" and "email" validation rules.
+Text::make('Receiver')
+    ->readonly()
+    ->dependsOn(
+        ['type'], 
+        function (Text $field, NovaRequest $request, FormData $formData) {
+            if ($formData->type === 'gift') {
+                $field->readonly(false)
+                    ->rules(['required', 'email']);
+            }
+        }
+    ),
+```
