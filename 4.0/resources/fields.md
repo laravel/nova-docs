@@ -376,6 +376,8 @@ Boolean::make('Active')
 The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are then stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by providing a set of keys and labels for each option:
 
 ```php
+use Laravel\Nova\Fields\BooleanGroup;
+
 BooleanGroup::make('Permissions')->options([
     'create' => 'Create',
     'read' => 'Read',
@@ -500,6 +502,8 @@ The `Code` field's currently supported languages are:
 The `Color` field generate a color picker using HTML5 input element of type `color`:
 
 ```php
+use Laravel\Nova\Fields\Color;
+
 Color::make('Color', 'label_color'),
 ```
 
@@ -610,6 +614,8 @@ The `Heading` field does not correspond to any column in your application's data
 ![Heading Field](./img/heading-field.png)
 
 ```php
+use Laravel\Nova\Fields\Heading;
+
 Heading::make('Meta'),
 ```
 

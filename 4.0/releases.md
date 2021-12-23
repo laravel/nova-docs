@@ -53,11 +53,33 @@ Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of
 ```
 ### Filterable Fields
 
-// @TODO
+```php
+BelongsTo::make('User')->filterable(),
+```
 
 ### Dependable Fields
 
-// @TODO
+```php
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Select::make('Purchase Type', 'type')
+    ->options([
+        'personal' => 'Personal',
+        'gift' => 'Gift',
+    ]),
+
+Text::make('Receiver')
+    ->readonly()
+    ->dependsOn('type', function (Text $field, NovaRequest $request, FormData $formData) {
+        if ($formData->type === 'gift') {
+            $field->readonly(false)
+                    ->rules(['required', 'email']);
+        }
+    })
+```
 
 ### Replicating Resource
 
@@ -103,7 +125,7 @@ php artisan queue:batches-table
 php artisan migrate
 ```
 
-Next, Nova allows you to configure job batching completion callbacks by registering the callbacks from withBatch method:
+Next, Nova allows you to configure job batching completion callbacks by registering the callbacks from `withBatch` method:
 
 ```php
 use Illuminate\Bus\Batch;
