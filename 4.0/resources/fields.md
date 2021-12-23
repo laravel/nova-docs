@@ -1504,9 +1504,21 @@ Text::make('Name')->displayUsing(function ($name) {
 
 ### Filterable Field
 
+The `filterable` method allows you to create magic filter based on the given field on Resource, Related Resource and Lenses. This method by default is called without any parameters:
+
 ```php
 BelongsTo::make('User')->filterable(),
 ```
+
+You may also customised it to accept a callback to execute custom query such as:
+
+```php
+Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
+    $query->where($attribute, 'LIKE', "{$value}%");
+}),
+```
+
+The generated filter can either be a text search filter, select filter, number range filter or date range filter depending on the given field type.
 
 ### Dependable Field
 
@@ -1538,3 +1550,5 @@ Text::make('Receiver')
         }
     ),
 ```
+
+This feature compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependableFields` trait and `DependableFormField` Vue component mixin.

@@ -53,8 +53,18 @@ Nova.visit({ url: 'https://nova.laravel.com', remote: true }) // navigate out of
 ```
 ### Filterable Fields
 
+Nova 4 introduce `filterable` method and allows you to create magic filter based on the given field on Resource, Related Resource and Lenses. This method by default is called without any parameters:
+
 ```php
 BelongsTo::make('User')->filterable(),
+```
+
+You may also customised it to accept a callback to execute custom query such as:
+
+```php
+Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
+    $query->where($attribute, 'LIKE', "{$value}%");
+}),
 ```
 
 ### Dependable Fields
