@@ -96,8 +96,7 @@ public function boot()
 Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
 
 ```php
-const key = Nova.config.echo.key;
-const secret = Nova.config.echo.secret;
+const { key, secret } = Nova.config('echo');
 ```
 
 ### Localizations
