@@ -103,7 +103,7 @@ Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. T
 ```html
 <template>
     <default-field :field="field">
-        <template slot="field">
+        <template #field>
             <input :id="field.name" type="color"
                 class="w-full form-control form-input form-input-bordered"
                 :class="errorClasses"
