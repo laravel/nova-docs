@@ -147,7 +147,7 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Vue.component('PriceTrackerLogo', require('./components/Logo').default)
+  Vue.component('PriceTrackerHeader', require('./components/Header').default)
 })
 ```
 
@@ -171,9 +171,14 @@ npm run watch
 
 #### Vue Page Components & Nova Plugins
 
-Vue page components contained by your tool have access to all of the plugins registered by Nova, including `vue-meta`, `portal-vue`, and `v-tooltip`. For example, your tool's `resources/js/components/Tool.vue` stub will contain a default page title which is managed by the `vue-meta` plugin:
+Vue page components contained by your tool have access to all of the components and plugins registered by Nova, including `v-tooltip`. For example, your tool's `resources/js/pages/Tool.vue` stub will contain a default page title which is managed by the Inertia.js `Head` component:
 
 ```js
+<template>
+  <div>
+    <Head title="PriceTracker" />
+  </div>
+</template>
 export default {
   metaInfo() {
     return {

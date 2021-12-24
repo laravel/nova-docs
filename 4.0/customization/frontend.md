@@ -18,7 +18,7 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 
 ### Event Bus
 
-The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by Vue](https://vuejs.org/v2/api/#Instance-Methods-Events):
+The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
 
 ```js
 Nova.$on(event, callback)
@@ -29,11 +29,11 @@ Nova.$emit(event, [...args])
 
 ### Notifications
 
-Nova's Vue configuration automatically registers the [Vue toasted plugin](https://github.com/shakee93/vue-toasted). So, within your custom components, you may leverage the `this.$toasted` object to display simple notifications:
+Nova configuration automatically registers the [toasted plugin](https://github.com/shakee93/toastedjs). So, within your custom components, you may leverage the `Nova.$toasted` object to display simple notifications:
 
 ```js
-this.$toasted.show('It worked!', { type: 'success' })
-this.$toasted.show('It failed!', { type: 'error' })
+Nova.$toasted.show('It worked!', { type: 'success' })
+Nova.$toasted.show('It failed!', { type: 'error' })
 ```
 
 ### Shortcuts
