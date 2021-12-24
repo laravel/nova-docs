@@ -239,6 +239,38 @@ class UserObserver
 }
 ```
 
+### Resource After Events
+
+Laravel Nova also includes following static methods and only executed from within Laravel Nova:
+
+* `afterCreate`
+* `afterUpdate`
+* `afterDelete`
+* `afterForceDelete`
+
+For example, you may want to send email verification notification after a user has been created from Nova:
+
+```php
+use App\Models\User;
+use App\Nova\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
+{
+    /**
+     * Register a callback to be called after the resource is created.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public static function afterCreate(NovaRequest $request, Model $model)
+    {
+        $model->sendEmailVerificationNotification();
+    }
+}
+```
 
 ## Preventing Conflicts
 
@@ -360,7 +392,7 @@ You may customize where a user is redirected after creating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return string
+     * @return \Laravel\Nova\URL|string
      */
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
@@ -378,7 +410,7 @@ You may customize where a user is redirected after updating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return string
+     * @return \Laravel\Nova\URL|string
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
@@ -395,7 +427,7 @@ You may customize where a user is redirected after deleting a resource using by 
      * Return the location to redirect the user after deletion.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return string|null
+     * @return \Laravel\Nova\URL|string|null
      */
     public static function redirectAfterDelete(NovaRequest $request)
     {

@@ -20,7 +20,6 @@ use Laravel\Nova\Fields\Text;
  */
 public function fields(NovaRequest $request)
 {
-{
     return [
         ID::make()->sortable(),
         Text::make('Name')->sortable(),
@@ -46,6 +45,7 @@ The following methods may be used to show / hide fields based on the display con
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
+- `showOnPreview`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -87,6 +87,16 @@ Text::make('Name')->hideFromIndex(function () {
     return $this->name === 'Taylor Otwell';
 }),
 ```
+
+### Preview Modal
+
+On the resource index, you can also set fields available for preview by adding `showOnPreview` method such as following:
+
+```php
+Text::make('Name')->showOnPreview(),
+```
+
+// @SCREENSHOT
 
 ## Dynamic Field Methods
 
@@ -143,7 +153,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the resource creation view:
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields only on the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -250,6 +260,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Boolean](#boolean-field)
 - [Boolean Group](#boolean-group-field)
 - [Code](#code-field)
+- [Color](#color-field)
 - [Country](#country-field)
 - [Currency](#currency-field)
 - [Date](#date-field)
@@ -261,6 +272,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Image](#image-field)
 - [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
+- [MultiSelect](#multiselect-field)
 - [Number](#number-field)
 - [Password](#password-field)
 - [Place](#place-field)
@@ -272,6 +284,9 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [URL](#url-field)
+- [Vapor File](#vapor-file-field)
+- [Vapor Image](#vapor-image-field)
 
 ### Avatar Field
 
@@ -361,6 +376,8 @@ Boolean::make('Active')
 The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are then stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by providing a set of keys and labels for each option:
 
 ```php
+use Laravel\Nova\Fields\BooleanGroup;
+
 BooleanGroup::make('Permissions')->options([
     'create' => 'Create',
     'read' => 'Read',
@@ -480,6 +497,16 @@ The `Code` field's currently supported languages are:
 - `yaml-frontmatter`
 - `vim`
 
+### Color Field
+
+The `Color` field generate a color picker using HTML5 input element of type `color`:
+
+```php
+use Laravel\Nova\Fields\Color;
+
+Color::make('Color', 'label_color'),
+```
+
 ### Country Field
 
 The `Country` field generates a `Select` field containing a list of the world's countries. The field will store the country's two-letter code:
@@ -587,6 +614,8 @@ The `Heading` field does not correspond to any column in your application's data
 ![Heading Field](./img/heading-field.png)
 
 ```php
+use Laravel\Nova\Fields\Heading;
+
 Heading::make('Meta'),
 ```
 
@@ -727,6 +756,41 @@ By default, Markdown fields will not display their content when viewing a resour
 
 ```php
 Markdown::make('Biography')->alwaysShow(),
+```
+
+### MultiSelect Field
+
+The `MultiSelect` field provides `Select` field with multiple options. The field work best with model attribute casts as `array`:
+
+```php
+use Laravel\Nova\Fields\MultiSelect;
+
+MultiSelect::make('Sizes')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+]),
+``` 
+
+On the resource index and detail screens, the `MultiSelect` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
+
+```php
+MultiSelect::make('Size')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels(),
+```
+
+You may also display multi-select options in groups:
+
+```php
+MultiSelect::make('Sizes')->options([
+    'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+    'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
+    'WS' => ['label' => 'Small', 'group' => 'Women Sizes'],
+    'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
+])->displayUsingLabels(),
 ```
 
 ### Number Field
@@ -1214,6 +1278,14 @@ $schedule->call(function () {
 })->daily(),
 ```
 
+### URL Field
+
+The `URL` field extends [Text field](#text-field) specifically for handling URL text field:
+
+```php
+URL::make('GitHub URL'),
+```
+
 ### Vapor File Field
 
 Vapor file fields provide convenience and compatibility for uploading files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com):
@@ -1429,3 +1501,54 @@ Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
 }),
 ```
+
+### Filterable Field
+
+The `filterable` method allows you to create magic filter based on the given field on Resource, Related Resource and Lenses. This method by default is called without any parameters:
+
+```php
+BelongsTo::make('User')->filterable(),
+```
+
+You may also customised it to accept a callback to execute custom query such as:
+
+```php
+Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
+    $query->where($attribute, 'LIKE', "{$value}%");
+}),
+```
+
+The generated filter can either be a text search filter, select filter, number range filter or date range filter depending on the given field type.
+
+### Dependable Field
+
+The `dependsOn` method allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
+
+```php
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Select::make('Purchase Type', 'type')
+    ->options([
+        'personal' => 'Personal',
+        'gift' => 'Gift',
+    ]),
+
+// Receiver field should only be enabled only when Purchase Type has been set 
+// to "gift" and enable "required" and "email" validation rules.
+Text::make('Receiver')
+    ->readonly()
+    ->dependsOn(
+        ['type'], 
+        function (Text $field, NovaRequest $request, FormData $formData) {
+            if ($formData->type === 'gift') {
+                $field->readonly(false)
+                    ->rules(['required', 'email']);
+            }
+        }
+    ),
+```
+
+This feature compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependableFields` trait and `DependableFormField` Vue component mixin.

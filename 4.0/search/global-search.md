@@ -11,26 +11,6 @@ Nova not only allows you to search within specific resources and relationships, 
 You can focus the global search input by pressing `/` (forward slash) on your keyboard. Pressing `ESC` (escape key) will also close the global search input.
 :::
 
-### Searchable Columns
-
-To define which resource fields are searchable, you may assign an array of database columns in the `search` property of your resource class. This includes `id` column by default, but you may override it to your needs:
-
-```php
-/**
- * The columns that should be searched.
- *
- * @var array
- */
-public static $search = [
-    'title', 'author'
-];
-```
-
-:::warning Scout Integration
-
-If you are using Nova's Scout integration, the `$search` column has no effect on your search results and may be ignored. You should manage the searchable columns in the Algolia dashboard.
-:::
-
 ### Title / Subtitle Attributes
 
 When a resource is shown within the search results, the results will display the "title" of the resource. For example, a `User` resource may use the `name` attribute as its title. Then, when the resource is shown within the global search results, that attribute will be displayed.

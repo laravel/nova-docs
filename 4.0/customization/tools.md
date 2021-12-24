@@ -68,9 +68,25 @@ public function tools()
 
 ### Routing
 
-Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/api.php` routes file. If needed, you may use this file to define any routes your tool requires.
+Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/inertia.php` and `routes/api.php` routes file. If needed, you may use these files to define any routes your tool requires.
 
-All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive `nova/tool-name` prefix and all API routes using Axios should receive `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova/price-tracker`. 
+
+```js
+// resources/js/tool.js
+Nova.booting((Vue, store) => {
+  Nova.inertia('PriceTracker', require('./components/Logo').default)
+})
+```
+
+```php
+// routes/inertia.php
+Route::get('/', function ($request) {
+    return inertia('PriceTracker');
+});
+```
+
+You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
 #### Routing Authorization
 
@@ -78,17 +94,22 @@ Your Nova tool is generated with an `Authorize` middleware. This middleware auto
 
 ### Navigation
 
-Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. Of course, a default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:
+Your Nova tool class contains a `menu` method. This method should return a custom menu that renders your tool's sidebar links. You are free to customize this method as needed:
 
 ```php
+use Laravel\Nova\Menu\MenuSection;
+
 /**
- * Build the view that renders the navigation links for the tool.
+ * Build the menu that renders the navigation links for the tool.
  *
- * @return \Illuminate\View\View
+ * @param  \Illuminate\Http\Request  $request
+ * @return mixed
  */
-public function renderNavigation()
+public function menu(Request $request)
 {
-    return view('price-tracker::navigation');
+    return MenuSection::make('Price Tracker')
+        ->path('/price-tracker')
+        ->icon('server');
 }
 ```
 
@@ -96,7 +117,7 @@ public function renderNavigation()
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `lodash` libraries are globally available.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`. In addition, `lodash` library is globally available.
 
 #### Registering Assets
 
@@ -120,10 +141,15 @@ public function boot()
 }
 ```
 
-:::tip JavaScript Bootstrap & Routing
+#### JavaScript Bootstrap & Components
 
-Your component is bootstrapped and front-end routes are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
-:::
+Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
+
+```js
+Nova.booting((Vue, store) => {
+  Vue.component('PriceTrackerLogo', require('./components/Logo').default)
+})
+```
 
 #### Compiling Assets
 

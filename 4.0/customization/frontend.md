@@ -87,7 +87,7 @@ public function boot()
 {
     Nova::serving(function (ServingNova $event) {
         Nova::provideToScript([
-            'user' => $event->request->user()->toArray(),
+            'echo' => Arr::only(config('broadcasting.connections.pusher'), ['driver', 'key', 'secret']),
         ]);
     });
 }
@@ -96,7 +96,8 @@ public function boot()
 Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
 
 ```php
-const name = Nova.config.user.name;
+const key = Nova.config.echo.key;
+const secret = Nova.config.echo.secret;
 ```
 
 ### Localizations
@@ -121,4 +122,4 @@ Please note, compiling Nova's assets for production purposes is not supported.
 
 ### Other Available Libraries
 
-In addition to Axios, the [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.
+The [Lodash](https://lodash.com/) library are globally available to your custom components.

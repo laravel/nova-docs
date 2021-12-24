@@ -2,7 +2,7 @@ module.exports = [
   {
     title: "Getting Started",
     collapsable: false,
-    children: ["installation", "support", "code-of-conduct"],
+    children: ["installation", "upgrade", "releases", "support", "code-of-conduct"],
   },
   {
     title: "Resources",
@@ -20,7 +20,11 @@ module.exports = [
   {
     title: "Search",
     collapsable: false,
-    children: prefix("search", ["global-search", "scout-integration"]),
+    children: prefix("search", [
+      "",
+      "global-search",
+      "scout-integration",
+    ]),
   },
   {
     title: "Filters",

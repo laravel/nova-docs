@@ -16,10 +16,20 @@ use Laravel\Nova\Fields\HasOne;
 HasOne::make('Address'),
 ```
 
-Like other types of fields, relationship fields will automatically "snake case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
+Like other types of fields, relationship fields will automatically "camel case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
 
 ```php
 HasOne::make('Dirección', 'address'),
+```
+
+### HasOne of Many
+
+The `HasOne` field can also corresponds to a "Has One Of Many" Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\HasOne;
+
+HasOne::ofMany('Latest Posts', 'latestPost', 'App\Nova\Post'),
 ```
 
 ## HasMany
@@ -319,6 +329,16 @@ The `MorphOne` field corresponds to a `morphOne` Eloquent relationship. For exam
 use Laravel\Nova\Fields\MorphOne;
 
 MorphOne::make('Image'),
+```
+
+### MorphOne of Many
+
+The `MorphOne` field can also corresponds to a "Morph One of Many" Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\MorphOne;
+
+MorphOne::ofMany('Comments', 'latestComments', 'App\Nova\Comment'),
 ```
 
 ## MorphMany

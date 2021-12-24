@@ -165,6 +165,19 @@ Text::make('Subject')->default(function ($request) {
 }),
 ```
 
+## Preventing Accidental Action Form Abandonment
+
+When running action with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your actions by setting the `preventFormAbandonment` property to `true`:
+
+```php
+/**
+ * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
+ *
+ * @var bool
+ */
+public $preventFormAbandonment = false;
+```
+
 ## Action Titles
 
 If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
@@ -263,6 +276,14 @@ class EmailAccountProfile extends Action implements ShouldQueue
     // ...
 }
 ```
+
+:::tip Generating Queued Action via Artisan
+Above example can be created using Artisan using:
+
+```bash
+php artisan nova:action EmailAccountProfile --queued
+```
+:::
 
 When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
 
