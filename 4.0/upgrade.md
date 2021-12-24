@@ -283,3 +283,13 @@ Nova 4 has introduce shorter key-value map which reduces the length of encoded f
 // AFter
 (new ConsolidateTransaction())->showInline(),
 ```
+
+### Changes to Authorization
+
+Nova 4 introduce following authorization breaking changes:
+
+* `view` policy no longer depends on `viewAny` policy.
+* Action can be executed regardless of `view` and `viewAny` policy.
+* Destructive Action now will use `canRun` method before checking on model policy.
+
+Further detail regarding authorization availables on the [policy documentation](./resources/authorization.html#policies).
