@@ -175,18 +175,26 @@ Vue page components contained by your tool have access to all of the components 
 
 ```js
 <template>
-  <div>
-    <Head title="PriceTracker" />
-  </div>
+  <Head title="PriceTracker" />
 </template>
-export default {
-  metaInfo() {
-    return {
-      title: 'PriceTracker',
-    }
-  }
-}
 ```
+
+#### Persistent Layout
+
+To use Inertia.js persistent layout on a page component, you can set the following value on each page:
+
+```js
+export default {
+  novaLayout: 'AppLayout'
+},
+```
+
+::: tip Available Layouts
+Nova provides 2 layouts; 
+
+- `AppLayout`
+- `Guest` 
+:::
 
 ### Sidebar Icons
 
