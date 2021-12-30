@@ -124,13 +124,21 @@ Nova 4 introduce a detail preview feature on resource index to allows users see 
 Text::make('Name')->showOnPreview(),
 ```
 
-### Custom Main & User Menu
+### Custom User Menu
 
-// @TODO
+Nova 4 now allows full customization on the User Menu. For example, you can create a link to own resource detail by adding the following to `boot` method on `App\Providers\NovaServiceProvider`:
 
-### Nova Notification
+```php
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Nova;
 
-// @TODO
+Nova::userMenu(function (Request $request) {
+    return [
+        MenuItem::make('My Account')->path('/resources/users/'.$request->user()->id),
+    ];
+});
+```
 
 ### Batchable Queued Actions
 
