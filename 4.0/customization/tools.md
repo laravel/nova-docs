@@ -179,13 +179,6 @@ Vue page components contained by your tool have access to all of the components 
 </template>
 ```
 
-::: tip Available Layouts
-Nova provides 2 layouts; 
-
-- `AppLayout`
-- `Guest` 
-:::
-
 ### Sidebar Icons
 
 Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.
