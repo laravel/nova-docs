@@ -160,8 +160,17 @@ public function actions(NovaRequest $request)
             if ($request instanceof ActionRequest) {
                 return true;  
             }
+            
+            if ($this->resource instanceof Model) {
+                return $this->resource->isOnTrial();
+            } elseif (! $request->allResourcesSelected()) {
+                return $request->selectedResources()
+                            ->filter(function ($resource) {
+                                return $resource->isOnTrial();
+                            })->count() === $request->selectedResources()->count();
+            }
 
-            return $this->resource instanceof Model && $this->resource->isOnTrial();
+            return false;
         }),
     ];
 }
