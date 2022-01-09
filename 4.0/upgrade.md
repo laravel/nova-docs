@@ -8,8 +8,19 @@
 
 Nova has a few requirements changes you should be aware of before upgrading:
 
-- PHP 7.3+
-- Laravel Framework 8.0+
+### Backend
+
+* PHP 7.3+
+* Laravel Framework 8.0+
+* Changed `doctrine/dbal` version supports from `^2.9` to `^2.13.3|^3.1.2`
+* Changed `laravel/ui` version supports from `^2.0|^3.0` to `^3.3`
+* Changed `symfony` packages version supports from `^5.0` to `^5.1.4`
+* Removed `cakephp/chronos` and `moontoast/math` dependencies
+
+#### Frontend
+
+* Changed Laravel Mix version supports from `v1` to `v6`
+* Removed `flatpickr` and `moment.js`
 
 ### Updating Composer Dependencies
 
@@ -19,12 +30,13 @@ Update `laravel/nova` dependencies in your `composer.json` file:
 "laravel/nova": "^4.0",
 ```
 
-Nova 4 also introduce dependency requirement changes that may impact your application if you also requires it, the details are as per following:
+Next, you need to create Main dashboard and replace configuration, language and views by running the following:
 
-* Changed `doctrine/dbal` version supports from `^2.9` to `^2.13.3|^3.1.2`
-* Changed `laravel/ui` version supports from `^2.0|^3.0` to `^3.3`
-* Changed `symfony` packages version supports from `^5.0` to `^5.1.4`
-* Removed `cakephp/chronos` and `moontoast/math` dependencies
+```bash
+php artisan nova:dashboard Main
+php artisan nova:publish --force
+php artisan view:clear
+```
 
 ### `$request` parameter type-hint
 
