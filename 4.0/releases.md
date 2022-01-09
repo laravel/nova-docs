@@ -259,3 +259,4 @@ $request->user()->notify(
         ->message('Document ready for download')
         ->url(URL::signedRoute('download-file', ['file' => $file]))
 );
+```
