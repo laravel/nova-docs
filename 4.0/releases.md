@@ -31,6 +31,10 @@ Nova::router()
     });
 ```
 
+::: tip Routing Helper
+The `Nova::router()` helper will automatically configures `nova.domain`, `nova.path` and `nova.middleware` to the registered route group.
+:::
+
 #### Navigation Helpers
 
 With the introduction of Inertia.js, Nova 4 also now offer a new `Laravel\Nova\URL` class to handle creating relative and remote URL to be use between backend and frontend: 
