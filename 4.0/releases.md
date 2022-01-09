@@ -245,3 +245,17 @@ Progress metrics may be generated using the `nova:progress` Artisan command. By 
 ```bash
 php artisan nova:progress ActiveUsers
 ```
+
+### Nova Notification
+
+Nova 4 also introduce a new Notification Panel which implements Laravel Notification implementing `Laravel\Nova\Notifications\NovaChannel`. You can create custom notification using the following code:
+
+```php
+use Illuminate\Support\Facades\URL;
+use Laravel\Nova\Notifications\NovaNotification;
+
+$request->user()->notify(
+    NovaNotification::make()
+        ->message('Document ready for download')
+        ->url(URL::signedRoute('download-file', ['file' => $file]))
+);
