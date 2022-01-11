@@ -24,10 +24,10 @@ If you are using Nova's Scout integration, the `$search` column has no effect on
 
 ## FullText
 
-Aside from current resource attributes, you may also search using `FULLTEXT` index on Postgres and MySQL. This can be done by using `Laravel\Nova\Query\Searching\FullText`:
+Aside from current resource attributes, you may also search using `FULLTEXT` index on Postgres and MySQL. This can be done by using `Laravel\Nova\Query\Search\FullText`:
 
 ```php
-use Laravel\Nova\Query\Searching\FullText;
+use Laravel\Nova\Query\Search\FullText;
 
 /**
  * Get the searchable columns for the resource.
@@ -42,10 +42,10 @@ public static function searchableColumns()
 
 ## Search Relations
 
-You may also search relation by using `Laravel\Nova\Query\Searching\Relation`, for example the below code would search `name` on `author` relation for the resource:
+You may also search relation by using `Laravel\Nova\Query\Search\Relation`, for example the below code would search `name` on `author` relation for the resource:
 
 ```php
-use Laravel\Nova\Query\Searching\Relation;
+use Laravel\Nova\Query\Search\Relation;
 
 /**
  * Get the searchable columns for the resource.
@@ -73,10 +73,10 @@ public static $search = [
 
 ### MorphTo Relationship
 
-MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Query\Searching\MorphRelation`:
+MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Query\Search\MorphRelation`:
 
 ```php
-use Laravel\Nova\Query\Searching\MorphRelation;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -91,10 +91,10 @@ public static function searchableColumns()
 
 ## Search JSON paths
 
-You may also search JSON path using `Laravel\Nova\Query\Searching\JsonSelector`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
+You may also search JSON path using `Laravel\Nova\Query\Search\JsonSelector`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
 
 ```php
-use Laravel\Nova\Query\Searching\JsonSelector;
+use Laravel\Nova\Query\Search\JsonSelector;
 
 /**
  * Get the searchable columns for the resource.

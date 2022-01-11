@@ -189,11 +189,11 @@ Nova 4 now includes support to natively allows searching columns as well as rela
 ```php
 use CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Query\Searching\Column;
-use Laravel\Nova\Query\Searching\FullText;
-use Laravel\Nova\Query\Searching\JsonSelector;
-use Laravel\Nova\Query\Searching\PrimaryKey;
-use Laravel\Nova\Query\Searching\MorphRelation;
+use Laravel\Nova\Query\Search\Column;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\JsonSelector;
+use Laravel\Nova\Query\Search\PrimaryKey;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -233,8 +233,8 @@ This also can be simplify with:
 ```php
 use CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
-use Laravel\Nova\Query\Searching\FullText;
-use Laravel\Nova\Query\Searching\MorphRelation;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
