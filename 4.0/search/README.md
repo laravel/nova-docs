@@ -22,9 +22,43 @@ public static $search = [
 If you are using Nova's Scout integration, the `$search` column has no effect on your search results and may be ignored. You should manage the searchable columns in the Algolia dashboard.
 :::
 
+## FullText
+
+Aside from current resource attributes, you may also search using `FULLTEXT` index on Postgres and MySQL. This can be done by using `Laravel\Nova\Query\Search\FullText`:
+
+```php
+use Laravel\Nova\Query\Search\FullText;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return ['id', new FullText('title')];
+}
+```
+
 ## Search Relations
 
-Aside from current resource attributes, you may also search relation by using `{relation}.{attribute}` notation, for example the below code would search `name` on `author` relation for the resource:
+You may also search relation by using `Laravel\Nova\Query\Search\Relation`, for example the below code would search `name` on `author` relation for the resource:
+
+```php
+use Laravel\Nova\Query\Search\Relation;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return ['id', new Relation('author', 'name')];
+}
+```
+
+Alternatively you can also use `{relation}.{attribute}` notation:
 
 ```php
 /**
@@ -39,10 +73,10 @@ public static $search = [
 
 ### MorphTo Relationship
 
-MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Searching\MorphToSearch`:
+MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Query\Search\MorphRelation`:
 
 ```php
-use Laravel\Nova\Searching\MorphToSearch;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -51,13 +85,29 @@ use Laravel\Nova\Searching\MorphToSearch;
  */
 public static function searchableColumns()
 {
-    return ['id', new MorphToSearch('commentable', 'title', ['App\Nova\Post'])];
+    return ['id', new MorphRelation('commentable', 'title', ['App\Nova\Post'])];
 }
 ```
 
 ## Search JSON paths
 
-You can also search JSON path by using `{attribute}->{path}`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
+You may also search JSON path using `Laravel\Nova\Query\Search\JsonSelector`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
+
+```php
+use Laravel\Nova\Query\Search\JsonSelector;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return ['id', new JsonSelector('meta->address->postcode')];
+}
+```
+
+Alternatively you can also use `{attribute}->{path}` notation:
 
 ```php
 /**

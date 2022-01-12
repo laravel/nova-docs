@@ -187,7 +187,54 @@ To learn more about Batchable Queued Actions, please consult [the documentation]
 Nova 4 now includes support to natively allows searching columns as well as relations and JSON path: 
 
 ```php
-use Laravel\Nova\Searching\MorphToSearch;
+use CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Query\Search\Column;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\JsonSelector;
+use Laravel\Nova\Query\Search\PrimaryKey;
+use Laravel\Nova\Query\Search\MorphRelation;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return [
+        new PrimaryKey('id'), 
+        new Column('slug'),
+        new FullText('title'),
+        new Relation('author', 'name'),
+        new MorphRelation('commentable', 'title', ['App\Nova\Post']),
+        new JsonSelector('meta->address->postcode'),
+        function (Builder $query, string $search) {
+            $date = rescue(function () {
+                return CarbonImmutable::parse($search);
+            }, null, false);
+
+            if (! is_null($date) {
+                $query->orWhereBetween($query->qualifyColumn('created_at'), [
+                    $date->startOfDay(),
+                    $date->endOfDay(),
+                ]);
+            }
+
+            return $query;
+        },
+    ];
+}
+```
+
+This also can be simplify with:
+
+
+```php
+use CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -198,9 +245,25 @@ public static function searchableColumns()
 {
     return [
         'id', 
+        'slug',
+        new FullText('title'),
         'author.name',
-        new MorphToSearch('commentable', 'title', ['App\Nova\Post']),
+        new MorphRelation('commentable', 'title', ['App\Nova\Post']),
         'meta->address->postcode',
+        function (Builder $query, string $search) {
+            $date = rescue(function () {
+                return CarbonImmutable::parse($search);
+            }, null, false);
+
+            if (! is_null($date) {
+                $query->orWhereBetween($query->qualifyColumn('created_at'), [
+                    $date->startOfDay(),
+                    $date->endOfDay(),
+                ]);
+            }
+
+            return $query;
+        },
     ];
 }
 ```
