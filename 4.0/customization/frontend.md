@@ -8,7 +8,7 @@ When building custom Nova tools, resource tools, cards, and fields, you may use 
 
 #### Nova Requests
 
-You may use the `Nova.request()` method to make XHR request using `axios` API. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level server errors:
+You may use the `Nova.request()` method to make XHR request using the [Axios](https://github.com/axios/axios) API. This method configures its own instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level HTTP server responses:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
@@ -87,7 +87,7 @@ public function boot()
 {
     Nova::serving(function (ServingNova $event) {
         Nova::provideToScript([
-            'echo' => Arr::only(config('broadcasting.connections.pusher'), ['driver', 'key', 'secret']),
+            'mail_driver' => config('mail.default'),
         ]);
     });
 }
@@ -96,8 +96,7 @@ public function boot()
 Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
 
 ```php
-const key = Nova.config.echo.key;
-const secret = Nova.config.echo.secret;
+const driver = Nova.config.mail_driver;
 ```
 
 ### Localizations
@@ -122,4 +121,4 @@ Please note, compiling Nova's assets for production purposes is not supported.
 
 ### Other Available Libraries
 
-The [Lodash](https://lodash.com/) library are globally available to your custom components.
+The [Lodash](https://lodash.com/) library is globally available to your custom components.
