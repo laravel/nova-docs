@@ -30,12 +30,10 @@ Update `laravel/nova` dependencies in your `composer.json` file:
 "laravel/nova": "^4.0",
 ```
 
-Next, you need to create Main dashboard and replace configuration, language and views by running the following:
+Next, you need to create Main dashboard and replace configuration, language and views which is simplified using the following command:
 
 ```bash
-php artisan nova:dashboard Main
-php artisan nova:publish --force
-php artisan view:clear
+php artisan nova:upgrade
 ```
 
 ### `$request` parameter type-hint
