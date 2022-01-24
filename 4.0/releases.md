@@ -104,7 +104,7 @@ Text::make('Receiver')
 
 ### Replicating Resource
 
-Nova 4 introduce the ability to replicate a resource and this is enable by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
+Nova 4 introduce the ability to replicate a resource and this is enabled by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
 
 ```php
 /**
