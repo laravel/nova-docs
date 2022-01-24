@@ -2,9 +2,7 @@
 
 [[toc]]
 
-## High Impact Changes
-
-### Requirements
+## Requirements
 
 Nova has a few requirements changes you should be aware of before upgrading:
 
@@ -17,7 +15,7 @@ Nova has a few requirements changes you should be aware of before upgrading:
 * Changed `symfony` packages version supports from `^5.0` to `^5.1.4`
 * Removed `cakephp/chronos` and `moontoast/math` dependencies
 
-#### Frontend
+### Frontend
 
 * Changed Laravel Mix version supports from `v1` to `v6`
 * Removed `flatpickr` and `moment.js`
@@ -35,6 +33,10 @@ Next, you need to create Main dashboard and replace configuration, language and 
 ```bash
 php artisan nova:upgrade
 ```
+
+Next, you should reviews the following changes and adjust your Nova application based on the suggestions.
+
+## High Impact Changes
 
 ### `$request` parameter type-hint
 
