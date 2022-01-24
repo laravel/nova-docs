@@ -22,14 +22,14 @@ Like other types of fields, relationship fields will automatically "camel case" 
 HasOne::make('Dirección', 'address'),
 ```
 
-### HasOne of Many
+### HasOneOfMany
 
-The `HasOne` field can also corresponds to a "Has One Of Many" Eloquent relationship. For example, let's assume a `User` model `hasMany` `Post` models. We may add the relationship to our `User` Nova resource like so:
+The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `User` model `hasMany` `Post` models. We may add the "has one of many" relationship to our `User` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\HasOne;
 
-HasOne::ofMany('Latest Posts', 'latestPost', 'App\Nova\Post'),
+HasOne::ofMany('Latest Post', 'latestPost', 'App\Nova\Post'),
 ```
 
 ## HasMany
@@ -331,14 +331,16 @@ use Laravel\Nova\Fields\MorphOne;
 MorphOne::make('Image'),
 ```
 
-### MorphOne of Many
+### MorphOneOfMany
 
-The `MorphOne` field can also corresponds to a "Morph One of Many" Eloquent relationship. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method.
+
+The `MorphOne` relationship field can be transformed into a "morph one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
 
 ```php
 use Laravel\Nova\Fields\MorphOne;
 
-MorphOne::ofMany('Comments', 'latestComments', 'App\Nova\Comment'),
+MorphOne::ofMany('Latest Comment', 'latestComment', 'App\Nova\Comment'),
 ```
 
 ## MorphMany
