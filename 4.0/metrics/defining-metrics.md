@@ -608,7 +608,7 @@ class ActiveUsers extends Progress
 
 ### Progress Query Types
 
-Progress metrics don't just ship with a `coun`t helper. You may also use following aggregate functions when building your metric.
+Progress metrics don't just ship with a `count` helper. You may also use following aggregate functions when building your metric.
 
 #### Sum
 
