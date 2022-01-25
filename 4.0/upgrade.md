@@ -4,7 +4,7 @@
 
 ## Dependency Upgrades
 
-Nova's dependencies have been upgraded. You will find a complete list of our dependency upgrades below:
+Nova's upstream dependencies have been upgraded. You will find a complete list of our dependency upgrades below:
 
 #### Server
 
