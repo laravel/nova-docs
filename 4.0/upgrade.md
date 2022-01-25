@@ -12,7 +12,7 @@ Nova's dependencies have been upgraded. You will find a complete list of our dep
 * Laravel Framework 8.0+
 * Updated `doctrine/dbal` from `^2.9` to `^2.13.3|^3.1.2`
 * Updated `laravel/ui` from `^2.0|^3.0` to `^3.3`
-* Updated `symfony/*` from `^5.0` to `^5.1.4`
+* Updated `symfony/*` from `^5.0` to `^5.4|^6.0
 * Updated `cakephp/chronos` and `moontoast/math` dependencies
 
 #### Client
