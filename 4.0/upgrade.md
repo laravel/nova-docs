@@ -137,7 +137,7 @@ Nova 4 removes the ability to rely on the client machine time in order to displa
 
 Please refer to our documentation regarding [timezone customization](./resources/date-fields.html#customizing-the-timezone) for more information.
 
-### `Date` and `DateTime` Fields & HTML5
+### `Date` / `DateTime` Fields & HTML5
 
 Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local" />` elements to render the `Date` and `DateTime` fields. Therefore, the following methods have been removed from Nova 4:
 
