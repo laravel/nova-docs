@@ -139,43 +139,6 @@ public function actions(NovaRequest $request)
 It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, you should check for the existence of the model instead of assuming one is available.
 :::
 
-## Authorizing Actions Per-Resource
-
-Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this, you can retrieve the resource via the `resource` property on a resource or lens instance:
-
-```php
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Http\Requests\ActionRequest;
-
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(NovaRequest $request)
-{
-    return [
-        (new Actions\CancelTrial)->canSee(function ($request) {
-            if ($request instanceof ActionRequest) {
-                return true;  
-            }
-            
-            if ($this->resource instanceof Model) {
-                return $this->resource->isOnTrial();
-            } elseif (! $request->allResourcesSelected()) {
-                return $request->selectedResources()
-                            ->filter(function ($resource) {
-                                return $resource->isOnTrial();
-                            })->count() === $request->selectedResources()->count();
-            }
-
-            return false;
-        }),
-    ];
-}
-```
-
 #### The `canRun` Method
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
