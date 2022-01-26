@@ -118,7 +118,3 @@ php artisan nova:publish
 ```
 
 Please note, compiling Nova's assets for production purposes is not supported.
-
-### Other Available Libraries
-
-The [Lodash](https://lodash.com/) library are globally available to your custom components.
