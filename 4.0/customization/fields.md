@@ -132,9 +132,9 @@ fill(formData) {
 }
 ```
 
-#### Dependable Form Field
+#### Dependent Form Field
 
-By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependableFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
+By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependentFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
 
 ```js
 // before 
@@ -147,10 +147,10 @@ export default {
 }
 
 // After
-import { DependableFormField, HandlesValidationErrors } from 'laravel-nova'
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
-  mixins: [DependableFormField, HandlesValidationErrors],
+  mixins: [DependentFormField, HandlesValidationErrors],
 
   //
 }
