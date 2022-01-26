@@ -104,7 +104,7 @@ Text::make('Receiver')
 
 ### Replicating Resource
 
-Nova 4 introduce the ability to replicate a resource and this is enable by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
+Nova 4 introduce the ability to replicate a resource and this is enabled by default now as long as the user has `create` and `update` ability enabled. You can also create custom authorization specifically for replication by adding `replicate` method to the resource Model Policy class. For example, if you want to disable replicating User resource you can add the following to `UserPolicy`:
 
 ```php
 /**
@@ -187,7 +187,54 @@ To learn more about Batchable Queued Actions, please consult [the documentation]
 Nova 4 now includes support to natively allows searching columns as well as relations and JSON path: 
 
 ```php
-use Laravel\Nova\Searching\MorphToSearch;
+use CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Query\Search\Column;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\JsonSelector;
+use Laravel\Nova\Query\Search\PrimaryKey;
+use Laravel\Nova\Query\Search\MorphRelation;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return [
+        new PrimaryKey('id'), 
+        new Column('slug'),
+        new FullText('title'),
+        new Relation('author', 'name'),
+        new MorphRelation('commentable', 'title', ['App\Nova\Post']),
+        new JsonSelector('meta->address->postcode'),
+        function (Builder $query, string $search) {
+            $date = rescue(function () {
+                return CarbonImmutable::parse($search);
+            }, null, false);
+
+            if (! is_null($date) {
+                $query->orWhereBetween($query->qualifyColumn('created_at'), [
+                    $date->startOfDay(),
+                    $date->endOfDay(),
+                ]);
+            }
+
+            return $query;
+        },
+    ];
+}
+```
+
+This also can be simplify with:
+
+
+```php
+use CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -198,9 +245,25 @@ public static function searchableColumns()
 {
     return [
         'id', 
+        'slug',
+        new FullText('title'),
         'author.name',
-        new MorphToSearch('commentable', 'title', ['App\Nova\Post']),
+        new MorphRelation('commentable', 'title', ['App\Nova\Post']),
         'meta->address->postcode',
+        function (Builder $query, string $search) {
+            $date = rescue(function () {
+                return CarbonImmutable::parse($search);
+            }, null, false);
+
+            if (! is_null($date) {
+                $query->orWhereBetween($query->qualifyColumn('created_at'), [
+                    $date->startOfDay(),
+                    $date->endOfDay(),
+                ]);
+            }
+
+            return $query;
+        },
     ];
 }
 ```
@@ -244,4 +307,19 @@ Progress metrics may be generated using the `nova:progress` Artisan command. By 
 
 ```bash
 php artisan nova:progress ActiveUsers
+```
+
+### Nova Notification
+
+Nova 4 also introduce a new Notification Panel which implements Laravel Notification implementing `Laravel\Nova\Notifications\NovaChannel`. You can create custom notification using the following code:
+
+```php
+use Illuminate\Support\Facades\URL;
+use Laravel\Nova\Notifications\NovaNotification;
+
+$request->user()->notify(
+    NovaNotification::make()
+        ->message('Document ready for download')
+        ->url(URL::signedRoute('download-file', ['file' => $file]))
+);
 ```

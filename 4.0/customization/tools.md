@@ -68,23 +68,9 @@ public function tools()
 
 ### Routing
 
-Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/inertia.php` and `routes/api.php` routes file. If needed, you may use these files to define any routes your tool requires.
+Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates `routes/inertia.php` and `routes/api.php` route files. If needed, you may use these files to define any routes your tool requires.
 
-All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive `nova/tool-name` prefix and all API routes using Axios should receive `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova/price-tracker`. 
-
-```js
-// resources/js/tool.js
-Nova.booting((Vue, store) => {
-  Nova.inertia('PriceTracker', require('./components/Logo').default)
-})
-```
-
-```php
-// routes/inertia.php
-Route::get('/', function ($request) {
-    return inertia('PriceTracker');
-});
-```
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive `nova/tool-name` URL prefix and all "API routes" that will be invoked from the client using `Nova.request()` should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
 
 You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
@@ -113,11 +99,15 @@ public function menu(Request $request)
 }
 ```
 
+#### Sidebar Icons
+
+Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
+
 ### Assets
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`. In addition, `lodash` library is globally available.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`. In addition, the `lodash` library is globally available.
 
 #### Registering Assets
 
@@ -143,7 +133,7 @@ public function boot()
 
 #### JavaScript Bootstrap & Components
 
-Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
+Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed:
 
 ```js
 Nova.booting((Vue, store) => {
@@ -178,7 +168,3 @@ Vue page components contained by your tool have access to all of the components 
   <Head title="PriceTracker" />
 </template>
 ```
-
-### Sidebar Icons
-
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.

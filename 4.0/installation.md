@@ -163,25 +163,27 @@ Update your `laravel/nova` dependency to `~4.0` in your `composer.json` file and
 
 Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
 
-## Customizing Nova's Authentication Guard
+## Customization
 
-Nova uses the default authentication guard defined in your `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration file.
+### Customizing Nova's Authentication Guard
+
+Nova uses the default authentication guard defined in your `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration file:
 
 ```php
 'guard' => env('NOVA_GUARD', null),
 ```
 
-## Customizing Nova's Password Reset Functionality
+### Customizing Nova's Password Reset Functionality
 
-Nova uses the default password reset broker defined in your `auth` configuration file. If you'd like to customize this broker, you may set the `passwords` value inside of Nova's configuration file.
+Nova uses the default password reset broker defined in your `auth` configuration file. If you'd like to customize this broker, you may set the `passwords` value inside of Nova's configuration file:
 
 ```php
 'passwords' => env('NOVA_PASSWORDS', null),
 ```
 
-## Customizing Nova's Storage Disk Driver
+### Customizing Nova's Storage Disk Driver
 
-Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you'd like to custome this driver, you may set the `storage_disk` value inside of Nova's configuration file.
+Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you'd like to custome this driver, you may set the `storage_disk` value inside of Nova's configuration file:
 
 ```php
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),

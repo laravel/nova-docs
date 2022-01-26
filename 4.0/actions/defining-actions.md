@@ -165,13 +165,13 @@ Text::make('Subject')->default(function ($request) {
 }),
 ```
 
-## Preventing Accidental Action Form Abandonment
+### Preventing Accidental Form Abandonment
 
-When running action with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your actions by setting the `preventFormAbandonment` property to `true`:
+If you have defined an action that includes many fields, you may wish to prevent the user from accidentally leaving the form. You can warn users when they attempt to abandon an action form by setting the `preventFormAbandonment` property on the action class to `true`:
 
 ```php
 /**
- * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
+ * Indicates whether Nova should prevent the user from leaving an unsaved form.
  *
  * @var bool
  */
@@ -253,7 +253,7 @@ return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
 
 ## Queued Actions
 
-Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action as [batchable jobs](https://laravel.com/docs/queues#job-batching) instead of running it synchronously, mark the action with the `ShouldQueue` interface:
+Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action as a [batch](https://laravel.com/docs/queues#job-batching) instead of running it synchronously, mark the action with the `ShouldQueue` interface:
 
 ```php
 <?php
@@ -277,13 +277,11 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
-:::tip Generating Queued Action via Artisan
-Above example can be created using Artisan using:
+You may quickly create a queued Nova action by providing the `--queued` option when executing the `nova:action` Artisan command:
 
 ```bash
 php artisan nova:action EmailAccountProfile --queued
 ```
-:::
 
 When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
 
@@ -309,9 +307,9 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
-#### Job Batching Completion Callbacks
+#### Job Batch Completion Callbacks
 
-Nova allows you to configure job batching completion callbacks by registering the callbacks from `withBatch` method:
+Nova also allows you to specify the job [batch callbacks](https://laravel.com/docs/queues#dispatching-batches) that should be invoked for the action when it is executed as part of a queued batch. To accomplish this, define a `withBatch` method on the Nova action class:
 
 ```php
 use Illuminate\Bus\Batch;
@@ -319,7 +317,7 @@ use Illuminate\Bus\PendingBatch;
 use Laravel\Nova\Fields\ActionFields;
 
 /**
- * Register `then`, `catch` and `finally` event on batchable job.
+ * Prepare the given batch for execution.
  *
  * @param  \Laravel\Nova\Fields\ActionFields  $fields
  * @param  \Illuminate\Bus\PendingBatch  $batch
@@ -459,8 +457,6 @@ public function actions(NovaRequest $request)
     ];
 }
 ```
-
-This will customize the modal using your provided text.
 
 ## Action Response Modals
 

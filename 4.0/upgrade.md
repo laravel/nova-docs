@@ -2,39 +2,51 @@
 
 [[toc]]
 
-## High Impact Changes
+## Dependency Upgrades
 
-### Requirements
+Nova's upstream dependencies have been upgraded. You will find a complete list of our dependency upgrades below:
 
-Nova has a few requirements changes you should be aware of before upgrading:
+#### Server
 
-- PHP 7.3+
-- Laravel Framework 8.0+
+* PHP 7.3+
+* Laravel Framework 8.0+
+* Updated `doctrine/dbal` from `^2.9` to `^2.13.3|^3.1.2`
+* Updated `laravel/ui` from `^2.0|^3.0` to `^3.3`
+* Updated `symfony/*` from `^5.0` to `^5.4|^6.0`
+* Removed `cakephp/chronos` and `moontoast/math` dependencies
+
+#### Client
+
+* Updated supported Laravel Mix version from `v1` to `v6`
+* Removed `flatpickr` and `moment.js`
 
 ### Updating Composer Dependencies
 
-Update `laravel/nova` dependencies in your `composer.json` file:
+You should update your `laravel/nova` dependency to `^4.0` in your application's `composer.json` file:
 
 ```json
 "laravel/nova": "^4.0",
 ```
 
-Nova 4 also introduce dependency requirement changes that may impact your application if you also requires it, the details are as per following:
+Next, you need to create Main dashboard and replace configuration, language and views which is simplified using the following command:
 
-* Changed `doctrine/dbal` version supports from `^2.9` to `^2.13.3|^3.1.2`
-* Changed `laravel/ui` version supports from `^2.0|^3.0` to `^3.3`
-* Changed `symfony` packages version supports from `^5.0` to `^5.1.4`
-* Removed `cakephp/chronos` and `moontoast/math` dependencies
+```bash
+php artisan nova:upgrade
+```
 
-### `$request` parameter type-hint
+Next, you should reviews the following changes and adjust your Nova application based on the suggestions.
 
-**Required on PHP 7.3 and optional for PHP 7.4 and above**
+## High Impact Changes
 
-In Nova 4, we have standardise the type-hint to use `Laravel\Nova\Http\Requests\NovaRequest` insteads of `Illuminate\Http\Request` except for methods that can be accessed outside of Nova requests. We advise everyone to update the following methods:
+### Nova Request
+
+**This change is required when using PHP 7.3; however, the change is optional for applications running on PHP 7.4 and above.**
+
+In Nova 4, many methods have been updated to accept a `Laravel\Nova\Http\Requests\NovaRequest` instance instead of `Illuminate\Http\Request`. An overview of the methods that have been updated is provided below.
 
 #### Resources
 
-`fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsForUpdate`, `cards`, `filters`, `lenses` and `actions` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+The `fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsForUpdate`, `cards`, `filters`, `lenses`, and `actions` methods:
 
 ```php
 class Resource {
@@ -52,7 +64,7 @@ class Resource {
 
 #### Lenses
 
-`fields`, `filters` and `actions` methods has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+The `fields`, `filters`, and `actions` methods:
 
 ```php
 class Lens {
@@ -64,7 +76,7 @@ class Lens {
 
 #### Actions
 
-`fields` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+The `fields` method:
 
 ```php
 class Action {
@@ -74,7 +86,7 @@ class Action {
 
 #### Filters
 
-`apply` and `options` method has been updated from `Illuminate\Http\Request $request` to `Laravel\Nova\Http\Requests\NovaRequest $request`:
+The `apply` and `options` methods:
 
 ```php
 class Filter {
@@ -93,9 +105,9 @@ php artisan nova:dashboard Main
 
 Next, move the contain on `cards` method from `App\Providers\NovaServiceProvider` class to `App\Nova\Dashboards\Main` class. 
 
-### Dynamic Dashboard classes
+### Dashboard Methods
 
-In Nova 4, `cards` and `uriKey` methods are no longer defined as `public static function`, please change it to `public function` as shown in the example below:
+In Nova 4, the `cards` and `uriKey` methods defined on dashboard classes are no longer static. You should update your methods accordingly:
 
 ```php
 /**
@@ -119,15 +131,15 @@ public function uriKey()
 }
 ``` 
 
-### Remove detecting timezone from browser local time
+### Client-side Timezone Detection
 
-Nova 4 remove the ability to rely on client machine time to display timezone related information and instead utilise application's "server-side" timezone as defined by the timezone option in your app configuration file.
+Nova 4 removes the ability to rely on the client machine time in order to display timezone related information. Instead, Nova 4 utilizes the application's "server side" timezone as defined by the timezone option in your `app` configuration file.
 
-Please refer [Customizing The Timezone](./resources/date-fields.html#customizing-the-timezone) documentation for further detail.
+Please refer to our documentation regarding [timezone customization](./resources/date-fields.html#customizing-the-timezone) for more information.
 
-### `Date` and `DateTime` fields now uses native HTML5 Date Input
+### `Date` / `DateTime` Fields & HTML5
 
-Nova 4 now will utilise `<input type="date" />` and `<input type="datetime-local" />` for `Date` and `DateTime` fields. Along with this changes also means that following methods has been removed:
+Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local" />` elements to render the `Date` and `DateTime` fields. Therefore, the following methods have been removed from Nova 4:
 
 * `firstDayOfWeek()`
 * `format()`
@@ -138,11 +150,11 @@ Nova 4 now will utilise `<input type="date" />` and `<input type="datetime-local
 
 ## Medium Impact Changes
 
-### Replacing Vue router with Inertia.js
+### Replacing Vue Router With Inertia.js
 
-**Affect installation and Tool with custom Vue Routes**
+**This change primarily affects the installation of custom tools that utilize Vue routing.**
 
-Nova 4 has replaced Vue router with Inertia.js. You would need to migrate from registering Vue Routes component to registering Inertia.js page component and backend routes, Given below example in Nova 3:
+Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). You should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
 
 ```js
 Nova.booting((Vue, router) => {
@@ -156,15 +168,19 @@ Nova.booting((Vue, router) => {
 })
 ````
 
-In Nova 4, you would need to code the following:
+You should perform the following when using Nova 4:
 
 ```js
+// tool.js
+
 Nova.booting((Vue) => {
   Nova.inertia('SidebarTool', require('./component/Tool').default)
 })
 ```
 
 ```php
+// ToolServiceProvider.php
+
 use Laravel\Nova\Nova;
 
 Nova::router()
@@ -175,9 +191,9 @@ Nova::router()
     });
 ```
 
-### Considers event cancellation when saving a Resource
+### Event Cancellation On Save
 
-Nova 3 completely ignores event cancellation when creating or updating a Resource, For example the following code will still trigger saving the User resource:
+Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still save the `User` resource to the database:
 
 ```php
 User::updating(function ($model) {
@@ -185,7 +201,7 @@ User::updating(function ($model) {
 });
 ``` 
 
-Above code however will starts to throws `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Nova 4.
+However, this code will throw a `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Nova 4.
 
 ### `Field::default` method resolves value only for Create, Attach, and Action requests
 

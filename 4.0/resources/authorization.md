@@ -58,15 +58,15 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | `view` | Disallowed
 | `create` | Disallowed
 | `update` | Disallowed
-| `replicate` | Fallback using `create` and `update`
+| `replicate` | Fallback to `create` and `update`
 | `delete` | Disallowed
 | `forceDelete` | Disallowed
 | `restore` | Disallowed
 | `add{Model}` | Allowed
 | `attach{Model}` | Allowed
 | `detach{Model}` | Allowed
-| `runAction` | Fallback using `update`
-| `runDestructiveAction` | Fallback using `delete`
+| `runAction` | Fallback to `update`
+| `runDestructiveAction` | Fallback to `delete`
 
 So, if you have defined a policy, don't forget to define all of its relevant authorization methods.
 
