@@ -28,11 +28,64 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 "laravel/nova": "^4.0",
 ```
 
+### Updating Configurations, Assets and Languages
+
+#### Automatically updates using `nova:upgrade`
+
 Next, you need to create Main dashboard and replace configuration, language and views which is simplified using the following command:
 
 ```bash
 php artisan nova:upgrade
 ```
+
+#### Manually updates
+
+Alternatively, you can also manually run the following commands insteads of `nova:upgrade`:
+
+```bash
+php artisan nova:dashboard Main
+
+php artisan vendor:publish --tag=nova-assets --force
+php artisan vendor:publish --tag=nova-lang --force
+php artisan view:clear
+```
+
+#### Updating Configuration
+
+Nova 4 introduce few configuration breaking changes. The changes will be applied automatically via via `nova:upgrade`, but you can also choose to do it manually by editing `config/nova.php`.
+
+Changes to `middleware` configuration:
+
+```php
+use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
+
+return [
+
+    // ...
+    
+    'middleware' => [
+        'web',
+        HandleInertiaRequests::class,
+        DispatchServingNovaEvent::class,
+        BootTools::class,
+    ],
+
+    'api_middleware' => [
+        'nova',
+        Authenticate::class,
+        Authorize::class,
+    ],
+
+    // ... 
+];
+```
+
+New `storage_disk` configuration:
+
+```php
+'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
+```
+
 
 Next, you should reviews the following changes and adjust your Nova application based on the suggestions.
 
