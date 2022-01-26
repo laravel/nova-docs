@@ -54,7 +54,7 @@ php artisan view:clear
 
 Nova 4 introduce few configuration breaking changes. The changes will be applied automatically via via `nova:upgrade`, but you can also choose to do it manually by editing `config/nova.php`.
 
-Changes to `middleware` configuration:
+Changes to `middleware` and new `api_middleware` configuration:
 
 ```php
 use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
