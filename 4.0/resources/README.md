@@ -194,7 +194,7 @@ class AppServiceProvider extends ServiceProvider
 If you would like to attach an observer whose methods are invoked **only during** Nova related HTTP requests, you may register observers using the `Laravel\Nova\Observable` class in your application's `NovaServiceProvider`:
 
 ```php
-use App\User;
+use App\Models\User;
 use Laravel\Nova\Observable;
 use App\Observers\UserObserver;
 
@@ -216,7 +216,7 @@ Alternatively, you can determine if the current HTTP request is serving a Nova r
 ```php
 namespace App\Observers;
 
-use App\User;
+use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
