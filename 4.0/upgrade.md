@@ -246,7 +246,7 @@ Nova::router()
 
 ### Event Cancellation On Save
 
-Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still save the `User` resource to the database:
+Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database:
 
 ```php
 User::updating(function ($model) {
