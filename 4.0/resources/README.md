@@ -239,16 +239,16 @@ class UserObserver
 }
 ```
 
-### Resource After Events
+### Resource Hooks
 
-Laravel Nova also includes following static methods and only executed from within Laravel Nova:
+Laravel Nova also allows you to define the following static methods on a resource to serve as hooks that are only invoked when the corresponding resource action is executed from within Laravel Nova:
 
 * `afterCreate`
 * `afterUpdate`
 * `afterDelete`
 * `afterForceDelete`
 
-For example, you may want to send email verification notification after a user has been created from Nova:
+For example, you may want to send an email verification notification after a user has been created within Nova:
 
 ```php
 use App\Models\User;
@@ -373,7 +373,7 @@ Nova allows you to easily customize where a user is redirected after performing 
 
 :::warning Redirection Limitation
 
-Behind the scene, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. In order to redirect to external URL you should use the following:
+Behind the scenes, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. In order to redirect to an external URL you should invoke the `URL::remote` method to create an external redirect:
 
 ```php
 use Laravel\Nova\URL;
