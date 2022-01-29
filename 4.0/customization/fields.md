@@ -164,6 +164,8 @@ Next, you may need to change `this.field` variable to `this.currentField` depend
 | `this.syncedField` | Refer to component data, only exists when field has changes
 | `this.currentField` | Refer to computed, will pick `this.syncedField` or fallback to `this.field`
 
+Above table can be summaries with following Vue Component snippet:
+
 ```js
 export default {
   props: {
@@ -180,6 +182,50 @@ export default {
     }
   }
 }
+```
+
+By using `DependentFormField` instead of `FormField` mixin, you are able to change from static input field such as:
+
+```js
+// using `FormField`
+<template>
+  <DefaultField :field="field" :errors="errors">
+    <template #field>
+      <input :id="field.uniqueKey" type="text"
+        :dusk="field.attribute"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="field.placeholder"
+        :disabled="isReadonly"
+        v-model="value"
+      />
+
+      <p v-if="hasError" class="my-2 text-danger">
+        {{ firstError }}
+      </p>
+    </template>
+  </DefaultField>
+</template>
+
+// Using `DependentFormField`
+<template>
+  <DefaultField :field="field" :errors="errors">
+    <template #field>
+      <input :id="currentField.uniqueKey" type="text"
+        :dusk="field.attribute"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="currentField.placeholder"
+        :disabled="currentlyIsReadonly"
+        v-model="value"
+      />
+
+      <p v-if="hasError" class="my-2 text-danger">
+        {{ firstError }}
+      </p>
+    </template>
+  </DefaultField>
+</template>
 ```
 
 #### Hydrating The Model
