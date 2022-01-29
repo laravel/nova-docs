@@ -164,6 +164,24 @@ Next, you may need to change `this.field` variable to `this.currentField` depend
 | `this.syncedField` | Refer to component data, only exists when field has changes
 | `this.currentField` | Refer to computed, will pick `this.syncedField` or fallback to `this.field`
 
+```js
+export default {
+  props: {
+    field: /* ... */
+  },
+
+  data: () => ({
+    syncField: /* ... default to null */
+  }),
+
+  computed: {
+    currentField() {
+      return this.syncField || this.field
+    }
+  }
+}
+```
+
 #### Hydrating The Model
 
 By default, when saving a model, your field class will simply copy the incoming form field value into the field's associated model attribute. However, you may customize how your field hydrates the resource model. To accomplish this, override the `fillAttributeFromRequest` method on your field class:
