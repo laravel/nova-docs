@@ -203,6 +203,26 @@ Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local"
 
 ## Medium Impact Changes
 
+### Vue 3 Upgrades
+
+Nova 4 has been upgraded to use Vue 3, in order to upgrade all Custom Cards, Custom Fields, Custom Filters, Resource Tools and Tools to support Vue 3 please consider the following changes to `webpack.mix.js`:
+
+```js
+// Before
+mix.js('resources/js/field.js', 'js') 
+
+// After
+mix.js('resources/js/field.js', 'js').vue({ version: 3 })
+  .webpackConfig({
+    externals: {
+      vue: 'Vue',
+    },
+    output: {
+      uniqueName: 'vendor/package',
+    }
+  })
+```
+
 ### Replacing Vue Router With Inertia.js
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
@@ -249,8 +269,8 @@ Nova::router()
 Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually copy all relevants files to `resources/js/mixins` and update `webpack.mix.js`:
 
 ```js
-const mix = require('laravel-mix')
-cont path = require('path')
+let mix = require('laravel-mix')
+let path = require('path')
 
 mix.alias({
   '@': path.join(__dirname, 'resources/js/'),
@@ -266,7 +286,6 @@ import { FormField, HandlesValidationErrors } from 'laravel-nova'
 // After
 import { FormField, HandlesValidationErrors } from '@/mixins'
 ```
-
 
 ### Event Cancellation On Save
 
