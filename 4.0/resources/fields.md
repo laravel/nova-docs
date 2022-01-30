@@ -1520,7 +1520,7 @@ Text::make('Email')->filterable(function ($request, $query, $value, $attribute) 
 
 The generated filter can either be a text search filter, select filter, number range filter or date range filter depending on the given field type.
 
-### Dependable Field
+### Dependent Field
 
 The `dependsOn` method allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
 
@@ -1551,4 +1551,4 @@ Text::make('Receiver')
     ),
 ```
 
-This feature compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependableFields` trait and `DependableFormField` Vue component mixin.
+This feature compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependentFields` trait and `DependentFormField` Vue component mixin.

@@ -1,6 +1,6 @@
 # Release Notes
 
-Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js supports, Filterable Fields, Dependable Fields, Resource Replication, Resource Preview, Custom Main & User Menu, Nova Notification, Batchable Queued Actions, New Fields, New Progress Metric  and a variety of other bug fixes and usability improvements.
+Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js supports, Filterable Fields, Dependent Fields, Resource Replication, Resource Preview, Custom Main & User Menu, Nova Notification, Batchable Queued Actions, New Fields, New Progress Metric  and a variety of other bug fixes and usability improvements.
 
 [[toc]]
 
@@ -71,7 +71,7 @@ Text::make('Email')->filterable(function ($request, $query, $value, $attribute) 
 }),
 ```
 
-### Dependable Fields
+### Dependent Fields
 
 Nova 4 introduce `dependsOn` method and allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
 

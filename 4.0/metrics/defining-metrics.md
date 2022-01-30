@@ -556,17 +556,17 @@ return $this->result([
 
 ## Progress Metric
 
-Progress metrics display current progress againsts target value via a bar chart. For example, a progress metric might display the number of active users created againsts total users:
+Progress metrics display current progress against a target value within a bar chart. For example, a progress metric might display the number of users registered for the given month compared to a target goal:
 
 // @SCREENSHOT
 
 Progress metrics may be generated using the `nova:progress` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
 ```bash
-php artisan nova:progress ActiveUsers
+php artisan nova:progress NewUsers
 ```
 
-Once your trend metric class has been generated, you're ready to customize it. Each trend metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ProgressResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
+Once your progress metric class has been generated, you're ready to customize it. Each progress metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ProgressResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
 
 In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model:
 
@@ -579,7 +579,7 @@ use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Progress;
 
-class ActiveUsers extends Progress
+class NewUsers extends Progress
 {
     /**
      * Calculate the value of the metric.
@@ -590,8 +590,8 @@ class ActiveUsers extends Progress
     public function calculate(NovaRequest $request)
     {
         return $this->count($request, User::class, function ($query) {
-            return $query->where('active', '=', 1);
-        });
+            return $query->where('created_at', '>=', now()->startOfMonth());
+        }, target: 200);
     }
 
     /**
@@ -601,31 +601,19 @@ class ActiveUsers extends Progress
      */
     public function uriKey()
     {
-        return 'active-users';
+        return 'new-users';
     }
 }
 ```
 
-### Progress Query Types
-
-Progress metrics don't just ship with a `count` helper. You may also use following aggregate functions when building your metric.
-
 #### Sum
 
-The `sum` method may be used to calculate the sum of a given column within distinct groups. For example, the following call to the `sum` method will display a progress with the sum of completed transaction amounts against all transaction amounts:
+Progress metrics don't just ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress with the sum of completed transaction amounts against a target sales goal:
 
 ```php
 return $this->sum($request, Transaction::class, function ($query) {
     return $query->where('completed', '=', 1);
-}, 'amount');
-```
-
-You can also manually set `$target` instead of calculating againsts all transaction amounts:
-
-```php
-return $this->sum($request, Transaction::class, function ($query) {
-    return $query->where('completed', '=', 1);
-}, 'amount', 200000);
+}, 'amount', target: 2000);
 ```
 
 ### Manually Building Progress Results
@@ -683,7 +671,7 @@ public $refreshWhenActionRuns = true;
 
 ## Refresh After Filter Changes
 
-Laravel Nova will only updates the metric on filters changed if configured using `refreshWhenFiltersChange`:
+Laravel Nova will only update the metric when a screen's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
 
 ```php
 public function cards(NovaRequest $request)

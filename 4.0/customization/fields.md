@@ -132,9 +132,9 @@ fill(formData) {
 }
 ```
 
-#### Dependable Form Field
+#### Dependent Form Field
 
-By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependableFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
+By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependentFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
 
 ```js
 // before 
@@ -147,10 +147,10 @@ export default {
 }
 
 // After
-import { DependableFormField, HandlesValidationErrors } from 'laravel-nova'
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
-  mixins: [DependableFormField, HandlesValidationErrors],
+  mixins: [DependentFormField, HandlesValidationErrors],
 
   //
 }
@@ -163,6 +163,70 @@ Next, you may need to change `this.field` variable to `this.currentField` depend
 | `this.field` | Refer to component props, and the static field value
 | `this.syncedField` | Refer to component data, only exists when field has changes
 | `this.currentField` | Refer to computed, will pick `this.syncedField` or fallback to `this.field`
+
+Above table can be summaries with following Vue Component snippet:
+
+```js
+export default {
+  props: {
+    field: /* ... */
+  },
+
+  data: () => ({
+    syncField: /* ... default to null */
+  }),
+
+  computed: {
+    currentField() {
+      return this.syncField || this.field
+    }
+  }
+}
+```
+
+By using `DependentFormField` instead of `FormField` mixin, you are able to change from static input field such as:
+
+```js
+// using `FormField`
+<template>
+  <DefaultField :field="field" :errors="errors">
+    <template #field>
+      <input :id="field.uniqueKey" type="text"
+        :dusk="field.attribute"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="field.placeholder"
+        :disabled="isReadonly"
+        v-model="value"
+      />
+
+      <p v-if="hasError" class="my-2 text-danger">
+        {{ firstError }}
+      </p>
+    </template>
+  </DefaultField>
+</template>
+
+// Using `DependentFormField`
+<template>
+  <DefaultField :field="field" :errors="errors">
+    <template #field>
+      <input :id="currentField.uniqueKey" type="text"
+        :dusk="field.attribute"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="currentField.placeholder"
+        :disabled="currentlyIsReadonly"
+        v-model="value"
+      />
+
+      <p v-if="hasError" class="my-2 text-danger">
+        {{ firstError }}
+      </p>
+    </template>
+  </DefaultField>
+</template>
+```
 
 #### Hydrating The Model
 

@@ -28,11 +28,64 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 "laravel/nova": "^4.0",
 ```
 
+### Updating Configurations, Assets and Languages
+
+#### Automatically updates using `nova:upgrade`
+
 Next, you need to create Main dashboard and replace configuration, language and views which is simplified using the following command:
 
 ```bash
 php artisan nova:upgrade
 ```
+
+#### Manually updates
+
+Alternatively, you can also manually run the following commands insteads of `nova:upgrade`:
+
+```bash
+php artisan nova:dashboard Main
+
+php artisan vendor:publish --tag=nova-assets --force
+php artisan vendor:publish --tag=nova-lang --force
+php artisan view:clear
+```
+
+#### Updating Configuration
+
+Nova 4 introduce few configuration breaking changes. The changes will be applied automatically via via `nova:upgrade`, but you can also choose to do it manually by editing `config/nova.php`.
+
+Changes to `middleware` and new `api_middleware` configuration:
+
+```php
+use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
+
+return [
+
+    // ...
+    
+    'middleware' => [
+        'web',
+        HandleInertiaRequests::class,
+        DispatchServingNovaEvent::class,
+        BootTools::class,
+    ],
+
+    'api_middleware' => [
+        'nova',
+        Authenticate::class,
+        Authorize::class,
+    ],
+
+    // ... 
+];
+```
+
+New `storage_disk` configuration:
+
+```php
+'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
+```
+
 
 Next, you should reviews the following changes and adjust your Nova application based on the suggestions.
 
@@ -193,7 +246,7 @@ Nova::router()
 
 ### Event Cancellation On Save
 
-Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still save the `User` resource to the database:
+Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database:
 
 ```php
 User::updating(function ($model) {
@@ -298,6 +351,63 @@ Nova 4 has introduce shorter key-value map which reduces the length of encoded f
 
 // AFter
 (new ConsolidateTransaction())->showInline(),
+```
+
+### Authorizing Actions Per-Resource
+
+In Nova 3, you can conditionally display an action based on some state in the resource's underlying model via the `resource` property on a resource or lens instance:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Http\Requests\ActionRequest;
+
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\CancelTrial)->canSee(function ($request) {
+            if ($request instanceof ActionRequest) {
+                return true;  
+            }
+
+            return $this->resource instanceof Model && $this->resource->isOnTrial();
+        }),
+    ];
+}
+```
+
+In Nova 4, `canRun` will be executed alongside `canSee` except when dealing with "Select All Matching". This allows users to focus `canSee` for User authorization for the action and `canRun` for model authorization for the action:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(Request $request)
+{
+    return [
+        (new Actions\CancelTrial)->canRun(function ($request, $user) {
+            return $user->isOnTrial();
+        }),
+    ];
+}
+```
+
+You may want to skipped displaying the `CancelTrial` when "Select All Matching" is selected by adding the following:
+
+```php
+(new Actions\CancelTrial)->canSee(function ($request) {
+    return ! $request->allResourcesSelected();
+})->canRun(function ($request, $user) {
+    return $user->isOnTrial();
+}),
 ```
 
 ### Changes to Authorization
