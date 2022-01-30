@@ -244,6 +244,30 @@ Nova::router()
     });
 ```
 
+### Removal of `laravel-nova` NPM Dependencies
+
+Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually copy all relevants files to `resources/js/mixins` and update `webpack.mix.js`:
+
+```js
+const mix = require('laravel-mix')
+cont path = require('path')
+
+mix.alias({
+  '@': path.join(__dirname, 'resources/js/'),
+})
+```
+
+To import the mixin you can do the following:
+
+```js
+// Before
+import { FormField, HandlesValidationErrors } from 'laravel-nova'
+
+// After
+import { FormField, HandlesValidationErrors } from '@/mixins'
+```
+
+
 ### Event Cancellation On Save
 
 Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database:
