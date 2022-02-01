@@ -29,11 +29,11 @@ Nova.$emit(event, [...args])
 
 ### Notifications
 
-Nova configuration automatically registers the [toasted plugin](https://github.com/shakee93/toastedjs). So, within your custom components, you may leverage the `Nova.$toasted` object to display simple notifications:
+You may display toast notification to users of your custom frontend components by calling the `success`, `error`, `info`, and `warning`, methods on the global `Nova` object:
 
 ```js
-Nova.$toasted.show('It worked!', { type: 'success' })
-Nova.$toasted.show('It failed!', { type: 'error' })
+Nova.success('It worked!')
+Nova.error('It failed!')
 ```
 
 ### Shortcuts
@@ -65,7 +65,7 @@ Nova.disableShortcut(['ctrl+k', 'command+k'])
 
 ### Global Variables
 
-The global `Nova` JavaScript object's `config` property contains the current Nova `base` path and `userId`:
+The global `Nova` JavaScript object's `config` method allows you to get the current Nova `base` path and `userId` configuration values:
 
 ```js
 const userId = Nova.config('userId');
@@ -93,7 +93,8 @@ public function boot()
 }
 ```
 
-Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
+Once the variable has been provided to Nova via the `provideToScript` method, you may access it using the global `Nova` JavaScript object
+s `config` method:
 
 ```js
 const driver = Nova.config('mail_driver');
