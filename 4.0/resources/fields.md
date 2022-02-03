@@ -88,9 +88,9 @@ Text::make('Name')->hideFromIndex(function () {
 }),
 ```
 
-### Preview Modal
+### Resource Preview Modal
 
-On the resource index, you can also set fields available for preview by adding `showOnPreview` method such as following:
+You may also define which fields should be included in the resource's "preview" modal. This modal can be displayed by the user when viewing a resource's index:
 
 ```php
 Text::make('Name')->showOnPreview(),
@@ -153,7 +153,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields only on the resource creation view:
+There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -499,7 +499,7 @@ The `Code` field's currently supported languages are:
 
 ### Color Field
 
-The `Color` field generate a color picker using HTML5 input element of type `color`:
+The `Color` field generate a color picker using the HTML5 `color` input element:
 
 ```php
 use Laravel\Nova\Fields\Color;
@@ -758,9 +758,9 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
-### MultiSelect Field
+### Multi-select Field
 
-The `MultiSelect` field provides `Select` field with multiple options. The field work best with model attribute casts as `array`:
+The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field work pairs nicely with model attribute that are cast to `array`:
 
 ```php
 use Laravel\Nova\Fields\MultiSelect;
@@ -772,7 +772,7 @@ MultiSelect::make('Sizes')->options([
 ]),
 ``` 
 
-On the resource index and detail screens, the `MultiSelect` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
+On the resource index and detail screens, the `MultiSelect` field's "key" value will be displayed. If you would like to display the label values instead, you may use the `displayUsingLabels` method:
 
 ```php
 MultiSelect::make('Size')->options([
@@ -1280,7 +1280,7 @@ $schedule->call(function () {
 
 ### URL Field
 
-The `URL` field extends [Text field](#text-field) specifically for handling URL text field:
+The `URL` field extends [Text field](#text-field) and will render URLs as clickable links instead of plain text:
 
 ```php
 URL::make('GitHub URL'),
@@ -1502,15 +1502,17 @@ Text::make('Name')->displayUsing(function ($name) {
 }),
 ```
 
-### Filterable Field
+### Filterable Fields
 
-The `filterable` method allows you to create magic filter based on the given field on Resource, Related Resource and Lenses. This method by default is called without any parameters:
+The `filterable` method allows you to enable convenient, automatic filtering functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
 ```php
 BelongsTo::make('User')->filterable(),
 ```
 
-You may also customised it to accept a callback to execute custom query such as:
+@SCREENSHOT
+
+The `filterable` method also accepts a closure that receives the filter query. Within this closure you may customize the query that is used to filter the resource results:
 
 ```php
 Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
@@ -1518,9 +1520,9 @@ Text::make('Email')->filterable(function ($request, $query, $value, $attribute) 
 }),
 ```
 
-The generated filter can either be a text search filter, select filter, number range filter or date range filter depending on the given field type.
+The generated filter will be a text filter, select filter, number range filter, or date range filter depending on the given field type.
 
-### Dependent Field
+### Dependent Fields
 
 The `dependsOn` method allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
 
