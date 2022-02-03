@@ -6,9 +6,9 @@
 
 When building custom Nova tools, resource tools, cards, and fields, you may use a variety of helpers that are globally available to your JavaScript components.
 
-#### Nova Requests
+### Nova Requests
 
-You may use the `Nova.request()` method to make XHR request using the [Axios](https://github.com/axios/axios) API. This method configures its own instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level HTTP server responses:
+You may use the `Nova.request()` method to make XHR requests using the [Axios](https://github.com/axios/axios) API. This method configures its own instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level HTTP server responses:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
@@ -29,7 +29,7 @@ Nova.$emit(event, [...args])
 
 ### Notifications
 
-You may display toast notification to users of your custom frontend components by calling the `success`, `error`, `info`, and `warning`, methods on the global `Nova` object:
+You may display toast notification to users of your custom frontend components by calling the `success`, `error`, `info`, or `warning` methods on the global `Nova` object:
 
 ```js
 Nova.success('It worked!')
@@ -93,8 +93,7 @@ public function boot()
 }
 ```
 
-Once the variable has been provided to Nova via the `provideToScript` method, you may access it using the global `Nova` JavaScript object
-s `config` method:
+Once the variable has been provided to Nova via the `provideToScript` method, you may access it using the global `Nova` JavaScript object's `config` method:
 
 ```js
 const driver = Nova.config('mail_driver');
