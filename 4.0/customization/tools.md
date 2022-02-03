@@ -107,7 +107,7 @@ Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroi
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`. In addition, the `lodash` library is globally available.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
 
 #### Registering Assets
 
@@ -137,7 +137,7 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Vue.component('PriceTrackerLogo', require('./components/Logo').default)
+  Vue.component('PriceTrackerHeader', require('./components/Header').default)
 })
 ```
 
@@ -161,14 +161,10 @@ npm run watch
 
 #### Vue Page Components & Nova Plugins
 
-Vue page components contained by your tool have access to all of the plugins registered by Nova, including `vue-meta`, `portal-vue`, and `v-tooltip`. For example, your tool's `resources/js/components/Tool.vue` stub will contain a default page title which is managed by the `vue-meta` plugin:
+Vue page components contained by your tool have access to all of the components and plugins registered by Nova, including `v-tooltip`. For example, your tool's `resources/js/pages/Tool.vue` stub will contain a default page title which is managed by the Inertia.js `Head` component:
 
 ```js
-export default {
-  metaInfo() {
-    return {
-      title: 'PriceTracker',
-    }
-  }
-}
+<template>
+  <Head title="PriceTracker" />
+</template>
 ```
