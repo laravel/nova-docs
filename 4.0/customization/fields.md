@@ -134,10 +134,10 @@ fill(formData) {
 
 #### Dependent Form Field
 
-By default Custom field will be stub with `FormField` mixin. However you may want to replace `FormField` with `DependentFormField` to introduce support for the new [Dependable Field](./../resources/field.html#dependable-fields) and this can be done by changing the following:
+By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/field.html#dependable-fields), you should replace `FormField` with `DependentFormField`:
 
 ```js
-// before 
+// Before ...
 import { FormField, HandlesValidationErrors } from '@/mixins'
 
 export default {
@@ -146,7 +146,7 @@ export default {
   //
 }
 
-// After
+// After...
 import { DependentFormField, HandlesValidationErrors } from '@/mixins'
 
 export default {
@@ -156,67 +156,18 @@ export default {
 }
 ```
 
-Next, you may need to change `this.field` variable to `this.currentField` depending on whether the value should change or remain static. Refer to table below for further references:
-
-| Variable | Description
-|:---------|:---------
-| `this.field` | Refer to component props, and the static field value
-| `this.syncedField` | Refer to component data, only exists when field has changes
-| `this.currentField` | Refer to computed, will pick `this.syncedField` or fallback to `this.field`
-
-Above table can be summaries with following Vue Component snippet:
+Next, within your Vue template, you should typically refer to your field using `this.currentField` instead of `this.field`:
 
 ```js
-export default {
-  props: {
-    field: /* ... */
-  },
-
-  data: () => ({
-    syncField: /* ... default to null */
-  }),
-
-  computed: {
-    currentField() {
-      return this.syncField || this.field
-    }
-  }
-}
-```
-
-By using `DependentFormField` instead of `FormField` mixin, you are able to change from static input field such as:
-
-```js
-// using `FormField`
 <template>
-  <DefaultField :field="field" :errors="errors">
+  <DefaultField :field="currentField" :errors="errors">
     <template #field>
-      <input :id="field.uniqueKey" type="text"
-        :dusk="field.attribute"
-        class="w-full form-control form-input form-input-bordered"
-        :class="errorClasses"
-        :placeholder="field.placeholder"
-        :disabled="isReadonly"
-        v-model="value"
-      />
-
-      <p v-if="hasError" class="my-2 text-danger">
-        {{ firstError }}
-      </p>
-    </template>
-  </DefaultField>
-</template>
-
-// Using `DependentFormField`
-<template>
-  <DefaultField :field="field" :errors="errors">
-    <template #field>
-      <input :id="currentField.uniqueKey" type="text"
-        :dusk="field.attribute"
+      <input
+        :id="currentField.uniqueKey"
+        type="text"
         class="w-full form-control form-input form-input-bordered"
         :class="errorClasses"
         :placeholder="currentField.placeholder"
-        :disabled="currentlyIsReadonly"
         v-model="value"
       />
 
