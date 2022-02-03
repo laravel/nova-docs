@@ -1524,7 +1524,7 @@ The generated filter will be a text filter, select filter, number range filter, 
 
 ### Dependent Fields
 
-The `dependsOn` method allows you to customize how a field can depends on another field(s) values. The method accept an `array` of dependent field attributes and a callback to modify the configuration of current field instance, this allows further customisation such as toggling read-only, field value, validation rules etc.
+The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The method accept an `array` of dependent field attributes and a closure that modifies the configuration of current field instance. Dependent fields allow advanced customization such as toggling read-only mode, field value, validation rules, and more based on the state of another field:
 
 ```php
 use Laravel\Nova\Fields\FormData;
@@ -1538,19 +1538,17 @@ Select::make('Purchase Type', 'type')
         'gift' => 'Gift',
     ]),
 
-// Receiver field should only be enabled only when Purchase Type has been set 
-// to "gift" and enable "required" and "email" validation rules.
-Text::make('Receiver')
+// Recipient field configuration is customized based on purchase type...
+Text::make('Recipient')
     ->readonly()
     ->dependsOn(
         ['type'], 
         function (Text $field, NovaRequest $request, FormData $formData) {
             if ($formData->type === 'gift') {
-                $field->readonly(false)
-                    ->rules(['required', 'email']);
+                $field->readonly(false)->rules(['required', 'email']);
             }
         }
     ),
 ```
 
-This feature compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependentFields` trait and `DependentFormField` Vue component mixin.
+This feature is compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependentFields` trait and `DependentFormField` Vue component mixin.
