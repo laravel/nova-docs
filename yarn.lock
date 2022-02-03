@@ -7848,8 +7848,6 @@
     "javascript-stringify" "^2.0.1"
 
 "webpack-dev-middleware@^3.7.2":
-  "integrity" "sha512-oeXA3m+5gbYbDBGo4SvKpAHJJEGMoekUbHgo1RK7CP1sz7/WOSeu/dWJtSTk+rzDCLkPwQhGocgIq6lQqOyOwg=="
-  "resolved" "https://registry.npmjs.org/webpack-dev-middleware/-/webpack-dev-middleware-3.6.0.tgz"
   "version" "3.6.0"
   dependencies:
     "memory-fs" "^0.4.1"
