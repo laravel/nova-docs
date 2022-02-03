@@ -162,15 +162,15 @@ public function actions(NovaRequest $request)
 }
 ```
 
-#### Authorization via Resource Policy
+#### Authorization Via Resource Policy
 
-In addition to `canSee` and `canRun` authorization, Laravel Nova also with authorized based on the underlying resource model policy class. Laravel Nova would check for `runAction()` for `Action` and `runDestructiveAction` for `DetructiveAction`. Finally, Nova would fallback to `update` for `Action` and `delete` for `DestructiveAction`. 
+In addition to `canSee` and `canRun` authorization, Nova will also determine if the resource's corresponding model policy has `runAction` and `runDestructive` action methods. Finally, Nova will determine if the user is authorized to `update` the model or, in the case of destructive actions, `delete` the model based on the model's policy methods.
 
-The priority for authorizing action is best explain based on following steps:
+The priority for authorizing the execution of a Nova action is best explained by the following list of steps:
 
-1. Use the return value from `canRun()` on the Action.
-2. Use the return value from `runAction()` or `runDestructiveAction()` on the underlying model policy.
-3. Use the return value from `update()` or `delete()` on the underlying model policy or return `false`.
+1. Use the return value from `canRun()` on the Action if it exists.
+2. Use the return value from `runAction()` or `runDestructiveAction()` on the underlying model policy if those methods have been defined.
+3. Use the return value from `update()` or `delete()` on the underlying model policy if those methods have been defined. Otherwise, return `false`.
 
 ## Pivot Actions
 
