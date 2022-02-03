@@ -153,7 +153,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
+There are times you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
