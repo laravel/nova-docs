@@ -1551,4 +1551,26 @@ Text::make('Recipient')
     ),
 ```
 
-This feature is compatible with most built-in fields implementing `Laravel\Nova\Fields\SupportsDependentFields` trait and `DependentFormField` Vue component mixin.
+Field dependence is currently supported by the following fields:
+
+- BelongsTo
+- Boolean
+- BooleanGroup
+- Color
+- Code
+- Country
+- Currency
+- File
+- Hidden
+- Image
+- KeyValue
+- Markdown
+- Number
+- Password
+- PasswordConfirmation
+- Status
+- Textarea
+- Text
+- URL
+- VaporFile
+- VaporImage
