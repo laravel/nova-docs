@@ -105,7 +105,7 @@ Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroi
 
 ### Assets
 
-When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
+When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
 
 The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
 

@@ -157,7 +157,7 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 ## Upgrade Guide
 
-Nova 4.0 is primarily a maintenance release to provide compatibility with Laravel 8.x or greater. Nova 4.0 should **only** be used with Laravel 8.x or greater, as it is not compatible with previous releases of Laravel.
+Nova 4.0 is a new major series release providing many new features and tools. Nova 4.0 should **only** be used with Laravel 8.x or greater, as it is not compatible with previous releases of Laravel.
 
 Update your `laravel/nova` dependency to `~4.0` in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 

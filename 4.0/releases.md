@@ -1,6 +1,6 @@
 # Release Notes
 
-Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js supports, Filterable Fields, Dependent Fields, Resource Replication, Resource Preview, Custom Main & User Menu, Nova Notification, Batchable Queued Actions, New Fields, New Progress Metric  and a variety of other bug fixes and usability improvements.
+Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js support, Filterable Fields, Dependent Fields, Resource Replication, Resource Preview Modals, Custom Main & User Menu, Nova Notifications, Batchable Queued Actions, New Fields, Progress Metrics, and a variety of other usability improvements.
 
 [[toc]]
 

@@ -760,7 +760,7 @@ Markdown::make('Biography')->alwaysShow(),
 
 ### Multi-select Field
 
-The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field work pairs nicely with model attribute that are cast to `array`:
+The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array`:
 
 ```php
 use Laravel\Nova\Fields\MultiSelect;
@@ -1280,7 +1280,7 @@ $schedule->call(function () {
 
 ### URL Field
 
-The `URL` field extends [Text field](#text-field) and will render URLs as clickable links instead of plain text:
+The `URL` field renders URLs as clickable links instead of plain text:
 
 ```php
 URL::make('GitHub URL'),
