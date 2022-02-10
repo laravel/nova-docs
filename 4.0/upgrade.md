@@ -462,3 +462,7 @@ Nova 4 introduce following authorization breaking changes:
 * Destructive Action now will use `canRun` method before checking on model policy.
 
 Further detail regarding authorization availables on the [policy documentation](./resources/authorization.html#policies).
+
+### Preventing Accidental Form Abandonment
+
+Nova 4 now will automatically add Prevent Form Abandonment to Resource CRUD, it'll now warn users when they attempt to abandon the form.

@@ -165,19 +165,6 @@ Text::make('Subject')->default(function ($request) {
 }),
 ```
 
-### Preventing Accidental Form Abandonment
-
-If you have defined an action that includes many fields, you may wish to prevent the user from accidentally leaving the form. You can warn users when they attempt to abandon an action form by setting the `preventFormAbandonment` property on the action class to `true`:
-
-```php
-/**
- * Indicates whether Nova should prevent the user from leaving an unsaved form.
- *
- * @var bool
- */
-public $preventFormAbandonment = false;
-```
-
 ## Action Titles
 
 If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:

@@ -350,19 +350,6 @@ Nova will then display a clickable button inside the interface:
 
 ![Nova Resource Polling Toggle Button](./img/polling-toggle.png)
 
-## Preventing Accidental Resource Form Abandonment
-
-When creating and editing resource forms with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your resources by setting the static `preventFormAbandonment` property to `true`:
-
-```php
-/**
- * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
- *
- * @var bool
- */
-public static $preventFormAbandonment = true;
-```
-
 ## Redirection
 
 Nova allows you to easily customize where a user is redirected after performing resource actions such as creating or updating a resource:

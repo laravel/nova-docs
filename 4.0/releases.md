@@ -323,3 +323,7 @@ $request->user()->notify(
         ->url(URL::signedRoute('download-file', ['file' => $file]))
 );
 ```
+
+### Preventing Accidental Form Abandonment
+
+Nova 4 now will automatically add Prevent Form Abandonment to Resource CRUD, it'll now warn users when they attempt to abandon the form.
