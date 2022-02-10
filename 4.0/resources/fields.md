@@ -1284,6 +1284,20 @@ The `URL` field renders URLs as clickable links instead of plain text:
 
 ```php
 URL::make('GitHub URL'),
+```
+
+The `URL` field also supports customizing the generated link's text by using the `displayUsing` callback:
+
+```php
+URL::make('Receipt')
+    ->displayUsing(fn() => "{optional($this->user)->name}'s receipt")
+```
+
+In addition to using the value of the corresponding column on the resource, you may use `URL` fields with a computed value:
+
+```php
+URL::make('Receipt', fn() => $this->receipt_url)
+```
 
 ### Vapor File Field
 
