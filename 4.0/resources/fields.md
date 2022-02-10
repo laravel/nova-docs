@@ -1273,9 +1273,7 @@ Finally, in your `app/Console/Kernel.php` file, you should register a [daily job
 ```php
 use Laravel\Nova\Trix\PruneStaleAttachments;
 
-$schedule->call(function () {
-    (new PruneStaleAttachments)();
-})->daily(),
+$schedule->call(new PruneStaleAttachments())->daily();
 ```
 
 ### URL Field
