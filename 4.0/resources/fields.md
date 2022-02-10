@@ -1284,7 +1284,6 @@ The `URL` field renders URLs as clickable links instead of plain text:
 
 ```php
 URL::make('GitHub URL'),
-```
 
 ### Vapor File Field
 
