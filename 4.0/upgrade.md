@@ -45,6 +45,7 @@ Alternatively, you can also manually run the following commands insteads of `nov
 ```bash
 php artisan nova:dashboard Main
 
+php -r "file_exists('./resources/views/vendor/nova/layout.blade.php') && unlink('./resources/views/vendor/nova/layout.blade.php');"
 php artisan vendor:publish --tag=nova-assets --force
 php artisan vendor:publish --tag=nova-lang --force
 php artisan view:clear
