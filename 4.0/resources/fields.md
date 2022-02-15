@@ -153,7 +153,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are times you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
+There are times you may wish to provide a default value to your fields. Nova offers this functionality via the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -1288,13 +1288,13 @@ The `URL` field also supports customizing the generated link's text by using the
 
 ```php
 URL::make('Receipt')
-    ->displayUsing(fn() => "{optional($this->user)->name}'s receipt")
+    ->displayUsing(fn () => "{optional($this->user)->name}'s receipt")
 ```
 
-In addition to using the value of the corresponding column on the resource, you may use `URL` fields with a computed value:
+You may also use the `URL` field to render a link for a computed value:
 
 ```php
-URL::make('Receipt', fn() => $this->receipt_url)
+URL::make('Receipt', fn () => $this->receipt_url)
 ```
 
 ### Vapor File Field
