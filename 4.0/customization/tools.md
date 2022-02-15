@@ -70,9 +70,9 @@ public function tools()
 
 Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates `routes/inertia.php` and `routes/api.php` route files. If needed, you may use these files to define any routes your tool requires.
 
-All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive `nova/tool-name` URL prefix and all "API routes" that will be invoked from the client using `Nova.request()` should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive a `/nova/tool-name` URL prefix and all "API routes" that will be invoked from the client via `Nova.request()` should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
 
-You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
+You are free to modify this route group definition, but you should ensure your Nova tool will easily co-exist with other Nova packages.
 
 #### Routing Authorization
 
@@ -101,7 +101,7 @@ public function menu(Request $request)
 
 #### Sidebar Icons
 
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
+Nova utilizes the free [Heroicons UI](https://github.com/sschoger/heroicons-ui) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
 
 ### Assets
 
