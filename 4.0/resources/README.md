@@ -360,7 +360,7 @@ Nova allows you to easily customize where a user is redirected after performing 
 
 :::warning Redirection Limitation
 
-Behind the scenes, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. In order to redirect to an external URL you should invoke the `URL::remote` method to create an external redirect:
+Behind the scenes, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. You may invoke the `URL::remote` method to redirect to an external URL:
 
 ```php
 use Laravel\Nova\URL;
