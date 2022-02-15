@@ -1,12 +1,12 @@
 # Release Notes
 
-Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js support, Filterable Fields, Dependent Fields, Resource Replication, Resource Preview Modals, Custom Main & User Menu, Nova Notifications, Batchable Queued Actions, New Fields, Progress Metrics, and a variety of other usability improvements.
+Nova 4 continues the improvements made in Nova 3 by introducing Inertia.js support, a responsive design, filterable fields, dependent fields, resource replication, resource preview modals, custom menus, notifications, batchable queued actions, new fields, progress metrics, and a variety of other usability improvements.
 
 [[toc]]
 
 ### Inertia.js
 
-Nova 4 introduce official supports for [Inertia.js](https://inertiajs.com) as replacement for Vue router. The change would also easier custom tool and page to be developed for Laravel Nova with minimal knowledge to Vue. 
+Nova 4 introduce official supports for [Inertia.js](https://inertiajs.com) as a  replacement for Vue router. This change, while increasing performance, also allows for easier custom tool and page development:
 
 ```js
 Nova.booting((Vue, store) => {
