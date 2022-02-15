@@ -4,7 +4,7 @@
 
 ## Searchable Columns
 
-To define which resource fields are searchable, you may assign an array of database columns in the `search` property of your resource class. This includes `id` column by default, but you may override it to your needs:
+To define which resource fields are searchable, you may assign an array of database columns to the `search` property of your resource class. This array includes the `id` column by default:
 
 ```php
 /**
@@ -22,9 +22,9 @@ public static $search = [
 If you are using Nova's Scout integration, the `$search` column has no effect on your search results and may be ignored. You should manage the searchable columns in the Algolia dashboard.
 :::
 
-## FullText
+## Full-Text Indexes
 
-Aside from current resource attributes, you may also search using `FULLTEXT` index on Postgres and MySQL. This can be done by using `Laravel\Nova\Query\Search\FullText`:
+Typically, Nova searches your database columns using simple `LIKE` clauses. However, if you are using MySQL or Postgres, you may take advantage of any full-text indexes you have defined. To do so, you should define a `searchableColumns` method on your Nova resource class instead of defining a `$search` property. This method should return an array of columns that are searchable. By returning an instance of `Laravel\Nova\Query\Search\FullText` you may instruct Nova to utilize your full-text indexes when querying a given column:
 
 ```php
 use Laravel\Nova\Query\Search\FullText;
@@ -40,9 +40,9 @@ public static function searchableColumns()
 }
 ```
 
-## Search Relations
+## Searching Relationships
 
-You may also search relation by using `Laravel\Nova\Query\Search\Relation`, for example the below code would search `name` on `author` relation for the resource:
+Laravel Nova also allows you to search again a resource's related models. For example, imagine a `Post` model that is related to a `User` model via a `author` relatonship. This relationship may be queried by returning an instance of `Laravel\Nova\Query\Search\Relation` from your resource's `searchableColumns` method. If this method does not exist on your resource, you may define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
 use Laravel\Nova\Query\Search\Relation;
@@ -58,7 +58,7 @@ public static function searchableColumns()
 }
 ```
 
-Alternatively you can also use `{relation}.{attribute}` notation:
+Alternatively, you may define a relationship field that should be search by adding the field to your resource's `$search` property using "dot notation":
 
 ```php
 /**
@@ -71,9 +71,9 @@ public static $search = [
 ];
 ```
 
-### MorphTo Relationship
+### MorphTo Relationships
 
-MorphTo relationship requires a different syntax where you would needs to filter types for the query, this can be done by using `Laravel\Nova\Query\Search\MorphRelation`:
+"Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\MorphRelation` from your resource's `searchableColumns` method. The `MorphRelation` instance allows you to specify which types of morphed models should be searched:
 
 ```php
 use Laravel\Nova\Query\Search\MorphRelation;
@@ -89,9 +89,9 @@ public static function searchableColumns()
 }
 ```
 
-## Search JSON paths
+## Searching JSON Data
 
-You may also search JSON path using `Laravel\Nova\Query\Search\JsonSelector`, for example the below code would search for `address.postcode` under `meta` attribute for the resource:
+If your resource includes a column that contains a JSON string. You may search within the JSON object by returning a `Laravel\Nova\Query\Search\JsonSelector` instance from your resource's `searchableColumns` method. If this method does not exist on your resource, you may define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
 use Laravel\Nova\Query\Search\JsonSelector;
@@ -105,17 +105,4 @@ public static function searchableColumns()
 {
     return ['id', new JsonSelector('meta->address->postcode')];
 }
-```
-
-Alternatively you can also use `{attribute}->{path}` notation:
-
-```php
-/**
- * The columns that should be searched.
- *
- * @var array
- */
-public static $search = [
-    'id', 'meta->address->postcode'
-];
 ```
