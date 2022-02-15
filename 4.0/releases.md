@@ -146,7 +146,7 @@ Nova::userMenu(function (Request $request) {
 
 ### Batchable Queued Actions
 
-Nova 4 now requires Job Batching when dispatching Queued Job. Before getting started, you should create a database migration to build a table to contain meta information about your job batches, such as their completion percentage. This migration may be generated using the `queue:batches-table` Artisan command:
+Nova 4 now supports Job Batching when dispatching Queued Job. Before getting started, you should create a database migration to build a table to contain meta information about your job batches, such as their completion percentage. This migration may be generated using the `queue:batches-table` Artisan command:
 
 ```bash
 php artisan queue:batches-table
@@ -158,25 +158,36 @@ Next, Nova allows you to configure job batching completion callbacks by register
 
 ```php
 use Illuminate\Bus\Batch;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\PendingBatch;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Contacts\BatchableAction;
 use Laravel\Nova\Fields\ActionFields;
 
-/**
- * Register `then`, `catch` and `finally` event on batchable job.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Bus\PendingBatch  $batch
- * @return void
- */
-public function withBatch(ActionFields $fields, PendingBatch $batch)
+class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 {
-    $batch->then(function (Batch $batch) {
-        // All jobs completed successfully...
-    })->catch(function (Batch $batch, Throwable $e) {
-        // First batch job failure detected...
-    })->finally(function (Batch $batch) {
-        // The batch has finished executing...
-    });
+    use Batchable, InteractsWithQueue, Queueable;
+
+    /**
+     * Register `then`, `catch` and `finally` event on batchable job.
+     *
+     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @return void
+     */
+    public function withBatch(ActionFields $fields, PendingBatch $batch)
+    {
+        $batch->then(function (Batch $batch) {
+            // All jobs completed successfully...
+        })->catch(function (Batch $batch, Throwable $e) {
+            // First batch job failure detected...
+        })->finally(function (Batch $batch) {
+            // The batch has finished executing...
+        });
+    }
 }
 ```
 

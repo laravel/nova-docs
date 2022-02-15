@@ -240,7 +240,7 @@ return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
 
 ## Queued Actions
 
-Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action as a [batch](https://laravel.com/docs/queues#job-batching) instead of running it synchronously, mark the action with the `ShouldQueue` interface:
+Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action instead of running it synchronously, mark the action with the `ShouldQueue` interface:
 
 ```php
 <?php
@@ -254,6 +254,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Contacts\BatchableAction;
 use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action implements ShouldQueue
@@ -294,33 +295,52 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
-#### Job Batch Completion Callbacks
+#### Job Batching
 
-Nova also allows you to specify the job [batch callbacks](https://laravel.com/docs/queues#dispatching-batches) that should be invoked for the action when it is executed as part of a queued batch. To accomplish this, define a `withBatch` method on the Nova action class:
+You have also instruct Nova to queue an action as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `BatchableAction` interface:
 
 ```php
+<?php
+
+namespace App\Nova\Actions;
+
+use App\AccountData;
 use Illuminate\Bus\Batch;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\PendingBatch;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Contacts\BatchableAction;
 use Laravel\Nova\Fields\ActionFields;
 
-/**
- * Prepare the given batch for execution.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Bus\PendingBatch  $batch
- * @return void
- */
-public function withBatch(ActionFields $fields, PendingBatch $batch)
+class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 {
-    $batch->then(function (Batch $batch) {
-        // All jobs completed successfully...
-    })->catch(function (Batch $batch, Throwable $e) {
-        // First batch job failure detected...
-    })->finally(function (Batch $batch) {
-        // The batch has finished executing...
-    });
+    use Batchable, InteractsWithQueue, Queueable;
+
+    /**
+     * Prepare the given batch for execution.
+     *
+     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @return void
+     */
+    public function withBatch(ActionFields $fields, PendingBatch $batch)
+    {
+        $batch->then(function (Batch $batch) {
+            // All jobs completed successfully...
+        })->catch(function (Batch $batch, Throwable $e) {
+            // First batch job failure detected...
+        })->finally(function (Batch $batch) {
+            // The batch has finished executing...
+        });
+    }
 }
 ```
+
+When Nova Action is configured with job batching, a new `withBatch` method can be used to define [batch callbacks](https://laravel.com/docs/queues#dispatching-batches) that should be invoked for the action when it is executed as part of a queued batch.
 
 ## Action Log
 
