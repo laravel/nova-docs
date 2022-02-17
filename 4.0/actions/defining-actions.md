@@ -295,9 +295,9 @@ class EmailAccountProfile extends Action implements ShouldQueue
 }
 ```
 
-#### Job Batching
+### Job Batching
 
-You have also instruct Nova to queue an action as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `BatchableAction` interface:
+You may also instruct Nova to queue actions as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `Laravel\Nova\Contracts\BatchableAction` interface. When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches):
 
 ```php
 <?php
@@ -339,8 +339,6 @@ class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
     }
 }
 ```
-
-When Nova Action is configured with job batching, a new `withBatch` method can be used to define [batch callbacks](https://laravel.com/docs/queues#dispatching-batches) that should be invoked for the action when it is executed as part of a queued batch.
 
 ## Action Log
 
