@@ -15,10 +15,10 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make()->sortable(),
@@ -45,6 +45,7 @@ The following methods may be used to show / hide fields based on the display con
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
+- `showOnPreview`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -87,11 +88,27 @@ Text::make('Name')->hideFromIndex(function () {
 }),
 ```
 
+### Resource Preview Modal
+
+You may also define which fields should be included in the resource's "preview" modal. This modal can be displayed by the user when viewing a resource's index:
+
+```php
+Text::make('Name')->showOnPreview(),
+```
+
+// @SCREENSHOT
+
 ## Dynamic Field Methods
 
 If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
 
 ```php
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
 public function fields(NovaRequest $request)
 {
     return [
@@ -105,6 +122,12 @@ public function fields(NovaRequest $request)
 On your detail page, you may wish to show a combined name, followed by the job title. In order to do this, you could add a `fieldsForDetail` method which returns a separate list of fields:
 
 ```php
+/**
+ * Get the fields displayed by the resource on detail page.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
 public function fieldsForDetail(NovaRequest $request)
 {
     return [
@@ -130,7 +153,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Default Values
 
-There are time you may wish to provide a default value to your fields. Nova enables this using the `default` method, which accepts a value or callback, which will be run when serializing fields for the resource creation view:
+There are times you may wish to provide a default value to your fields. Nova offers this functionality via the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource creation view:
 
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
@@ -173,10 +196,10 @@ use Laravel\Nova\Panel;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make()->sortable(),
@@ -227,7 +250,7 @@ Text::make('Name', 'name_column')->sortable(),
 
 :::tip Relationship Fields
 
-This portion of the documentation only discusses non-relationship fields. To learn more about relationship fields, [check out their documentation](/3.0/resources/relationships.html).
+This portion of the documentation only discusses non-relationship fields. To learn more about relationship fields, [check out their documentation](./relationships.html).
 :::
 
 Nova ships with a variety of field types. So, let's explore all of the available types and their options:
@@ -237,6 +260,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Boolean](#boolean-field)
 - [Boolean Group](#boolean-group-field)
 - [Code](#code-field)
+- [Color](#color-field)
 - [Country](#country-field)
 - [Currency](#currency-field)
 - [Date](#date-field)
@@ -248,6 +272,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Image](#image-field)
 - [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
+- [MultiSelect](#multiselect-field)
 - [Number](#number-field)
 - [Password](#password-field)
 - [Place](#place-field)
@@ -259,6 +284,9 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [URL](#url-field)
+- [Vapor File](#vapor-file-field)
+- [Vapor Image](#vapor-image-field)
 
 ### Avatar Field
 
@@ -348,6 +376,8 @@ Boolean::make('Active')
 The `BooleanGroup` field may be used to group a set of Boolean checkboxes, which are then stored as JSON key-values in the database column they represent. You may create a `BooleanGroup` field by providing a set of keys and labels for each option:
 
 ```php
+use Laravel\Nova\Fields\BooleanGroup;
+
 BooleanGroup::make('Permissions')->options([
     'create' => 'Create',
     'read' => 'Read',
@@ -467,6 +497,16 @@ The `Code` field's currently supported languages are:
 - `yaml-frontmatter`
 - `vim`
 
+### Color Field
+
+The `Color` field generate a color picker using the HTML5 `color` input element:
+
+```php
+use Laravel\Nova\Fields\Color;
+
+Color::make('Color', 'label_color'),
+```
+
 ### Country Field
 
 The `Country` field generates a `Select` field containing a list of the world's countries. The field will store the country's two-letter code:
@@ -525,30 +565,6 @@ use Laravel\Nova\Fields\Date;
 Date::make('Birthday'),
 ```
 
-#### Date Formats
-
-You may customize the display format of your `Date` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
-
-```php
-Date::make('Birthday')->format('DD MMM'),
-```
-
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
-
-```php
-Date::make('Birthday')->pickerDisplayFormat('d.m.Y'),
-```
-
-To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
-
-#### Customizing The First Day Of Week
-
-You can customize the first day of the week using the `firstDayOfWeek` method:
-
-```php
-Date::make('Birthday')->firstDayOfWeek(1), // First day of the week is Monday
-```
-
 ### DateTime Field
 
 The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
@@ -558,28 +574,6 @@ use Laravel\Nova\Fields\DateTime;
 
 DateTime::make('Updated At')->hideFromIndex(),
 ```
-
-You may customize the display format of your `DateTime` fields using the `format` method. The format must be a format supported by [Moment.js](https://momentjs.com/docs/#/parsing/string-format/):
-
-```php
-DateTime::make('Created At')->format('DD MMM YYYY'),
-```
-
-To customize the display format used for the JavaScript date picker widget, you can use the `pickerDisplayFormat` method:
-
-```php
-DateTime::make('Updated At')->pickerDisplayFormat('d.m.Y'),
-```
-
-By default, the date picker will increment hours by 1 hour per increment and minutes by 5 minutes per increment. You can use the `incrementPickerHourBy` and `incrementPickerMinuteBy` methods to customize this behavior:
-
-```php
-DateTime::make('Updated At')->incrementPickerHourBy(2),
-
-DateTime::make('Updated At')->incrementPickerMinuteBy(2),
-```
-
-To learn about the available date format options, please consult the [flatpickr documentation](https://flatpickr.js.org/formatting/).
 
 ### File Field
 
@@ -620,6 +614,8 @@ The `Heading` field does not correspond to any column in your application's data
 ![Heading Field](./img/heading-field.png)
 
 ```php
+use Laravel\Nova\Fields\Heading;
+
 Heading::make('Meta'),
 ```
 
@@ -762,6 +758,41 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
+### Multi-select Field
+
+The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array`:
+
+```php
+use Laravel\Nova\Fields\MultiSelect;
+
+MultiSelect::make('Sizes')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+]),
+``` 
+
+On the resource index and detail screens, the `MultiSelect` field's "key" value will be displayed. If you would like to display the label values instead, you may use the `displayUsingLabels` method:
+
+```php
+MultiSelect::make('Size')->options([
+    'S' => 'Small',
+    'M' => 'Medium',
+    'L' => 'Large',
+])->displayUsingLabels(),
+```
+
+You may also display multi-select options in groups:
+
+```php
+MultiSelect::make('Sizes')->options([
+    'MS' => ['label' => 'Small', 'group' => 'Men Sizes'],
+    'MM' => ['label' => 'Medium', 'group' => 'Men Sizes'],
+    'WS' => ['label' => 'Small', 'group' => 'Women Sizes'],
+    'WM' => ['label' => 'Medium', 'group' => 'Women Sizes'],
+])->displayUsingLabels(),
+```
+
 ### Number Field
 
 The `Number` field provides an `input` control with a `type` attribute of `number`:
@@ -822,10 +853,10 @@ use Laravel\Nova\Fields\Place;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make()->sortable(),
@@ -1242,9 +1273,28 @@ Finally, in your `app/Console/Kernel.php` file, you should register a [daily job
 ```php
 use Laravel\Nova\Trix\PruneStaleAttachments;
 
-$schedule->call(function () {
-    (new PruneStaleAttachments)();
-})->daily(),
+$schedule->call(new PruneStaleAttachments())->daily();
+```
+
+### URL Field
+
+The `URL` field renders URLs as clickable links instead of plain text:
+
+```php
+URL::make('GitHub URL'),
+```
+
+The `URL` field also supports customizing the generated link's text by using the `displayUsing` callback:
+
+```php
+URL::make('Receipt')
+    ->displayUsing(fn () => "{optional($this->user)->name}'s receipt")
+```
+
+You may also use the `URL` field to render a link for a computed value:
+
+```php
+URL::make('Receipt', fn () => $this->receipt_url)
 ```
 
 ### Vapor File Field
@@ -1462,3 +1512,76 @@ Text::make('Name')->displayUsing(function ($name) {
     return strtoupper($name);
 }),
 ```
+
+### Filterable Fields
+
+The `filterable` method allows you to enable convenient, automatic filtering functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
+
+```php
+BelongsTo::make('User')->filterable(),
+```
+
+@SCREENSHOT
+
+The `filterable` method also accepts a closure that receives the filter query. Within this closure you may customize the query that is used to filter the resource results:
+
+```php
+Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
+    $query->where($attribute, 'LIKE', "{$value}%");
+}),
+```
+
+The generated filter will be a text filter, select filter, number range filter, or date range filter depending on the given field type.
+
+### Dependent Fields
+
+The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The method accept an `array` of dependent field attributes and a closure that modifies the configuration of current field instance. Dependent fields allow advanced customization such as toggling read-only mode, field value, validation rules, and more based on the state of another field:
+
+```php
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Select::make('Purchase Type', 'type')
+    ->options([
+        'personal' => 'Personal',
+        'gift' => 'Gift',
+    ]),
+
+// Recipient field configuration is customized based on purchase type...
+Text::make('Recipient')
+    ->readonly()
+    ->dependsOn(
+        ['type'], 
+        function (Text $field, NovaRequest $request, FormData $formData) {
+            if ($formData->type === 'gift') {
+                $field->readonly(false)->rules(['required', 'email']);
+            }
+        }
+    ),
+```
+
+Field dependence is currently supported by the following fields:
+
+- BelongsTo
+- Boolean
+- BooleanGroup
+- Color
+- Code
+- Country
+- Currency
+- File
+- Hidden
+- Image
+- KeyValue
+- Markdown
+- Number
+- Password
+- PasswordConfirmation
+- Status
+- Textarea
+- Text
+- URL
+- VaporFile
+- VaporImage

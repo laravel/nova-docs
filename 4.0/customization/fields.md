@@ -28,10 +28,10 @@ use Acme\ColorPicker\ColorPicker;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -103,7 +103,7 @@ Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. T
 ```html
 <template>
     <default-field :field="field">
-        <template slot="field">
+        <template #field>
             <input :id="field.name" type="color"
                 class="w-full form-control form-input form-input-bordered"
                 :class="errorClasses"
@@ -130,6 +130,53 @@ Before creating or updating a resource, Nova asks each field on the form to "fil
 fill(formData) {
   formData.append(this.field.attribute, this.value || '')
 }
+```
+
+#### Dependent Form Field
+
+By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/field.html#dependable-fields), you should replace `FormField` with `DependentFormField`:
+
+```js
+// Before ...
+import { FormField, HandlesValidationErrors } from '@/mixins'
+
+export default {
+  mixins: [FormField, HandlesValidationErrors],
+
+  //
+}
+
+// After...
+import { DependentFormField, HandlesValidationErrors } from '@/mixins'
+
+export default {
+  mixins: [DependentFormField, HandlesValidationErrors],
+
+  //
+}
+```
+
+Next, within your Vue template, you should typically refer to your field using `this.currentField` instead of `this.field`:
+
+```js
+<template>
+  <DefaultField :field="currentField" :errors="errors">
+    <template #field>
+      <input
+        :id="currentField.uniqueKey"
+        type="text"
+        class="w-full form-control form-input form-input-bordered"
+        :class="errorClasses"
+        :placeholder="currentField.placeholder"
+        v-model="value"
+      />
+
+      <p v-if="hasError" class="my-2 text-danger">
+        {{ firstError }}
+      </p>
+    </template>
+  </DefaultField>
+</template>
 ```
 
 #### Hydrating The Model

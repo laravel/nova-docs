@@ -34,40 +34,43 @@ To learn how to define Nova actions, let's look at an example. In this example, 
 namespace App\Nova\Actions;
 
 use App\Models\AccountData;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  /**
-   * Perform the action on the given models.
-   *
-   * @param  \Laravel\Nova\Fields\ActionFields  $fields
-   * @param  \Illuminate\Support\Collection  $models
-   * @return mixed
-   */
-  public function handle(ActionFields $fields, Collection $models)
-  {
-    foreach ($models as $model) {
-      (new AccountData($model))->send();
+    /**
+    * Perform the action on the given models.
+    *
+    * @param  \Laravel\Nova\Fields\ActionFields  $fields
+    * @param  \Illuminate\Support\Collection  $models
+    * @return mixed
+    */
+    public function handle(ActionFields $fields, Collection $models)
+    {
+        foreach ($models as $model) {
+            (new AccountData($model))->send();
+        }
     }
-  }
 
-  /**
-   * Get the fields available on the action.
-   *
-   * @return array
-   */
-  public function fields()
-  {
-    return [];
-  }
+    /**
+    * Get the fields available on the action.
+    *
+    * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+    * @return array
+    */
+    public function fields(NovaRequest $request)
+    {
+        return [];
+    }
 }
 ```
 
@@ -123,9 +126,10 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields available on the action.
  *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields()
+public function fields(NovaRequest $request)
 {
     return [
         Text::make('Subject'),
@@ -210,13 +214,13 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
-To redirect the user to an internal route, you may use the `Action::push` method:
+To redirect the user to an internal route, you may use the `Action::visit` method:
 
 ```php
-return Action::push('/resources/posts/new', [
-  'viaResource' => 'users',
-  'viaResourceId' => 1,
-  'viaRelationship' => 'posts'
+return Action::visit('/resources/posts/new', [
+    'viaResource' => 'users',
+    'viaResourceId' => 1,
+    'viaRelationship' => 'posts'
 ]);
 ```
 
@@ -244,19 +248,27 @@ Occasionally, you may have actions that take a while to finish running. For this
 namespace App\Nova\Actions;
 
 use App\AccountData;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
-use Laravel\Nova\Actions\Action;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Fields\ActionFields;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Contacts\BatchableAction;
+use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  // ...
+    // ...
 }
+```
+
+You may quickly create a queued Nova action by providing the `--queued` option when executing the `nova:action` Artisan command:
+
+```bash
+php artisan nova:action EmailAccountProfile --queued
 ```
 
 When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
@@ -273,13 +285,58 @@ You may customize the queue connection and queue name that the action is queued 
 ```php
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-  use InteractsWithQueue, Queueable;
+    use Batchable, InteractsWithQueue, Queueable;
 
-  public function __construct()
-  {
-      $this->connection = 'redis';
-      $this->queue = 'emails';
-  }
+    public function __construct()
+    {
+        $this->connection = 'redis';
+        $this->queue = 'emails';
+    }
+}
+```
+
+### Job Batching
+
+You may also instruct Nova to queue actions as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `Laravel\Nova\Contracts\BatchableAction` interface. When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches):
+
+```php
+<?php
+
+namespace App\Nova\Actions;
+
+use App\AccountData;
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\PendingBatch;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Contacts\BatchableAction;
+use Laravel\Nova\Fields\ActionFields;
+
+class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
+{
+    use Batchable, InteractsWithQueue, Queueable;
+
+    /**
+     * Prepare the given batch for execution.
+     *
+     * @param  \Laravel\Nova\Fields\ActionFields  $fields
+     * @param  \Illuminate\Bus\PendingBatch  $batch
+     * @return void
+     */
+    public function withBatch(ActionFields $fields, PendingBatch $batch)
+    {
+        $batch->then(function (Batch $batch) {
+            // All jobs completed successfully...
+        })->catch(function (Batch $batch, Throwable $e) {
+            // First batch job failure detected...
+        })->finally(function (Batch $batch) {
+            // The batch has finished executing...
+        });
+    }
 }
 ```
 
@@ -300,9 +357,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-  use Actionable, Notifiable;
+    use Actionable, Notifiable;
 
-  // ...
+    // ...
 }
 ```
 
@@ -329,10 +386,10 @@ Or, using the `withoutActionEvents` method, you may disable the action log for a
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new SomeAction)->withoutActionEvents()
@@ -392,10 +449,10 @@ By default, actions will ask the user for confirmation before running. You can c
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\ActivateUser)
@@ -403,26 +460,6 @@ public function actions(Request $request)
             ->confirmButtonText('Activate')
             ->cancelButtonText("Don't activate"),
     ];
-}
-```
-
-This will customize the modal using your provided text:
-
-![Action Customization](./img/action-customization.png)
-
-## Customizing Action Confirmation Buttons
-
-You may wish to present the user with a different color scheme than the default "primary" and "destructive" styling for the action depending on its type. You may customize the CSS classes used for the confirmation buttons by overriding the `actionClass` method on the `Action` class:
-
-```php
-/**
- * Return the CSS classes for the Action.
- *
- * @return string
- */
-public function actionClass()
-{
-    return 'bg-success text-white';
 }
 ```
 

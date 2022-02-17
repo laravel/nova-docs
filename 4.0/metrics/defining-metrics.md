@@ -28,7 +28,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
 class NewUsers extends Value
@@ -36,10 +36,10 @@ class NewUsers extends Value
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->count($request, User::class);
     }
@@ -136,7 +136,7 @@ public function calculate(Request $request)
 To customize the display format, you can use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
 
 ```php
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
                 ->format('0,0');
@@ -211,7 +211,7 @@ In this example, we are using the `countByDays` helper, which will automatically
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
 
 class UsersPerDay extends Trend
@@ -219,10 +219,10 @@ class UsersPerDay extends Trend
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->countByDays($request, User::class);
     }
@@ -327,10 +327,10 @@ class UsersPerDay extends Trend
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this
             ->countByDays($request, User::class)
@@ -430,7 +430,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 
 class UsersPerPlan extends Partition
@@ -438,10 +438,10 @@ class UsersPerPlan extends Partition
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return mixed
      */
-    public function calculate(Request $request)
+    public function calculate(NovaRequest $request)
     {
         return $this->count($request, User::class, 'stripe_plan');
     }
@@ -503,10 +503,10 @@ Often, the column values that divide your partition metrics into groups will be 
 /**
  * Calculate the value of the metric.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return mixed
  */
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class, 'stripe_plan')
             ->label(function ($value) {
@@ -528,10 +528,10 @@ By default, Nova will choose the colors used in a partition metric. Sometimes, y
 /**
  * Calculate the value of the metric.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return mixed
  */
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     // This metric has `audio`, `video`, and `photo` types
     return $this->count($request, Post::class, 'type')->colors([
@@ -554,6 +554,76 @@ return $this->result([
 ]);
 ```
 
+## Progress Metric
+
+Progress metrics display current progress against a target value within a bar chart. For example, a progress metric might display the number of users registered for the given month compared to a target goal:
+
+// @SCREENSHOT
+
+Progress metrics may be generated using the `nova:progress` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
+
+```bash
+php artisan nova:progress NewUsers
+```
+
+Once your progress metric class has been generated, you're ready to customize it. Each progress metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ProgressResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
+
+In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use App\Models\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Progress;
+
+class NewUsers extends Progress
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return mixed
+     */
+    public function calculate(NovaRequest $request)
+    {
+        return $this->count($request, User::class, function ($query) {
+            return $query->where('created_at', '>=', now()->startOfMonth());
+        }, target: 200);
+    }
+
+    /**
+     * Get the URI key for the metric.
+     *
+     * @return string
+     */
+    public function uriKey()
+    {
+        return 'new-users';
+    }
+}
+```
+
+#### Sum
+
+Progress metrics don't just ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress with the sum of completed transaction amounts against a target sales goal:
+
+```php
+return $this->sum($request, Transaction::class, function ($query) {
+    return $query->where('completed', '=', 1);
+}, 'amount', target: 2000);
+```
+
+### Manually Building Progress Results
+
+If you are not able to use the included query helpers for building your progress metric, you may manually provide the final values to the metric using the `result` method:
+
+```php
+return $this->result(80, 100);
+```
+
 ## Caching
 
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
@@ -562,7 +632,7 @@ Occasionally the calculation of a metric's values can be slow and expensive. For
 /**
  * Determine for how many minutes the metric should be cached.
  *
- * @return  \DateTimeInterface|\DateInterval|float|int
+ * @return \DateTimeInterface|\DateInterval|float|int|null
  */
 public function cacheFor()
 {
@@ -597,4 +667,17 @@ By default, Nova does not live update metric results after running an action is 
  * @var bool
  */
 public $refreshWhenActionRuns = true;
+```
+
+## Refresh After Filter Changes
+
+Laravel Nova will only update the metric when a screen's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
+
+```php
+public function cards(NovaRequest $request)
+{
+    return [
+        TotalUsers::make()->refreshWhenFiltersChange(),
+    ];
+}
 ```

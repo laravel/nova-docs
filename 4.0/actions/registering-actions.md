@@ -8,10 +8,10 @@ Once you have defined an action, you are ready to attach it to a resource. Each 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         new Actions\EmailAccountProfile
@@ -25,10 +25,10 @@ Alternatively, you may use the `make` method to instantiate your action:
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\EmailAccountProfile::make()
@@ -46,10 +46,10 @@ By default, when running an action a confirmation modal is displayed to the user
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\EmailAccountProfile::make()->withoutConfirmation()
@@ -69,23 +69,23 @@ By default, actions are visible on both the resource index and detail screens. I
 - `showOnDetail`
 - `onlyOnTableRow`
 - `exceptOnTableRow`
-- `showOnTableRow`
+- `showInline`
 
 ### Inline Actions
 
-Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showOnTableRow` method when attaching the action to the resource:
+Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
 
 ```php
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
-        (new ConsolidateTransaction())->showOnTableRow()
+        (new ConsolidateTransaction())->showInline()
     ];
 }
 ```
@@ -98,10 +98,10 @@ Typically, actions executed against on selected resources from a resource index 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         Actions\InviteUser::make()->standalone()
@@ -114,15 +114,15 @@ public function actions(Request $request)
 If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your action registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
 ```php
-use App\User;
+use App\Models\User;
 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\EmailAccountProfile)->canSee(function ($request) {
@@ -139,34 +139,6 @@ public function actions(Request $request)
 It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, you should check for the existence of the model instead of assuming one is available.
 :::
 
-## Authorizing Actions Per-Resource
-
-Sometimes it is useful to conditionally display an action based on some state in the resource's underlying model. To do this, you can retrieve the resource via the `resource` property on a resource or lens instance:
-
-```php
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Http\Requests\ActionRequest;
-
-/**
- * Get the actions available for the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return array
- */
-public function actions(Request $request)
-{
-    return [
-        (new Actions\CancelTrial)->canSee(function ($request) {
-            if ($request instanceof ActionRequest) {
-                return true;  
-            }
-
-            return $this->resource instanceof Model && $this->resource->isOnTrial();
-        }),
-    ];
-}
-```
-
 #### The `canRun` Method
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
@@ -175,10 +147,10 @@ Sometimes a user may be able to "see" that an action exists but only "run" that 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function actions(Request $request)
+public function actions(NovaRequest $request)
 {
     return [
         (new Actions\EmailAccountProfile)->canSee(function ($request) {
@@ -189,6 +161,16 @@ public function actions(Request $request)
     ];
 }
 ```
+
+#### Authorization Via Resource Policy
+
+In addition to `canSee` and `canRun` authorization, Nova will also determine if the resource's corresponding model policy has `runAction` and `runDestructive` action methods. Finally, Nova will determine if the user is authorized to `update` the model or, in the case of destructive actions, `delete` the model based on the model's policy methods.
+
+The priority for authorizing the execution of a Nova action is best explained by the following list of steps:
+
+1. Use the return value from `canRun()` on the Action if it exists.
+2. Use the return value from `runAction()` or `runDestructiveAction()` on the underlying model policy if those methods have been defined.
+3. Use the return value from `update()` or `delete()` on the underlying model policy if those methods have been defined. Otherwise, return `false`.
 
 ## Pivot Actions
 

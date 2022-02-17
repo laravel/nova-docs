@@ -28,10 +28,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -96,10 +96,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -125,10 +125,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -155,7 +155,7 @@ When building routes for your tool, you should **always** add authorization to t
 
 When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `lodash` libraries are globally available.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
 
 #### Resource Tool Properties
 
@@ -173,10 +173,10 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make('ID', 'id')->sortable(),

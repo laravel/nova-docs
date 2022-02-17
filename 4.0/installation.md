@@ -7,8 +7,8 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 7.0+
-- Laravel Mix
+- Laravel Framework 8.0+
+- Laravel Mix 6
 - Node.js (Version 14)
 - NPM
 
@@ -51,9 +51,8 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
-    "php": "^7.2.5",
-    "fideloper/proxy": "^4.2",
-    "laravel/framework": "^7.0",
+    "php": "^7.3|^8.0",
+    "laravel/framework": "^8.0",
     "laravel/nova": "*"
 },
 ```
@@ -110,10 +109,9 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^7.2.5",
-    "fideloper/proxy": "^4.2",
-    "laravel/framework": "^7.0",
-    "laravel/nova": "~3.0"
+    "php": "^7.3|^8.0",
+    "laravel/framework": "^8.0",
+    "laravel/nova": "~4.0"
 },
 ```
 
@@ -159,19 +157,37 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 
 ## Upgrade Guide
 
-Nova 3.0 is primarily a maintenance release to provide compatibility with Laravel 7.x or greater. Nova 3.0 should **only** be used with Laravel 7.x or greater, as it is not compatible with previous releases of Laravel.
+Nova 4.0 is a new major series release providing many new features and tools. Nova 4.0 should **only** be used with Laravel 8.x or greater, as it is not compatible with previous releases of Laravel.
 
-Update your `laravel/nova` dependency to ~3.0 in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
+Update your `laravel/nova` dependency to `~4.0` in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
 
 Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
 
-## Customizing Nova's Authentication Guard
+## Customization
 
-Nova uses the default authentication guard defined in your `auth` configuration file. If you'd like to customize this guard you may set the `guard` value inside of Nova's configuration file.
+### Customizing Nova's Authentication Guard
 
-## Customizing Nova's Password Reset Functionality
+Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
 
-Nova uses the default password reset broker defined in your `auth` configuration file. If you'd like to customize this broker, you may set the `passwords` value inside of Nova's configuration file.
+```php
+'guard' => env('NOVA_GUARD', null),
+```
+
+### Customizing Nova's Password Reset Functionality
+
+Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within of Nova's configuration file:
+
+```php
+'passwords' => env('NOVA_PASSWORDS', null),
+```
+
+### Customizing Nova's Storage Disk Driver
+
+Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `storage_disk` value within Nova's configuration file:
+
+```php
+'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
+```
 
 ## Authorizing Nova
 

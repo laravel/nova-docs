@@ -50,14 +50,20 @@ module.exports = {
       {
         text: "Version",
         link: "/",
-        items: [{ text: "1.0", link: "/1.0/" }, { text: "2.0", link: "/2.0/" }, { text: "3.0", link: "/3.0/" }]
+        items: [
+          { text: "1.0", link: "/1.0/" },
+          { text: "2.0", link: "/2.0/" },
+          { text: "3.0", link: "/3.0/" },
+          { text: "4.0", link: "/4.0/" },
+        ]
       }
     ],
 
     sidebar: {
       "/1.0/": require("./1.0"),
       "/2.0/": require("./2.0"),
-      "/3.0/": require("./3.0")
+      "/3.0/": require("./3.0"),
+      "/4.0/": require("./4.0")
     },
 
     algolia: {

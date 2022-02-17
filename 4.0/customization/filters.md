@@ -28,10 +28,10 @@ use Acme\AgeRange\AgeRange;
 /**
  * Get the filters available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function filters(Request $request)
+public function filters(NovaRequest $request)
 {
     return [
         new AgeRange,
@@ -47,10 +47,10 @@ use Acme\AgeRange\AgeRange;
 /**
  * Get the filters available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function filters(Request $request)
+public function filters(NovaRequest $request)
 {
     return [
         AgeRange::make(),

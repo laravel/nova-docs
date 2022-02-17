@@ -56,7 +56,7 @@ By default, Nova will use the class name as the name of your dashboard. You may 
  *
  * @return string
  */
-public static function label()
+public function label()
 {
     return 'User Insights';
 }
@@ -70,7 +70,7 @@ If you need to change the URI key of the dashboard that is used by Nova, you may
  *
  * @return string
  */
-public static function uriKey()
+public function uriKey()
 {
     return 'user-insights-improved';
 }

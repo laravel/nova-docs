@@ -194,7 +194,7 @@ class AppServiceProvider extends ServiceProvider
 If you would like to attach an observer whose methods are invoked **only during** Nova related HTTP requests, you may register observers using the `Laravel\Nova\Observable` class in your application's `NovaServiceProvider`:
 
 ```php
-use App\User;
+use App\Models\User;
 use Laravel\Nova\Observable;
 use App\Observers\UserObserver;
 
@@ -216,7 +216,7 @@ Alternatively, you can determine if the current HTTP request is serving a Nova r
 ```php
 namespace App\Observers;
 
-use App\User;
+use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
@@ -239,6 +239,38 @@ class UserObserver
 }
 ```
 
+### Resource Hooks
+
+Laravel Nova also allows you to define the following static methods on a resource to serve as hooks that are only invoked when the corresponding resource action is executed from within Laravel Nova:
+
+* `afterCreate`
+* `afterUpdate`
+* `afterDelete`
+* `afterForceDelete`
+
+For example, you may want to send an email verification notification after a user has been created within Nova:
+
+```php
+use App\Models\User;
+use App\Nova\Resource;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
+{
+    /**
+     * Register a callback to be called after the resource is created.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @return void
+     */
+    public static function afterCreate(NovaRequest $request, Model $model)
+    {
+        $model->sendEmailVerificationNotification();
+    }
+}
+```
 
 ## Preventing Conflicts
 
@@ -318,19 +350,6 @@ Nova will then display a clickable button inside the interface:
 
 ![Nova Resource Polling Toggle Button](./img/polling-toggle.png)
 
-## Preventing Accidental Resource Form Abandonment
-
-When creating and editing resource forms with many fields, you may wish to prevent the user from accidentally leaving the form due to a misclick. You can enable this for each of your resources by setting the static `preventFormAbandonment` property to `true`:
-
-```php
-/**
- * Indicates whether Nova should prevent the user from leaving an unsaved form, losing their data.
- *
- * @var bool
- */
-public static $preventFormAbandonment = true;
-```
-
 ## Redirection
 
 Nova allows you to easily customize where a user is redirected after performing resource actions such as creating or updating a resource:
@@ -341,7 +360,13 @@ Nova allows you to easily customize where a user is redirected after performing 
 
 :::warning Redirection Limitation
 
-Behind the scene, Nova's redirect features use the Vue router's `push()` method. Because of this, redirection is limited to paths within Laravel Nova.
+Behind the scenes, Nova's redirect features use the Inertia.js's `visit()` method. Because of this, redirection is limited to paths within Laravel Nova. You may invoke the `URL::remote` method to redirect to an external URL:
+
+```php
+use Laravel\Nova\URL;
+
+return URL::remote('https://nova.laravel.com');
+```
 :::
 
 #### After Creating Redirection
@@ -354,7 +379,7 @@ You may customize where a user is redirected after creating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return string
+     * @return \Laravel\Nova\URL|string
      */
     public static function redirectAfterCreate(NovaRequest $request, $resource)
     {
@@ -372,7 +397,7 @@ You may customize where a user is redirected after updating a resource using by 
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Laravel\Nova\Resource  $resource
-     * @return string
+     * @return \Laravel\Nova\URL|string
      */
     public static function redirectAfterUpdate(NovaRequest $request, $resource)
     {
@@ -389,7 +414,7 @@ You may customize where a user is redirected after deleting a resource using by 
      * Return the location to redirect the user after deletion.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return string|null
+     * @return \Laravel\Nova\URL|string|null
      */
     public static function redirectAfterDelete(NovaRequest $request)
     {

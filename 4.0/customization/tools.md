@@ -68,9 +68,11 @@ public function tools()
 
 ### Routing
 
-Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates a `routes/api.php` routes file. If needed, you may use this file to define any routes your tool requires.
+Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates `routes/inertia.php` and `routes/api.php` route files. If needed, you may use these files to define any routes your tool requires.
 
-All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/price-tracker`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
+All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that Inertia.js routes within the group should receive a `/nova/tool-name` URL prefix and all "API routes" that will be invoked from the client via `Nova.request()` should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
+
+You are free to modify this route group definition, but you should ensure your Nova tool will easily co-exist with other Nova packages.
 
 #### Routing Authorization
 
@@ -78,25 +80,34 @@ Your Nova tool is generated with an `Authorize` middleware. This middleware auto
 
 ### Navigation
 
-Your Nova tool class contains a `renderNavigation` method. This method should return the view that renders your tool's sidebar links. Of course, a default navigation view will be created for you when the tool is generated; however, you are free to customize this view as needed:
+Your Nova tool class contains a `menu` method. This method should return a custom menu that renders your tool's sidebar links. You are free to customize this method as needed:
 
 ```php
+use Laravel\Nova\Menu\MenuSection;
+
 /**
- * Build the view that renders the navigation links for the tool.
+ * Build the menu that renders the navigation links for the tool.
  *
- * @return \Illuminate\View\View
+ * @param  \Illuminate\Http\Request  $request
+ * @return mixed
  */
-public function renderNavigation()
+public function menu(Request $request)
 {
-    return view('price-tracker::navigation');
+    return MenuSection::make('Price Tracker')
+        ->path('/price-tracker')
+        ->icon('server');
 }
 ```
 
+#### Sidebar Icons
+
+Nova utilizes the free [Heroicons UI](https://github.com/sschoger/heroicons-ui) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
+
 ### Assets
 
-When Nova generates your tool, `resources/js` and `resources/sass` directories are generated for you. These directories contain your tool's JavaScript and Sass stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/sass/tool.scss`.
+When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios, which is available globally. In addition, the `moment.js` and `lodash` libraries are globally available.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
 
 #### Registering Assets
 
@@ -120,10 +131,15 @@ public function boot()
 }
 ```
 
-:::tip JavaScript Bootstrap & Routing
+#### JavaScript Bootstrap & Components
 
-Your component is bootstrapped and front-end routes are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
-:::
+Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed:
+
+```js
+Nova.booting((Vue, store) => {
+  Vue.component('PriceTrackerHeader', require('./components/Header').default)
+})
+```
 
 #### Compiling Assets
 
@@ -145,18 +161,10 @@ npm run watch
 
 #### Vue Page Components & Nova Plugins
 
-Vue page components contained by your tool have access to all of the plugins registered by Nova, including `vue-meta`, `portal-vue`, and `v-tooltip`. For example, your tool's `resources/js/components/Tool.vue` stub will contain a default page title which is managed by the `vue-meta` plugin:
+Vue page components contained by your tool have access to all of the components and plugins registered by Nova, including `v-tooltip`. For example, your tool's `resources/js/pages/Tool.vue` stub will contain a default page title which is managed by the Inertia.js `Head` component:
 
 ```js
-export default {
-  metaInfo() {
-    return {
-      title: 'PriceTracker',
-    }
-  }
-}
+<template>
+  <Head title="PriceTracker" />
+</template>
 ```
-
-### Sidebar Icons
-
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.

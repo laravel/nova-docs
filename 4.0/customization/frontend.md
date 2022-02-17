@@ -6,19 +6,9 @@
 
 When building custom Nova tools, resource tools, cards, and fields, you may use a variety of helpers that are globally available to your JavaScript components.
 
-### Axios
+### Nova Requests
 
-The [Axios HTTP library](https://github.com/axios/axios) is globally available, allowing you to easily make requests to your custom component's Laravel controllers:
-
-```js
-axios.get('/nova-vendor/stripe-inspector/endpoint').then(response => {
-    // ...
-})
-```
-
-#### Nova Requests
-
-As an alternative to using Axios directly, you may use the `Nova.request()` method. This method configures a separate instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level server errors:
+You may use the `Nova.request()` method to make XHR requests using the [Axios](https://github.com/axios/axios) API. This method configures its own instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level HTTP server responses:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
@@ -28,7 +18,7 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 
 ### Event Bus
 
-The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by Vue](https://vuejs.org/v2/api/#Instance-Methods-Events):
+The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
 
 ```js
 Nova.$on(event, callback)
@@ -39,11 +29,11 @@ Nova.$emit(event, [...args])
 
 ### Notifications
 
-Nova's Vue configuration automatically registers the [Vue toasted plugin](https://github.com/shakee93/vue-toasted). So, within your custom components, you may leverage the `this.$toasted` object to display simple notifications:
+You may display toast notification to users of your custom frontend components by calling the `success`, `error`, `info`, or `warning` methods on the global `Nova` object:
 
 ```js
-this.$toasted.show('It worked!', { type: 'success' })
-this.$toasted.show('It failed!', { type: 'error' })
+Nova.success('It worked!')
+Nova.error('It failed!')
 ```
 
 ### Shortcuts
@@ -75,11 +65,11 @@ Nova.disableShortcut(['ctrl+k', 'command+k'])
 
 ### Global Variables
 
-The global `Nova` JavaScript object's `config` property contains the current Nova `base` path and `userId`:
+The global `Nova` JavaScript object's `config` method allows you to get the current Nova `base` path and `userId` configuration values:
 
 ```js
-const userId = Nova.config.userId;
-const basePath = Nova.config.base;
+const userId = Nova.config('userId');
+const basePath = Nova.config('base');
 ```
 
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
@@ -97,16 +87,16 @@ public function boot()
 {
     Nova::serving(function (ServingNova $event) {
         Nova::provideToScript([
-            'user' => $event->request->user()->toArray(),
+            'mail_driver' => config('mail.default'),
         ]);
     });
 }
 ```
 
-Once the variable has been provided to Nova via the `provideToScript` method, you may access it on the global `Nova` JavaScript object:
+Once the variable has been provided to Nova via the `provideToScript` method, you may access it using the global `Nova` JavaScript object's `config` method:
 
-```php
-const name = Nova.config.user.name;
+```js
+const driver = Nova.config('mail_driver');
 ```
 
 ### Localizations
@@ -128,7 +118,3 @@ php artisan nova:publish
 ```
 
 Please note, compiling Nova's assets for production purposes is not supported.
-
-### Other Available Libraries
-
-In addition to Axios, the [Lodash](https://lodash.com/) and [Moment.js](https://momentjs.com/) libraries are globally available to your custom components.

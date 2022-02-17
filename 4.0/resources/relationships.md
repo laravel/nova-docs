@@ -16,10 +16,20 @@ use Laravel\Nova\Fields\HasOne;
 HasOne::make('Address'),
 ```
 
-Like other types of fields, relationship fields will automatically "snake case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
+Like other types of fields, relationship fields will automatically "camel case" the displayable name of the field to determine the underlying relationship method / attribute. However, you may explicitly specify the name of the relationship method by passing it as the second argument to the field's `make` method:
 
 ```php
 HasOne::make('Dirección', 'address'),
+```
+
+### HasOneOfMany
+
+The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `User` model `hasMany` `Post` models. We may add the "has one of many" relationship to our `User` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\HasOne;
+
+HasOne::ofMany('Latest Post', 'latestPost', 'App\Nova\Post'),
 ```
 
 ## HasMany
@@ -121,7 +131,7 @@ public function title()
 
 ##### Disable Ordering By Title
 
-By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAssociatables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](/3.0/resources/authorization.html#relatable-filtering):
+By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAssociatables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](./authorization.html#relatable-filtering):
 
 ```php
 BelongsTo::make('User')->dontReorderAssociatables(),
@@ -319,6 +329,18 @@ The `MorphOne` field corresponds to a `morphOne` Eloquent relationship. For exam
 use Laravel\Nova\Fields\MorphOne;
 
 MorphOne::make('Image'),
+```
+
+### MorphOneOfMany
+
+The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method.
+
+The `MorphOne` relationship field can be transformed into a "morph one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
+
+```php
+use Laravel\Nova\Fields\MorphOne;
+
+MorphOne::ofMany('Latest Comment', 'latestComment', 'App\Nova\Comment'),
 ```
 
 ## MorphMany
