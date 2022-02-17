@@ -326,12 +326,12 @@ BelongsToMany::make('Purchased Books'),
 
 Nova 4 no longer allows adding custom CSS styles to an action confirmation modal's buttons via the action's `actionClass` method.
 
-### `SelectFilter::options` Format
+### `Filter::options` Array Format
 
-The `option` method of the `SelectFilter`  syntax has been updated for `SelectFilter::options` return `array` format to match `Select` field:
+The `Filter` class' `options` method should now return an array with items containing a `label` key instead of a `name` key:
 
 ```php
-// Before
+// Before...
 public function options(Request $request)
 {
     return [
@@ -340,7 +340,7 @@ public function options(Request $request)
     ];
 }
 
-// After
+// After...
 public function options(NovaRequest $request)
 {
     return [
