@@ -28,36 +28,27 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 "laravel/nova": "^4.0",
 ```
 
-### Updating Configurations, Assets and Languages
+### Updating Configuration, Assets, and Translations
 
-#### Automatically updates using `nova:upgrade`
-
-Next, you need to create Main dashboard and replace configuration, language and views which is simplified using the following command:
-
-```bash
-php artisan nova:upgrade
-```
-
-#### Manually updates
-
-Alternatively, you can also manually run the following commands insteads of `nova:upgrade`:
+Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations. In addition, we will generate a "Main" dashboard for your Nova installation:
 
 ```bash
 php artisan nova:dashboard Main
 
 php -r "file_exists('./resources/views/vendor/nova/layout.blade.php') && unlink('./resources/views/vendor/nova/layout.blade.php');"
+
 php artisan vendor:publish --tag=nova-assets --force
 php artisan vendor:publish --tag=nova-lang --force
 php artisan view:clear
 ```
 
-#### Updating Configuration
-
-Nova 4 introduce few configuration breaking changes. The changes will be applied automatically via via `nova:upgrade`, but you can also choose to do it manually by editing `config/nova.php`.
-
-Changes to `middleware` and new `api_middleware` configuration:
+Next, let's update your Nova configuration file. First, ensure that the `middleware` and `api_middleware` configuration options within your application's `nova` configuration file appear like the following:
 
 ```php
+use Laravel\Nova\Http\Middleware\Authenticate;
+use Laravel\Nova\Http\Middleware\Authorize;
+use Laravel\Nova\Http\Middleware\BootTools;
+use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
 use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
 
 return [
@@ -81,29 +72,27 @@ return [
 ];
 ```
 
-New `storage_disk` configuration:
+Next, ensure your application's `nova` configuration file contains a `storage_disk` configuration option:
 
 ```php
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 
-
-Next, you should reviews the following changes and adjust your Nova application based on the suggestions.
+Once your configuration has been updated, you should review the following list of changes and upgrade your application accordingly.
 
 ## High Impact Changes
 
 ### Nova Request
 
-**This change is required when using PHP 7.3; however, the change is optional for applications running on PHP 7.4 and above.**
-
-In Nova 4, many methods have been updated to accept a `Laravel\Nova\Http\Requests\NovaRequest` instance instead of `Illuminate\Http\Request`. An overview of the methods that have been updated is provided below.
+Nova 4 updates many methods to accept a `Laravel\Nova\Http\Requests\NovaRequest` instance instead of an `Illuminate\Http\Request` instance. An overview of the methods that have been updated is provided below so you may update your method signatures accordingly.
 
 #### Resources
 
 The `fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsForUpdate`, `cards`, `filters`, `lenses`, and `actions` methods:
 
 ```php
-class Resource {
+class Resource
+{
     public function fields(NovaRequest $request) {} 
     public function fieldsForIndex(NovaRequest $request) {} 
     public function fieldsForDetail(NovaRequest $request) {} 
@@ -121,7 +110,8 @@ class Resource {
 The `fields`, `filters`, and `actions` methods:
 
 ```php
-class Lens {
+class Lens
+{
     public function fields(NovaRequest $request) {} 
     public function filters(NovaRequest $request) {}
     public function actions(NovaRequest $request) {}
@@ -133,7 +123,8 @@ class Lens {
 The `fields` method:
 
 ```php
-class Action {
+class Action
+{
     public function fields(NovaRequest $request) {} 
 }
 ```
@@ -143,21 +134,22 @@ class Action {
 The `apply` and `options` methods:
 
 ```php
-class Filter {
+class Filter
+{
     public function apply(NovaRequest $request, $query, $value) {}
     public function options(NovaRequest $request) {}
 }
 ```
 
-### Main Dashboard class
+### Main Dashboard Class
 
-In Nova 3, you would only need to define Main dashboard cards via `App\Providers\NovaServiceProvider::cards` method. In Nova 4, you would need to register a custom class for Main Dashboard by running the following command:
+In previous releases of Nova, the "Main" dashboard cards were defined via the `cards` method of your application's `NovaServiceProvider`. However, in Nova 4, a dedicated `Main` dashboard class must be created via the following command:
 
 ```bash
 php artisan nova:dashboard Main
 ```
 
-Next, move the contain on `cards` method from `App\Providers\NovaServiceProvider` class to `App\Nova\Dashboards\Main` class. 
+Next, move the contents of the `cards` method from your `NovaServiceProvider` to the `cards` method of your new `App\Nova\Dashboards\Main` class.
 
 ### Dashboard Methods
 
@@ -185,9 +177,9 @@ public function uriKey()
 }
 ``` 
 
-### Client-side Timezone Detection
+### Client-Side Timezone Detection
 
-Nova 4 removes the ability to rely on the client machine time in order to display timezone related information. Instead, Nova 4 utilizes the application's "server side" timezone as defined by the timezone option in your `app` configuration file.
+Nova 4 removes the ability to rely on the client machine timezone in order to display timezone related information. Instead, Nova 4 utilizes the application's "server side" timezone as defined by the timezone option in your application's `app` configuration file.
 
 Please refer to our documentation regarding [timezone customization](./resources/date-fields.html#customizing-the-timezone) for more information.
 
@@ -204,15 +196,15 @@ Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local"
 
 ## Medium Impact Changes
 
-### Vue 3 Upgrades
+### Vue 3
 
-Nova 4 has been upgraded to use Vue 3, in order to upgrade all Custom Cards, Custom Fields, Custom Filters, Resource Tools and Tools to support Vue 3 please consider the following changes to `webpack.mix.js`:
+Nova 4 has been updated to use Vue 3, in order to upgrade all custom cards, custom fields, custom filters, resource tools, and tools to support Vue 3, please make the following changes to your application's `webpack.mix.js`:
 
 ```js
-// Before
+// Before...
 mix.js('resources/js/field.js', 'js') 
 
-// After
+// After...
 mix.js('resources/js/field.js', 'js').vue({ version: 3 })
   .webpackConfig({
     externals: {
@@ -228,7 +220,7 @@ mix.js('resources/js/field.js', 'js').vue({ version: 3 })
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
 
-Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). You should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
+Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). Therefore, custom tools should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
 
 ```js
 Nova.booting((Vue, router) => {
@@ -242,18 +234,20 @@ Nova.booting((Vue, router) => {
 })
 ````
 
-You should perform the following when using Nova 4:
+When using Nova 4, you should register the tool component with Inertia like so:
 
 ```js
-// tool.js
+// Within tool.js...
 
 Nova.booting((Vue) => {
   Nova.inertia('SidebarTool', require('./component/Tool').default)
 })
 ```
 
+Once your Vue component has been registered, you should define a server-side route definition for your tool so that it may be rendered:
+
 ```php
-// ToolServiceProvider.php
+// Within ToolServiceProvider.php...
 
 use Laravel\Nova\Nova;
 
@@ -265,7 +259,7 @@ Nova::router()
     });
 ```
 
-### Removal of `laravel-nova` NPM Dependencies
+### Removal Of `laravel-nova` NPM Dependencies
 
 Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually copy all relevants files to `resources/js/mixins` and update `webpack.mix.js`:
 
@@ -290,7 +284,7 @@ import { FormField, HandlesValidationErrors } from '@/mixins'
 
 ### Event Cancellation On Save
 
-Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database:
+Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database, even though the even listener returns `false`:
 
 ```php
 User::updating(function ($model) {
@@ -300,9 +294,9 @@ User::updating(function ($model) {
 
 However, this code will throw a `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Nova 4.
 
-### `Field::default` method resolves value only for Create, Attach, and Action requests
+### `Field::default` Method Only Applies To Create, Attach, & Action Requests
 
-Nova 4 will no longer resolve fields default values for Index and Detail requests, if you need to define default attribute values please utilise Eloquent's ` attributes` property, for example:
+Nova 4 will no longer resolve default values for "index" and "detail" requests. If you need to define a model's default attribute values, please utilize Eloquent's `$attributes` property:
 
 ```php
 use Illuminate\Database\Eloquent\Model;
@@ -320,32 +314,21 @@ class User extends Model
 }
 ```
 
-### Use a consistent approach to guess relationships between Laravel and Nova
+### Relationship Name Conventions
 
-Given following definition, Nova 3 will translate the relationship name as `purchase_books` while Nova 4 would translate it as `purchaseBooks`.
-
-```php
-BelongsToMany::make('Purchase Books'),
-```
-
-### `Action::actionClass` method has been removed
-
-Nova 4 no longer give access to add custom CSS style to action confirmation modal button using values `actionClass` method and instead only handles `Action` and `DestructiveAction`. In screnario where you still needs to create custom confirmation modal please create a custom Vue Component and assign the name to `$component` property:
+Given the following field definition, Nova 3 will assume the relationship method is named `purchased_books`; however, Nova 4 will assume the relationship method is named `purchasedBooks`.
 
 ```php
-/**
- * The action's component.
- *
- * @var string
- */
-public $component = 'CustomConfirmActionModal';
+BelongsToMany::make('Purchased Books'),
 ```
 
-## Low Impact Changes
+### `Action::actionClass` Method Removed
 
-### Change `SelectFilter::options` format to match with `Select` field
+Nova 4 no longer allows adding custom CSS styles to an action confirmation modal's buttons via the action's `actionClass` method.
 
-The following syntax has been updated for `SelectFilter::options` return `array` format to match `Select` field:
+### `SelectFilter::options` Format
+
+The `option` method of the `SelectFilter`  syntax has been updated for `SelectFilter::options` return `array` format to match `Select` field:
 
 ```php
 // Before
@@ -355,7 +338,7 @@ public function options(Request $request)
         'yes' => ['name' => 'Yes'],
         'no' => ['name' => 'No'],
     ];
-} 
+}
 
 // After
 public function options(NovaRequest $request)
@@ -363,28 +346,26 @@ public function options(NovaRequest $request)
     return [
         'yes' => ['label' => 'Yes'],
         'no' => ['label' => 'No'],
-    ]; 
+    ];
 }
 ```
 
-### `HasOneThrough` and `HasManyThrough` fields no longer can create new relation resources
+## Low Impact Changes
 
-Nova 4 will no longer allow creating `HasOneThrough` or `HasManyThrough` relationship from a Resource Detail, both relationship fields should be consider as read-only.
+### Reduce Encoded Filter String Length
 
-### Reduce encoded filter string using a shorter key-value map
+Nova 4 introduces a shorter key-value map in filter string URLs which reduces the overall length of the URL. This change doesn't affect bookmarked URLs; however, third party package tool developers who interact deeply with Vuex may wish to ensure their packages still work after this change.
 
-Nova 4 has introduce shorter key-value map which reduces the length of encoded filters string value. This changes doesn't affect bookmarked URLs however 3rd party package tool developers may require to update project code if it have deep integration with Filters Vuex store. 
+### `Action::showOnTableRow` Method
 
-### `Action::showOnTableRow` method deprecation
-
-`Action::showOnTableRow` method has been deprecated starting on Nova 4 and we recommends everyone to update to `showInline` method instead:
+The `Action::showOnTableRow` method has been deprecated. Instead, we suggest updating your code to use the `showInline` method:
 
 ```php
-// Before
-(new ConsolidateTransaction())->showOnTableRow(),
+// Before...
+(new ConsolidateTransaction)->showOnTableRow(),
 
-// AFter
-(new ConsolidateTransaction())->showInline(),
+// After...
+(new ConsolidateTransaction)->showInline(),
 ```
 
 ### Authorizing Actions Per-Resource
@@ -444,16 +425,12 @@ You may want to skipped displaying the `CancelTrial` when "Select All Matching" 
 }),
 ```
 
-### Changes to Authorization
+### Authorization Precedence
 
-Nova 4 introduce following authorization breaking changes:
+Nova 4 introduce the following tweaks to authorization order / precedence:
 
-* `view` policy no longer depends on `viewAny` policy.
-* Action can be executed regardless of `view` and `viewAny` policy.
-* Destructive Action now will use `canRun` method before checking on model policy.
+* Authorizing a resource `view` permission no longer depends the `viewAny` permission.
+* Actions can be executed regardless of `view` and `viewAny` permissions.
+* Destructive actions will now authorize via their own `canRun` method before falling back to the model's policy.
 
-Further detail regarding authorization availables on the [policy documentation](./resources/authorization.html#policies).
-
-### Preventing Accidental Form Abandonment
-
-Nova 4 now will automatically add Prevent Form Abandonment to Resource CRUD and Action Modal, it'll now warn users when they attempt to abandon the form.
+Further detail regarding Nova authorization is available within the [policy documentation](./resources/authorization.html#policies).
