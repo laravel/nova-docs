@@ -368,63 +368,6 @@ The `Action::showOnTableRow` method has been deprecated. Instead, we suggest upd
 (new ConsolidateTransaction)->showInline(),
 ```
 
-### Authorizing Actions Per-Resource
-
-In Nova 3, you can conditionally display an action based on some state in the resource's underlying model via the `resource` property on a resource or lens instance:
-
-```php
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Nova\Http\Requests\ActionRequest;
-
-/**
- * Get the actions available for the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return array
- */
-public function actions(Request $request)
-{
-    return [
-        (new Actions\CancelTrial)->canSee(function ($request) {
-            if ($request instanceof ActionRequest) {
-                return true;  
-            }
-
-            return $this->resource instanceof Model && $this->resource->isOnTrial();
-        }),
-    ];
-}
-```
-
-In Nova 4, `canRun` will be executed alongside `canSee` except when dealing with "Select All Matching". This allows users to focus `canSee` for User authorization for the action and `canRun` for model authorization for the action:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(Request $request)
-{
-    return [
-        (new Actions\CancelTrial)->canRun(function ($request, $user) {
-            return $user->isOnTrial();
-        }),
-    ];
-}
-```
-
-You may want to skipped displaying the `CancelTrial` when "Select All Matching" is selected by adding the following:
-
-```php
-(new Actions\CancelTrial)->canSee(function ($request) {
-    return ! $request->allResourcesSelected();
-})->canRun(function ($request, $user) {
-    return $user->isOnTrial();
-}),
-```
-
 ### Authorization Precedence
 
 Nova 4 introduce the following tweaks to authorization order / precedence:
