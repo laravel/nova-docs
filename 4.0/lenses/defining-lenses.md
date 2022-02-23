@@ -143,7 +143,7 @@ Nova can automatically fetch the latest records for a lens at a specified interv
 
 ```php
 /**
- * Indicates whether the resource should automatically poll for new lens.
+ * Indicates whether the lens should automatically poll for new records.
  *
  * @var bool
  */
