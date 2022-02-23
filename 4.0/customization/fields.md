@@ -138,7 +138,7 @@ By default, all custom fields will be created such that they use the `FormField`
 
 ```js
 // Before ...
-import { FormField, HandlesValidationErrors } from '@/mixins'
+import { FormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
   mixins: [FormField, HandlesValidationErrors],
@@ -147,7 +147,7 @@ export default {
 }
 
 // After...
-import { DependentFormField, HandlesValidationErrors } from '@/mixins'
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
   mixins: [DependentFormField, HandlesValidationErrors],
