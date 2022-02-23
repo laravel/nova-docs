@@ -261,26 +261,17 @@ Nova::router()
 
 ### Removal Of `laravel-nova` NPM Dependencies
 
-Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually copy all relevants files to `resources/js/mixins` and update `webpack.mix.js`:
+Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would require changes to any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually update `webpack.mix.js` to define alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
 ```js
 let mix = require('laravel-mix')
 let path = require('path')
 
 mix.alias({
-  '@': path.join(__dirname, 'resources/js/'),
+  'laravel-nova': path.join(__dirname, 'vendor/laravel/nova/resources/js/mixins/packages.js'),
 })
 ```
 
-To import the mixin you can do the following:
-
-```js
-// Before
-import { FormField, HandlesValidationErrors } from 'laravel-nova'
-
-// After
-import { FormField, HandlesValidationErrors } from '@/mixins'
-```
 
 ### Event Cancellation On Save
 
