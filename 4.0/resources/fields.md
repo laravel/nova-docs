@@ -1585,3 +1585,14 @@ Field dependence is currently supported by the following fields:
 - URL
 - VaporFile
 - VaporImage
+  
+While it is expected that `Boolean` and `Select` would be the typical fields to be depended by another field, do note that the following fields aren't supported:
+
+- Code
+- File
+- Image
+- KeyValue
+- Status
+- Trix
+- VaporFile
+- VaporImage
