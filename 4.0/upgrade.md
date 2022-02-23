@@ -259,7 +259,7 @@ Nova::router()
     });
 ```
 
-### Removal Of `laravel-nova` NPM Dependencies
+### Removal Of `laravel-nova` NPM Dependency
 
 Nova 4 has merged `laravel-nova` codebase into `laravel/nova` repository and this would require changes to any Custom Fields and Tools depending on `laravel-nova` mixins. You need to manually update `webpack.mix.js` to define alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
