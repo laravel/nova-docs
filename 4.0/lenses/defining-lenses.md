@@ -139,7 +139,7 @@ As you can see in the example above, the `query` method has full control of the 
 
 ### Lens Polling
 
-Nova can automatically fetch the latest records for a lens at a specified interval. To enable polling, override the `polling` property of your lens class:
+Nova can automatically fetch the latest records for a lens at a specified interval via polling. To enable polling, overwrite the `polling` property of your lens class:
 
 ```php
 /**
@@ -150,20 +150,20 @@ Nova can automatically fetch the latest records for a lens at a specified interv
 public static $polling = true;
 ```
 
-To customize the polling interval, you may override the `pollingInterval` property on your lens class with the number of seconds Nova should wait before fetching new records:
+To customize the polling interval, you may override the `pollingInterval` property on your lens class. The `pollingInterval` definews the number of seconds Nova should wait before fetching new records:
 
 ```php
 /**
- * The interval at which Nova should poll for new lens.
+ * The interval (in seconds) at which Nova should poll for new lens.
  *
  * @var int
  */
 public static $pollingInterval = 5;
 ```
 
-### Toggling Lens Polling
+#### Toggling Lens Polling
 
-By default, when lens polling is enabled, there is no way to disable it once the page loads. You can instruct Nova to display a start/stop toggle button for lens polling by setting the `showPollingToggle` property on your lens class:
+By default, when lens polling is enabled, there is no way to disable polling once the page has loaded. However, you can instruct Nova to display a start / stop polling toggle button by setting the `showPollingToggle` property on your lens class to `true`:
 
 ```php
 /**
