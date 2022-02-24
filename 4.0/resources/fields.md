@@ -1562,7 +1562,7 @@ Text::make('Recipient')
     ),
 ```
 
-Field dependence is currently supported by the following fields:
+The following field types may depend on other fields:
 
 - BelongsTo
 - Boolean
@@ -1585,8 +1585,8 @@ Field dependence is currently supported by the following fields:
 - URL
 - VaporFile
 - VaporImage
-  
-While it is expected that `Boolean` and `Select` would be the typical fields to be depended by another field, do note that the following fields aren't supported:
+
+The following field types may not be depended upon by other fields:
 
 - Code
 - File
