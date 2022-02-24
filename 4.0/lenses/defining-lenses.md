@@ -137,6 +137,43 @@ When writing your lens query, you should always try to include the resource's ID
 
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
 
+### Lens Polling
+
+Nova can automatically fetch the latest records for a lens at a specified interval via polling. To enable polling, overwrite the `polling` property of your lens class:
+
+```php
+/**
+ * Indicates whether the lens should automatically poll for new records.
+ *
+ * @var bool
+ */
+public static $polling = true;
+```
+
+To customize the polling interval, you may override the `pollingInterval` property on your lens class. The `pollingInterval` definews the number of seconds Nova should wait before fetching new records:
+
+```php
+/**
+ * The interval (in seconds) at which Nova should poll for new lens.
+ *
+ * @var int
+ */
+public static $pollingInterval = 5;
+```
+
+#### Toggling Lens Polling
+
+By default, when lens polling is enabled, there is no way to disable polling once the page has loaded. However, you can instruct Nova to display a start / stop polling toggle button by setting the `showPollingToggle` property on your lens class to `true`:
+
+```php
+/**
+ * Indicates whether to show the polling toggle button inside Nova.
+ *
+ * @var bool
+ */
+public static $showPollingToggle = true;
+```
+
 ### Lens Metrics
 
 Each Nova lens also contains a `cards` method. This method allows you to attach any of your existing [metrics](./../metrics/defining-metrics.md) to the lens:
