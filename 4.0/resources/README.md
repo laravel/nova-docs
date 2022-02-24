@@ -29,7 +29,7 @@ Freshly created Nova resources only contain an `ID` field definition. Don't worr
 
 :::warning Reserved Resource Names
 
-Nova contains a few reserved words, which may not be used for resource names.
+Nova contains a few reserved words which may not be used for resource names:
 
 - Card
 - Dashboard
