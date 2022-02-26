@@ -26,7 +26,7 @@ Text::make('State')
     ->rules('required', new ValidState),
 ```
 
-Additionally, you may use [custom Closure rules](https://laravel.com/docs/validation#using-closures) to validate your resource fields:
+Additionally, you may use [custom closure rules](https://laravel.com/docs/validation#using-closures) to validate your resource fields:
 
 ```php
 Text::make('State')
@@ -64,7 +64,7 @@ Text::make('Email')
 
 ## After Validation Hooks
 
-Nova also provides several methods that allow you to perform tasks after a resource has been validated:
+Nova also provides several methods that allow you to perform tasks after a resource has been validated, providing the opportunity to perform more custom validation before the resource is persisted to the database:
 
 * [`afterValidation`](#after-validation-method)
 * [`afterCreationValidation`](#after-creation-validation-method)
