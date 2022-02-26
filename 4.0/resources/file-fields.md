@@ -2,15 +2,15 @@
 
 [[toc]]
 
-Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`, and `VaporImage`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` field classes. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
+Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`, and `VaporImage`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` fields. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
 
 ## Overview
 
-To illustrate the behavior of Nova file upload fields, let's assume our application's users can upload "profile photos" to their account. So, our `users` database table will have a `profile_photo` column. This column will contain the path to the profile on disk, or, when using a cloud storage provider such as Amazon S3, the profile photo's path within its "bucket".
+To illustrate the behavior of Nova file upload fields, let's assume our application's users can upload "profile photos" to their account. So, our `users` database table will have a `profile_photo` column. This column will contain the path to the profile photo on disk, or, when using a cloud storage provider such as Amazon S3, the profile photo's path within its "bucket".
 
 ### Defining The Field
 
-Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your `filesystems` configuration file:
+Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your application's `filesystems` configuration file:
 
 ```php
 use Laravel\Nova\Fields\File;
@@ -20,7 +20,7 @@ File::make('Profile Photo')->disk('public'),
 
 ### Disabling File Downloads
 
-By default, the `File` field allows the user to download the linked file. To disable this, you can call the `disableDownload` method on the field definition:
+By default, the `File` field allows the user to download the corresponding file. To disable this, you may call the `disableDownload` method on the field definition:
 
 ```php
 File::make('Profile Photo')->disableDownload(),
@@ -28,9 +28,9 @@ File::make('Profile Photo')->disableDownload(),
 
 ### How Files Are Stored
 
-When a file is uploaded using this field, Nova will use Laravel's [Flysystem integration](https://laravel.com/docs/filesystem) to store the file on the disk of your choosing with a randomly generated filename. Once the file is stored, Nova will store the relative path to the file in the file field's underlying database column.
+When a file is uploaded using this field, Nova will use Laravel's [Flysystem integration](https://laravel.com/docs/filesystem) to store the file on the disk of your choosing and the file will be assigned a randomly generated filename. Once the file is stored, Nova will store the relative path to the file in the file field's underlying database column.
 
-To illustrate the default behavior of the `File` field, let's take a look at an equivalent route that would store the file in the same way:
+To illustrate the default behavior of the `File` field, let's take a look at an equivalent Laravel route that would store the file in the same way:
 
 ```php
 use Illuminate\Http\Request;
@@ -50,16 +50,17 @@ Of course, once the file has been stored, you may retrieve it within your applic
 use Illuminate\Support\Facades\Storage;
 
 Storage::get($user->profile_photo);
-
 Storage::url($user->profile_photo);
 ```
-
-If you are using the `public` disk with the `local` driver, you should run the `php artisan storage:link` Artisan command to create a symbolic link from `public/storage` to `storage/app/public`. To learn more about file storage in Laravel, check out the [Laravel file storage documentation](https://laravel.com/docs/filesystem).
 
 :::tip Customization
 
 The documentation above only demonstrates the default behavior of the `File` field. To learn more about how to customize its behavior, check out the [customization documentation](#customization).
 :::
+
+#### The Local Disk
+
+If you are using the `public` disk in conjunction with the `local` driver, you should run the `php artisan storage:link` Artisan command to create a symbolic link from `public/storage` to `storage/app/public`. To learn more about file storage in Laravel, check out the [Laravel file storage documentation](https://laravel.com/docs/filesystem).
 
 ## Images
 
@@ -77,7 +78,10 @@ To set the width of the `Image` field when being displayed, you can use the `max
 Image::make('Profile Photo')->maxWidth(100),
 ```
 
-You can also use the `maxWidth` method on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
+:::tip Max Width
+
+You may also use the `maxWidth` method on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
+:::
 
 ## Avatars
 
@@ -105,10 +109,10 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         // ...
@@ -132,9 +136,10 @@ public function fields(Request $request)
 One benefit of storing the original client filename is the ability to create file download responses using the original filename that was used to upload the file. For example, you may do something like the following in one of your application's routes:
 
 ```php
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/download', function () {
+Route::get('/download', function (Request $request) {
     $user = $request->user();
 
     return Storage::download(
@@ -171,7 +176,7 @@ Nova will only automatically prune files for model deletes that are initiated wi
 
 ### Customizing File Storage
 
-Previously we learned that, by default, Nova stores the file using the `store` method of the `Illuminate\Http\UploadedFile` class. However, you may fully customize this behavior based on your application's needs.
+Previously we learned that, by default, Nova stores files using the `store` method of the `Illuminate\Http\UploadedFile` class. However, you may fully customize this behavior based on your application's needs.
 
 #### Customizing The Name / Path
 
@@ -390,7 +395,7 @@ By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for 
 
 ### Customizing Downloads
 
-By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method. The `download` method accepts a callable which should return the result of your own call to the  `Storage::download` method:
+By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method. The `download` method accepts a callable which should return the result of your own invocation of the  `Storage::download` method:
 
 ```php
 use Laravel\Nova\Fields\Image;
@@ -405,19 +410,22 @@ Image::make('Profile Photo')
 
 ### Customizing Accepted File Types
 
-By default, the `File` field will allow any files to be selected and uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
+By default, the `File` field will allow any type of file to be uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
 
 ```php
 File::make('Disk Image')->acceptedTypes('.dmg,.exe')
 ```
 
-When using the `acceptedTypes` method, Nova adds the `accepts` attribute to the file input element; therefore, all of the following media types are valid:
+When using the `acceptedTypes` method, Nova adds the `accepts` attribute to the file input element; therefore, all of the following media types may be provided to the `acceptedTypes` method:
 
 - `.dmg`
 - `.dmg,.exe,.deb`
 - `image/*`
 - `audio/*`
 - `video/*`
-- All media types listed at http://www.iana.org/assignments/media-types/
+- All media types listed at [http://www.iana.org/assignments/media-types/](http://www.iana.org/assignments/media-types/)
+
+:::warning File Type Validation
 
 Since the `acceptedTypes` method only performs client-side validation, you should also validate the file type using server-side validation rules.
+:::
