@@ -4,7 +4,7 @@
 
 Nova actions allow you to perform custom tasks on one or more Eloquent models. For example, you might write an action that sends an email to a user containing account data they have requested. Or, you might write an action to transfer a group of records to another user.
 
-Once an action has been attached to a resource definition, you may initiate it from the resource's index or detail screens:
+Once an action has been attached to a resource definition, you may initiate it from the resource's index or detail pages:
 
 ![Action](./img/action.png)
 
@@ -74,7 +74,7 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 ## Action Visibility
 
-By default, actions are visible on both the resource index and detail screens. You may designate an action to be visible exclusively on either the index or detail screen by setting one of the following properties on the action:
+By default, actions are visible on both the resource index and detail pages. You may designate an action to be visible exclusively on either the index or detail page by setting one of the following properties on the action:
 
 ```php
 /**
@@ -260,7 +260,7 @@ class User extends Authenticatable
 }
 ```
 
-Once the trait has been attached to the model, Nova will automatically begin displaying an action log at the bottom of the resource's detail screen:
+Once the trait has been attached to the model, Nova will automatically begin displaying an action log at the bottom of the resource's detail page:
 
 ![Action Log](./img/action-log.png)
 

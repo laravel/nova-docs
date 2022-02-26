@@ -90,11 +90,11 @@ The field's service provider is also located within the `src` directory of the f
 
 ### Index Fields
 
-When Nova generates your field, it creates a `resources/js/components/IndexField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource index screen. By default, this component simply displays the field's value in a simple `<span>` element; however, you are free to modify this field component as needed.
+When Nova generates your field, it creates a `resources/js/components/IndexField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource index page. By default, this component simply displays the field's value in a simple `<span>` element; however, you are free to modify this field component as needed.
 
 ### Detail Fields
 
-When creating fields, Nova also creates a `resources/js/components/DetailField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource detail screen. By default, this template contains the necessary mark-up needed to display your field's value. However, you are free to adjust this template as required by your application.
+When creating fields, Nova also creates a `resources/js/components/DetailField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource detail page. By default, this template contains the necessary mark-up needed to display your field's value. However, you are free to adjust this template as required by your application.
 
 ### Form Fields
 

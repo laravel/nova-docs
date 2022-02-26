@@ -242,7 +242,7 @@ class UserObserver
 
 ## Preventing Conflicts
 
-If the model has been updated since its last retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as "Traffic Cop".
+If the model has been updated since its last retrieval, Nova will automatically respond with a `409 Conflict` status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" page on the resource. This feature is also known as "Traffic Cop".
 
 ### Disabling Traffic Cop
 
@@ -399,7 +399,7 @@ You may customize where a user is redirected after deleting a resource using by 
 
 ## Keyboard Shortcuts
 
-You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
+You may press the `C` key on a resource index to navigate to the "Create Resource" page. On the resource detail page, the `E` key may be used to navigate to the "Update Resource" page.
 
 ## Pagination
 

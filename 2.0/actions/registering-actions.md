@@ -103,4 +103,4 @@ BelongsToMany::make('Roles')
     });
 ```
 
-Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail page.

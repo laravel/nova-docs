@@ -2,9 +2,9 @@
 
 [[toc]]
 
-In addition to the variety of fields we've already discussed, Nova has full support for all of Laravel's relationships. Once you add relationship fields to your Nova resources, you'll start to experience the full power of the Nova dashboard, as the resource detail screen will allow you to quickly view and search a resource's related models:
+In addition to the variety of fields we've already discussed, Nova has full support for all of Laravel's relationships. Once you add relationship fields to your Nova resources, you'll start to experience the full power of the Nova dashboard, as the resource detail page will allow you to quickly view and search a resource's related models:
 
-![Detail Screen Relationship](./img/detail-relationships.png)
+![Detail page Relationship](./img/detail-relationships.png)
 
 ## HasOne
 
@@ -32,7 +32,7 @@ use Laravel\Nova\Fields\HasMany;
 HasMany::make('Posts'),
 ```
 
-Once the field has been added to your resource, it will be displayed on the resource's detail screen.
+Once the field has been added to your resource, it will be displayed on the resource's detail page.
 
 :::warning Plural Resource Names
 
@@ -95,7 +95,7 @@ BelongsTo::make('User')->nullable(),
 
 #### Title Attributes
 
-When a `BelongsTo` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `User` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsTo` selection menu, that attribute will be displayed:
+When a `BelongsTo` field is shown on a resource creation / update page, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `User` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsTo` selection menu, that attribute will be displayed:
 
 ![Belongs To Title](./img/belongs-to-title.png)
 
@@ -160,7 +160,7 @@ You may customize the resource class used by the relationship field by providing
 BelongsToMany::make('Pseudonyms', 'pseudonyms', 'App\Nova\Author'),
 ```
 
-Once the field has been added to your resource, it will be displayed on the resource's detail screen.
+Once the field has been added to your resource, it will be displayed on the resource's detail page.
 
 #### Pivot Fields
 
@@ -251,7 +251,7 @@ BelongsToMany::make('Roles')
     }),
 ```
 
-Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail page.
 
 :::tip Actions
 
@@ -260,7 +260,7 @@ To learn more about Nova actions, check out the complete [action documentation](
 
 #### Title Attributes
 
-When a `BelongsToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Role` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsToMany` selection menu, that attribute will be displayed:
+When a `BelongsToMany` field is shown on a resource creation / update page, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Role` resource may use the `name` attribute as its title. Then, when the resource is shown in a `BelongsToMany` selection menu, that attribute will be displayed:
 
 ![Belongs To Many Title](./img/belongs-to-many-title.png)
 
@@ -346,13 +346,13 @@ MorphTo::make('Commentable')->types([
 ]),
 ```
 
-As you can see in the example above, the `types` method is used to instruct the `MorphTo` field what types of resources it may be associated with. Nova will use this information to populate the `MorphTo` field's type selection menu on the creation and update screens:
+As you can see in the example above, the `types` method is used to instruct the `MorphTo` field what types of resources it may be associated with. Nova will use this information to populate the `MorphTo` field's type selection menu on the creation and update pages:
 
 ![Morph To Type](./img/morph-to-type.png)
 
 :::tip MorphTo Title Attributes
 
-When a `MorphTo` field is shown on a resource creation / update screen, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
+When a `MorphTo` field is shown on a resource creation / update page, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
 :::
 
 #### Nullable Relationships
@@ -441,7 +441,7 @@ class TaggableFields
 
 #### Title Attributes
 
-When a `MorphToMany` field is shown on a resource creation / update screen, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Tag` resource may use the `name` attribute as its title. Then, when the resource is shown in a `MorphToMany` selection menu, that attribute will be displayed:
+When a `MorphToMany` field is shown on a resource creation / update page, a drop-down selection menu or search menu will display the "title" of the resource. For example, a `Tag` resource may use the `name` attribute as its title. Then, when the resource is shown in a `MorphToMany` selection menu, that attribute will be displayed:
 
 ![Morph To Many Title](./img/morph-to-many-title.png)
 
@@ -467,7 +467,7 @@ public function title()
 
 ## Searchable Relations
 
-By default, when the `BelongsTo`, `MorphTo`, and `MorphToMany` relationship fields are shown on a resource creation / update screen, a simple drop-down selection menu will be displayed. However, this can quickly become cumbersome if a resource model has many records. For example, imagine a drop-down selection menu populated with over 10,000 users!
+By default, when the `BelongsTo`, `MorphTo`, and `MorphToMany` relationship fields are shown on a resource creation / update page, a simple drop-down selection menu will be displayed. However, this can quickly become cumbersome if a resource model has many records. For example, imagine a drop-down selection menu populated with over 10,000 users!
 
 Instead of displaying a drop-down selection menu, you may mark your relationships as `searchable`. When a relationship is marked as `searchable`, a beautiful search input control will be displayed instead:
 
@@ -504,7 +504,7 @@ public static $relatableSearchResults = 200;
 
 ## Creating Inline Relations
 
-When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update screen, you have the ability to create the related resource inline in a modal window without leaving the current view.
+When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update page, you have the ability to create the related resource inline in a modal window without leaving the current view.
 
 ![Creating Inline Relations](./img/inline-relations.png)
 

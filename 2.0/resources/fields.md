@@ -37,7 +37,7 @@ Text::make('Name', 'name_column'),
 
 ## Showing / Hiding Fields
 
-Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain screens.
+Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain pages.
 
 The following methods may be used to show / hide fields based on the display context:
 
@@ -130,7 +130,7 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate
 
 ## Field Panels
 
-If your resource contains many fields, your resource "detail" screen can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
+If your resource contains many fields, your resource "detail" page can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
 
 ![Field Panel Example](./img/panels.png)
 
@@ -529,7 +529,7 @@ Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml()
 
 ::: tip Headings And Indexes
 
-`Heading` fields are automatically hidden from the resource index screen.
+`Heading` fields are automatically hidden from the resource index page.
 :::
 
 ### ID Field
@@ -765,7 +765,7 @@ Select::make('Size')->options([
 ]),
 ```
 
-On the resource index and detail screens, the `Select` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
+On the resource index and detail pages, the `Select` field's "key" value will be displayed. If you would like to display the labels instead, you may use the `displayUsingLabels` method:
 
 ```php
 Select::make('Size')->options([
@@ -1157,7 +1157,7 @@ Text::make('Name')->resolveUsing(function ($name) {
 }),
 ```
 
-If you would like to customize how a field is formatted only when it is displayed on a resource's "index" or "detail" screen, you may use the `displayUsing` method. Like the `resolveUsing` method, this method accepts a single callback:
+If you would like to customize how a field is formatted only when it is displayed on a resource's "index" or "detail" page, you may use the `displayUsing` method. Like the `resolveUsing` method, this method accepts a single callback:
 
 ```php
 Text::make('Name')->displayUsing(function ($name) {

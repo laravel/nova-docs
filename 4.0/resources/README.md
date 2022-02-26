@@ -274,7 +274,7 @@ class User extends Resource
 
 ## Preventing Conflicts
 
-If a model has been updated since it was last retrieved by Nova, Nova will automatically respond with a `409 Conflict` HTTP status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" screen on the resource. This feature is also known as the Nova "Traffic Cop".
+If a model has been updated since it was last retrieved by Nova, Nova will automatically respond with a `409 Conflict` HTTP status code and display an error message to prevent unintentional model changes. This may occur if another user updates the model after you have opened the "Edit" page on the resource. This feature is also known as the Nova "Traffic Cop".
 
 ### Disabling Traffic Cop
 
@@ -485,4 +485,4 @@ public static $debounce = 0.5; // 0.5 seconds
 
 ## Keyboard Shortcuts
 
-You may press the `C` key on a resource index to navigate to the "Create Resource" screen. On the resource detail screen, the `E` key may be used to navigate to the "Update Resource" screen.
+You may press the `C` key on a resource index to navigate to the "Create Resource" page. On the resource detail page, the `E` key may be used to navigate to the "Update Resource" page.

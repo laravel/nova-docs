@@ -671,7 +671,7 @@ public $refreshWhenActionRuns = true;
 
 ## Refresh After Filter Changes
 
-Laravel Nova will only update the metric when a screen's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
+Laravel Nova will only update the metric when a page's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
 
 ```php
 public function cards(NovaRequest $request)

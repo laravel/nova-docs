@@ -59,7 +59,7 @@ public function actions(NovaRequest $request)
 
 ## Action Visibility
 
-By default, actions are visible on both the resource index and detail screens. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when registering it:
+By default, actions are visible on both the resource index and detail pages. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when registering it:
 
 - `onlyOnIndex`
 - `exceptOnIndex`
@@ -92,7 +92,7 @@ public function actions(NovaRequest $request)
 
 ## Standalone Actions
 
-Typically, actions executed against on selected resources from a resource index or from a resource's detail screen. If you have an action that does not require any resources / models to run, you may register it as a "standalone" action by chaining the `standalone` method when registering the action. This action always receives an empty collection of models in its `handle` method:
+Typically, actions executed against on selected resources from a resource index or from a resource's detail page. If you have an action that does not require any resources / models to run, you may register it as a "standalone" action by chaining the `standalone` method when registering the action. This action always receives an empty collection of models in its `handle` method:
 
 ```php
 /**
@@ -185,4 +185,4 @@ BelongsToMany::make('Roles')
     });
 ```
 
-Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail screen.
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail page.
