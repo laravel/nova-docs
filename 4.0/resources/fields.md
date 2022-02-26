@@ -839,7 +839,7 @@ PasswordConfirmation::make('Password Confirmation'),
 
 ### Select Field
 
-The `Select` field may be used to generate a drop-down select menu. The select menu's options may be defined using the `options` method:
+The `Select` field may be used to generate a drop-down select menu. The `Select` menu's options may be defined using the `options` method:
 
 ```php
 use Laravel\Nova\Fields\Select;
@@ -861,7 +861,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-You may also display select options in groups by providing an array structure that contains keys and `label` / `group` pairs:
+You may also display `Select` options in groups by providing an array structure that contains keys and `label` / `group` pairs:
 
 ```php
 Select::make('Size')->options([
@@ -872,7 +872,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-If you need more control over the generation of the select field's options, you may provide a closure to the `options` method:
+If you need more control over the generation of the `Select` field's options, you may provide a closure to the `options` method:
 
 ```php
 Select::make('Size')->options(function () {
@@ -886,7 +886,7 @@ Select::make('Size')->options(function () {
 
 #### Searchable Select Fields
 
-At times it's convenient to be able to search or filter the list of options in a select field. You can enable this by invoking the `searchable` method on the field:
+At times it's convenient to be able to search or filter the list of options available in a `Select` field. You can enable this by invoking the `searchable` method on the field:
 
 ```php
 Select::make('Size')->searchable()->options([
@@ -902,13 +902,13 @@ After marking a select field as `searchable`, Nova will display an `input` field
 
 ### Slug Field
 
-Some times you may need a unique, human-readable identifier generated from another field in your Nova resource for use in URLs. You can automatically generate these URL "slugs" with the `Slug` field:
+Sometimes you may need to generate a unique, human-readable identifier based on the contents of another field, such as when generating a "slug" for a blog post title. You can automatically generate these "slugs" using the `Slug` field:
 
 ```php
 Slug::make('Slug')->from('Title'),
 ```
 
-By default, the field will take a string like 'My Cool Post' and create a slug like 'my-cool-post'. If you'd like the field to use underscores instead of dashes, use the `separator` method:
+By default, the field will convert a string like 'My Blog Post' to a slug like 'my-blog-post'. If you would like the field to use underscores instead of dashes, you may use the `separator` method to define your own custom "separator":
 
 ```php
 Slug::make('Slug')->from('Title')->separator('_'),
@@ -916,7 +916,7 @@ Slug::make('Slug')->from('Title')->separator('_'),
 
 ### Sparkline Field
 
-The `Sparkline` field may be used to display a small chart within a resource. The data displayed within a `Sparkline` can be an `array`, a `callable` (returning an array), or an instance of a `Trend` metric class:
+The `Sparkline` field may be used to display a small line chart on a resource's index or detail page. The data provided to a `Sparkline` may be provided via an `array`, a `callable` (which returns an array), or an instance of a `Trend` metric class:
 
 ```php
 // Using an array...
@@ -926,20 +926,19 @@ Sparkline::make('Post Views')->data([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
 Sparkline::make('Post Views')->data(function () {
     return json_decode($this->views_data);
 }),
-
-// Using a Trend instance...
-Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
 ```
+
+@SCREENSHOT
 
 #### Using Trend Metrics
 
-If your `Sparkline` contains complicated data, you may leverage your existing `Trend` metrics:
+If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a `Trend` metric which can then be provided to the `Sparkline` field:
 
 ```php
 Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
 ```
 
-Note that in the example above, we're passing through a value to the metric class. This value will become the `resourceId` parameter within the `Metric` class. In the example `PostViewsOverTime` class, we can access this value via `$request->resourceId`:
+In the example above, we're providing the post's `id` to the metric's constructor. This value will become the `resourceId` property of the request that is available within the trend metric. For example, within the metric, we could access this post ID via `$request->resourceId`:
 
 ```php
 return $this->countByDays(
@@ -950,12 +949,12 @@ return $this->countByDays(
 
 :::tip Default Ranges
 
-A `Sparkline` will always use the first range defined in the `ranges` method of a `Trend`.
+When providing data to a `Sparkline` field via a trend metric, the `Sparkline` field will always use the first range defined in the `ranges` method of the metric.
 :::
 
 #### Customizing The Chart
 
-If a bar chart is better suited to your data, you may use the `asBarChart()` method:
+If a bar chart better suits your data, you may invoke the `asBarChart` method when defining the field:
 
 ```php
 Sparkline::make('Post Views')
@@ -963,7 +962,7 @@ Sparkline::make('Post Views')
            ->asBarChart(),
 ```
 
-By default, a `Sparkline` will appear on the detail view. You can customize the dimensions of the chart using the `height` and `width` methods:
+By default, a `Sparkline` will appear on a resource's detail page. You can customize the dimensions of the chart using the `height` and `width` methods:
 
 ```php
 Sparkline::make('Post Views')
@@ -990,7 +989,7 @@ Status::make('Status')
 
 ### Stack Field
 
-As you resource classes grow, you may find it useful to be able to group fields together to simplify your index and detail views. A `Stack` field allows one to display fields like `BelongsTo`, `Text`, and others in vertical orientation:
+As you resource classes grow, you may find it useful to be able to group fields together to simplify your index and detail views. A `Stack` field allows you to display fields like `BelongsTo`, `Text`, and others in a vertical orientation:
 
 ```php
 Stack::make('Details', [
@@ -1003,11 +1002,11 @@ Stack::make('Details', [
 
 ![Stack Field](./img/stack-field.png)
 
-`Stack` fields are not shown on forms, and are only for stacking lines of text for display on the index and detail resource views.
+`Stack` fields are not shown on forms, and are only intended for stacking lines of text on the index and detail resource views.
 
 #### Line Fields
 
-To gain more control over how the individual fields in a `Stack` are displayed, you may use the `Line` field, which provides methods for controlling the display of the line. `Line` fields supports the following presentational methods:
+To gain more control over how the individual fields in a `Stack` are displayed, you may use the `Line` field, which provides methods for controlling the display of the line's text. `Line` fields offer the following presentational methods:
 
 - `asHeading`
 - `asSubTitle`
@@ -1016,7 +1015,7 @@ To gain more control over how the individual fields in a `Stack` are displayed, 
 
 ![Line presentational methods](./img/stack-field-lines.png)
 
-In addition to `Lines` presentational methods, you may also pass any additional classes to the field to increase the visual customization of the `Line`:
+In addition to the `Line` field's presentational methods, you may also pass any additional Tailwind classes to the field to customize the appearance of the `Line`:
 
 ```php
 Stack::make('Details', [
@@ -1026,14 +1025,12 @@ Stack::make('Details', [
 
 #### Passing Closures to Line Fields
 
-In addition to passing `BelongsTo`, `Text` and `Line` fields to the `Stack` field, you may also pass a closure. The result of the Closure will automatically be converted to a `Line` instance:
+In addition to passing `BelongsTo`, `Text`, and `Line` fields to the `Stack` field, you may also pass a closure. The result of the closure will automatically be converted to a `Line` instance:
 
 ```php
 Stack::make('Details', [
     Line::make('Name')->asHeading(),
-    function () {
-        return optional($this->resource)->position;
-    }
+    fn () => optional($this->resource)->position
 ]),
 ```
 
@@ -1047,7 +1044,7 @@ use Laravel\Nova\Fields\Text;
 Text::make('Name'),
 ```
 
-Text fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
+Text fields may be further customized by setting any attribute on the field. This can be done by calling the `withMeta` method and providing an `extraAttributes` array containing key / value pairs of HTML attributes:
 
 ```php
 Text::make('Name')->withMeta([
@@ -1059,7 +1056,7 @@ Text::make('Name')->withMeta([
 
 #### Text Field Suggestions
 
-If you'd like to offer users of your `Text` field a list of suggestions when typing into the field, you may use the `suggestions` method to return an `array` of suggestions. These suggestions will be used to populate the field's `datalist`:
+To offer auto-complete suggestions when typing into the `Text` field, you may invoke the `suggestions` method when defining the field. The `suggestions` method should return an `array` of suggestions:
 
 ```php
 Text::make('Name')->required()
@@ -1074,7 +1071,7 @@ Text::make('Name')->required()
 
 #### Formatting Text As Links
 
-To format text as a link, you may use the `asHtml` method:
+To format a `Text` field as a link, you may invoke the `asHtml` method when defining the field:
 
 ```php
 Text::make('Twitter Profile', function () {
@@ -1094,19 +1091,19 @@ use Laravel\Nova\Fields\Textarea;
 Textarea::make('Biography'),
 ```
 
-By default, Textarea fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Textarea field should always display its content by calling the `alwaysShow` method on the field itself:
+By default, Textarea fields will not display their content when viewing a resource's detail page. Instead, the contents of the field will be hidden behind a "Show Content" link, which will reveal the content when clicked. However, if you would like, you may specify that the `Textarea` field should always display its content by invoking the `alwaysShow` method on the field:
 
 ```php
 Textarea::make('Biography')->alwaysShow(),
 ```
 
-You may also specify the textarea's height by calling the `rows` method on the field:
+You may specify the `Textarea` height by invoking the `rows` method on the field:
 
 ```php
 Textarea::make('Excerpt')->rows(3),
 ```
 
-Textarea fields may be customized further by setting any attribute on the field. This can be done by calling the `withMeta` methods and passing in a valid `extraAttributes` value:
+`Textarea` fields may be further customized by setting any attribute on the field. This can be done by calling the `withMeta` method and providing an `extraAttributes` array containing key / value pairs of HTML attributes:
 
 ```php
 Textarea::make('Excerpt')->withMeta(['extraAttributes' => [
@@ -1134,7 +1131,7 @@ use Laravel\Nova\Fields\Trix;
 Trix::make('Biography'),
 ```
 
-By default, Trix fields will not display their content when viewing a resource on its detail page. It will be hidden behind a "Show Content" link, that when clicked will reveal the content. You may specify the Trix field should always display its content by calling the `alwaysShow` method on the field itself:
+By default, Trix fields will not display their content when viewing a resource on its detail page. Instead, the content will be hidden behind a "Show Content" link, which will reveal the field's content when clicked. If you would like, you may specify that the Trix field should always display its content by invoking the `alwaysShow` method when defining the field:
 
 ```php
 Trix::make('Biography')->alwaysShow(),
@@ -1142,7 +1139,7 @@ Trix::make('Biography')->alwaysShow(),
 
 #### Trix File Uploads
 
-If you would like to allow users to drag-and-drop photos into the Trix field, chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
+If you would like to allow users to drag-and-drop photos into the `Trix` field, you may chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
 
 ```php
 use Laravel\Nova\Fields\Trix;
@@ -1174,12 +1171,12 @@ Schema::create('nova_trix_attachments', function (Blueprint $table) {
 });
 ```
 
-Finally, in your `app/Console/Kernel.php` file, you should register a [daily job](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. Laravel Nova provides the job implementation needed to accomplish this:
+Finally, in your `app/Console/Kernel.php` file, you should register a [daily job](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
 
 ```php
 use Laravel\Nova\Trix\PruneStaleAttachments;
 
-$schedule->call(new PruneStaleAttachments())->daily();
+$schedule->call(new PruneStaleAttachments)->daily();
 ```
 
 ### URL Field
@@ -1190,14 +1187,14 @@ The `URL` field renders URLs as clickable links instead of plain text:
 URL::make('GitHub URL'),
 ```
 
-The `URL` field also supports customizing the generated link's text by using the `displayUsing` callback:
+The `URL` field also supports customizing the generated link's text by invoking the `displayUsing` method when defining the field. The `displayUsing` method accepts a closure that should return the link's text:
 
 ```php
 URL::make('Receipt')
     ->displayUsing(fn () => "{optional($this->user)->name}'s receipt")
 ```
 
-You may also use the `URL` field to render a link for a computed value:
+By providing a closure as the second argument to the `URL` field, you may use the field to render a link for a computed value that does not necessarily correspond to a column within the associated model's database table:
 
 ```php
 URL::make('Receipt', fn () => $this->receipt_url)
@@ -1205,7 +1202,7 @@ URL::make('Receipt', fn () => $this->receipt_url)
 
 ### Vapor File Field
 
-Vapor file fields provide convenience and compatibility for uploading files when deploying applications in a serverless environment using [Laravel Vapor](https://vapor.laravel.com):
+The Vapor file field provides convenience and compatibility for uploading files when deploying applications to a serverless environment using [Laravel Vapor](https://vapor.laravel.com):
 
 ```php
 use Laravel\Nova\Fields\VaporFile;
@@ -1213,7 +1210,12 @@ use Laravel\Nova\Fields\VaporFile;
 VaporFile::make('Document'),
 ```
 
-When uploading a file using a `VaporFile` field, Nova will first generate a signed storage URL on Amazon S3. Nova will then upload the file directly to temporary storage in the Amazon S3 bucket. When the resource is saved, Nova will move the folder to permanent storage.
+When uploading a file using a `VaporFile` field, Nova will first generate a signed storage URL on Amazon S3. Next, Nova will upload the file directly to temporary storage in the Amazon S3 bucket. When the resource is saved, Nova will move the file to permanent storage.
+
+:::tip Vapor Storage
+
+For more information on how file storage is handled for Vapor applications, please refer to the [Laravel Vapor storage documentation](https://docs.vapor.build/1.0/resources/storage.html).
+:::
 
 ### Vapor Image Field
 
@@ -1234,13 +1236,13 @@ To learn more about defining file fields and handling uploads, check out the add
 
 #### Validating Vapor Image / File Fields
 
-In order to validate the size or other attributes of a Vapor file, you will need to inspect the file directly using the `Storage` facade:
+In order to validate the size or other attributes of a Vapor file, you will need to inspect the file directly via the `Storage` facade:
 
 ```php
 use Illuminate\Support\Facades\Storage;
 
 VaporFile::make('Document')
-    ->rules('bail', 'required', function($attribute, $value, $fail) use ($request) {
+    ->rules('bail', 'required', function ($attribute, $value, $fail) use ($request) {
         if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
             return $fail('The document size may not be greater than 1 MB');
         }
@@ -1257,7 +1259,7 @@ Text::make('Name', function () {
 }),
 ```
 
-The model instance will be passed to the computed field callable, allowing you to access the model's properties while computing the field's value if necessary:
+The model instance will be passed to the computed field callable, allowing you to access the model's properties while computing the field's value:
 
 ```php
 Text::make('Name', function ($model) {
@@ -1267,7 +1269,7 @@ Text::make('Name', function ($model) {
 
 :::tip Model Attribute Access
 
-As you may have noticed in the example above, you may use `$this` to access the resource's underlying model attributes and relationships.
+As you may have noticed in the example above, you may also use `$this` to access the resource's underlying model attributes and relationships.
 :::
 
 By default, Vue will escape the content of a computed field. If you need to render HTML content within the field, invoke the `asHtml` method when defining your field:
@@ -1275,7 +1277,7 @@ By default, Vue will escape the content of a computed field. If you need to rend
 ```php
 Text::make('Status', function () {
     return view('partials.status', [
-        'is_passing' => $this->isPassing(),
+        'isPassing' => $this->isPassing(),
     ])->render();
 })->asHtml(),
 ```
