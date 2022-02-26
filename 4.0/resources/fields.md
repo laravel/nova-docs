@@ -814,111 +814,27 @@ The `Password` field will automatically preserve the password that is currently 
 ```php
 Password::make('Password')
     ->onlyOnForms()
-    ->creationRules('required', 'string', 'min:6')
-    ->updateRules('nullable', 'string', 'min:6'),
+    ->creationRules('required', Rules\Password::defaults())
+    ->updateRules('nullable', Rules\Password::defaults()),
 ```
 
 ### Password Confirmation Field
 
-The `PasswordConfirmation` field provides an input that can be used for confirming another `Password` field. This field will only be shown on forms:
+The `PasswordConfirmation` field provides an input that can be used for confirming another `Password` field. This field will only be shown on forms and will not attempt to hydrate an underlying attribute on the Eloquent model:
 
 ```php
 PasswordConfirmation::make('Password Confirmation'),
 ```
 
-### Place Field
-
-:::danger Places API Deprecated
-
-Algolia has announced that their [Places API will stop functioning on May 31st, 2022](https://www.algolia.com/blog/product/sunsetting-our-places-feature/).
-:::
-
-The `Place` field leverages the power of the [Algolia Places API](https://community.algolia.com/places/) to provide ultra-fast address searching and auto-completion. An Algolia account is **not required** in order to leverage this field.
-
-Typically, a `Place` field will be defined alongside other related address fields. In this example, in order to keep our resource tidy, we will use the `merge` method to extract the address field definitions into their own method:
+When using this field, you should define the appropriate validation rules on the corresponding `Password` field:
 
 ```php
-use Laravel\Nova\Fields\Place;
+Password::make('Password')
+    ->onlyOnForms()
+    ->creationRules('required', Rules\Password::defaults(), 'confirmed')
+    ->updateRules('nullable', Rules\Password::defaults(), 'confirmed'),
 
-/**
- * Get the fields displayed by the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function fields(NovaRequest $request)
-{
-    return [
-        ID::make()->sortable(),
-        $this->addressFields(),
-    ];
-}
-
-/**
- * Get the address fields for the resource.
- *
- * @return \Illuminate\Http\Resources\MergeValue
- */
-protected function addressFields()
-{
-    return $this->merge([
-        Place::make('Address', 'address_line_1')->hideFromIndex(),
-        Text::make('Address Line 2')->hideFromIndex(),
-        Text::make('City')->hideFromIndex(),
-        Text::make('State')->hideFromIndex(),
-        Text::make('Postal Code')->hideFromIndex(),
-        Text::make('Suburb')->hideFromIndex(),
-        Country::make('Country')->hideFromIndex(),
-        Text::make('Latitude')->hideFromIndex(),
-        Text::make('Longitude')->hideFromIndex(),
-    ]);
-}
-```
-
-#### Searchable Countries
-
-By default, the `Place` field will search all addresses around the world. If you would like to limit the countries included in the search, you may use the `countries` method:
-
-```php
-Place::make('Address', 'address_line_1')->countries(['US', 'CA']),
-```
-
-#### City Search
-
-If you intend to use the `Place` field to search for cities instead of addresses, you may use the `onlyCities` method to instruct the field to only list cities in its results:
-
-```php
-Place::make('City')->onlyCities(),
-```
-
-:::tip City Auto-Completion
-
-When using the `Place` field as a city search, the `state` and `country` fields will still receive auto-completion. However, the `postal_code` field will not.
-:::
-
-#### Configuring Field Auto-Completion
-
-By default, the place field will auto-complete the associated address fields based on their field names. The `Place` field will automatically fill fields named `address_line_2`, `city`, `state`, `postal_code`, `suburb`, `country`, `latitude` and `longitude`. However, you may customize the field names that should be auto-completed using the following methods:
-
-- `secondAddressLine($column)`
-- `city($column)`
-- `state($column)`
-- `postalCode($column)`
-- `suburb($column)`
-- `country($column)`
-
-For example:
-
-```php
-Place::make('Address', 'address_line_1')
-    ->secondAddressLine('address_2')
-    ->city('city_name')
-    ->state('state_code')
-    ->postalCode('zip_code')
-    ->suburb('suburb')
-    ->country('country_code')
-    ->latitude('latitude')
-    ->longitude('longitude'),
+PasswordConfirmation::make('Password Confirmation'),
 ```
 
 ### Select Field
@@ -945,7 +861,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-You may also display select options in groups:
+You may also display select options in groups by providing an array structure that contains keys and `label` / `group` pairs:
 
 ```php
 Select::make('Size')->options([
@@ -956,7 +872,7 @@ Select::make('Size')->options([
 ])->displayUsingLabels(),
 ```
 
-If you would like more dynamic control over generating the options available within the field, you may pass a closure to the `options` method:
+If you need more control over the generation of the select field's options, you may provide a closure to the `options` method:
 
 ```php
 Select::make('Size')->options(function () {
@@ -970,7 +886,7 @@ Select::make('Size')->options(function () {
 
 #### Searchable Select Fields
 
-At times it's convenient to be able to search or filter the list of options in a `Select` field. You can enable this by calling the `searchable` method on the field:
+At times it's convenient to be able to search or filter the list of options in a select field. You can enable this by invoking the `searchable` method on the field:
 
 ```php
 Select::make('Size')->searchable()->options([
@@ -980,7 +896,7 @@ Select::make('Size')->searchable()->options([
 ])->displayUsingLabels(),
 ```
 
-When using this field, Nova will display an `input` field which allows you to filter the list based on its label:
+After marking a select field as `searchable`, Nova will display an `input` field which allows you to filter the list of options based on its label:
 
 ![Searchable Select Fields](./img/searchable-select.png)
 
