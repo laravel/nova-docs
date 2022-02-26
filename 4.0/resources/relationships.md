@@ -296,9 +296,9 @@ public function title()
 
 #### Allowing Duplicate Relations
 
-By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, you may instruct Nova to allow duplicate relationship entries.
+By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, if necessary, you may instruct Nova to allow duplicate relationship entries.
 
-To get started, you should ensure that your pivot record's `id` column is available by using `withPivot()` when defining the relationship on your Eloquent model. In this example, let's imagine that a `User` may purchase a `Book` one or more times:
+To get started, you should ensure that your pivot record's `id` column is available by using the `withPivot` method when defining the relationship on your Eloquent model. In this example, let's imagine that a `User` may purchase a `Book` one or more times:
 
 ```php
 public function books()
@@ -505,7 +505,7 @@ BelongsTo::make('User')->searchable(function ($request) {
 }),
 ```
 
-You may also instruct the relation field to display the [resource's subtitle](./../search/global-search) by chaining the `withSubtitles` method to the field:
+You may also instruct the relation field to display the [resource's subtitle](./../search/global-search) by invoking the `withSubtitles` method when defining the field:
 
 ```php
 BelongsTo::make('User')->searchable()->withSubtitles(),
@@ -526,17 +526,17 @@ public static $relatableSearchResults = 200;
 
 ## Creating Inline Relations
 
-When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update page, you have the ability to create the related resource inline in a modal window without leaving the current view.
+For convenience, When `BelongsTo` or `MorphTo` relationship fields are shown on a resource create or update page, you may create the related resource inline via a modal window without leaving the creation / update page:
 
 ![Creating Inline Relations](./img/inline-relations.png)
 
-To enable this behavior, chain the `showCreateRelationButton` method onto the field's definition:
+To enable this functionality, invoke the `showCreateRelationButton` method when defining the relationship field:
 
 ```php
 BelongsTo::make('User')->showCreateRelationButton(),
 ```
 
-You may also pass a callback method to conditionally show the inline creation button:
+You may also pass a closure to the `showCreateRelationButton` method to conditionally determine if inline resource creation should be enabled:
 
 ```php
 BelongsTo::make('User')->showCreateRelationButton(function ($request) {
@@ -544,15 +544,15 @@ BelongsTo::make('User')->showCreateRelationButton(function ($request) {
 }),
 ```
 
-To hide the inline creation button, chain the `hideCreateRelationButton` method onto the field's definition:
+To hide the inline creation button, invoke the `hideCreateRelationButton` method when defining the relationship field:
 
 ```php
 BelongsTo::make('User')->hideCreateRelationButton(),
 ```
 
-The inline relation button respects any [authorization policies](./authorization.md) you have set.
+The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
 
 :::warning Inline Creation Limitations
 
-Inline relation creation only supports creating relations **one level deep**. This means you cannot trigger an additional inline creation modal inside an existing inline modal, and you will instead be limited to selecting an existing resource.
+Inline relation creation only supports creating relations **one level deep**. This means you cannot trigger an additional inline creation modal inside an existing inline creation modal. Instead, you must select a resource that already exists.
 :::
