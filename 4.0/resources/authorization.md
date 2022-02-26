@@ -2,7 +2,7 @@
 
 [[toc]]
 
-When Nova is accessed only by you or your development team, you may not need additional authorization before Nova handles incoming requests. However, if you provide access to Nova to your clients or large team of developers, you may wish to authorize certain requests. For example, perhaps only administrators may delete records. Thankfully, Nova takes a simple approach to authorization that leverages many of the Laravel features you are already familiar with.
+When Nova is accessed only by you or your development team, you may not need additional authorization before Nova handles incoming requests. However, if you provide access to Nova to your clients or a large team of developers, you may wish to authorize certain requests. For example, perhaps only administrators may delete records. Thankfully, Nova takes a simple approach to authorization that leverages many of the Laravel features you are already familiar with.
 
 ## Policies
 
@@ -55,20 +55,20 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | Policy Action | Default Permission
 |:----------|:-------
 | `viewAny` | Allowed
-| `view` | Disallowed
-| `create` | Disallowed
-| `update` | Disallowed
+| `view` | Forbidden
+| `create` | Forbidden
+| `update` | Forbidden
 | `replicate` | Fallback to `create` and `update`
-| `delete` | Disallowed
-| `forceDelete` | Disallowed
-| `restore` | Disallowed
+| `delete` | Forbidden
+| `forceDelete` | Forbidden
+| `restore` | Forbidden
 | `add{Model}` | Allowed
 | `attach{Model}` | Allowed
 | `detach{Model}` | Allowed
 | `runAction` | Fallback to `update`
 | `runDestructiveAction` | Fallback to `delete`
 
-So, if you have defined a policy, don't forget to define all of its relevant authorization methods.
+So, if you have defined a policy, don't forget to define all of its relevant authorization methods so that the authorization rules for a given resource are explicit.
 
 ### Hiding Entire Resources
 
@@ -212,12 +212,12 @@ class PodcastPolicy
 
 :::warning Many To Many Authorization
 
-When working with many-to-many relationships, make sure you define the proper authorization policy methods on each of the involved resource's policy classes.
+When working with many-to-many relationships, make sure you define the proper authorization policy methods on each of the related resource's policy classes.
 :::
 
 ### Disabling Authorization
 
-If one of your Nova resources' models has a corresponding policy, but you want to disable Nova authorization for that resource, you may override the `authorizable` method on the Nova resource:
+If one of your Nova resources' models has a corresponding policy, but you want to disable Nova authorization for that resource (thus allowing all actions), you may override the `authorizable` method on the Nova resource:
 
 ```php
 /**
@@ -233,7 +233,7 @@ public static function authorizable()
 
 ## Fields
 
-Sometimes you may want to hide certain fields from a group of users. You may easily accomplish this by chaining the `canSee` method onto your field definition. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+Sometimes you may want to hide certain fields from a group of users. You may easily accomplish this by chaining the `canSee` method onto your field definition. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
 use Laravel\Nova\Fields\ID;
@@ -242,10 +242,10 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(Request $request)
+public function fields(NovaRequest $request)
 {
     return [
         ID::make()->sortable(),
@@ -274,7 +274,9 @@ To learn more about Laravel's authorization helpers and the `can` method, check 
 
 ## Index Filtering
 
-You may notice that returning `false` from a policy's `view` method does not stop a given resource from appearing in the resource index. To filter models from the resource index query, you may override the `indexQuery` method on your resource. This method is already stubbed in your `App\Nova\Resource` base class, you may simply copy and paste it into a specific resource and then modify the query:
+You may notice that returning `false` from a policy's `view` method does not stop a given resource from appearing in the resource index. To filter models from the resource index query, you may override the `indexQuery` method on the resource's class.
+
+This method is already defined in your application's `App\Nova\Resource` base class; therefore, you may simply copy and paste the method into a specific resource and then modify the query based on how you would like to filter the resource's index results:
 
 ```php
 /**
@@ -315,7 +317,7 @@ public static function relatableQuery(NovaRequest $request, $query)
 
 #### Dynamic Relatable Methods
 
-You can customize the "relatable" query for individual relationships by using a dynamic method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
+You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
 
 ```php
 /**
@@ -346,14 +348,16 @@ public static function relatableTags(NovaRequest $request, $query)
 }
 ```
 
-When a Nova resource depends on another resource more than once, you can supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize:
+When a Nova resource depends on another resource via multiple fields, you will often assign the fields different names. In these situations, you should supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize, since Nova may not be able to determine this via convention:
 
 ```php
 HasMany::make('Owned Teams', 'ownedTeams', Team::class),
 BelongsToMany::make('Teams', 'teams', Team::class),
 ```
 
-When customizing the "relatable" query, you may check the type of field to determine how to build the relationship query:
+#### Relationship Types
+
+If necessary when customizing the "relatable" query, you may examine the field type to determine how to build the relationship query:
 
 ```php
 /**
@@ -378,7 +382,7 @@ public static function relatableTeams(NovaRequest $request, $query, Field $field
 
 ## Scout Filtering
 
-If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource:
+If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource class:
 
 ```php
 /**
