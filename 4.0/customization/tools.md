@@ -101,7 +101,7 @@ public function menu(Request $request)
 
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons UI](https://github.com/sschoger/heroicons-ui) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
+Nova utilizes the free [Heroicons](https://github.com/sschoger/heroicons) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
 
 ### Assets
 
