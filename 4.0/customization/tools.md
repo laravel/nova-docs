@@ -101,7 +101,7 @@ public function menu(Request $request)
 
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons](https://github.com/sschoger/heroicons) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
+Nova utilizes the free [Heroicons](https://heroicons.com/) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
 
 ### Assets
 
@@ -137,8 +137,8 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Vue.component('PriceTrackerHeader', require('./components/Header').default)
-})
+  Vue.component("PriceTrackerHeader", require("./components/Header").default);
+});
 ```
 
 #### Compiling Assets
