@@ -139,6 +139,22 @@ MenuSection::make('Business', [
 ]),
 ```
 
+Instead of displaying a list of links, menu sections may also be a simple link themselves. To do this, call the `make` method, and pass a path to the `path` helper:
+
+```php
+MenuSection::make('Dashboard')->path('/dashboards/main')
+```
+
+To add a menu section to a single `Dashboard` you may call the `dashboard` method and pass in the name of the class:
+
+```php
+MenuSection::dashboard('Sales', Sales::class),
+```
+
+:::warning
+Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
+:::
+
 You can customize the icon displayed for your menu section by calling the `icon` method on the section:
 
 ```php
@@ -151,7 +167,7 @@ MenuSection::make('Resources', [
 Nova utilizes the free icon set [Heroicons](https://heroicons.com/) from designer [Steve Schoger](https://twitter.com/steveschoger). You can pass in the name of the icon as a value for the `icon` method.
 :::
 
-You may make your menu items collapsable by using the `collapsable` helper method on the section:
+You may make your menu sections collapsable by using the `collapsable` helper method on the section:
 
 ```php
 MenuSection::make('Resources', [
@@ -160,10 +176,6 @@ MenuSection::make('Resources', [
 ```
 
 Nova will remember the open state for the section between sessions.
-
-:::warning
-Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
-:::
 
 ## Menu Groups
 
