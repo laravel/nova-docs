@@ -28,10 +28,10 @@ use Acme\Analytics\Analytics;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function cards(Request $request)
+public function cards(NovaRequest $request)
 {
     return [new Analytics];
 }

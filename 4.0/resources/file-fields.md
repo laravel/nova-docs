@@ -215,10 +215,10 @@ As you can see in the example above, the `store` callback is returning an array 
 Here's another example of customizing the storage process. In this example, we're using the `store` method to store the original file in public storage, create thumbnails using Laravel's queue system, and finally populating values in the resource's `media` relationship:
 
 ```php
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 File::make('Attachment')
-    ->store(function (Request $request, $model) {
+    ->store(function (NovaRequest $request, $model) {
         return function () use ($resource, $request) {
             $media = $resource->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
@@ -244,14 +244,14 @@ The invokable object should be a simple PHP class with a single `__invoke` metho
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class StoreAttachment
 {
     /**
      * Store the incoming file upload.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $attribute
      * @param  string  $requestAttribute
@@ -259,7 +259,7 @@ class StoreAttachment
      * @param  string  $storagePath
      * @return array
      */
-    public function __invoke(Request $request, $model, $attribute, $requestAttribute, $disk, $storagePath)
+    public function __invoke(NovaRequest $request, $model, $attribute, $requestAttribute, $disk, $storagePath)
     {
         return [
             'attachment' => $request->attachment->store('/', 's3'),
@@ -277,12 +277,12 @@ When a file is deleted from the Nova administration panel, Nova will automatical
 If you would like to override this behavior and provide your own file deletion implementation, you may use the `delete` method. Like the `store` method discussed above, the `delete` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
 
 ```php
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 File::make('Attachment')
     ->disk('s3')
-    ->delete(function (Request $request, $model, $disk, $path) {
+    ->delete(function (NovaRequest $request, $model, $disk, $path) {
         if (! $path) {
             return;
         }
@@ -314,21 +314,21 @@ The invokable object should be a simple PHP class with a single `__invoke` metho
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DeleteAttachment
 {
     /**
      * Delete the field's underlying file.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string|null  $disk
      * @param  string|null  $path
      * @return array
      */
-    public function __invoke(Request $request, $model, $disk, $path)
+    public function __invoke(NovaRequest $request, $model, $disk, $path)
     {
         if (! $path) {
             return;
