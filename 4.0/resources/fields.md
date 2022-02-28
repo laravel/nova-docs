@@ -1180,7 +1180,7 @@ use Laravel\Nova\Trix\PruneStaleAttachments;
 $schedule->call(new PruneStaleAttachments)->daily();
 ```
 
-### Ui-Avatar Field
+### UI-Avatar Field
 
 The `UiAvatar` field does not correspond to any column in your application's database. Instead, this field will generate a simple avatar containing the user's initials. This field is powered by [ui-avatars.com](https://ui-avatars.com).
 
