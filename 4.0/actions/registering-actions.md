@@ -19,7 +19,7 @@ public function actions(NovaRequest $request)
 }
 ```
 
-Alternatively, you may use the `make` method to instantiate your action:
+Alternatively, you may use the `make` method to instantiate your action. Any arguments passed to the `make` method will be passed to the constructor of your action:
 
 ```php
 /**
@@ -36,85 +36,13 @@ public function actions(NovaRequest $request)
 }
 ```
 
-Any arguments passed to the `make` method will be passed to the constructor of your action.
-
-## Disabling Action Confirmation
-
-By default, when running an action a confirmation modal is displayed to the user, allowing them to cancel the pending operation. To disable this (and run the action immediately), you can chain the `withoutConfirmation` method to your action definition:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(NovaRequest $request)
-{
-    return [
-        Actions\EmailAccountProfile::make()->withoutConfirmation()
-    ];
-}
-```
-
-## Action Visibility
-
-By default, actions are visible on both the resource index and detail pages. In addition, inline actions are hidden from the table row's actions dropdown by default. You may designate an action's visibility by setting one of the following methods on the action when registering it:
-
-- `onlyOnIndex`
-- `exceptOnIndex`
-- `showOnIndex`
-- `onlyOnDetail`
-- `exceptOnDetail`
-- `showOnDetail`
-- `onlyOnTableRow`
-- `exceptOnTableRow`
-- `showInline`
-
-### Inline Actions
-
-Inline actions are actions that are displayed as buttons directly on the index table row a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(NovaRequest $request)
-{
-    return [
-        (new ConsolidateTransaction())->showInline()
-    ];
-}
-```
-
-## Standalone Actions
-
-Typically, actions executed against on selected resources from a resource index or from a resource's detail page. If you have an action that does not require any resources / models to run, you may register it as a "standalone" action by chaining the `standalone` method when registering the action. This action always receives an empty collection of models in its `handle` method:
-
-```php
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(NovaRequest $request)
-{
-    return [
-        Actions\InviteUser::make()->standalone()
-    ];
-}
-```
-
 ## Authorization
 
-If you would like to only expose a given action to certain users, you may chain the `canSee` method onto your action registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+If you would like to only expose a given action to certain users, you may invoke the `canSee` method when registering your action. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
 use App\Models\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the actions available for the resource.
@@ -134,12 +62,7 @@ public function actions(NovaRequest $request)
 }
 ```
 
-:::warning Resource Action Model Resolution
-
-It's important to remember that `Resource` actions are not always resolved using an underlying `Model` instance. Because of this, you should check for the existence of the model instead of assuming one is available.
-:::
-
-#### The `canRun` Method
+### Resource Specific Authorization
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
 
@@ -162,15 +85,68 @@ public function actions(NovaRequest $request)
 }
 ```
 
-#### Authorization Via Resource Policy
+### Authorization Via Resource Policy
 
-In addition to `canSee` and `canRun` authorization, Nova will also determine if the resource's corresponding model policy has `runAction` and `runDestructive` action methods. Finally, Nova will determine if the user is authorized to `update` the model or, in the case of destructive actions, `delete` the model based on the model's policy methods.
+In addition to the `canSee` and `canRun` authorization methods, Nova will also determine if the resource's corresponding model policy has `runAction` and `runDestructiveAction` methods. Finally, Nova will determine if the user is authorized to `update` the model or, in the case of destructive actions, `delete` the model based on the model's policy methods.
 
 The priority for authorizing the execution of a Nova action is best explained by the following list of steps:
 
-1. Use the return value from `canRun()` on the Action if it exists.
-2. Use the return value from `runAction()` or `runDestructiveAction()` on the underlying model policy if those methods have been defined.
-3. Use the return value from `update()` or `delete()` on the underlying model policy if those methods have been defined. Otherwise, return `false`.
+1. Use the return value of the action's `canRun` method if the method is defined.
+2. Use the return value of the underlying model policy's `runAction` or `runDestructiveAction` methods if those methods have been defined.
+3. Use the return value of the underlying model policy's `update` or `delete` methods if those methods have been defined.
+4. Otherwise, return `false`.
+
+## Action Visibility
+
+By default, actions are visible on both the resource index and detail pages. However, you may customize an action's visibility by invoking one of the following methods on the action when registering your action with a particular resource:
+
+- `onlyOnIndex`
+- `exceptOnIndex`
+- `showOnIndex`
+- `onlyOnDetail`
+- `exceptOnDetail`
+- `showOnDetail`
+- `onlyOnTableRow`
+- `exceptOnTableRow`
+- `showInline`
+
+### Inline Actions
+
+Inline actions are actions that are displayed as buttons directly on the index table row of a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        (new ConsolidateTransaction())->showInline()
+    ];
+}
+```
+
+## Standalone Actions
+
+Typically, actions are executed against resources selected on a resource index or detail page. However, sometimes you may have an action that does not require any resources / models to run. In these situations, you may register the action as a "standalone" action by invoking the `standalone` method when registering the action. These actions always receives an empty collection of models in their `handle` method:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        Actions\InviteUser::make()->standalone()
+    ];
+}
+```
 
 ## Pivot Actions
 
@@ -178,11 +154,26 @@ Typically, actions operate on a resource. However, you may also attach actions t
 
 ```php
 BelongsToMany::make('Roles')
-    ->actions(function () {
-        return [
-            new Actions\MarkAsActive,
-        ];
-    });
+    ->actions(fn () => [new Actions\MarkAsActive]),
 ```
 
-Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent's resource detail page.
+Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent resource's detail page.
+
+## Disabling Action Confirmation
+
+When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. To disable this (and therefore run the action immediately), you can invoke the `withoutConfirmation` method when registering your action with a given resource:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        Actions\EmailAccountProfile::make()->withoutConfirmation()
+    ];
+}
+```
