@@ -2,9 +2,9 @@
 
 [[toc]]
 
-Nova metrics allow you to quickly gain insight on key business indicators for your application. For example, you may define a metric to display the total number of users added to your application per day, or the amount of weekly sales.
+Nova metrics allow you to quickly gain insight on key business indicators for your application. For example, you may define a metric to display the total number of users added to your application per day, or the amount of weekly sales for a given product.
 
-Nova offers three types of built-in metrics: value, trend, and partition. We'll examine each type of metric and demonstrate their usage below.
+Nova offers several types of built-in metrics: value, trend, partition, and progress. We'll examine each type of metric and demonstrate their usage below.
 
 ## Value Metrics
 
@@ -18,7 +18,7 @@ Value metrics may be generated using the `nova:value` Artisan command. By defaul
 php artisan nova:value NewUsers
 ```
 
-Once your value metric class has been generated, you're ready to customize it. Each value metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ValueResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
+Once your value metric class has been generated, you're ready to customize it. Each value metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ValueResult` instance. Don't worry, Nova ships with a variety of helpers for quickly generating metric results.
 
 In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model for the selected range, as well as automatically retrieve the count for the "previous" range:
 
@@ -76,7 +76,7 @@ class NewUsers extends Value
 
 ### Value Query Types
 
-Value metrics don't just ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric.
+Value metrics don't only ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric. Let's explore each of them now.
 
 #### Average
 
@@ -96,7 +96,7 @@ return $this->sum($request, Order::class, 'price');
 
 #### Max
 
-The `max` method may be used to calculate the maximum of a given column compared to the previous time interval / range:
+The `max` method may be used to calculate the maximum value of a given column compared to the previous time interval / range:
 
 ```php
 return $this->max($request, Order::class, 'total');
@@ -104,7 +104,7 @@ return $this->max($request, Order::class, 'total');
 
 #### Min
 
-The `min` method may be used to calculate the minimum of a given column compared to the previous time interval / range:
+The `min` method may be used to calculate the minimum value of a given column compared to the previous time interval / range:
 
 ```php
 return $this->min($request, Order::class, 'total');
@@ -112,28 +112,26 @@ return $this->min($request, Order::class, 'total');
 
 ### Value Result Formatting
 
-You can add a prefix and/or suffix to the Value metric's result by calling the `prefix` and `suffix` methods when returning the `ValueResult`:
+You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
 
 ```php
 public function calculate(Request $request)
 {
-    return $this->count($request, User::class)
+    return $this->max($request, Order::class, 'total')
                 ->prefix('$')
                 ->suffix('per unit');
 }
 ```
 
-You may also use the `currency` method to specify the prefix for the result. By default the currency symbol will be `$`, but you may also pass in your own symbol:
+You may also use the `currency` method to specify that a given value result represents a currency value. By default, the currency symbol will be `$`, but you may also specify your own currency symbol by passing the symbol as an argument to the `currency` method:
 
 ```php
-public function calculate(Request $request)
-{
-    return $this->count($request, User::class)
-                ->currency('£');
-}
+return $this->max($request, Order::class, 'total')->currency();
+
+return $this->max($request, Order::class, 'total')->currency('£');
 ```
 
-To customize the display format, you can use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
+To customize the display format of a value result, you may use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
 
 ```php
 public function calculate(NovaRequest $request)
@@ -175,7 +173,7 @@ You may customize these ranges to suit your needs; however, if you are using the
 
 ### Zero Result Values
 
-By default, Nova will handle results of `0` as a result containing no data. This may not always be correct, which is why you can use the `allowZeroResult` method to prevent this from happening:
+By default, Nova will handle results of `0` as a result containing no data. This may not always be correct, which is why you can use the `allowZeroResult` method to indicate that `0` is a valid value result:
 
 ```php
 return $this->result(0)->allowZeroResult();
@@ -183,7 +181,7 @@ return $this->result(0)->allowZeroResult();
 
 ### Manually Building Value Results
 
-If you are not able to use the included query helpers for building your value metric, you may manually provide the final values to the metric using the `result` and `previous` methods:
+If you are not able to use the included query helpers for building your value metric, you may easily manually provide the final values to the metric using the `result` and `previous` methods, giving you full control over the calculation of these values:
 
 ```php
 return $this->result(100)->previous(50);
@@ -255,7 +253,7 @@ class UsersPerDay extends Trend
 
 ### Trend Query Types
 
-Trend metrics don't just ship with a `countByDays` helper. You may also use a variety of other aggregate functions and time intervals when building your metric.
+Trend metrics don't only ship with a `countByDays` helper. You may also use a variety of other aggregate functions and time intervals when building your metric.
 
 #### Count
 
@@ -295,7 +293,7 @@ return $this->sumByMinutes($request, Order::class, 'price');
 
 #### Max
 
-The `max` methods may be used to calculate the maximum of a given column over time:
+The `max` methods may be used to calculate the maximum value of a given column over time:
 
 ```php
 return $this->maxByMonths($request, Order::class, 'total');
@@ -307,7 +305,7 @@ return $this->maxByMinutes($request, Order::class, 'total');
 
 #### Min
 
-The `min` methods may be used to calculate the minimum of a given column over time:
+The `min` methods may be used to calculate the minimum value of a given column over time:
 
 ```php
 return $this->minByMonths($request, Order::class, 'total');
@@ -315,27 +313,6 @@ return $this->minByWeeks($request, Order::class, 'total');
 return $this->minByDays($request, Order::class, 'total');
 return $this->minByHours($request, Order::class, 'total');
 return $this->minByMinutes($request, Order::class, 'total');
-```
-
-#### Showing The Sum Of Values
-
-By default, Nova only displays the last value of a Trend metric. You may wish to show a total count of the trend. You can do this by calling the `showSumValue` method when returning your values from a metric:
-
-```php
-class UsersPerDay extends Trend
-{
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
-     */
-    public function calculate(NovaRequest $request)
-    {
-        return $this
-            ->countByDays($request, User::class)
-            ->showSumValue();
-    }
 ```
 
 ### Trend Ranges
@@ -358,25 +335,9 @@ public function ranges()
 }
 ```
 
-### Formatting The Trend Value
-
-Sometimes you may wish to add a prefix or suffix to the trend values. To accomplish this, you may use the `prefix` and `suffix` methods:
-
-```php
-return $this->countByDays($request, User::class)
-            ->prefix('$');
-```
-
-If your trend metric is displaying a monetary value, you may use the `dollars` and `euros` short-cut methods for quickly prefixing a Dollar or Euro sign to the trend values:
-
-```php
-return $this->countByDays($request, User::class)
-            ->dollars();
-```
-
 ### Displaying The Current Value
 
-Sometimes, you may wish to emphasize the value for the latest time interval. For example, in this screenshot, six users have been created during the last day:
+Sometimes, you may wish to emphasize the value for the latest trend metric time interval. For example, in this screenshot, six users have been created during the last day:
 
 ![Latest Value](./img/latest-value.png)
 
@@ -387,7 +348,7 @@ return $this->countByDays($request, User::class)
             ->showLatestValue();
 ```
 
-You may customize the display format using the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+You may customize the display format of the latest value using the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
 
 ```php
 return $this->countByDays($request, User::class)
@@ -395,10 +356,32 @@ return $this->countByDays($request, User::class)
             ->format('0,0');
 ```
 
+#### Displaying The Trend Sum
+
+By default, Nova only displays the last value of a trend metric as the emphasized, "current" value. However, sometimes you may wish to show the total count of the trend instead. You can accomplish this by invoking the `showSumValue` method when returning your values from a trend metric:
+
+```php
+return $this->countByDays($request, User::class)
+            ->showSumValue();
+```
+
+#### Formatting The Trend Value
+
+Sometimes you may wish to add a prefix or suffix to the emphasized, "current" trend value. To accomplish this, you may use the `prefix` and `suffix` methods:
+
+```php
+return $this->sumByDays($request, Order::class, 'price')->prefix('$');
+```
+
+If your trend metric is displaying a monetary value, you may use the `dollars` and `euros` convenience methods for quickly prefixing a Dollar or Euro sign to the trend values:
+
+```php
+return $this->sumByDays($request, Order::class, 'price')->dollars();
+```
 
 ### Manually Building Trend Results
 
-If you are not able to use the included query helpers for building your trend metric, you may manually construct the `Laravel\Nova\Metrics\TrendResult` object and return it from your metric's `calculate` method:
+If you are not able to use the included query helpers for building your trend metric, you may manually construct the `Laravel\Nova\Metrics\TrendResult` object and return it from your metric's `calculate` method. This approach to calculating trend data gives you total flexibility when building the data that should be graphed:
 
 ```php
 return (new TrendResult)->trend([
@@ -461,7 +444,7 @@ class UsersPerPlan extends Partition
 
 ### Partition Query Types
 
-Partition metrics don't just ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric.
+Partition metrics don't only ship with a `count` helper. You may also use a variety of other aggregate functions when building your metric.
 
 #### Average
 
@@ -497,7 +480,7 @@ return $this->min($request, Order::class, 'price', 'department');
 
 ### Customizing Partition Labels
 
-Often, the column values that divide your partition metrics into groups will be simple keys, and not something that is "human friendly". Or, if you are displaying a partition metric grouped by a column that is a boolean, Nova will display your group labels as "0" and "1". For this reason, Nova allows you to provide a Closure that formats the label into something more readable:
+Often, the column values that divide your partition metrics into groups will be simple keys, and not something that is "human readable". Or, if you are displaying a partition metric grouped by a column that is a boolean, Nova will display your group labels as "0" and "1". For this reason, Nova allows you to provide a Closure that formats the label into something more readable:
 
 ```php
 /**
@@ -509,20 +492,16 @@ Often, the column values that divide your partition metrics into groups will be 
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class, 'stripe_plan')
-            ->label(function ($value) {
-                switch ($value) {
-                    case null:
-                        return 'None';
-                    default:
-                        return ucfirst($value);
-                }
+            ->label(fn ($value) => match ($value) {
+                null => 'None',
+                default => ucfirst($value)
             });
 }
 ```
 
 ### Customizing Partition Colors
 
-By default, Nova will choose the colors used in a partition metric. Sometimes, you may wish to change these to match the type of data they represent. To do this you can call the `colors` method when returning your value from the metric:
+By default, Nova will choose the colors used in a partition metric. Sometimes, you may wish to change these colors to better match the type of data they represent. To accomplish this, you may call the `colors` method when returning your partition result from the metric:
 
 ```php
 /**
@@ -533,18 +512,18 @@ By default, Nova will choose the colors used in a partition metric. Sometimes, y
  */
 public function calculate(NovaRequest $request)
 {
-    // This metric has `audio`, `video`, and `photo` types
+    // This metric has `audio`, `video`, and `photo` types...
     return $this->count($request, Post::class, 'type')->colors([
         'audio' => '#6ab04c',
         'video' => 'rgb(72,52,212)',
-        // photo will use the default color from Nova
+        // Since it is unspecified, "photo" will use a default color from Nova...
     ]);
 }
 ```
 
 ### Manually Building Partition Results
 
-If you are not able to use the included query helpers for building your partition metric, you may manually provide the final values to the metric using the `result` method:
+If you are not able to use the included query helpers for building your partition metric, you may manually provide the final values to the metric using the `result` method, providing maximum flexibility:
 
 ```php
 return $this->result([
@@ -568,7 +547,7 @@ php artisan nova:progress NewUsers
 
 Once your progress metric class has been generated, you're ready to customize it. Each progress metric class contains a `calculate` method. This method should return a `Laravel\Nova\Metrics\ProgressResult` object. Don't worry, Nova ships with a variety of helpers for quickly generating results.
 
-In this example, we are using the `count` helper, which will automatically perform a `count` query against the specified Eloquent model:
+In this example, we are using the `count` helper to determine if we have reached our new user registration goal for the month. The `count` helper will automatically perform a `count` query against the specified Eloquent model:
 
 ```php
 <?php
@@ -608,7 +587,7 @@ class NewUsers extends Progress
 
 #### Sum
 
-Progress metrics don't just ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress with the sum of completed transaction amounts against a target sales goal:
+Progress metrics don't only ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress metric with the sum of the completed transaction amounts against a target sales goal:
 
 ```php
 return $this->sum($request, Transaction::class, function ($query) {
@@ -630,7 +609,7 @@ Occasionally the calculation of a metric's values can be slow and expensive. For
 
 ```php
 /**
- * Determine for how many minutes the metric should be cached.
+ * Determine the amount of time the results of the metric should be cached.
  *
  * @return \DateTimeInterface|\DateInterval|float|int|null
  */
@@ -656,9 +635,11 @@ public function name()
 }
 ```
 
-## Refresh After Actions
+## Refreshing Metrics
 
-By default, Nova does not live update metric results after running an action is executed; however, you may enable this behavior by defining a `refreshWhenActionRuns` property on your metric class. When this property is set to `true`, resource metric values will be refreshed live when actions are executed without the end user needing to refresh the page:
+### Refresh After Actions
+
+By default, Nova does not automatically update metric results after an action is executed without the user manually refreshing the page; however, you may indicate that metrics should automatically refresh after actions have executed by defining a `refreshWhenActionRuns` property on your metric class. When this property is set to `true`, resource metric values will automatically refresh after actions are executed without the user needing to refresh the page:
 
 ```php
 /**
@@ -669,9 +650,9 @@ By default, Nova does not live update metric results after running an action is 
 public $refreshWhenActionRuns = true;
 ```
 
-## Refresh After Filter Changes
+### Refresh After Filter Changes
 
-Laravel Nova will only update the metric when a page's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
+Likewise, Laravel Nova will only automatically update a metric's value when a page's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
 
 ```php
 public function cards(NovaRequest $request)
