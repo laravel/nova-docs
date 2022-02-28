@@ -19,12 +19,14 @@ public static $search = [
 
 :::warning Scout Integration
 
-If you are using Nova's Scout integration, the `$search` column has no effect on your search results and may be ignored. You should manage the searchable columns in the Algolia dashboard.
+If you are using Nova's Scout integration, the `$search` property has no effect on your search results and may be ignored. You should manage the searchable columns within the Algolia or Meilisearch dashboard.
 :::
 
 ## Full-Text Indexes
 
-Typically, Nova searches your database columns using simple `LIKE` clauses. However, if you are using MySQL or Postgres, you may take advantage of any full-text indexes you have defined. To do so, you should define a `searchableColumns` method on your Nova resource class instead of defining a `$search` property. This method should return an array of columns that are searchable. By returning an instance of `Laravel\Nova\Query\Search\FullText` you may instruct Nova to utilize your full-text indexes when querying a given column:
+Typically, Nova searches your database columns using simple `LIKE` clauses. However, if you are using MySQL or Postgres, you may take advantage of any full-text indexes you have defined. To do so, you should define a `searchableColumns` method on your Nova resource class instead of defining a `$search` property.
+
+The `searchableColumns` method should return an array of columns that are searchable. You may include an instance of `Laravel\Nova\Query\Search\FullText` within this array to instruct Nova to utilize your full-text indexes when querying a given column:
 
 ```php
 use Laravel\Nova\Query\Search\FullText;
@@ -42,7 +44,9 @@ public static function searchableColumns()
 
 ## Searching Relationships
 
-Laravel Nova also allows you to search again a resource's related models. For example, imagine a `Post` model that is related to a `User` model via a `author` relatonship. This relationship may be queried by returning an instance of `Laravel\Nova\Query\Search\Relation` from your resource's `searchableColumns` method. If this method does not exist on your resource, you may define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
+Laravel Nova also allows you to search against a resource's related models. For example, imagine a `Post` model that is related to a `User` model via an `author` relatonship. You may indicate that this relationship data should be considered when searching for users by returning an instance of `Laravel\Nova\Query\Search\Relation` from your resource's `searchableColumns` method.
+
+If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
 use Laravel\Nova\Query\Search\Relation;
@@ -58,7 +62,7 @@ public static function searchableColumns()
 }
 ```
 
-Alternatively, you may define a relationship field that should be search by adding the field to your resource's `$search` property using "dot notation":
+For convenience, you may define a relationship that should be searched by adding the field to your resource's `$search` property using "dot notation":
 
 ```php
 /**
@@ -73,9 +77,10 @@ public static $search = [
 
 ### MorphTo Relationships
 
-"Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\MorphRelation` from your resource's `searchableColumns` method. The `MorphRelation` instance allows you to specify which types of morphed models should be searched:
+"Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\MorphRelation` from your resource's `searchableColumns` method. The `MorphRelation` class allows you to specify which types of morphed models should be searched:
 
 ```php
+use App\Nova\Post;
 use Laravel\Nova\Query\Search\MorphRelation;
 
 /**
@@ -85,13 +90,15 @@ use Laravel\Nova\Query\Search\MorphRelation;
  */
 public static function searchableColumns()
 {
-    return ['id', new MorphRelation('commentable', 'title', ['App\Nova\Post'])];
+    return ['id', new MorphRelation('commentable', 'title', [Post::class])];
 }
 ```
 
 ## Searching JSON Data
 
-If your resource includes a column that contains a JSON string. You may search within the JSON object by returning a `Laravel\Nova\Query\Search\JsonSelector` instance from your resource's `searchableColumns` method. If this method does not exist on your resource, you may define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
+If the database table associated with your resource includes a column that contains a JSON string, you may instruct Nova to search within the JSON string by returning a `Laravel\Nova\Query\Search\JsonSelector` instance from your resource's `searchableColumns` method.
+
+If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
 use Laravel\Nova\Query\Search\JsonSelector;
