@@ -4,7 +4,7 @@
 
 ## Overview
 
-Nova dashboards provide a way of grouping similar information provided by [metrics](./../metrics/defining-metrics.md) or [cards](../customization/cards.md).
+Nova dashboards provide a convenient place to group related information via [metrics](./../metrics/defining-metrics.md) or [cards](../customization/cards.md).
 
 ## Default Dashboard
 
