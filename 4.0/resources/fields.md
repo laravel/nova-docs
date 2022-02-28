@@ -1182,21 +1182,23 @@ $schedule->call(new PruneStaleAttachments)->daily();
 
 ### Ui-Avatar Field
 
-The `UiAvatar` field does not correspond to any column in your application's database. Instead, it will display the name initial image of the model it is associated with.
+The `UiAvatar` field does not correspond to any column in your application's database. Instead, this field will generate a simple avatar containing the user's initials. This field is powered by [ui-avatars.com](https://ui-avatars.com).
 
-By default, the `UiAvatar` URL will be generated based on the value of the model's `name` column. However, if your user's name are not stored in the `name` column, you may pass a custom column name to the field's `make` method:
+@SCREENSHOT
+
+By default, the `UiAvatar` image will be generated based on the value of the model's `name` column. However, if your user's names are not stored in the `name` column, you may pass a custom column name to the field's `make` method:
 
 ```php
 use Laravel\Nova\Fields\UiAvatar;
 
-// Using the "email" column...
+// Using the "name" column...
 UiAvatar::make(),
 
-// Using the "fullname" column...
-UiAvatar::make('Avatar', 'fullname'),
+// Using a custom column...
+UiAvatar::make('Avatar', 'full_name'),
 ```
 
-You may also use custom resolve value to generate name, for example if you want to use the first character of model's email address and the first character from the email address domain name:
+If necessary, you may invoke the `resolveUsing` method to specify a closure that should be invoked to determine the name that should be used to generate the avatar:
 
 ```php
 UiAvatar::make()->resolveUsing(function () {
@@ -1210,14 +1212,14 @@ You may use the `squared` method to display the image's thumbnail with squared e
 UiAvatar::make('Avatar', 'fullname')->squared(),
 ```
 
-Additional options available from [ui-avatars.com](https://ui-avatars.com)'s settings:
+Additional options available when defining `UiAvatar` fields include:
 
 | Option | Method | Description
 |:-------|:-------|:------
-| Font Size | `fontSize(0.4)` | Set font size between `0.1` to `1`.
-| Bold | `bold()` | Set font weight to bold
-| Background Color | `backgroundColor('1D4ED7')` | Set hex color for the image background
-| Font Color | `color('FFFFFF')` | Set hex color for the image font
+| Font Size | `fontSize(0.4)` | Set a font size between `0.1` to `1`.
+| Bold | `bold()` | Set font weight to bold.
+| Background Color | `backgroundColor('1D4ED7')` | Set the hex color for the image background.
+| Text Color | `color('FFFFFF')` | Set the hex color for the image text.
 
 ### URL Field
 
