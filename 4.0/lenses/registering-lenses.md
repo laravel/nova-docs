@@ -19,7 +19,7 @@ public function lenses(NovaRequest $request)
 }
 ```
 
-Alternatively, you may use the `make` method to instantiate your lens:
+Alternatively, you may use the `make` method to instantiate your lens. Any arguments passed to the `make` method will be passed to the constructor of your lens:
 
 ```php
 /**
@@ -36,14 +36,13 @@ public function lenses(NovaRequest $request)
 }
 ```
 
-Any arguments passed to the `make` method will be passed to the constructor of your lens.
-
 ## Authorization
 
-If you would like to only expose a given lens to certain users, you may chain the `canSee` method onto your lens registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+If you would like to only expose a given lens to certain users, you may invoke the `canSee` method when registering your lens. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
 use App\Models\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the lenses available for the resource.
