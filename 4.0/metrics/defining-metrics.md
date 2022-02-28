@@ -348,7 +348,7 @@ return $this->countByDays($request, User::class)
             ->showLatestValue();
 ```
 
-You may customize the display format of the latest value using the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+You may customize the display format of the latest value using the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
 
 ```php
 return $this->countByDays($request, User::class)
@@ -632,33 +632,5 @@ By default, Nova will use the metric class name as the displayable name of your 
 public function name()
 {
     return 'Users Created';
-}
-```
-
-## Refreshing Metrics
-
-### Refresh After Actions
-
-By default, Nova does not automatically update metric results after an action is executed without the user manually refreshing the page; however, you may indicate that metrics should automatically refresh after actions have executed by defining a `refreshWhenActionRuns` property on your metric class. When this property is set to `true`, resource metric values will automatically refresh after actions are executed without the user needing to refresh the page:
-
-```php
-/**
- * Indicates whether the metric should be refreshed when actions run.
- *
- * @var bool
- */
-public $refreshWhenActionRuns = true;
-```
-
-### Refresh After Filter Changes
-
-Likewise, Laravel Nova will only automatically update a metric's value when a page's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
-
-```php
-public function cards(NovaRequest $request)
-{
-    return [
-        TotalUsers::make()->refreshWhenFiltersChange(),
-    ];
 }
 ```
