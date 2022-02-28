@@ -115,7 +115,7 @@ return $this->min($request, Order::class, 'total');
 You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
 
 ```php
-public function calculate(Request $request)
+public function calculate(NovaRequest $request)
 {
     return $this->max($request, Order::class, 'total')
                 ->prefix('$')

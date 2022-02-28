@@ -8,10 +8,10 @@ Once you have defined a filter, you are ready to attach it to a resource. Each r
 /**
  * Get the filters available for the resource.
  *
- * @param  \Illuminate\Http\Request  $request
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function filters(Request $request)
+public function filters(NovaRequest $request)
 {
     return [
         new Filters\UserType,
