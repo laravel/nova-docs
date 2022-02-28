@@ -8,7 +8,7 @@ Once an action has been attached to a resource definition, you may initiate it f
 
 ![Action](./img/action.png)
 
-If an action is enabled for display on the resource's table row, you may initiate it from the resource's action dropdown menu. These are called "Inline Actions":
+If an action is enabled for display on the resource's table row, you may also initiate the action from the resource's action dropdown menu via the resource index page. These actions are referred to as "Inline Actions":
 
 ![Inline Action](./img/inline-actions.png)
 
@@ -34,7 +34,6 @@ To learn how to define Nova actions, let's look at an example. In this example, 
 namespace App\Nova\Actions;
 
 use App\Models\AccountData;
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -45,7 +44,7 @@ use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action
 {
-    use Batchable, InteractsWithQueue, Queueable;
+    use InteractsWithQueue, Queueable;
 
     /**
     * Perform the action on the given models.
@@ -78,6 +77,19 @@ The most important method of an action is the `handle` method. The `handle` meth
 
 Within the `handle` method, you may perform whatever tasks are necessary to complete the action. You are free to update database records, send emails, call other services, etc. The sky is the limit!
 
+#### Action Titles
+
+Typically, Nova utilizes the action's class name to determine the displayable name of the action that should be shown in the action selection menu. If you would like to change the displayable name of the action, you may define a `name` property on the action class:
+
+```php
+/**
+ * The displayable name of the action.
+ *
+ * @var string
+ */
+public $name = 'Action Title';
+```
+
 ## Handling Multiple Results
 
 When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the action:
@@ -103,7 +115,7 @@ public function handleResult(ActionFields $fields, $results)
 
 ## Destructive Actions
 
-You may designate an action as destructive or dangerous by having your action class inherit from `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
+You may designate an action as destructive or dangerous by defining an action class that extends `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
 
 ![Destructive Action](./img/action-destructive.png)
 
@@ -155,7 +167,7 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
-### Action Fields Default Values
+#### Action Fields Default Values
 
 You may use the `default` method to set the default value for an action field:
 
@@ -165,24 +177,9 @@ Text::make('Subject')->default(function ($request) {
 }),
 ```
 
-## Action Titles
-
-If you would like to change the action title that is displayed in Nova's action selection menu, you may define a `name` property on the action class:
-
-```php
-/**
- * The displayable name of the action.
- *
- * @var string
- */
-public $name = 'Action Title';
-```
-
 ## Action Responses
 
-Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods on the `Action` class.
-
-To display a custom "success" message, you may return the result of the `Action::message` method from your `handle` method:
+Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods available via the `Action` class. To display a custom "success" message, you may invoke the `Action::message` method from your `handle` method:
 
 ```php
 /**
@@ -200,13 +197,13 @@ public function handle(ActionFields $fields, Collection $models)
 }
 ```
 
-To return a red, "danger" message, you may use the `Action::danger` method:
+To return a red, "danger" message, you may invoke the `Action::danger` method:
 
 ```php
 return Action::danger('Something went wrong!');
 ```
 
-#### Redirect Responses
+### Redirect Responses
 
 To redirect the user to an entirely new location after the action is executed, you may use the `Action::redirect` method:
 
@@ -214,7 +211,7 @@ To redirect the user to an entirely new location after the action is executed, y
 return Action::redirect('https://example.com');
 ```
 
-To redirect the user to an internal route, you may use the `Action::visit` method:
+To redirect the user to another location within Nova, you may use the `Action::visit` method:
 
 ```php
 return Action::visit('/resources/posts/new', [
@@ -224,18 +221,52 @@ return Action::visit('/resources/posts/new', [
 ]);
 ```
 
-To redirect the user to a new location in a new tab, you may use the `Action::openInNewTab` method:
+To redirect the user to a new location in a new browser tab, you may use the `Action::openInNewTab` method:
 
 ```php
 return Action::openInNewTab('https://example.com');
 ```
 
-#### Download Responses
+### Download Responses
 
 To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
 
 ```php
 return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
+```
+
+### Custom Modal Responses
+
+In addition to the customization options provided before and during an action's execution, Nova also supports the ability to present a custom modal response to the user. This allows you to provide additional context or follow-up actions to the user, customized to your use-case.
+
+For example, let's imagine you have defined an action named `GenerateApiToken`, which creates unique tokens for use with a REST API. Using a custom action response modal, you could show the user running the action a modal allowing them to copy the newly-generated API token to their clipboard.
+
+Using the `nova:asset` Artisan command, you may [generate a custom asset](./../customization/assets.md) and register the custom modal with Nova's Vue instance:
+
+```js
+import ApiTokenCopier from './components/ApiTokenCopier'
+
+Nova.booting(Vue => {
+  Vue.component('api-token-copier', ApiTokenCopier)
+})
+```
+
+Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component:
+
+```php
+public function handle(ActionFields $fields, Collection $models)
+{
+    if ($models->count() > 1) {
+        return Action::danger('Please run this on only one user resource.');
+    }
+
+    $models->first()->update(['api_token' => $token = Str::random(32)]);
+
+    return Action::modal('api-token-copier', [
+        'message' => 'The API token was generated!',
+        'token' => $token,
+    ]);
+}
 ```
 
 ## Queued Actions
@@ -248,7 +279,6 @@ Occasionally, you may have actions that take a while to finish running. For this
 namespace App\Nova\Actions;
 
 use App\AccountData;
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -259,7 +289,7 @@ use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-    use Batchable, InteractsWithQueue, Queueable;
+    use InteractsWithQueue, Queueable;
 
     // ...
 }
@@ -271,33 +301,35 @@ You may quickly create a queued Nova action by providing the `--queued` option w
 php artisan nova:action EmailAccountProfile --queued
 ```
 
-When using queued actions, don't forget to configure and start queue workers for your application. Otherwise, your actions won't be processed.
+When using queued actions, don't forget to configure and start [queue workers](https://laravel.com/docs/queues) for your application. Otherwise, your actions won't be processed.
 
 :::danger Queued Action Files
 
 At this time, Nova does not support attaching `File` fields to a queued action. If you need to attach a `File` field to an action, the action must be run synchronously.
 :::
 
-#### Customizing The Connection And Queue
+### Customizing The Connection And Queue
 
 You may customize the queue connection and queue name that the action is queued on by setting the `$connection` and `$queue` properties within the action's constructor:
 
 ```php
-class EmailAccountProfile extends Action implements ShouldQueue
+/**
+ * Create a new action instance.
+ *
+ * @return void
+ */
+public function __construct()
 {
-    use Batchable, InteractsWithQueue, Queueable;
-
-    public function __construct()
-    {
-        $this->connection = 'redis';
-        $this->queue = 'emails';
-    }
+    $this->connection = 'redis';
+    $this->queue = 'emails';
 }
 ```
 
 ### Job Batching
 
-You may also instruct Nova to queue actions as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `Laravel\Nova\Contracts\BatchableAction` interface. When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches):
+You may also instruct Nova to queue actions as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `Laravel\Nova\Contracts\BatchableAction` interface. In addition, the action should use the `Illuminate\Bus\Batchable` trait.
+
+When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches). This allows you to define code that should run after an entire batch of actions finishes executing against multiple selected resources:
 
 ```php
 <?php
@@ -342,7 +374,7 @@ class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 
 ## Action Log
 
-It is often useful to view a log of the actions that have been run against a resource. Additionally, when queueing actions, it's often important to know when they are actually finished. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actions\Actionable` trait to the resource's corresponding Eloquent model.
+It is often useful to view a log of the actions that have been run against a particular resource. Additionally, when queueing actions, it's often important to know when the queued actions have actually finished executing. Thankfully, Nova makes it a breeze to add an action log to a resource by attaching the `Laravel\Nova\Actions\Actionable` trait to the resource's corresponding Eloquent model.
 
 For example, we may attach the `Laravel\Nova\Actions\Actionable` trait to the `User` Eloquent model:
 
@@ -380,7 +412,7 @@ If you do not want to record an action in the action log, you may disable this b
 public $withoutActionEvents = true;
 ```
 
-Or, using the `withoutActionEvents` method, you may disable the action log for an action when the action is attached to a resource:
+Or, using the `withoutActionEvents` method, you may disable the action log for an action when the action is attached to a resource. Disabling the action log is often particularly helpful when an action is often executed against thousands of resources at once, since it allows you to avoid thousands of slow, sequential action log database inserts:
 
 ```php
 /**
@@ -460,39 +492,5 @@ public function actions(NovaRequest $request)
             ->confirmButtonText('Activate')
             ->cancelButtonText("Don't activate"),
     ];
-}
-```
-
-## Action Response Modals
-
-In addition to the customization options provided before and during an action runs, Nova also supports the ability to present a custom modal response to the user. This allows you to provide additional context or follow-up actions to the user, customized to your use-case.
-
-For example, let's say you had an action named `GenerateApiToken`, which creates unique tokens for use with a REST API. Using a custom action response modal, you could show the user running the action a modal allowing them to copy the newly-generated API token to their clipboard.
-
-Using the `nova:asset` Artisan command, you would generate a new asset and register the custom modal with Nova's Vue instance:
-
-```js
-import ApiTokenCopier from './components/ApiTokenCopier'
-
-Nova.booting(Vue => {
-  Vue.component('api-token-copier', ApiTokenCopier)
-})
-```
-
-You would then use the `modal` method inside your Action's `handle` method, which would instruct Nova to show the modal after running the action, passing the Vue component's name and any extra data to the component:
-
-```php
-public function handle(ActionFields $fields, Collection $models)
-{
-    if ($models->count() > 1) {
-        return Action::danger('Please run this on only one user resource.');
-    }
-
-    $models->first()->update(['api_token' => $token = Str::random(32)]);
-
-    return Action::modal('api-token-copier', [
-        'message' => 'The API token was generated!',
-        'token' => $token,
-    ]);
 }
 ```
