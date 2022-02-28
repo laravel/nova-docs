@@ -284,6 +284,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [UI-Avatar](#ui-avatar-field)
 - [URL](#url-field)
 - [Vapor File](#vapor-file-field)
 - [Vapor Image](#vapor-image-field)
@@ -1178,6 +1179,45 @@ use Laravel\Nova\Trix\PruneStaleAttachments;
 
 $schedule->call(new PruneStaleAttachments)->daily();
 ```
+
+### Ui-Avatar Field
+
+The `UiAvatar` field does not correspond to any column in your application's database. Instead, it will display the name initial image of the model it is associated with.
+
+By default, the `UiAvatar` URL will be generated based on the value of the model's `name` column. However, if your user's name are not stored in the `name` column, you may pass a custom column name to the field's `make` method:
+
+```php
+use Laravel\Nova\Fields\UiAvatar;
+
+// Using the "email" column...
+UiAvatar::make(),
+
+// Using the "fullname" column...
+UiAvatar::make('Avatar', 'fullname'),
+```
+
+You may also use custom resolve value to generate name, for example if you want to use the first character of model's email address and the first character from the email address domain name:
+
+```php
+UiAvatar::make()->resolveUsing(function () {
+    return implode(' ', explode('@', $this->email));
+}),
+```
+
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display the images with fully-rounded edges:
+
+```php
+UiAvatar::make('Avatar', 'fullname')->squared(),
+```
+
+Additional options available from [ui-avatars.com](https://ui-avatars.com)'s settings:
+
+| Option | Method | Description
+|:-------|:-------|:------
+| Font Size | `fontSize(0.4)` | Set font size between `0.1` to `1`.
+| Bold | `bold()` | Set font weight to bold
+| Background Color | `backgroundColor('1D4ED7')` | Set hex color for the image background
+| Font Color | `color('FFFFFF')` | Set hex color for the image font
 
 ### URL Field
 
