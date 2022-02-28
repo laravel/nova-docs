@@ -284,6 +284,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
 - [Trix](#trix-field)
+- [UI-Avatar](#ui-avatar-field)
 - [URL](#url-field)
 - [Vapor File](#vapor-file-field)
 - [Vapor Image](#vapor-image-field)
@@ -1178,6 +1179,47 @@ use Laravel\Nova\Trix\PruneStaleAttachments;
 
 $schedule->call(new PruneStaleAttachments)->daily();
 ```
+
+### UI-Avatar Field
+
+The `UiAvatar` field does not correspond to any column in your application's database. Instead, this field will generate a simple avatar containing the user's initials. This field is powered by [ui-avatars.com](https://ui-avatars.com).
+
+@SCREENSHOT
+
+By default, the `UiAvatar` image will be generated based on the value of the model's `name` column. However, if your user's names are not stored in the `name` column, you may pass a custom column name to the field's `make` method:
+
+```php
+use Laravel\Nova\Fields\UiAvatar;
+
+// Using the "name" column...
+UiAvatar::make(),
+
+// Using a custom column...
+UiAvatar::make('Avatar', 'full_name'),
+```
+
+If necessary, you may invoke the `resolveUsing` method to specify a closure that should be invoked to determine the name that should be used to generate the avatar:
+
+```php
+UiAvatar::make()->resolveUsing(function () {
+    return implode(' ', explode('@', $this->email));
+}),
+```
+
+You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display the images with fully-rounded edges:
+
+```php
+UiAvatar::make('Avatar', 'fullname')->squared(),
+```
+
+Additional options available when defining `UiAvatar` fields include:
+
+| Option | Method | Description
+|:-------|:-------|:------
+| Font Size | `fontSize(0.4)` | Set a font size between `0.1` to `1`.
+| Bold | `bold()` | Set font weight to bold.
+| Background Color | `backgroundColor('1D4ED7')` | Set the hex color for the image background.
+| Text Color | `color('FFFFFF')` | Set the hex color for the image text.
 
 ### URL Field
 
