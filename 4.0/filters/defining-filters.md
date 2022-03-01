@@ -2,13 +2,20 @@
 
 [[toc]]
 
-Nova filters are simple classes that allow you to scope your Nova index queries with custom conditions. For example, you may wish to define a filter to quickly view "Admin" users within your application:
+Nova filters are simple classes that allow you to scope your Nova index queries with custom conditions.
 
-![Filters](./img/filters.png)
+:::warning Filterable Fields
+
+Before creating your own filters, you may want to check out [filterable fields](./../resources/fields#filterable-fields). Filterable fields can solve the filtering needs of most Nova installations without the need to write custom code.
+:::
 
 ## Select Filters
 
-The most common type of Nova filter is the "select" filter, which allows the user to select a filter option from a drop-down selection menu. You may generate a select filter using the `nova:filter` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
+The most common type of Nova filter is the "select" filter, which allows the user to select a filter option from a drop-down selection menu:
+
+![Filters](./img/filters.png)
+
+You may generate a select filter using the `nova:filter` Artisan command. By default, Nova will place newly generated filters in the `app/Nova/Filters` directory:
 
 ```bash
 php artisan nova:filter UserType
