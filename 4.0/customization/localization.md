@@ -195,4 +195,20 @@ Nova::serving(function () {
 });
 ```
 
-As in Laravel, you may use the `__` helper within your custom Vue components to access these translations.
+As in Laravel, you may use the `__` helper within your custom Vue components to access these translations. This feature is available by adding the following mixins to the Inertia Page Component or Vue Component:
+
+```js
+<template>
+  <h2>{{ __('Total Users') }}</h2>
+</template>
+
+<script>
+import { Localization } from 'laravel-nova'
+
+export default {
+  mixins: [Localization]
+
+  // ...
+}
+</script>
+```
