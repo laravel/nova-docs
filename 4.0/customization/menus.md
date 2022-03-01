@@ -6,13 +6,13 @@
 
 By default, Nova's main sidebar menu displays all of your application's dashboards, resources, and any custom tools you have registered.
 
-When displaying the main menu, Nova will order your dashboards according to the order they are defined inside your `NovaServiceProvider`. Nova will also group your resources under the "Resources" section according to the `group` property defined on the `Resource` class. Any custom tools you have registered will be listed in the order they're defined inside your `NovaServiceProvider`.
+When displaying the main menu, Nova will order your dashboards according to the order they are defined inside your `App\Providers\NovaServiceProvider`. Nova will also group your resources under the "Resources" section according to the `group` property defined in the `Resource` class. Any custom tools you have registered will be listed in the order they are defined inside your `NovaServiceProvider`.
 
 // @SCREENSHOT
 
 ## Customizing the Main Menu
 
-While Nova's default main menu works for many applications, there are times you may wish to completely customize it for your needs. You can define your own main menu by calling the `mainMenu` method inside your `NovaServiceProvider` and returning the items you wish to display:
+While Nova's default main menu works for many applications, there are times you may wish to completely customize it for your needs. You can define your own main menu by calling the `mainMenu` method inside your `App\Providers\NovaServiceProvider` and returning the items you wish to display:
 
 ```php
 <?php
