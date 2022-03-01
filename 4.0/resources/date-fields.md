@@ -9,7 +9,6 @@ use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 
 Date::make('Birthday'),
-
 DateTime::make('Created At'),
 ```
 
