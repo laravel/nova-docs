@@ -153,7 +153,7 @@ When building routes for your tool, you should **always** add authorization to t
 
 ### Assets
 
-When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.scss`.
+When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
 
 The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
 
