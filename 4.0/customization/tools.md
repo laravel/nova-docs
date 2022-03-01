@@ -72,7 +72,7 @@ Often, you will need to define Laravel routes that are called by your tool. When
 
 The `routes/inertia.php` file is tasked with rendering your tool via [Inertia](https://inertiajs.com), while the `routes/api.php` file may be used to define any routes that your Inertia based tool will be making requests to in order to gather additional data or perform additional tasks.
 
-All routes within the `routes/inertia.php` file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all "API routes" that will be invoked from the client via `Nova.request()` should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
+All routes within the `routes/api.php` file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all "API routes" that will be invoked from the client via [Nova.request](./frontend.md#nova-requests) should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool. Likewise, routes within the `routes/inertia.php` file are also placed within a route group that prefixes all of the routes within the file with the name of your tool.
 
 You are free to modify this route group definition, but you should ensure your Nova tool will easily co-exist with other Nova packages.
 
