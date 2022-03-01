@@ -9,6 +9,11 @@
     "docs:dev": "vuepress dev"
   },
   "resolutions": {
-    "webpack-dev-middleware": "3.6.0"
+    "webpack-dev-middleware": "3.6.0",
+    "watchpack": "1.6.1"
+  },
+  "overrides": {
+    "webpack-dev-middleware": "3.6.0",
+    "watchpack": "1.6.1"
   }
 }
