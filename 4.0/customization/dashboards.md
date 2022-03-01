@@ -8,7 +8,7 @@ Nova dashboards provide a convenient place to group related information via [met
 
 ## Default Dashboard
 
-Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customise the value of cards by modifying the method:
+Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customize which cards are present on the default dashboard via this method:
 
 ```php
 /**
