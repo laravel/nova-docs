@@ -151,46 +151,13 @@ All routes within this file are automatically defined inside a route group by yo
 When building routes for your tool, you should **always** add authorization to these routes using Laravel gates or policies.
 :::
 
-### Assets
+## Assets
 
-When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS stylesheets. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
+When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via `Nova.request()`.
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via [Nova.request](./frontend.md#nova-requests).
 
-#### Resource Tool Properties
-
-Your resource tool's `Tool.vue` component receives several Vue `props`: `resourceName`, `resourceId`, and `panel`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `panel` prop provides access to any tool [options](#tool-options) that may be available via the `fields`:
-
-```js
-const issuesRefunds = this.panel.fields[0].issuesRefunds;
-```
-
-Resource tools also offer the ability to _dynamically set options_ on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
-
-```php
-use Acme\StripeInspector\StripeInspector;
-
-/**
- * Get the fields displayed by the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function fields(NovaRequest $request)
-{
-    return [
-        ID::make('ID', 'id')->sortable(),
-
-        // Will be available on the field via `perPage: 25`
-        StripeInspector::make()->perPage(25),
-
-        // Will be available on the field via `issuesRefund: true`
-        StripeInspector::make()->issuesRefund()
-    ];
-}
-```
-
-#### Registering Assets
+### Registering Assets
 
 Your Nova tool's service provider registers your tool's compiled assets so that they will be available to the Nova front-end:
 
@@ -221,7 +188,7 @@ public function boot()
 Your component is bootstrapped and registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed.
 :::
 
-#### Compiling Assets
+### Compiling Assets
 
 Your Nova resource tool contains a `webpack.mix.js` file, which is generated when Nova creates your tool. You may build your tool using the NPM `dev` and `prod` commands:
 
@@ -237,4 +204,37 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 
 ```bash
 npm run watch
+```
+
+### Resource Tool Properties
+
+Your resource tool's `Tool.vue` component receives several Vue `props`: `resourceName`, `resourceId`, and `panel`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `panel` prop provides access to any tool [options](#tool-options) that may be available via the `fields`:
+
+```js
+const issuesRefunds = this.panel.fields[0].issuesRefunds;
+```
+
+Resource tools also offer the ability to _dynamically set options_ on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
+
+```php
+use Acme\StripeInspector\StripeInspector;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function fields(NovaRequest $request)
+{
+    return [
+        ID::make('ID', 'id')->sortable(),
+
+        // Will be available on the field via `perPage: 25`
+        StripeInspector::make()->perPage(25),
+
+        // Will be available on the field via `issuesRefunds: true`
+        StripeInspector::make()->issuesRefunds()
+    ];
+}
 ```
