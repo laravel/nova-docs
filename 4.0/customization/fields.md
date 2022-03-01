@@ -225,7 +225,7 @@ This method receives several arguments. Of course, it receives the incoming HTTP
 
 ### Assets
 
-When Nova generates your field, `resources/js` and `resources/sass` directories are generated for you. These directories contain your field's JavaScript and Sass stylesheets.
+When Nova generates your field, `resources/js` and `resources/css` directories are generated for you. These directories contain your field's JavaScript and CSS stylesheets.
 
 #### Registering Assets
 

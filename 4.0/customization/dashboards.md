@@ -8,7 +8,23 @@ Nova dashboards provide a convenient place to group related information via [met
 
 ## Default Dashboard
 
-Nova ships with a default dashboard which pulls cards and metrics from the `cards` method defined in  `app/Providers/NovaServiceProvider`. More information about Dashboard Metrics can be found [here](../metrics/registering-metrics.html#dashboard-metrics).
+Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customize which cards are present on the default dashboard via this method:
+
+```php
+/**
+ * Get the cards that should be displayed on the Nova dashboard.
+ *
+ * @return array
+ */
+public function cards()
+{
+    return [
+        new Help,
+    ];
+}
+```
+
+More information regarding dashboard metrics can be found [within our documentation on metrics](../metrics/registering-metrics.html#dashboard-metrics).
 
 ## Defining Dashboards
 
@@ -81,16 +97,18 @@ public function uriKey()
 To register a dashboard, add the dashboard to the array returned by the `dashboards` method of your `app/Providers/NovaServiceProvider` class:
 
 ```php
+use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\UserInsights;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be displayed on the Nova dashboard.
  *
  * @return array
  */
 protected function dashboards()
 {
     return [
+        new Main,
         new UserInsights,
     ];
 }
@@ -102,16 +120,19 @@ If you would like to only expose a given dashboard to certain users, you may cha
 
 ```php
 use App\Models\User;
+use App\Nova\Dashboards\Main;
+use App\Nova\Dashboards\UserInsights;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be displayed on the Nova dashboard.
  *
  * @return array
  */
 protected function dashboards()
 {
     return [
-        (new Dashboards\UserInsights)->canSee(function ($request) {
+        new Main,
+        (new UserInsights)->canSee(function ($request) {
             return $request->user()->can('viewUserInsights', User::class);
         }),
     ];
@@ -122,16 +143,19 @@ In the example above, we are using Laravel's `Authorizable` trait's can method o
 
 ```php
 use App\Models\User;
+use App\Nova\Dashboards\Main;
+use App\Nova\Dashboards\UserInsights;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be displayed on the Nova dashboard.
  *
  * @return array
  */
 protected function dashboards()
 {
     return [
-        (new Dashboards\UserInsights)->canSeeWhen('viewUserInsights', User::class),
+        new Main,
+        (new UserInsights)->canSeeWhen('viewUserInsights', User::class),
     ];
 }
 ```
