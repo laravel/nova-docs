@@ -4,11 +4,11 @@
 
 ## Overview
 
-Nova dashboards provide a convenient place to group related information via [metrics](./../metrics/defining-metrics.md) or [cards](../customization/cards.md).
+Nova dashboards provide a convenient way to build information overview pages that contain a variety of [metrics](./../metrics/defining-metrics.md) and [cards](../customization/cards.md).
 
-## Default Dashboard
+### Default Dashboard
 
-Nova ships with a default dashboard which pulls cards and metrics from the `cards` method defined in  `app/Providers/NovaServiceProvider`. More information about Dashboard Metrics can be found [here](../metrics/registering-metrics.html#dashboard-metrics).
+Nova ships with a default dashboard which displays the cards and metrics returned by the `cards` method defined in your application's `App/Providers/NovaServiceProvider` class. To learn more about dashboard metrics, please consult our comprehensive documentation on [metrics](../metrics/registering-metrics.html#dashboard-metrics).
 
 ## Defining Dashboards
 
@@ -18,7 +18,7 @@ Custom dashboards may be generated using the `nova:dashboard` Artisan command. B
 php artisan nova:dashboard UserInsights
 ```
 
-Once your dashboard class has been generated, you're ready to customize it. Each dashboard metric class contains a `cards` method. This method should return an array of card or metric classes:
+Once your dashboard class has been generated, you're ready to customize it. Each dashboard class contains a `cards` method. This method should return an array of card or metric classes:
 
 ```php
 <?php
@@ -46,9 +46,9 @@ class UserInsights extends Dashboard
 }
 ```
 
-### Customizing Dashboards
+#### Dashboard Names
 
-By default, Nova will use the class name as the name of your dashboard. You may customize the name of the dashboard displayed in the navigation bar by overriding the `label` method within your dashboard class:
+By default, Nova will use the class name as the name of your dashboard. You may customize the name of the dashboard displayed in the left-side navigation bar by overriding the `label` method within your dashboard class:
 
 ```php
 /**
@@ -62,7 +62,9 @@ public function label()
 }
 ```
 
-If you need to change the URI key of the dashboard that is used by Nova, you may override the `uriKey` method:
+#### Dashboard URI Keys
+
+If you need to change the URI of the dashboard, you may override the dashboard class' `uriKey` method. Of course, the URI represents the browser location that Nova will navigate to in when you click on the dashboard link in the left-side navigation bar:
 
 ```php
 /**
@@ -78,13 +80,13 @@ public function uriKey()
 
 ## Registering Dashboards
 
-To register a dashboard, add the dashboard to the array returned by the `dashboards` method of your `app/Providers/NovaServiceProvider` class:
+To register a dashboard, add the dashboard to the array returned by the `dashboards` method of your application's `App/Providers/NovaServiceProvider` class. Once you have added the dashboard to this method, it will become available for navigation in Nova's left-side navigation bar:
 
 ```php
 use App\Nova\Dashboards\UserInsights;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be listed in the Nova sidebar.
  *
  * @return array
  */
@@ -98,13 +100,13 @@ protected function dashboards()
 
 ## Authorization
 
-If you would like to only expose a given dashboard to certain users, you may chain the `canSee` method on to your dashboard registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
+If you would like to only expose a given dashboard to certain users, you may invoke the `canSee` method when registering your dashboard. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
 use App\Models\User;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be listed in the Nova sidebar.
  *
  * @return array
  */
@@ -124,7 +126,7 @@ In the example above, we are using Laravel's `Authorizable` trait's can method o
 use App\Models\User;
 
 /**
- * Get the extra dashboards that should be displayed on the Nova dashboard.
+ * Get the dashboards that should be listed in the Nova sidebar.
  *
  * @return array
  */
