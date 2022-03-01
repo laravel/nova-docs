@@ -87,7 +87,7 @@ use Laravel\Nova\Fields\HasMany;
 HasMany::make(__('Posts'), 'posts', Post::class);
 ```
 
-In addition, you should also override the `label` and `singularLabel` methods on the resource:
+In addition, you should also override the `label` and `singularLabel` methods on the related resource:
 
 ```php
 /**
