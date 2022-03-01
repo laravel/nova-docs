@@ -24,7 +24,7 @@ public function cards()
 }
 ```
 
-More information about Dashboard Metrics can be found [here](../metrics/registering-metrics.html#dashboard-metrics).
+More information regarding dashboard metrics can be found [within our documentation on metrics](../metrics/registering-metrics.html#dashboard-metrics).
 
 ## Defining Dashboards
 
