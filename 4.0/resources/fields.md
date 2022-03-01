@@ -1468,10 +1468,13 @@ Text::make('Name')->displayUsing(function ($name) {
 The `filterable` method allows you to enable convenient, automatic [filtering](./../filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
 ```php
-BelongsTo::make('User')->filterable(),
+Select::make('State')->options([
+    'Draft' => 'draft',
+    'Published' => 'published',
+])->filterable(),
 ```
 
-@SCREENSHOT
+![Filterable fields](./img/filterable-fields.png)
 
 The `filterable` method also accepts a closure as an argument. This closure will receive the filter query, which you may then customize in order to filter the resource results to your liking:
 

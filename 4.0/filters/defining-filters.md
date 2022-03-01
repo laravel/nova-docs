@@ -6,7 +6,7 @@ Nova filters are simple classes that allow you to scope your Nova index queries 
 
 :::warning Filterable Fields
 
-Before creating your own filters, you may want to check out [filterable fields](./../resources/fields#filterable-fields). Filterable fields can solve the filtering needs of most Nova installations without the need to write custom code.
+Before creating your own filters, you may want to check out [filterable fields](./../resources/fields.md#filterable-fields). Filterable fields can solve the filtering needs of most Nova installations without the need to write custom code.
 :::
 
 ## Select Filters
