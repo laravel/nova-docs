@@ -14,16 +14,16 @@ Laravel Nova has a few requirements you should be aware of before installing:
 
 ## Browser Support
 
-Nova supports reasonably recent versions of the following browsers:
+Nova supports modern versions of the following browsers:
 
-- Google Chrome
 - Apple Safari
+- Google Chrome
 - Microsoft Edge
 - Mozilla Firefox
 
 ## Installing Nova
 
-Once you have purchased a Nova license, you may download a Nova release from the "releases" section of the Nova website. After downloading a Zip file containing the Nova source code, you will need to install it as a Composer "path" repository within your Laravel application's `composer.json` file.
+Once you have purchased a Nova license, you may download a Nova release from the "releases" section of the Nova website. After downloading a Zip file containing the Nova source code, you will need to install it as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories.md#path) within your Laravel application's `composer.json` file.
 
 First, unzip the contents of the Nova release into a `nova` directory within your application's root directory. Once you have unzipped and placed the Nova source code within the appropriate directory, you are ready to update your `composer.json` file. You should add the following configuration to the file:
 
@@ -51,8 +51,8 @@ Next, add `laravel/nova` to the `require` section of your `composer.json` file:
 
 ```json
 "require": {
-    "php": "^7.3|^8.0",
-    "laravel/framework": "^8.0",
+    "php": "^8.0",
+    "laravel/framework": "^9.0",
     "laravel/nova": "*"
 },
 ```
@@ -109,8 +109,8 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^7.3|^8.0",
-    "laravel/framework": "^8.0",
+    "php": "^8.0",
+    "laravel/framework": "^9.0",
     "laravel/nova": "~4.0"
 },
 ```
@@ -149,19 +149,33 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Authenticating Nova in Continuous Integration (CI) Environments
 
-It's not advised to store your `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
+It's not advised to store your Composer `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
 
 ```bash
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
 ```
 
-## Upgrade Guide
+## Authorizing Access To Nova
 
-Nova 4.0 is a new major series release providing many new features and tools. Nova 4.0 should **only** be used with Laravel 8.x or greater, as it is not compatible with previous releases of Laravel.
+Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
-Update your `laravel/nova` dependency to `~4.0` in your `composer.json` file and run `composer update` followed by `php artisan migrate`.
-
-Your Nova resources will not require any changes during this upgrade; however, you should review the [Laravel upgrade guide](https://laravel.com/docs/upgrade).
+```php
+/**
+ * Register the Nova gate.
+ *
+ * This gate determines who can access Nova in non-local environments.
+ *
+ * @return void
+ */
+protected function gate()
+{
+    Gate::define('viewNova', function ($user) {
+        return in_array($user->email, [
+            'taylor@laravel.com',
+        ]);
+    });
+}
+```
 
 ## Customization
 
@@ -189,31 +203,9 @@ Nova uses the default storage disk driver defined in your `filesystems` configur
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 
-## Authorizing Nova
-
-Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
-
-```php
-/**
- * Register the Nova gate.
- *
- * This gate determines who can access Nova in non-local environments.
- *
- * @return void
- */
-protected function gate()
-{
-    Gate::define('viewNova', function ($user) {
-        return in_array($user->email, [
-            'taylor@laravel.com',
-        ]);
-    });
-}
-```
-
 ## Error Reporting
 
-Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report`. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
+Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
 use Laravel\Nova\Nova;
@@ -241,7 +233,7 @@ composer update
 
 ### Updating Nova's Assets
 
-After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using `nova:publish` and clear any cached views with `view:clear`. This will ensure the newly-updated Nova version is using the latest versions.
+After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using the `nova:publish` Artisan command and clear any cached views using the `view:clear` Artisan command. This will ensure the newly-updated Nova version is using the latest versions of Nova's assets and views:
 
 ```bash
 php artisan nova:publish
