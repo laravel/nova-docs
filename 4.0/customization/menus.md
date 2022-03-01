@@ -42,7 +42,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Nova::mainMenu(function (Request $request) {
             return [
-                MenuItem::dashboard(Main::class),
+                MenuSection::dashboard(Main::class)
+                    ->icon('chart-bar'),
 
                 MenuSection::make('Customers', [
                     MenuItem::resource(User::class)
