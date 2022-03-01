@@ -116,7 +116,7 @@ protected function dashboards()
 }
 ```
 
-## Authorization
+### Authorization
 
 If you would like to only expose a given dashboard to certain users, you may invoke the `canSee` method when registering your dashboard. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
