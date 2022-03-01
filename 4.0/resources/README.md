@@ -107,7 +107,7 @@ public static $group = 'Admin';
 
 Nova supports a few visual customization options for your resources.
 
-### Table styles
+### Table Styles
 
 Sometimes it's convenient to show more data on your resource index tables. To accomplish this, you can use the "tight" table style option designed to increase the visual density of your table rows. To accomplish this, override the static `$tableStyle` property or the static `tableStyle` method on your resource class:
 
