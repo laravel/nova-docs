@@ -933,7 +933,7 @@ Sparkline::make('Post Views')->data(function () {
 
 #### Using Trend Metrics
 
-If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a `Trend` metric which can then be provided to the `Sparkline` field:
+If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a [trend metric](./../metrics/defining-metrics.md) which can then be provided to the `Sparkline` field:
 
 ```php
 Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
