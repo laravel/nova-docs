@@ -14,13 +14,13 @@ Assets may be generated using the `nova:asset` Artisan command. By default, all 
 php artisan nova:asset acme/analytics
 ```
 
-When generating an asset, Nova will prompt you to install the assets NPM dependencies, compile its dependencies, and update your application's `composer.json` file. All custom assets are registered with your application as a Composer "path" repository.
+When generating an asset, Nova will prompt you to install the assets NPM dependencies, compile its dependencies, and update your application's `composer.json` file. All custom assets are registered with your application as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories.md#path).
 
 Nova assets include all of the scaffolding necessary to build your asset. Each asset even contains its own `composer.json` file and is ready to be shared with the world on GitHub or the source control provider of your choice.
 
 ## Registering Assets
 
-Nova assets are automatically loaded through the use of Laravel's auto-loader feature.
+Nova assets are automatically loaded through the use of Laravel's auto-loader, so no additional registration is required.
 
 ## Compiling Assets
 
