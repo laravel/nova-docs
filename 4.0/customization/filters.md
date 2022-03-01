@@ -14,7 +14,7 @@ Custom filters may be generated using the `nova:custom-filter` Artisan command. 
 php artisan nova:custom-filter acme/age-range
 ```
 
-When generating a filter, Nova will prompt you to install the filter's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom filters are registered with your application as a Composer "path" repository.
+When generating a filter, Nova will prompt you to install the filter's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom filters are registered with your application as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories.md#path).
 
 Nova filters include all of the scaffolding necessary to build your filter. Each filter even contains its own `composer.json` file and is ready to be shared with the world on GitHub or the source control provider of your choice.
 
@@ -85,19 +85,11 @@ handleChange(event) {
 }
 ```
 
-### Assets
+## Assets
 
-When Nova generates your filter, `resources/js` and `resources/css` directories are generated for you. These directories contain your filter's JavaScript and CSS stylesheets.
+When Nova generates your filter, `resources/js` and `resources/css` directories are generated for you. These directories contain your filter's JavaScript and CSS.
 
-#### Filter Options
-
-Your filter's Vue component receives a `filter` Vue `prop`. The `filter` property provides access to any filter [options](#filter-options) that may be available:
-
-```js
-const hues = this.filter.hues;
-```
-
-#### Registering Assets
+### Registering Assets
 
 Your Nova filter's service provider registers your filter's compiled assets so that they will be available to the Nova front-end:
 
@@ -125,7 +117,7 @@ public function boot()
 Your components are bootstrapped and registered in the `resources/js/filter.js` file. You are free to modify this file or register additional components here as needed.
 :::
 
-#### Compiling Assets
+### Compiling Assets
 
 Your Nova filter contains a `webpack.mix.js` file, which is generated when Nova creates your filter. You may build your filter using the NPM `dev` and `prod` commands:
 
@@ -141,4 +133,12 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 
 ```bash
 npm run watch
+```
+
+### Filter Options
+
+Your filter's Vue component receives a `filter` Vue `prop`. The `filter` property provides access to any filter [options](#filter-options) that may be available:
+
+```js
+const hues = this.filter.hues;
 ```
