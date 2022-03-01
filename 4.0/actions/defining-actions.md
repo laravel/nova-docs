@@ -90,29 +90,6 @@ Typically, Nova utilizes the action's class name to determine the displayable na
 public $name = 'Action Title';
 ```
 
-## Handling Multiple Results
-
-When running an action on multiple resources, you may wish to use all of the results of the action to perform additional tasks. For instance, you may wish to generate a report detailing all of the changes for the group of selected resources. To accomplish this, you may use the `handleResult` method of the action:
-
-```php
-/**
- * Handle chunk results.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  array  $results
- *
- * @return mixed
- */
-public function handleResult(ActionFields $fields, $results)
-{
-    $models = collect($results)->flatten();
-
-    dispatch(new GenerateReport($models));
-
-    return Action::message($models->count());
-}
-```
-
 ## Destructive Actions
 
 You may designate an action as destructive or dangerous by defining an action class that extends `Laravel\Nova\Actions\DestructiveAction`. This will change the color of the action's confirm button to red:
@@ -329,7 +306,7 @@ public function __construct()
 
 You may also instruct Nova to queue actions as a [batch](https://laravel.com/docs/queues#job-batching) by marking the action with the `Laravel\Nova\Contracts\BatchableAction` interface. In addition, the action should use the `Illuminate\Bus\Batchable` trait.
 
-When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches). This allows you to define code that should run after an entire batch of actions finishes executing against multiple selected resources:
+When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches). This allows you to define code that should run after an entire batch of actions finishes executing against multiple selected resources. In fact, you can even access the model IDs for all of the models that were selected when the batched action was executed:
 
 ```php
 <?php
@@ -363,6 +340,8 @@ class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
     {
         $batch->then(function (Batch $batch) {
             // All jobs completed successfully...
+
+            $selectedModels = $batch->resourceIds;
         })->catch(function (Batch $batch, Throwable $e) {
             // First batch job failure detected...
         })->finally(function (Batch $batch) {
