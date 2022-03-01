@@ -87,7 +87,7 @@ handleChange(event) {
 
 ### Assets
 
-When Nova generates your filter, `resources/js` and `resources/sass` directories are generated for you. These directories contain your filter's JavaScript and Sass stylesheets.
+When Nova generates your filter, `resources/js` and `resources/css` directories are generated for you. These directories contain your filter's JavaScript and CSS stylesheets.
 
 #### Filter Options
 
