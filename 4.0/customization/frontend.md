@@ -2,13 +2,11 @@
 
 [[toc]]
 
-## JavaScript
-
 When building custom Nova tools, resource tools, cards, and fields, you may use a variety of helpers that are globally available to your JavaScript components.
 
 ### Nova Requests
 
-You may use the `Nova.request()` method to make XHR requests using the [Axios](https://github.com/axios/axios) API. This method configures its own instance of Axios that has pre-configured interceptors to handle and redirect on `401`, `403`, and `500` level HTTP server responses:
+You may use the `Nova.request()` method to make XHR requests to backend routes provided by your application or custom tools, cards, and fields. The `Nova.request()` method is powered by [Axios](https://github.com/axios/axios) and offers the same API. However, the `Nova.request()` method configures its own instance of Axios that has pre-configured interceptors to properly handle and redirect on `401`, `403`, and `500` level HTTP server responses:
 
 ```js
 Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
@@ -18,7 +16,7 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 
 ### Event Bus
 
-The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods [provided by tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
+The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods provided by [tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
 
 ```js
 Nova.$on(event, callback)
@@ -38,10 +36,10 @@ Nova.error('It failed!')
 
 ### Shortcuts
 
-Nova provides two convenience methods for managing keyboard shortcuts, powered by [Mousetrap](https://craig.is/killing/mice). You may use this within your custom components to register and unregister shortcuts:
+Nova provides two convenience methods for managing keyboard shortcuts, powered by [Mousetrap](https://craig.is/killing/mice). You may use these methods within your custom components to register and unregister shortcuts:
 
 ```js
-// Add single keyboard shortcut...
+// Add a single keyboard shortcut...
 Nova.addShortcut('ctrl+k', event => {
     // Callback...
 })
@@ -101,11 +99,11 @@ const driver = Nova.config('mail_driver');
 
 ### Localizations
 
-Localizations can be passed to the frontend from within your `NovaServiceProvider`. To learn more, check out the [full custom localization documentation](./../customization/localization.md#Frontend).
+Localization strings can be passed to the frontend via your `NovaServiceProvider`. To learn more, please consult the [full custom localization documentation](./../customization/localization.md#Frontend).
 
 ### Vue DevTools
 
-By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may use the following terminal commands from the root of your Nova project:
+By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may issue the following terminal commands from the root of your Nova project:
 
 ```bash
 cd ./vendor/laravel/nova
