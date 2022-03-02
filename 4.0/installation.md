@@ -179,6 +179,43 @@ protected function gate()
 
 ## Customization
 
+### Branding
+
+Although Nova's interface is intended to be an isolated part of your application that is managed by Nova. You can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
+
+#### Brand Logo
+
+To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:
+
+```php
+'brand' => [
+    'logo' => realpath(__DIR__.'/../public/img/example-logo.svg'),
+
+    // ...
+],
+```
+
+:::tip SVG Sizing
+
+You may need to adjust the size and width of your SVG logo by modifying its width in the SVG file itself.
+:::
+
+#### Brand Color
+
+To customize the color used as the "primary" color within the Nova interface, you may specify a value for the `brand.colors` configuration item within your application's `config/nova.php` configuration file. This color will be used as the primary button color as well as the color of various emphasized items throughout the Nova interface. This configuration value should be a valid RGB value:
+
+```php
+'brand' => [
+    // ...
+
+    'colors' => [
+        "400" => "24, 182, 155, 0.5",
+        "500" => "24, 182, 155",
+        "600" => "24, 182, 155, 0.75",
+    ]
+],
+```
+
 ### Customizing Nova's Authentication Guard
 
 Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
