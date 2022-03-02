@@ -53,6 +53,7 @@ module.exports = [
     collapsable: false,
     children: prefix("customization", [
       "dashboards",
+      "menus",
       "tools",
       "resource-tools",
       "cards",
@@ -62,8 +63,7 @@ module.exports = [
       "themes",
       "assets",
       "localization",
-      "stubs",
-      "menus"
+      "stubs"
     ])
   }
   // {
