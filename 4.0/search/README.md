@@ -26,10 +26,10 @@ If you are using Nova's Scout integration, the `$search` property has no effect 
 
 Typically, Nova searches your database columns using simple `LIKE` clauses. However, if you are using MySQL or Postgres, you may take advantage of any full-text indexes you have defined. To do so, you should define a `searchableColumns` method on your Nova resource class instead of defining a `$search` property.
 
-The `searchableColumns` method should return an array of columns that are searchable. You may include an instance of `Laravel\Nova\Query\Search\FullText` within this array to instruct Nova to utilize your full-text indexes when querying a given column:
+The `searchableColumns` method should return an array of columns that are searchable. You may include an instance of `Laravel\Nova\Query\Search\SearchableText` within this array to instruct Nova to utilize your full-text indexes when querying a given column:
 
 ```php
-use Laravel\Nova\Query\Search\FullText;
+use Laravel\Nova\Query\Search\SearchableText;
 
 /**
  * Get the searchable columns for the resource.
@@ -38,18 +38,18 @@ use Laravel\Nova\Query\Search\FullText;
  */
 public static function searchableColumns()
 {
-    return ['id', new FullText('title')];
+    return ['id', new SearchableText('title')];
 }
 ```
 
 ## Searching Relationships
 
-Laravel Nova also allows you to search against a resource's related models. For example, imagine a `Post` model that is related to a `User` model via an `author` relatonship. You may indicate that this relationship data should be considered when searching for users by returning an instance of `Laravel\Nova\Query\Search\Relation` from your resource's `searchableColumns` method.
+Laravel Nova also allows you to search against a resource's related models. For example, imagine a `Post` model that is related to a `User` model via an `author` relatonship. You may indicate that this relationship data should be considered when searching for users by returning an instance of `Laravel\Nova\Query\Search\SearchableRelation` from your resource's `searchableColumns` method.
 
 If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
-use Laravel\Nova\Query\Search\Relation;
+use Laravel\Nova\Query\Search\SearchableRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -58,7 +58,7 @@ use Laravel\Nova\Query\Search\Relation;
  */
 public static function searchableColumns()
 {
-    return ['id', new Relation('author', 'name')];
+    return ['id', new SearchableRelation('author', 'name')];
 }
 ```
 
@@ -77,11 +77,11 @@ public static $search = [
 
 ### MorphTo Relationships
 
-"Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\MorphRelation` from your resource's `searchableColumns` method. The `MorphRelation` class allows you to specify which types of morphed models should be searched:
+"Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\SearchableMorphToRelation` from your resource's `searchableColumns` method. The `SearchableMorphToRelation` class allows you to specify which types of morphed models should be searched:
 
 ```php
 use App\Nova\Post;
-use Laravel\Nova\Query\Search\MorphRelation;
+use Laravel\Nova\Query\Search\SearchableMorphToRelation;
 
 /**
  * Get the searchable columns for the resource.
@@ -90,18 +90,18 @@ use Laravel\Nova\Query\Search\MorphRelation;
  */
 public static function searchableColumns()
 {
-    return ['id', new MorphRelation('commentable', 'title', [Post::class])];
+    return ['id', new SearchableMorphToRelation('commentable', 'title', [Post::class])];
 }
 ```
 
 ## Searching JSON Data
 
-If the database table associated with your resource includes a column that contains a JSON string, you may instruct Nova to search within the JSON string by returning a `Laravel\Nova\Query\Search\JsonSelector` instance from your resource's `searchableColumns` method.
+If the database table associated with your resource includes a column that contains a JSON string, you may instruct Nova to search within the JSON string by returning a `Laravel\Nova\Query\Search\SearchableJson` instance from your resource's `searchableColumns` method.
 
 If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
 ```php
-use Laravel\Nova\Query\Search\JsonSelector;
+use Laravel\Nova\Query\Search\SearchableJson;
 
 /**
  * Get the searchable columns for the resource.
@@ -110,6 +110,6 @@ use Laravel\Nova\Query\Search\JsonSelector;
  */
 public static function searchableColumns()
 {
-    return ['id', new JsonSelector('meta->address->postcode')];
+    return ['id', new SearchableJson('meta->address->postcode')];
 }
 ```
