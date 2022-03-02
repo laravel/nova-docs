@@ -106,8 +106,8 @@ By default, actions are visible on both the resource index and detail pages. How
 - `onlyOnDetail`
 - `exceptOnDetail`
 - `showOnDetail`
-- `onlyOnTableRow`
-- `exceptOnTableRow`
+- `onlyInline`
+- `exceptInline`
 - `showInline`
 
 ### Inline Actions

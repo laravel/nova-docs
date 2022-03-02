@@ -333,6 +333,8 @@ The `Action::showOnTableRow` method has been deprecated. Instead, we suggest upd
 
 // After...
 (new ConsolidateTransaction)->showInline(),
+(new ConsolidateTransaction)->onlyInline(),
+(new ConsolidateTransaction)->exceptInline(),
 ```
 
 ### Authorization Precedence
