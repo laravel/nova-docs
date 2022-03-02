@@ -110,37 +110,6 @@ The `min` method may be used to calculate the minimum value of a given column co
 return $this->min($request, Order::class, 'total');
 ```
 
-### Value Result Formatting
-
-You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
-
-```php
-public function calculate(NovaRequest $request)
-{
-    return $this->max($request, Order::class, 'total')
-                ->prefix('$')
-                ->suffix('per unit');
-}
-```
-
-You may also use the `currency` method to specify that a given value result represents a currency value. By default, the currency symbol will be `$`, but you may also specify your own currency symbol by passing the symbol as an argument to the `currency` method:
-
-```php
-return $this->max($request, Order::class, 'total')->currency();
-
-return $this->max($request, Order::class, 'total')->currency('£');
-```
-
-To customize the display format of a value result, you may use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
-
-```php
-public function calculate(NovaRequest $request)
-{
-    return $this->count($request, User::class)
-                ->format('0,0');
-}
-```
-
 ### Value Ranges
 
 Every value metric class contains a `ranges` method. This method determines the ranges that will be available in the value metric's range selection menu. The array's keys determine the number of days that should be included in the query, while the values determine the "human readable" text that will be placed in the range selection menu. Of course, you are not required to define any ranges at all:
@@ -177,6 +146,37 @@ By default, Nova will handle results of `0` as a result containing no data. This
 
 ```php
 return $this->result(0)->allowZeroResult();
+```
+
+### Formatting The Value
+
+You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
+
+```php
+public function calculate(NovaRequest $request)
+{
+    return $this->max($request, Order::class, 'total')
+                ->prefix('$')
+                ->suffix('per unit');
+}
+```
+
+You may also use the `currency` method to specify that a given value result represents a currency value. By default, the currency symbol will be `$`, but you may also specify your own currency symbol by passing the symbol as an argument to the `currency` method:
+
+```php
+return $this->max($request, Order::class, 'total')->currency();
+
+return $this->max($request, Order::class, 'total')->currency('£');
+```
+
+To customize the display format of a value result, you may use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
+
+```php
+public function calculate(NovaRequest $request)
+{
+    return $this->count($request, User::class)
+                ->format('0,0');
+}
 ```
 
 ### Manually Building Value Results
@@ -365,7 +365,7 @@ return $this->countByDays($request, User::class)
             ->showSumValue();
 ```
 
-#### Formatting The Trend Value
+### Formatting The Trend Value
 
 Sometimes you may wish to add a prefix or suffix to the emphasized, "current" trend value. To accomplish this, you may use the `prefix` and `suffix` methods:
 
@@ -593,6 +593,24 @@ Progress metrics don't only ship with a `count` helper. You may also use the `su
 return $this->sum($request, Transaction::class, function ($query) {
     return $query->where('completed', '=', 1);
 }, 'amount', target: 2000);
+```
+
+### Formatting The Progress Value
+
+Sometimes you may wish to add a prefix or suffix to the current progress value. To accomplish this, you may use the `prefix` and `suffix` methods:
+
+```php
+return $this->sum($request, Transaction::class, function ($query) {
+    return $query->where('completed', '=', 1);
+}, 'amount', target: 2000)->prefix('$');
+```
+
+If your progress metric is displaying a monetary value, you may use the `dollars` and `euros` convenience methods for quickly prefixing a Dollar or Euro sign to the progress values:
+
+```php
+return $this->sum($request, Transaction::class, function ($query) {
+    return $query->where('completed', '=', 1);
+}, 'amount', target: 2000)->dollars();
 ```
 
 ### Manually Building Progress Results

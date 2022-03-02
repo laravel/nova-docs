@@ -64,7 +64,7 @@ class UserInsights extends Dashboard
 
 #### Dashboard Names
 
-By default, Nova will use the class name as the name of your dashboard. You may customize the name of the dashboard displayed in the left-side navigation bar by overriding the `label` method within your dashboard class:
+By default, Nova will use the dashboard's class name to determine the displayable name of your dashboard that should be placed in the left-side navigation bar. You may customize the name of the dashboard displayed in the left-side navigation bar by overriding the `name` method within your dashboard class:
 
 ```php
 /**
@@ -72,7 +72,7 @@ By default, Nova will use the class name as the name of your dashboard. You may 
  *
  * @return string
  */
-public function label()
+public function name()
 {
     return 'User Insights';
 }
