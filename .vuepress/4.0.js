@@ -2,7 +2,13 @@ module.exports = [
   {
     title: "Getting Started",
     collapsable: false,
-    children: ["installation", "releases", "upgrade", "support", "code-of-conduct"],
+    children: [
+      "installation",
+      "releases",
+      "upgrade",
+      "support",
+      "code-of-conduct"
+    ]
   },
   {
     title: "Resources",
@@ -14,43 +20,40 @@ module.exports = [
       "file-fields",
       "relationships",
       "validation",
-      "authorization",
-    ]),
+      "authorization"
+    ])
   },
   {
     title: "Search",
     collapsable: false,
-    children: prefix("search", [
-      "",
-      "global-search",
-      "scout-integration",
-    ]),
+    children: prefix("search", ["", "global-search", "scout-integration"])
   },
   {
     title: "Filters",
     collapsable: false,
-    children: prefix("filters", ["defining-filters", "registering-filters"]),
+    children: prefix("filters", ["defining-filters", "registering-filters"])
   },
   {
     title: "Lenses",
     collapsable: false,
-    children: prefix("lenses", ["defining-lenses", "registering-lenses"]),
+    children: prefix("lenses", ["defining-lenses", "registering-lenses"])
   },
   {
     title: "Actions",
     collapsable: false,
-    children: prefix("actions", ["defining-actions", "registering-actions"]),
+    children: prefix("actions", ["defining-actions", "registering-actions"])
   },
   {
     title: "Metrics",
     collapsable: false,
-    children: prefix("metrics", ["defining-metrics", "registering-metrics"]),
+    children: prefix("metrics", ["defining-metrics", "registering-metrics"])
   },
   {
     title: "Customization",
     collapsable: false,
     children: prefix("customization", [
       "dashboards",
+      "menus",
       "tools",
       "resource-tools",
       "cards",
@@ -59,9 +62,9 @@ module.exports = [
       "frontend",
       "assets",
       "localization",
-      "stubs",
-    ]),
-  },
+      "stubs"
+    ])
+  }
   // {
   //   title: 'Nova JS Reference',
   //   collapsable: false,
@@ -70,5 +73,5 @@ module.exports = [
 ];
 
 function prefix(prefix, children) {
-  return children.map((child) => `${prefix}/${child}`);
+  return children.map(child => `${prefix}/${child}`);
 }

@@ -101,9 +101,13 @@ public function menu(Request $request)
 }
 ```
 
+:::warning
+If you've [customized Nova's main sidebar menu](/4.0/customization/menus#customizing-the-main-menu) a link to your tool will not automatically show in Nova's sidebar. You will need to manually define your tool's menu inside the `Nova::mainMenu` callback.
+:::
+
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons UI](https://github.com/sschoger/heroicons-ui) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
+Nova utilizes the free [Heroicons](https://heroicons.com/) icon set. Feel free to use these icons in other portions of your application to match the look and feel of Nova's built-in icons.
 
 ## Assets
 
@@ -137,8 +141,8 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Vue.component('PriceTrackerHeader', require('./components/Header').default)
-})
+  Vue.component("PriceTrackerHeader", require("./components/Header").default);
+});
 ```
 
 ### Compiling Assets
