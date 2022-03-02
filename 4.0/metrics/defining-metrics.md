@@ -537,7 +537,7 @@ return $this->result([
 
 Progress metrics display current progress against a target value within a bar chart. For example, a progress metric might display the number of users registered for the given month compared to a target goal:
 
-// @SCREENSHOT
+![Progress Metric](./img/progress.png)
 
 Progress metrics may be generated using the `nova:progress` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
@@ -593,6 +593,18 @@ Progress metrics don't only ship with a `count` helper. You may also use the `su
 return $this->sum($request, Transaction::class, function ($query) {
     return $query->where('completed', '=', 1);
 }, 'amount', target: 2000);
+```
+
+#### Unwanted Progress
+
+Sometimes you may be tracking progress towards a "goal" you would rather avoid, such as the number of customers that have cancelled in a given month. In this case, you would typically want the color of the progress metric to no longer be green as you approach your "goal".
+
+When using the `avoid` method to specify that the metric is something you wish to avoid, Nova will use green to indicate lack of progress towards the "goal", while using yellow to indicate the approaching completion of the "goal":
+
+```php
+return $this->count($request, User::class, function ($query) {
+    return $query->where('cancelled_at', '>=', now()->startOfMonth());
+}, target: 200)->avoid();
 ```
 
 ### Formatting The Progress Value
