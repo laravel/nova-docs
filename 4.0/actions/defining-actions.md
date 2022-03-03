@@ -101,6 +101,40 @@ You may designate an action as destructive or dangerous by defining an action cl
 When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 :::
 
+### Action Callbacks
+
+When running an action against multiple resources, you may wish to execute some code after the action has completed executing against all of the resources. For example, you may wish to generate a report detailing all of the changes for the selected resources. To accomplish this, you may invoke the `then` method when [registering your action](./registering-actions.md).
+
+The `then` methods accepts a closure which will be invoked when the action has finished executing against all of the selected resources. The closure will receive a flattened Laravel [collection](https://laravel.com/docs/collections) containing the values that were returned by the action.
+
+For example, note that that the following action's `handle` method returns the `$models` it receives:
+
+```php
+public function handle(ActionFields $fields, Collection $models)
+{
+    foreach ($models as $model) {
+        (new AccountData($model))->send();
+    }
+
+    return $models;
+}
+```
+
+When registering this action on a resource, we may use the `then` callback to access the returned models and interact with them after the action has finished executing:
+
+```php
+public function actions(NovaRequest $request)
+{
+    return [
+        (new Actions\EmailAccountProfile)->then(function ($models) {
+            $models->each(function ($model) {
+                //
+            });
+        }),
+    ];
+}
+```
+
 ## Action Fields
 
 Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
