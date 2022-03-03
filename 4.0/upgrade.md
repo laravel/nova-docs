@@ -263,6 +263,19 @@ Nova::router()
 
 Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
+Typically, custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to the file within the Nova installation that is located within your root application's `vendor` directory:
+
+```js
+let mix = require('laravel-mix')
+let path = require('path')
+
+mix.alias({
+  'laravel-nova': path.join(__dirname, '../../vendor/laravel/nova/resources/js/mixins/packages.js'),
+})
+```
+
+Custom Nova packages that are developed outside of a `nova-compnents` directory should declare `laravel/nova` as a "dev" Composer dependency, and then define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
+
 ```js
 let mix = require('laravel-mix')
 let path = require('path')
@@ -271,7 +284,6 @@ mix.alias({
   'laravel-nova': path.join(__dirname, 'vendor/laravel/nova/resources/js/mixins/packages.js'),
 })
 ```
-
 
 ### Event Cancellation On Save
 
