@@ -103,6 +103,11 @@ When a destructive action is added to a resource that has an associated authoriz
 
 ### Action Callbacks
 
+:::warning Queued Action Callbacks
+
+The `Action::then` method should not be utilized if your action is queued. To achieve similar functionality when using queued actions, you should leverage Nova's [action batching callbacks](#job-batching).
+:::
+
 When running an action against multiple resources, you may wish to execute some code after the action has completed executing against all of the resources. For example, you may wish to generate a report detailing all of the changes for the selected resources. To accomplish this, you may invoke the `then` method when [registering your action](./registering-actions.md).
 
 The `then` methods accepts a closure which will be invoked when the action has finished executing against all of the selected resources. The closure will receive a flattened Laravel [collection](https://laravel.com/docs/collections) containing the values that were returned by the action.
