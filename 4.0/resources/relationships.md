@@ -333,8 +333,6 @@ MorphOne::make('Image'),
 
 ### MorphOneOfMany
 
-The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method.
-
 The `MorphOne` relationship field can be transformed into a "morph one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
 
 ```php

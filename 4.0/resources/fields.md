@@ -93,10 +93,11 @@ Text::make('Name')->hideFromIndex(function () {
 You may also define which fields should be included in the resource's "preview" modal. This modal can be displayed for a given resource by the user when viewing the resource's index:
 
 ```php
-Text::make('Name')->showOnPreview(),
+Text::make('Title')->showOnPreview(),
+Markdown::make('Content')->showOnPreview(),
 ```
 
-// @SCREENSHOT
+![Resource Preview](./img/resource-preview.png)
 
 ## Dynamic Field Methods
 
@@ -1468,13 +1469,10 @@ Text::make('Name')->displayUsing(function ($name) {
 The `filterable` method allows you to enable convenient, automatic [filtering](./../filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
 ```php
-Select::make('State')->options([
-    'Draft' => 'draft',
-    'Published' => 'published',
-])->filterable(),
+DateTime::make('Created At')->filterable(),
 ```
 
-![Filterable fields](./img/filterable-fields.png)
+![Filterable fields](./img/filterable-fields-date.png)
 
 The `filterable` method also accepts a closure as an argument. This closure will receive the filter query, which you may then customize in order to filter the resource results to your liking:
 
@@ -1488,7 +1486,9 @@ The generated filter will be a text filter, select filter, number range filter, 
 
 ### Dependent Fields
 
-The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance. Dependent fields allow advanced customization, such as toggling read-only mode, field value, validation rules, and more based on the state of another field:
+The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
+
+Dependent fields allow advanced customization, such as toggling read-only mode, field value, validation rules, and more based on the state of another field:
 
 ```php
 use Laravel\Nova\Fields\FormData;
