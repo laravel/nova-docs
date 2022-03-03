@@ -261,7 +261,9 @@ Nova::router()
 
 ### Removal Of `laravel-nova` NPM Dependency
 
-Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
+Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to Nova's `resources/js/mixins/packages.js`.
+
+Custom package requires `laravel/nova` directly can refer to `vendor/laravel/nova` path under custom package vendors:
 
 ```js
 let mix = require('laravel-mix')
@@ -272,6 +274,16 @@ mix.alias({
 })
 ```
 
+Custom package stored under `nova-component` may refer to `../../vendor/laravel/nova` path available from the main application vendors:
+
+```js
+let mix = require('laravel-mix')
+let path = require('path')
+
+mix.alias({
+  'laravel-nova': path.join(__dirname, '../../vendor/laravel/nova/resources/js/mixins/packages.js'),
+})
+```
 
 ### Event Cancellation On Save
 
