@@ -134,11 +134,3 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 ```bash
 npm run watch
 ```
-
-### Filter Options
-
-Your filter's Vue component receives a `filter` Vue `prop`. The `filter` property provides access to any filter [options](#filter-options) that may be available:
-
-```js
-const hues = this.filter.hues;
-```
