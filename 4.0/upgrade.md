@@ -347,9 +347,9 @@ Nova 4 introduce the following tweaks to authorization order / precedence:
 
 Further detail regarding Nova authorization is available within the [policy documentation](./resources/authorization.html#policies).
 
-### Update Published Stub
+### Update Published Stubs
 
-With all the changes described above, published stubs from Nova 3 will become outdated and invalid for Nova 4 usage. You should upgrade the published stubs using the following commands:
+Due to various changes in Nova 4.0, you should re-publish the Nova "stubs" if you have previously published them. You can accomplish this by executing the `nova:stubs` Artisan command with the `--force` option:
 
 ```bash
 php artisan nova:stubs --force
