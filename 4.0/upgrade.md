@@ -358,3 +358,11 @@ Nova 4 introduce the following tweaks to authorization order / precedence:
 * Destructive actions will now authorize via their own `canRun` method before falling back to the model's policy.
 
 Further detail regarding Nova authorization is available within the [policy documentation](./resources/authorization.html#policies).
+
+### Update Published Stubs
+
+Due to various changes in Nova 4.0, you should re-publish the Nova "stubs" if you have previously published them. You can accomplish this by executing the `nova:stubs` Artisan command with the `--force` option:
+
+```bash
+php artisan nova:stubs --force
+```
