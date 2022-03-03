@@ -200,6 +200,8 @@ Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local"
 
 ### Updating Custom Tool, Cards, Fields, Filters
 
+Unfortunately, since Nova 4 upgrades our frontend dependencies to Inertia, Vue 3, and Tailwind 3, it is necessary to review all custom tools and upgrade them accordingly. A general overview of the necessary changes can be found below; however, your custom Nova packages may require additional changes if they are depending on third-party packages that only support Vue 2 or prior versions of Tailwind.
+
 #### Vue 3
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
