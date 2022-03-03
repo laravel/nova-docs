@@ -34,7 +34,7 @@ use Acme\StripeInspector\StripeInspector;
 public function fields(NovaRequest $request)
 {
     return [
-        ID::make('ID', 'id')->sortable(),
+        ID::make()->sortable(),
 
         StripeInspector::make(),
     ];
@@ -68,7 +68,7 @@ public function fields(NovaRequest $request)
 
 ### Tool Options
 
-Often, you will need to allow the consumer's of your tool to customize run-time configuration options on the tool. You may do this by exposing methods on your tool class. These methods may call the tool's underlying `withMeta` method to add information to the tool's metadata, which [will be available](#resource-tool-properties) within your `Tool.vue` component. The `withMeta` method accepts an array of key / value options:
+Often, you will need to allow the consumer's of your tool to customize run-time configuration options on the tool. You may do this by exposing methods on your tool class. These methods may call the tool's underlying `withMeta` method to add information to the tool's metadata, which will be available within your `Tool.vue` component. The `withMeta` method accepts an array of key / value options:
 
 ```php
 <?php
@@ -109,6 +109,14 @@ class StripeInspector extends ResourceTool
         return 'stripe-inspector';
     }
 }
+```
+
+#### Accessing Tool Options
+
+Your resource tool's `Tool.vue` component receives several Vue `props`: `resourceName`, `resourceId`, and `panel`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `panel` prop provides access to any tool options that may be available via the `fields`:
+
+```js
+const issuesRefunds = this.panel.fields[0].issuesRefunds;
 ```
 
 #### Dynamic Options
@@ -204,37 +212,4 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 
 ```bash
 npm run watch
-```
-
-### Resource Tool Properties
-
-Your resource tool's `Tool.vue` component receives several Vue `props`: `resourceName`, `resourceId`, and `panel`. The `resourceId` property contains the primary key of the resource the tool is currently attached to. You may use the `resourceId` when making requests to your controllers. The `panel` prop provides access to any tool [options](#tool-options) that may be available via the `fields`:
-
-```js
-const issuesRefunds = this.panel.fields[0].issuesRefunds;
-```
-
-Resource tools also offer the ability to _dynamically set options_ on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
-
-```php
-use Acme\StripeInspector\StripeInspector;
-
-/**
- * Get the fields displayed by the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function fields(NovaRequest $request)
-{
-    return [
-        ID::make('ID', 'id')->sortable(),
-
-        // Will be available on the field via `perPage: 25`
-        StripeInspector::make()->perPage(25),
-
-        // Will be available on the field via `issuesRefunds: true`
-        StripeInspector::make()->issuesRefunds()
-    ];
-}
 ```
