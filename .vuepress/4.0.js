@@ -49,11 +49,12 @@ module.exports = [
     children: prefix("metrics", ["defining-metrics", "registering-metrics"])
   },
   {
-    title: "Customization",
+    title: "Digging Deeper",
     collapsable: false,
     children: prefix("customization", [
       "dashboards",
       "menus",
+      "notifications",
       "tools",
       "resource-tools",
       "cards",
