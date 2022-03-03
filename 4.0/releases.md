@@ -26,7 +26,7 @@ To learn more, check out [branding documentation](./installation.md#branding).
 
 ### Collapsable Relations
 
-Nova 4 allows you to collapse relations for a given resource type so that they are no longer loaded by default when viewing the relation. Nova will store your collapsed relations in local storage so that it remembers your preferences, resulting in drastic performance improvements when viewing resource types that have dozens of relationships:
+Nova 4 allows you to collapse relations for a given resource type so that they are no longer loaded by default when viewing the relation. Nova will store your collapsed relations in local storage so that it remembers your preferences, **resulting in drastic performance improvements when viewing resource types that have dozens of relationships**:
 
 ![Custom Menu](./img/collapsable-relations.png)
 
