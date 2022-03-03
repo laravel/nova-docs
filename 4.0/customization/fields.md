@@ -43,7 +43,7 @@ public function fields(NovaRequest $request)
 
 ### Field Options
 
-Often, you will need to allow the consumers of your field to customize run-time configuration options on the field. You may do this by exposing methods on your field class. These methods may call the field's underlying `withMeta` method to add information to the field's metadata, which [will be available](#field-properties) within your field's Vue components. The `withMeta` method accepts an array of key / value options:
+Often, you will need to allow the consumers of your field to customize run-time configuration options on the field. You may do this by exposing methods on your field class. These methods may call the field's underlying `withMeta` method to add information to the field's metadata, which will be available within your field's Vue components. The `withMeta` method accepts an array of key / value options:
 
 ```php
 <?php
@@ -76,7 +76,7 @@ class ColorPicker extends Field
 
 #### Accessing Field Options
 
-Your field's Vue components receive a `field` Vue `prop`. The `field` property provides access to any field [options](#field-options) that may be available:
+Your field's Vue components receive a `field` Vue `prop`. The `field` property provides access to any field options that may be available:
 
 ```js
 const hues = this.field.hues;
