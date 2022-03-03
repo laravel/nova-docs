@@ -30,7 +30,9 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 
 ### Updating Configuration, Assets, and Translations
 
-Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations. In addition, we will generate a "Main" dashboard for your Nova installation:
+Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations.
+
+**You may wish to store a copy of your current translation file before running this command so you can easily port any custom translations back into the new file after running these commands.** In addition, we will generate a "Main" dashboard for your Nova installation:
 
 ```bash
 php artisan nova:dashboard Main
@@ -42,7 +44,7 @@ php artisan vendor:publish --tag=nova-lang --force
 php artisan view:clear
 ```
 
-Next, let's update your Nova configuration file. First, ensure that the `middleware` and `api_middleware` configuration options within your application's `nova` configuration file appear like the following:
+Next, let's update the Nova configuration file. First, ensure that the `middleware` and `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
 
 ```php
 use Laravel\Nova\Http\Middleware\Authenticate;
@@ -84,7 +86,7 @@ Once your configuration has been updated, you should review the following list o
 
 ### Nova Request
 
-Nova 4 updates many methods to accept a `Laravel\Nova\Http\Requests\NovaRequest` instance instead of an `Illuminate\Http\Request` instance. An overview of the methods that have been updated is provided below so you may update your method signatures accordingly.
+Nova 4 updates a variety of methods to accept a `Laravel\Nova\Http\Requests\NovaRequest` instance instead of an `Illuminate\Http\Request` instance. An overview of the methods that have been updated is provided below so you may update your method signatures accordingly.
 
 #### Resources
 
@@ -196,7 +198,11 @@ Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local"
 
 ## Medium Impact Changes
 
-### Vue 3
+### Updating Custom Tool, Cards, Fields, Filters
+
+#### Vue 3
+
+**This change primarily affects the installation of custom tools that utilize Vue routing.**
 
 Nova 4 has been updated to use Vue 3, in order to upgrade all custom cards, custom fields, custom filters, resource tools, and tools to support Vue 3, please make the following changes to your application's `webpack.mix.js`:
 
@@ -216,13 +222,15 @@ mix.js('resources/js/field.js', 'js').vue({ version: 3 })
   })
 ```
 
-### Replacing Vue Router With Inertia.js
+#### Replacing Vue Router With Inertia.js
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
 
 Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). Therefore, custom tools should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
 
 ```js
+// Within tool.js...
+
 Nova.booting((Vue, router) => {
   router.addRoutes([
     {
@@ -259,7 +267,9 @@ Nova::router()
     });
 ```
 
-### Removal Of `laravel-nova` NPM Dependency
+#### Removal Of `laravel-nova` NPM Dependency
+
+**This change primarily affects the installation of custom tools that utilize Vue routing.**
 
 Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
@@ -319,7 +329,7 @@ class User extends Model
 
 ### Relationship Name Conventions
 
-Given the following field definition, Nova 3 will assume the relationship method is named `purchased_books`; however, Nova 4 will assume the relationship method is named `purchasedBooks`.
+Given the following field definition, Nova 3 will assume the relationship method is named `purchased_books`; however, Nova 4 will correctly assume the relationship method is named `purchasedBooks`.
 
 ```php
 BelongsToMany::make('Purchased Books'),
@@ -353,11 +363,11 @@ The `Action::showOnTableRow` method has been deprecated. Instead, we suggest upd
 
 Nova 4 introduce the following tweaks to authorization order / precedence:
 
-* Authorizing a resource `view` permission no longer depends the `viewAny` permission.
+* Authorizing if a user can `view` a resource no longer depends on the `viewAny` permission.
 * Actions can be executed regardless of `view` and `viewAny` permissions.
 * Destructive actions will now authorize via their own `canRun` method before falling back to the model's policy.
 
-Further detail regarding Nova authorization is available within the [policy documentation](./resources/authorization.html#policies).
+Further detail regarding Nova authorization is available within the [resource policy documentation](./resources/authorization.html#policies) and [action authorization documentation](./actions/registering-actions.md#authorization).
 
 ### Update Published Stubs
 
