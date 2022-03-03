@@ -8,11 +8,11 @@ In addition, Nova 4 introduces support for collapsable relations, painless brand
 
 Nova 4 introduces a thoroughly refreshed user interface that is now fully responsive, so you can manage your data on the go:
 
-@SCREENSHOT
+![Responsive Design](./img/responsive.png)
 
 And, of course, the interface supports "dark mode":
 
-@SCREENSHOT
+![Dark Mode](./img/dark-mode.png)
 
 ### Painless Branding
 
@@ -130,7 +130,7 @@ DateTime::make('Created At')->filterable(),
 
 Nova 4 also introduces support for "Nova notifications", a brand new notification menu within Nova that you may use to display information for your Nova users. For example, you could use this menu to notify users that a report has been generated, or that an invoice needs attention.
 
-@SCREENSHOT (AS WELL AS CODE EXAMPLE)
+![Notifications](./img/notifications.png)
 
 ### Custom Menus
 
@@ -160,7 +160,7 @@ The brand new resource preview modal gives you a sneak peek at the resource's da
 
 ![Resource Preview](./resources/img/resource-preview.png)
 
-### HasOne::ofMany
+### HasOne::ofMany Support
 
 The `HasOne` relationship field can now be transformed into an "has one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `User` model `hasMany` `Post` models. We may add the "has one of many" relationship to our `User` Nova resource like so:
 
