@@ -4,7 +4,7 @@
 
 ## Overview
 
-Assets allow you to extend or add additional functionality to Nova without the overhead of Cards or Resource Tools. For example, you may wish to override a custom error component to match your branding or intercept Inertia.js interactions and provide additional data to routes.
+Assets allow you to extend or add additional functionality to Nova without the overhead of cards or resource tools. For example, you may wish to override a custom error component to match your branding or intercept Inertia interactions and provide additional data to routes.
 
 ## Defining Assets
 
