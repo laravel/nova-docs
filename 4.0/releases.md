@@ -12,7 +12,7 @@ Nova 4 introduces a thoroughly refreshed user interface that is now fully respon
 
 ![Responsive Design](./img/responsive.png)
 
-And, of course, the interface supports "dark mode":
+And, by popular demand, the Nova interface now supports "dark mode":
 
 ![Dark Mode](./img/dark-mode.png)
 
