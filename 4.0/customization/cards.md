@@ -62,7 +62,7 @@ public function cards(NovaRequest $request)
 
 ### Card Options
 
-Often, you will need to allow the consumer's of your card to customize run-time configuration options on the card. You may do this by exposing methods on your card class. These methods may call the card's underlying `withMeta` method to add information to the card's metadata, which [will be available](#card-properties) within your `Card.vue` component. The `withMeta` method accepts an array of key / value options:
+Often, you will need to allow the consumer's of your card to customize run-time configuration options on the card. You may do this by exposing methods on your card class. These methods may call the card's underlying `withMeta` method to add information to the card's metadata, which will be available within your `Card.vue` component. The `withMeta` method accepts an array of key / value options:
 
 ```php
 <?php
@@ -106,6 +106,14 @@ After registering your custom card, don't forget to actually call any custom opt
 
 ```php
 (new Acme\Analytics\Analytics)->currentVisitors()
+```
+
+#### Accessing Card Options
+
+Your card's `Card.vue` component receives a `card` Vue `prop`. This property provides access to any card options that may be available on the card:
+
+```js
+const currentVisitors = this.card.currentVisitors;
 ```
 
 ## Building Cards
@@ -179,12 +187,4 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 
 ```bash
 npm run watch
-```
-
-### Card Properties
-
-Your card's `Card.vue` component receives a `card` Vue `prop`. This property provides access to any card [options](#card-options) that may be available on the card:
-
-```js
-const currentVisitors = this.card.currentVisitors;
 ```
