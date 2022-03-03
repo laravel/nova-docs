@@ -1,5 +1,7 @@
 # Release Notes
 
+[[toc]]
+
 Nova 4 continues the improvements made in Nova 3.x by introducing a thoroughly updated responsive design built on Tailwind 3, Vue 3, and Inertia.js. **Don't worry - it supports dark mode**.
 
 In addition, Nova 4 introduces support for collapsable relations, painless branding, notifications, action callbacks, new fields, dependent fields, filterable fields, custom menus, new metrics, batchable actions, search improvements, and much more.
@@ -131,6 +133,22 @@ DateTime::make('Created At')->filterable(),
 Nova 4 also introduces support for "Nova notifications", a brand new notification menu within Nova that you may use to display information for your Nova users. For example, you could use this menu to notify users that a report has been generated, or that an invoice needs attention.
 
 ![Notifications](./img/notifications.png)
+
+To send a Nova notification, you simply need to pass a `NovaNotification` instance to a notifiable user:
+
+```php
+use Laravel\Nova\Notifications\NovaNotification;
+
+$request->user()->notify(
+    NovaNotification::make()
+        ->message('Your report is ready to download.')
+        ->action('Download', 'https://example.com/report.pdf')
+        ->icon('download')
+        ->type('info')
+);
+```
+
+To learn more about Nova notifications, please consult the comprehensive [notification documentation](./customization/notifications.md).
 
 ### Custom Menus
 
