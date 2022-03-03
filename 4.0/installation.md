@@ -183,6 +183,8 @@ protected function gate()
 
 Although Nova's interface is intended to be an isolated part of your application that is managed by Nova. You can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
 
+![Branding](./img/branding.png)
+
 #### Brand Logo
 
 To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:

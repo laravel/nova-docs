@@ -1,6 +1,8 @@
 # Release Notes
 
-Nova 4 continues the improvements made in Nova 3.x by introducing a thoroughly updated responsive design built on Tailwind 3, Vue 3, and Inertia.js. Don't worry - it supports dark mode. In addition, Nova 4 introduces support for collapsable relations, painless branding, notifications, action callbacks, new fields, dependent fields, filterable fields, custom menus, new metrics, batchable actions, search improvements, and much more.
+Nova 4 continues the improvements made in Nova 3.x by introducing a thoroughly updated responsive design built on Tailwind 3, Vue 3, and Inertia.js. **Don't worry - it supports dark mode**.
+
+In addition, Nova 4 introduces support for collapsable relations, painless branding, notifications, action callbacks, new fields, dependent fields, filterable fields, custom menus, new metrics, batchable actions, search improvements, and much more.
 
 ### Responsive Design
 
@@ -16,13 +18,17 @@ And, of course, the interface supports "dark mode":
 
 A new `brand` configuration option has been added to the `nova` configuration file, allowing you to easily customize the "primary color" and logo used within the Nova interface without the need to create a custom Nova "theme":
 
+![Branding](./img/branding.png)
+
+To learn more, check out [branding documentation](./installation.md#branding).
+
 ### Collapsable Relations
 
 Nova 4 allows you to collapse relations for a given resource type so that they are no longer loaded by default when viewing the relation. Nova will store your collapsed relations in local storage so that it remembers your preferences, resulting in drastic performance improvements when viewing resource types that have dozens of relationships:
 
-@SCREENSHOT
+![Custom Menu](./img/collapsable-relations.png)
 
-### Action::then Callback
+### Action Callbacks
 
 A new `Action::then` method allows you to easily execute code after an action has finished executing against all of its selected resources. This feature allows you to easily generate reports or other send notifications when an action has finished executing:
 
@@ -75,9 +81,9 @@ To learn more about making actions batchable, please consult the [action batchin
 
 ### New Fields
 
-Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect` and `URL`. For more information on using these fields, please consult the [field documentation](./resources/fields.md).
+Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect`, and `URL`. For more information on using these fields, please consult the [field documentation](./resources/fields.md).
 
-@SCREENSHOT (Of color field?)
+![Color Field](./img/color.png)
 
 ### Dependent Fields
 
@@ -130,7 +136,7 @@ Nova 4 also introduces support for "Nova notifications", a brand new notificatio
 
 In addition, Nova now supports totally custom side-bar and user menus. In fact, you can fully customize every link entry in Nova's left-side navigation bar, including the creation of menu sections, menu groups, and more:
 
-@SCREENSHOT
+![Custom Menu](./customization/img/custom-main-menu.png)
 
 To learn more about building your own custom menus, please consult the [custom menu documentation](./customization/menus.md).
 
