@@ -27,9 +27,10 @@ HasOne::make('Dirección', 'address'),
 The `HasOne` relationship field can be transformed into an "has one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `User` model `hasMany` `Post` models. We may add the "has one of many" relationship to our `User` Nova resource like so:
 
 ```php
+use App\Nova\Post;
 use Laravel\Nova\Fields\HasOne;
 
-HasOne::ofMany('Latest Post', 'latestPost', 'App\Nova\Post'),
+HasOne::ofMany('Latest Post', 'latestPost', Post::class),
 ```
 
 ## HasMany
@@ -336,9 +337,10 @@ MorphOne::make('Image'),
 The `MorphOne` relationship field can be transformed into a "morph one of many" Eloquent relationship using the `ofMany` method. For example, let's assume a `Post` has a one-to-many polymorphic relationship with the `Comment` model. We may add the relationship to our `Post` Nova resource like so:
 
 ```php
+use App\Nova\Comment;
 use Laravel\Nova\Fields\MorphOne;
 
-MorphOne::ofMany('Latest Comment', 'latestComment', 'App\Nova\Comment'),
+MorphOne::ofMany('Latest Comment', 'latestComment', Comment::class),
 ```
 
 ## MorphMany

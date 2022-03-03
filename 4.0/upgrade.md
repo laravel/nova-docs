@@ -196,6 +196,10 @@ Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local"
 * `incrementPickerHourBy()`
 * `incrementPickerMinuteBy()`
 
+### Algolia Place Field
+
+Unfortunately, Algolia is retiring their "Places" API on May 31, 2022; therefore, the `Place` field has been deprecated and we encourage you to migrate to `Text` fields for street addresses and cities.
+
 ## Medium Impact Changes
 
 ### Updating Custom Tool, Cards, Fields, Filters
