@@ -94,6 +94,7 @@ You may also define which fields should be included in the resource's "preview" 
 
 ```php
 Text::make('Title')->showOnPreview(),
+
 Markdown::make('Content')->showOnPreview(),
 ```
 
@@ -1488,7 +1489,7 @@ The generated filter will be a text filter, select filter, number range filter, 
 
 The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
 
-Dependent fields allow advanced customization, such as toggling read-only mode, field value, validation rules, and more based on the state of another field:
+Dependent fields allow advanced customization, such as toggling read-only mode, validation rules, and more based on the state of another field:
 
 ```php
 use Laravel\Nova\Fields\FormData;
