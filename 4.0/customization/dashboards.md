@@ -6,6 +6,8 @@
 
 Nova dashboards provide a convenient way to build information overview pages that contain a variety of [metrics](./../metrics/defining-metrics.md) and [cards](../customization/cards.md).
 
+![Dashboard](./img/dashboard.png)
+
 ### Default Dashboard
 
 Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customize which cards are present on the default dashboard via this method:
