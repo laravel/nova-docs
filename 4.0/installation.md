@@ -242,6 +242,25 @@ Nova uses the default storage disk driver defined in your `filesystems` configur
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 
+### Customizing Nova's Initial Path
+
+Nova uses the default `Main` dashboard URL to be used after a user logged-in. If you would like to customize the URl, you may set `Nova::$initialPath` value within `App\Providers\NovaServiceProvider`:
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Register any application services.
+ *
+ * @return void
+ */
+public function register()
+{
+    Nova::$initialPath = '/resources/users';
+
+    // ...
+}
+```
 ## Error Reporting
 
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
