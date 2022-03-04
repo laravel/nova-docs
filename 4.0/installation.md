@@ -244,7 +244,7 @@ Nova uses the default storage disk driver defined in your `filesystems` configur
 
 ### Customizing Nova's Initial Path
 
-Nova uses the default `Main` dashboard URL to be used after a user logged-in. If you would like to customize the URl, you may set `Nova::$initialPath` value within `App\Providers\NovaServiceProvider`:
+Nova uses the default `Main` dashboard URL to be used after a user logged-in. If you would like to customize the URl, you may set `Nova::initialPath()` method  within `App\Providers\NovaServiceProvider`:
 
 ```php
 use Laravel\Nova\Nova;
@@ -256,7 +256,7 @@ use Laravel\Nova\Nova;
  */
 public function register()
 {
-    Nova::$initialPath = '/resources/users';
+    Nova::initialPath('/resources/users');
 
     // ...
 }
