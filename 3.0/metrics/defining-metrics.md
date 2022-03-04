@@ -387,7 +387,7 @@ return $this->countByDays($request, User::class)
             ->showLatestValue();
 ```
 
-You may customize the display format using the `format` method. The format must be a format supported by [Numeral.js](http://numeraljs.com/#format):
+You may customize the display format using the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/old-format.html):
 
 ```php
 return $this->countByDays($request, User::class)
