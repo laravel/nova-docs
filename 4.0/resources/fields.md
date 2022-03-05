@@ -931,8 +931,6 @@ Sparkline::make('Post Views')->data(function () {
 }),
 ```
 
-@SCREENSHOT
-
 #### Using Trend Metrics
 
 If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a [trend metric](./../metrics/defining-metrics.md) which can then be provided to the `Sparkline` field:
@@ -1185,8 +1183,6 @@ $schedule->call(new PruneStaleAttachments)->daily();
 ### UI-Avatar Field
 
 The `UiAvatar` field does not correspond to any column in your application's database. Instead, this field will generate a simple avatar containing the user's initials. This field is powered by [ui-avatars.com](https://ui-avatars.com).
-
-@SCREENSHOT
 
 By default, the `UiAvatar` image will be generated based on the value of the model's `name` column. However, if your user's names are not stored in the `name` column, you may pass a custom column name to the field's `make` method:
 
