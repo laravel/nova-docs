@@ -1212,12 +1212,12 @@ UiAvatar::make('Avatar', 'fullname')->squared(),
 
 Additional options available when defining `UiAvatar` fields include:
 
-| Option | Method | Description
-|:-------|:-------|:------
-| Font Size | `fontSize(0.4)` | Set a font size between `0.1` to `1`.
-| Bold | `bold()` | Set font weight to bold.
-| Background Color | `backgroundColor('1D4ED7')` | Set the hex color for the image background.
-| Text Color | `color('FFFFFF')` | Set the hex color for the image text.
+| Option           | Method                      | Description                                 |
+|:-----------------|:----------------------------|:--------------------------------------------|
+| Font Size        | `fontSize(0.4)`             | Set a font size between `0.1` to `1`.       |
+| Bold             | `bold()`                    | Set font weight to bold.                    |
+| Background Color | `backgroundColor('1D4ED7')` | Set the hex color for the image background. |
+| Text Color       | `color('FFFFFF')`           | Set the hex color for the image text.       |
 
 ### URL Field
 
