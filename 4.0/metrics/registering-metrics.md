@@ -205,12 +205,12 @@ You may also use HTML when defining your help text. For example, you may pass a 
 
 Laravel Nova will automatically fetch updated results (without requiring the user to refresh the page) for metrics attached to a resource based on following events:
 
-| Event    | Behaviour
-|:---------|:------------
-| Resource Deleted | Automatic Update
-| Resource Restored | Automatic Update
-| Action Executed | [Only update if the metric's `refreshWhenActionsRun` method is invoked during registration](#refresh-after-actions)
-| Filter Change | [Only update if the metric's `refreshWhenFiltersChange` method is invoked during registration](refresh-after-filter-changes)
+| Event             | Behaviour                                                                                                                    |
+|:------------------|:-----------------------------------------------------------------------------------------------------------------------------|
+| Resource Deleted  | Automatic Update                                                                                                             |
+| Resource Restored | Automatic Update                                                                                                             |
+| Action Executed   | [Only update if the metric's `refreshWhenActionsRun` method is invoked during registration](#refresh-after-actions)          |
+| Filter Change     | [Only update if the metric's `refreshWhenFiltersChange` method is invoked during registration](refresh-after-filter-changes) |
 
 ### Refresh After Actions
 

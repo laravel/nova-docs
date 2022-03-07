@@ -52,21 +52,21 @@ class PostPolicy
 
 If a policy exists but is missing a method for a particular action, Nova will use the following default permission for each actions: 
 
-| Policy Action | Default Permission
-|:----------|:-------
-| `viewAny` | Allowed
-| `view` | Forbidden
-| `create` | Forbidden
-| `update` | Forbidden
-| `replicate` | Fallback to `create` and `update`
-| `delete` | Forbidden
-| `forceDelete` | Forbidden
-| `restore` | Forbidden
-| `add{Model}` | Allowed
-| `attach{Model}` | Allowed
-| `detach{Model}` | Allowed
-| `runAction` | Fallback to `update`
-| `runDestructiveAction` | Fallback to `delete`
+| Policy Action          | Default Permission                |
+|:-----------------------|:----------------------------------|
+| `viewAny`              | Allowed                           |
+| `view`                 | Forbidden                         |
+| `create`               | Forbidden                         |
+| `update`               | Forbidden                         |
+| `replicate`            | Fallback to `create` and `update` |
+| `delete`               | Forbidden                         |
+| `forceDelete`          | Forbidden                         |
+| `restore`              | Forbidden                         |
+| `add{Model}`           | Allowed                           |
+| `attach{Model}`        | Allowed                           |
+| `detach{Model}`        | Allowed                           |
+| `runAction`            | Fallback to `update`              |
+| `runDestructiveAction` | Fallback to `delete`              |
 
 So, if you have defined a policy, don't forget to define all of its relevant authorization methods so that the authorization rules for a given resource are explicit.
 
