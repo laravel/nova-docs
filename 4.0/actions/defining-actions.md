@@ -260,11 +260,11 @@ For example, let's imagine you have defined an action named `GenerateApiToken`, 
 Using the `nova:asset` Artisan command, you may [generate a custom asset](./../customization/assets.md) and register the custom modal with Nova's Vue instance:
 
 ```js
-import ApiTokenCopier from './components/ApiTokenCopier'
+import ApiTokenCopier from "./components/ApiTokenCopier";
 
-Nova.booting(Vue => {
-  Vue.component('api-token-copier', ApiTokenCopier)
-})
+Nova.booting(app => {
+  app.component("api-token-copier", ApiTokenCopier);
+});
 ```
 
 Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component:
