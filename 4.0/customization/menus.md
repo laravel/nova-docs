@@ -6,7 +6,7 @@
 
 By default, Nova's main left-side navigation menu displays all of your application's dashboards, resources, and any custom tools you have registered.
 
-![Custom Menu](./img/custom-main-menu.png)
+![Default Menu](./img/default-main-menu.png)
 
 When rendering the main menu, Nova will order your dashboards according to the order in which they are returned by the `dashboards` method within your application's `App\Providers\NovaServiceProvider` class.
 
@@ -60,6 +60,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     }
 }
 ```
+
+![Custom Menu](./img/custom-main-menu.png)
 
 ### Customizing The User Menu
 
