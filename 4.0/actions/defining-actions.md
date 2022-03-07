@@ -267,7 +267,7 @@ Nova.booting(app => {
 });
 ```
 
-Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component:
+Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component. The data will be made available to the custom modal's Vue component as props:
 
 ```php
 public function handle(ActionFields $fields, Collection $models)
