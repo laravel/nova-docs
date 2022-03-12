@@ -150,6 +150,25 @@ $request->user()->notify(
 
 To learn more about Nova notifications, please consult the comprehensive [notification documentation](./customization/notifications.md).
 
+### Impersonation
+
+After deploying your application to production, you may occasionally need to "impersonate" another user of your application in order to debug problems your customers are reporting. Thankfully, Nova now includes built-in functionality to handle this exact scenario.
+
+To enable user impersonation, add the `Laravel\Nova\Auth\Impersonatable` trait to your application's `User` model:
+
+```php
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Impersonatable, Notifiable;
+
+    // ...
+}
+```
+
+Once the `Impersonatable` trait has been added to your application's `User` model, an "Impersonate" action will be available via the inline action menu for the corresponding resource:
+
+![Impersonation](./customization/img/impersonate.png)
+
 ### Custom Menus
 
 In addition, Nova now supports totally custom side-bar and user menus. In fact, you can fully customize every link entry in Nova's left-side navigation bar, including the creation of menu sections, menu groups, and more:
