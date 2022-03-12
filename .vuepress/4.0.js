@@ -55,6 +55,7 @@ module.exports = [
       "dashboards",
       "menus",
       "notifications",
+      "impersonation",
       "tools",
       "resource-tools",
       "cards",
