@@ -64,7 +64,7 @@ public function canBeImpersonated()
 
 ## Inspecting Impersonation State
 
-By resolving an instance of the `Laravel\Nova\Contracts\ImpersonatesUsers` interface out of Laravel's service container, you can inspect the current impersonation state of the application:
+By resolving an implementation of the `Laravel\Nova\Contracts\ImpersonatesUsers` interface via Laravel's service container, you can inspect the current impersonation state of the application:
 
 ```php
 use App\Models\User;
