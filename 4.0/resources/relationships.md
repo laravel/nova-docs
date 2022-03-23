@@ -550,6 +550,12 @@ To hide the inline creation button, invoke the `hideCreateRelationButton` method
 BelongsTo::make('User')->hideCreateRelationButton(),
 ```
 
+You may also create related many-to-many relationship from attach and update attached page, both `BelongsToMany` and `MorphToMany` are supported:
+
+```php
+BelongsToMany::make('Roles')->showCreateRelationButton(),
+```
+
 The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
 
 :::warning Inline Creation Limitations
