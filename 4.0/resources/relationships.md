@@ -544,16 +544,16 @@ BelongsTo::make('User')->showCreateRelationButton(function ($request) {
 }),
 ```
 
+You may also create related many-to-many relationships from the "attach" and "update attached" pages. To enable this feature, invoke the `showCreateRelationButton` when defining a `BelongsToMany` or `MorphToMany` relationship:
+
+```php
+BelongsToMany::make('Roles')->showCreateRelationButton(),
+```
+
 To hide the inline creation button, invoke the `hideCreateRelationButton` method when defining the relationship field:
 
 ```php
 BelongsTo::make('User')->hideCreateRelationButton(),
-```
-
-You may also create related many-to-many relationship from attach and update attached page, both `BelongsToMany` and `MorphToMany` are supported:
-
-```php
-BelongsToMany::make('Roles')->showCreateRelationButton(),
 ```
 
 The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
