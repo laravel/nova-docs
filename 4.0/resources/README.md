@@ -467,6 +467,52 @@ public static function perPageOptions()
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
 
+## CSV Export
+
+Occasionally you may need to export a group of resource records as a CSV file so that you can interact with the data in a spreadsheet application or import the data into another system. Thankfully, Nova includes built-in support for exporting resource data.
+
+To get started, add the `Laravel\Nova\Actions\ExportAsCsv` [action](./../actions/registering-actions.md) to your Nova resource:
+
+```php
+use Laravel\Nova\Actions\ExportAsCsv;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        ExportAsCsv::make(),
+    ];
+}
+```
+
+If you would like to allow the user to name the CSV file that is downloaded, you may invoke the `nameable` method when registering the action:
+
+```php
+return [
+    ExportAsCsv::make()->nameable(),
+];
+```
+
+If you would like to customize and format the fields that are included in the generated CSV, you may invoke the `formatUsing` method when registering the action:
+
+```php
+return [
+    ExportAsCsv::make()->formatUsing(function ($model) {
+        return [
+            'ID' => $model->getKey(),
+            'Name' => $model->name,
+            'Email Address' => $model->email,
+        ];
+    }),
+];
+```
+
 ## Resource Index Search Debounce
 
 You may wish to customize the search debounce timing of an individual resource's index listing. For example, the queries executed to retrieve some resources may take longer than others. You can customize an individual resource's search debounce by setting the `debounce` property on the resource class:
