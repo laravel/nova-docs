@@ -21,74 +21,9 @@ Nova supports modern versions of the following browsers:
 - Microsoft Edge
 - Mozilla Firefox
 
-## Installing Nova
-
-Once you have purchased a Nova license, you may download a Nova release from the "releases" section of the Nova website. After downloading a Zip file containing the Nova source code, you will need to install it as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories.md#path) within your Laravel application's `composer.json` file.
-
-First, unzip the contents of the Nova release into a `nova` directory within your application's root directory. Once you have unzipped and placed the Nova source code within the appropriate directory, you are ready to update your `composer.json` file. You should add the following configuration to the file:
-
-```json
-"repositories": [
-    {
-        "type": "path",
-        "url": "./nova"
-    }
-],
-```
-
-Or, you may use the following CLI command to add the path repository to your `composer.json` file:
-
-```bash
-composer config repositories.nova '{"type": "path", "url": "./nova"}' --file composer.json
-```
-
-:::warning Hidden Files
-
-When unzipping Nova into your application's `nova` directory, make sure all of Nova's "hidden" files (such as its `.gitignore` file) are included.
-:::
-
-Next, add `laravel/nova` to the `require` section of your `composer.json` file:
-
-```json
-"require": {
-    "php": "^8.0",
-    "laravel/framework": "^9.0",
-    "laravel/nova": "*"
-},
-```
-
-After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
-
-```bash
-composer update
-```
-
-:::tip Package Stability
-
-If you are not able to install Nova into your application because of your `minimum-stability` setting, consider setting your `minimum-stability` option to `dev` and your `prefer-stable` option to `true`. This will allow you to install Nova while still preferring stable package releases for your application.
-:::
-
-Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
-
-```bash
-php artisan nova:install
-
-php artisan migrate
-```
-
-After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
-
-The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
-
-```php
-public static $model = 'App\\Models\\User';
-```
-
-That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
-
 ## Installing Nova Via Composer
 
-Instead of downloading Zip files containing the Nova source code, you may also install Nova as a typical Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
+You may also install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
 "repositories": [
@@ -121,7 +56,9 @@ After your `composer.json` file has been updated, run the `composer update` comm
 composer update --prefer-dist
 ```
 
-When running `composer update`, you will be prompted to provide your login credentials for the Nova website. These credentials will authenticate your Composer session as having permission to download the Nova source code. To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while optionally using your [API token](https://nova.laravel.com/settings#password) in place of your password.
+When running `composer update`, you will be prompted to provide your Nova website username and [license key](https://nova.laravel.com/licenses), which should be used in place of your password. These credentials will authenticate your Composer session as having permission to download the Nova source code.
+
+To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while using your [license key](https://nova.laravel.com/licenses) in place of your password.
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
@@ -149,10 +86,10 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Authenticating Nova in Continuous Integration (CI) Environments
 
-It's not advised to store your Composer `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and password:
+It's not advised to store your Composer `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
 
 ```bash
-composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
 ```
 
 ## Authorizing Access To Nova
