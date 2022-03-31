@@ -751,10 +751,10 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
-Markdown field uses `markdown-it` npm package to parse the content. By default, it uses a preset similar to GFM (GitHub Flavoured Markdown) which disable HTML in source. You can change this by swapping to different preset using the following commands:
+The Markdown field uses the `markdown-it` npm package to parse Markdown content. By default, it uses a parsing strategy similar to GitHub Flavoured Markdown, which does not allow HTML within the Markdown content. However, you can change the parsing strategy using the `preset` method. The currently supported presets are `default`, `commonmark`, and `zero`:
 
 ```php
-Markdown::make('Biography')->preset('commonmark'), // You can use either `default`, `commonmark` or `zero`
+Markdown::make('Biography')->preset('commonmark'),
 ```
 
 ### Multi-select Field
