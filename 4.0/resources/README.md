@@ -34,7 +34,9 @@ Nova contains a few reserved words which may not be used for resource names:
 - Card
 - Dashboard
 - Field
+- Impersonate
 - Metric
+- Notification
 - Resource
 - Search
 - Script
