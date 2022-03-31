@@ -751,6 +751,12 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
+Markdown field uses `markdown-it` npm package to parse the content. By default, it uses a preset similar to GFM (GitHub Flavoured Markdown) which disable HTML in source. You can change this by swapping to different preset using the following commands:
+
+```php
+Markdown::make('Biography')->preset('commonmark'), // You can use either `default`, `commonmark` or `zero`
+```
+
 ### Multi-select Field
 
 The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array` or equivalent:
