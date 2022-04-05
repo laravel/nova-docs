@@ -2,7 +2,7 @@
   display: none !important
 
 body
-  background-color #eef1f4
+  background-color rgb(241, 245, 249)
   font-family "Nunito"
   min-height 100vh
 
@@ -17,6 +17,46 @@ h1
 
 h2
   border-bottom 0
+
+/* Carbon Ads
+-----------------------------------------------------------------------------*/
+.carbon-ads
+  min-height 102px
+  padding 1.5rem 1.5rem 0
+  margin-bottom -0.5rem
+  font-size 0.75rem
+  a
+    color rgb(44, 62, 80)
+    font-weight normal
+    display inline
+  .carbon-img
+    display inline-block
+    border 1px solid $borderColor
+    margin-bottom 10px
+    img
+      display block
+  .carbon-text
+      display block
+      clear left
+  .carbon-poweredby
+    color rgba(0, 0, 0, 0.5)
+    display block
+    margin-top 0.5em
+
+@media (max-width: $MQMobile)
+  .carbon-ads
+    .carbon-img img
+      width 100px
+      height 77px
+  
+/* Search Box
+-----------------------------------------------------------------------------*/
+body .search-box 
+  input
+    background-image none !important
+    background-color rgb(241, 245, 249)
+    border none
+    padding 0 1.1rem
 
 /* Page
 -----------------------------------------------------------------------------*/
@@ -42,7 +82,7 @@ h2
   box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
 
 .navbar .logo
-  width 165.37px
+  width 132px
 
 .nav-link, .repo-link
   font-weight 800
@@ -54,9 +94,10 @@ h2
     width 13.75rem
     border-right none
     background-color transparent
-    background-image linear-gradient(0deg, #7e8ea1 0%, #3c4655 100%)
+    border-right 2px solid rgba(0, 0, 0, 0.03)
 
   .sidebar-heading
+    opacity: 0.8
     padding 0 1.4rem
     margin-bottom: 0.3rem
 
@@ -69,26 +110,26 @@ h2
     letter-spacing 0.13rem
     font-size 12px
     font-weight 800
-    color #C1CDDB
+    // color #C1CDDB
 
   a.sidebar-link
     font-size 14px
-    color #fff
+    // color #fff
     border-left 0.125rem solid transparent
     padding 0.25rem 0
 
   a.sidebar-link:hover
-    color #fff
+    // color #fff
     opacity 0.5
     border-left-color rgba(255, 255, 255, 0.7)
 
   a.sidebar-link:active
-    color #fff
+    // color #fff
     opacity 0.7
     border-left-color rgba(255, 255, 255, 0.5)
 
   a.sidebar-link.active
-    color #fff
+    // color #fff
     border-left-color rgba(255, 255, 255, 0.5)
 
   .sidebar-group a.sidebar-link
@@ -100,7 +141,7 @@ h2
 
   @media (max-width 719px)
     .nav-links a.nav-link, .nav-links a.repo-link
-      color #fff
+      // color #fff
 
 /* Sidebar ul, li, a, div spacing
 -----------------------------------------------------------------------------*/
@@ -194,7 +235,7 @@ $tipColor = #A48CD3
   box-shadow 0 2px 4px 0 rgba(0, 0, 0, .05)
   border-left none
   border-radius 4px
-  border 2px solid transparent
+  // border 2px solid transparent
 
 .custom-block.tip
   border-color darken($tipColor, 20%)
@@ -268,3 +309,22 @@ div[class*="language-"]:before
     font-weight bold
     background none !important
     box-shadow none !important
+
+/* Tables
+-----------------------------------------------------------------------------*/
+table
+  border-radius 8px
+  box-shadow 0 2px 4px 0 rgba(0 0 0 5%)
+  
+  thead, tbody
+    border none
+    
+  // tr
+    // border none
+  
+  thead tr:first-child
+    border-top none
+
+  td, th
+    border none
+    background #fff

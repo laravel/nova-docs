@@ -118,7 +118,7 @@ protected function gate()
 
 ### Branding
 
-Although Nova's interface is intended to be an isolated part of your application that is managed by Nova. You can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
+Although Nova's interface is intended to be an isolated part of your application that is managed by Nova, you can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
 
 ![Branding](./img/branding.png)
 
@@ -198,6 +198,7 @@ public function register()
     // ...
 }
 ```
+
 ## Error Reporting
 
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
