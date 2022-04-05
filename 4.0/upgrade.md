@@ -38,7 +38,7 @@ composer update mirrors
 composer update
 ```
 
-Next, run database migrations as Nova 4 needs a new table:
+After updating your application's Composer dependencies, you should migrate your database:
 
 ```shell
 php artisan migrate
