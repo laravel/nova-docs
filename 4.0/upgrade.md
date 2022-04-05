@@ -38,6 +38,12 @@ composer update mirrors
 composer update
 ```
 
+After updating your application's Composer dependencies, you should migrate your database:
+
+```shell
+php artisan migrate
+```
+
 ### Updating Configuration, Assets, and Translations
 
 Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations.
