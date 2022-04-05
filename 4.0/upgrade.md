@@ -82,6 +82,10 @@ Next, ensure your application's `nova` configuration file contains a `storage_di
 
 Once your configuration has been updated, you should review the following list of changes and upgrade your application accordingly.
 
+### Updating Third-Party Nova Packages
+
+If your application relies on Nova tools or packages developed by third-parties, it is possible that these packages are not yet compatible with Nova 4.0 and will require an update from their maintainers.
+
 ## High Impact Changes
 
 ### Nova Request
