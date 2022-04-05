@@ -165,7 +165,23 @@ In previous releases of Nova, the "Main" dashboard cards were defined via the `c
 php artisan nova:dashboard Main
 ```
 
-Next, move the contents of the `cards` method from your `NovaServiceProvider` to the `cards` method of your new `App\Nova\Dashboards\Main` class.
+Next, move the contents of the `cards` method from your `NovaServiceProvider` to the `cards` method of your new `App\Nova\Dashboards\Main` class and register the `Main` dashboard within the `dashboards` method of your `NovaServiceProvider`:
+
+```php
+use App\Nova\Dashboards\Main;
+
+/**
+ * Get the extra dashboards that should be displayed on the Nova dashboard.
+ *
+ * @return array
+ */
+protected function dashboards()
+{
+    return [
+        new Main,
+    ];
+}
+```
 
 ### Dashboard Methods
 
