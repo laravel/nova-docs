@@ -28,6 +28,16 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 "laravel/nova": "^4.0",
 ```
 
+After purchasing a Nova 4.0 license, you should update your [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) to use your newly generated license key instead of your previous Nova 3 API token or account password.
+
+Next, install your updated your Composer dependencies:
+
+```shell
+composer update mirrors
+
+composer update
+```
+
 ### Updating Configuration, Assets, and Translations
 
 Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations.
