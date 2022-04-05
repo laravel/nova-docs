@@ -2,7 +2,7 @@
 
 [[toc]]
 
-Nova 4 continues the improvements made in Nova 3.x by introducing a thoroughly updated responsive design built on Tailwind 3, Vue 3, and Inertia.js. **Don't worry - it supports dark mode**.
+Nova 4 continues the improvements made in Nova 3.x by introducing a thoroughly updated responsive design built on Tailwind 2, Vue 3, and Inertia.js. **Don't worry - it supports dark mode**.
 
 In addition, Nova 4 introduces support for collapsable relations, painless branding, notifications, action callbacks, new fields, dependent fields, filterable fields, custom menus, new metrics, batchable actions, search improvements, and much more.
 
