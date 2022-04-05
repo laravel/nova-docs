@@ -500,11 +500,11 @@ return [
 ];
 ```
 
-If you would like to customize and format the fields that are included in the generated CSV, you may invoke the `formatUsing` method when registering the action:
+If you would like to customize and format the fields that are included in the generated CSV, you may invoke the `withFormat` method when registering the action:
 
 ```php
 return [
-    ExportAsCsv::make()->formatUsing(function ($model) {
+    ExportAsCsv::make()->withFormat(function ($model) {
         return [
             'ID' => $model->getKey(),
             'Name' => $model->name,
