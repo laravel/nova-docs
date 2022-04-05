@@ -38,6 +38,12 @@ composer update mirrors
 composer update
 ```
 
+Next, run database migrations as Nova 4 needs a new table:
+
+```shell
+php artisan migrate
+```
+
 ### Updating Configuration, Assets, and Translations
 
 Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations.
