@@ -165,7 +165,7 @@ Nova uses the default authentication guard defined in your `auth` configuration 
 
 ### Customizing Nova's Password Reset Functionality
 
-Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within of Nova's configuration file:
+Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
 
 ```php
 'passwords' => env('NOVA_PASSWORDS', null),
