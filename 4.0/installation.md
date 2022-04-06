@@ -23,6 +23,11 @@ Nova supports modern versions of the following browsers:
 
 ## Installing Nova Via Composer
 
+:::warning Zip Downloads
+
+Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 4 installation is always performed via Composer.
+:::
+
 You may also install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
