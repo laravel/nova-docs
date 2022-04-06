@@ -305,7 +305,7 @@ Nova::router()
     ->group(function ($router) {
         $router->get('sidebar-tool', function ($request) {
             return inertia('SidebarTool');
-        }
+        });
     });
 ```
 
