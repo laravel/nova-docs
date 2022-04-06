@@ -220,13 +220,7 @@ Nova::report(function ($exception) {
 
 ## Updating Nova
 
-To update your Nova installation, you may simply download a release Zip file from the Nova website.
-
-:::tip Composer Installations
-Of course, if you installed Nova via Composer, you may update Nova using `composer update`, just like any other Composer package.
-:::
-
-After downloading the Zip file, replace the current contents of your application's `nova` directory with the contents of the Zip file. After updating the directory's contents, you may run the `composer update` command:
+To update your Nova installation, you may run the `composer update` command:
 
 ```bash
 composer update
