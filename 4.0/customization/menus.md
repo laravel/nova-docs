@@ -88,10 +88,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         Nova::userMenu(function (Request $request, Menu $menu) {
-            if ($request->user()->isImpersonating()) {
+            if ($request->user()->subscribed()) {
                 $menu->append(
-                    MenuItem::make('Stop Impersonating')
-                        ->path('/impersonate/stop')
+                    MenuItem::make('Subscriber Dashboard')
+                        ->path('/subscribers/dashboard')
                 );
             }
 
