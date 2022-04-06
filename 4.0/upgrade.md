@@ -326,7 +326,7 @@ mix.alias({
 })
 ```
 
-Custom Nova packages that are developed outside of a `nova-compnents` directory should declare `laravel/nova` as a "dev" Composer dependency, and then define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
+Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency, and then define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
 
 ```js
 let mix = require('laravel-mix')
