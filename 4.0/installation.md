@@ -21,6 +21,31 @@ Nova supports modern versions of the following browsers:
 - Microsoft Edge
 - Mozilla Firefox
 
+## Registering a Nova License Key
+
+Nova requires a license key to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account.
+
+You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
+
+```php
+'license_key' => env('NOVA_LICENSE_KEY', ''),
+```
+
+Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in IETF RFC 2606:
+
+- `.test`
+- `.example`
+- `.invalid`
+- `.localhost`
+
+Nova will also not check the current license key when the hostname contains commonly-used staging subdomains:
+
+- `admin.`
+- `staging.`
+- `test.`
+- `dev.`
+- `development.`
+
 ## Installing Nova Via Composer
 
 :::warning Zip Downloads
@@ -28,7 +53,7 @@ Nova supports modern versions of the following browsers:
 Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 4 installation is always performed via Composer.
 :::
 
-You may also install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
+You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
 "repositories": [
@@ -96,31 +121,6 @@ It's not advised to store your Composer `auth.json` file inside your project's v
 ```bash
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
 ```
-
-## Licensing
-
-Nova requires a license key to be used in production environments. Nova will check your license key and the current domain against the values from the license details found in your Nova account.
-
-You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
-
-```php
-'license_key' => env('NOVA_LICENSE_KEY', ''),
-```
-
-Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in IETF RFC 2606:
-
-- `.test`
-- `.example`
-- `.invalid`
-- `.localhost`
-
-Nova will also not check the current license key when the domain contains commonly-used staging subdomains:
-
-- `admin.`
-- `staging.`
-- `test.`
-- `dev.`
-- `development.`
 
 ## Authorizing Access To Nova
 
