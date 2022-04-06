@@ -92,6 +92,31 @@ It's not advised to store your Composer `auth.json` file inside your project's v
 composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
 ```
 
+## Licensing
+
+Nova requires a license key to be used in production environments. Nova will check your license key and the current domain against the values from the license details found in your Nova account.
+
+You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
+
+```php
+'license_key' => env('NOVA_LICENSE_KEY', ''),
+```
+
+Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in IETF RFC 2606:
+
+- `.test`
+- `.example`
+- `.invalid`
+- `.localhost`
+
+Nova will also not check the current license key when the domain contains commonly-used staging subdomains:
+
+- `admin.`
+- `staging.`
+- `test.`
+- `dev.`
+- `development.`
+
 ## Authorizing Access To Nova
 
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
