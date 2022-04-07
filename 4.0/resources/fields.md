@@ -218,7 +218,7 @@ public function fields(NovaRequest $request)
 protected function addressFields()
 {
     return [
-        Place::make('Address', 'address_line_1')->hideFromIndex(),
+        Text::make('Address', 'address_line_1')->hideFromIndex(),
         Text::make('Address Line 2')->hideFromIndex(),
         Text::make('City')->hideFromIndex(),
         Text::make('State')->hideFromIndex(),
@@ -277,7 +277,6 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [MultiSelect](#multiselect-field)
 - [Number](#number-field)
 - [Password](#password-field)
-- [Place](#place-field)
 - [Select](#select-field)
 - [Sparkline](#sparkline-field)
 - [Status](#status-field)
