@@ -65,7 +65,8 @@ module.exports = {
 
     algolia: {
       indexName: "laravel_nova",
-      apiKey: "5aa44fede3f10262000a8c4f046033d5",
+      appId: "FGRCZANQVY",
+      apiKey: "7c0aaf326992f08ed7bfc461a1b61ef3",
       algoliaOptions: {
         facetFilters: ["version:4.0.0"]
       }
