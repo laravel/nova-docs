@@ -383,11 +383,11 @@ Nova 4 no longer allows adding custom CSS styles to an action confirmation modal
 
 ## Low Impact Changes
 
-## Requires Eloquent User Provider
+## Eloquent User Provider Required
 
-Nova 4 now requires Authentication User Provider as `eloquent` in order to resolve current user information. 
+Nova 4 requires the authentication user provider to be `eloquent` in order to resolve information regarding the currently authenticated user.
 
-In the default `config/auth.php` configuration file, the Eloquent user provider is specified and it is instructed to use the `App\Models\User` model when retrieving users. You may change these values within your configuration file based on the needs of your application.
+In your application's default `config/auth.php` configuration file, the Eloquent user provider is specified and it is instructed to use the `App\Models\User` model when retrieving users. You may change these values within your configuration file based on the needs of your application.
 
 ### Reduce Encoded Filter String Length
 
