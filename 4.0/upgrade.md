@@ -383,7 +383,7 @@ Nova 4 no longer allows adding custom CSS styles to an action confirmation modal
 
 ## Low Impact Changes
 
-## Eloquent User Provider Required
+### Eloquent User Provider Required
 
 Nova 4 requires the authentication user provider to be `eloquent` in order to resolve information regarding the currently authenticated user.
 
