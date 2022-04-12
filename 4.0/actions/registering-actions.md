@@ -112,7 +112,7 @@ By default, actions are visible on both the resource index and detail pages. How
 
 ### Inline Actions
 
-Inline actions are actions that are displayed as buttons directly on the index table row of a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
+Inline actions are actions that are displayed directly on the index table row of a given resource. You may specify that an action should be available inline by calling the `showInline` method when attaching the action to the resource:
 
 ```php
 /**
