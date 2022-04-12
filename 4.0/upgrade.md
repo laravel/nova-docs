@@ -383,6 +383,12 @@ Nova 4 no longer allows adding custom CSS styles to an action confirmation modal
 
 ## Low Impact Changes
 
+### Eloquent User Provider Required
+
+Nova 4 requires the authentication user provider to be `eloquent` in order to resolve information regarding the currently authenticated user.
+
+In your application's default `config/auth.php` configuration file, the Eloquent user provider is specified and it is instructed to use the `App\Models\User` model when retrieving users. You may change these values within your configuration file based on the needs of your application.
+
 ### Reduce Encoded Filter String Length
 
 Nova 4 introduces a shorter key-value map in filter string URLs which reduces the overall length of the URL. This change doesn't affect bookmarked URLs; however, third party package tool developers who interact deeply with Vuex may wish to ensure their packages still work after this change.
