@@ -223,9 +223,9 @@ use Laravel\Nova\Menu\MenuSection;
 
 MenuSection::make('Business', [
     MenuGroup::make('Licensing', [
-        MenuItem::dashboard('Sales', Sales::class),
-        MenuItem::resource('Licenses', License::class),
-        MenuItem::resource('Refunds', License::class),
+        MenuItem::dashboard(Sales::class),
+        MenuItem::resource(License::class),
+        MenuItem::resource(License::class),
         MenuItem::externalLink('Stripe Payments', 'https://dashboard.stripe.com/payments?status%5B%5D=successful'),
     ]),
 ]),
@@ -257,7 +257,7 @@ Since you will often be creating links to Nova resources, you may use the `resou
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
 
-MenuItem::resource('Customers', User::class)
+MenuItem::resource(User::class)
 ```
 
 Similarly, you may create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
@@ -266,7 +266,7 @@ Similarly, you may create a link to any of your [custom Nova dashboards](./dashb
 use App\Nova\Dashboards\Main;
 use Laravel\Nova\Menu\MenuItem;
 
-MenuItem::dashboard('Home', Main::class)
+MenuItem::dashboard(Main::class)
 ```
 
 To create a link that directs the user to a location that is totally outside of your Nova application, you may use the `externalLink` factory method:
