@@ -134,7 +134,7 @@ fill(formData) {
 
 #### Dependent Form Field
 
-By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/field.html#dependable-fields), you should replace `FormField` with `DependentFormField`:
+By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/fields.html#dependent-fields), you should replace `FormField` with `DependentFormField`:
 
 ```js
 // Before ...
