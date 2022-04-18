@@ -16,11 +16,12 @@ Nova notifications may be generated via the `NovaNotification` class, which prov
 
 ```php
 use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\URL;
 
 $request->user()->notify(
     NovaNotification::make()
         ->message('Your report is ready to download.')
-        ->action('Download', 'https://example.com/report.pdf')
+        ->action('Download', URL::remote('https://example.com/report.pdf'))
         ->icon('download')
         ->type('info')
 );
