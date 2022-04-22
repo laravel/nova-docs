@@ -27,6 +27,39 @@ $request->user()->notify(
 );
 ```
 
+You may also send a Nova notification by including the `NovaChannel` in the array of channels returned by a notification's `via` method:
+
+```php
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\Notifications\NovaChannel;
+use Laravel\Nova\URL;
+
+/**
+ * Get the notification's delivery channels
+ * 
+ * @param mixed $notifiable
+ * @return array
+ */
+public function via($notifiable)
+{
+    return [NovaChannel::class];
+}
+
+/**
+ * Get the nova representation of the notification
+ * 
+ * @return array
+ */
+public function toNova()
+{
+    return (new NovaNotification)
+        ->message('Your report is ready to download.')
+        ->action('Download', URL::remote('https://example.com/report.pdf'))
+        ->icon('download')
+        ->type('info');
+}
+```
+
 #### Notification Icons
 
 Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the Nova notification's `icon` method.
