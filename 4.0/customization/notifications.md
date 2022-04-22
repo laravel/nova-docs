@@ -27,7 +27,7 @@ $request->user()->notify(
 );
 ```
 
-You can also use the NovaChannel to send a notification via nova:
+You may also send a Nova notification by including the `NovaChannel` in the array of channels returned by a notification's `via` method:
 
 ```php
 use Laravel\Nova\Notifications\NovaNotification;
