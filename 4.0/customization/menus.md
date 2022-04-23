@@ -100,7 +100,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             $menu->prepend(
                 MenuItem::make(
                     'My Profile',
-                    "/resources/user/{$request->user()->getKey()}"
+                    "/resources/users/{$request->user()->getKey()}"
                 )
             );
 
