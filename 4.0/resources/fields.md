@@ -274,7 +274,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Image](#image-field)
 - [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
-- [MultiSelect](#multi-select-field)
+- [Multi-select](#multi-select-field)
 - [Number](#number-field)
 - [Password](#password-field)
 - [Select](#select-field)
