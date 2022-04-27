@@ -274,7 +274,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Image](#image-field)
 - [KeyValue](#keyvalue-field)
 - [Markdown](#markdown-field)
-- [Multi-select](#multi-select-field)
+- [MultiSelect](#multiselect-field)
 - [Number](#number-field)
 - [Password](#password-field)
 - [Select](#select-field)
@@ -756,7 +756,7 @@ The Markdown field uses the `markdown-it` npm package to parse Markdown content.
 Markdown::make('Biography')->preset('commonmark'),
 ```
 
-### Multi-select Field
+### MultiSelect Field
 
 The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array` or equivalent:
 
