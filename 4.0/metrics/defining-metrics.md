@@ -179,6 +179,18 @@ public function calculate(NovaRequest $request)
 }
 ```
 
+### Transforming a Value Result
+
+There may be times you need to "transform" a value result before it is displayed to the user. For example, let's say you have a "Total Revenue" metric which calculates the total revenue for a product in cents. You may wish to present this value to the user in dollars versus cents. To transform the value before it's displayed, you can use the `transform` helper:
+
+```php
+public function calculate(NovaRequest $request)
+{
+    return $this->sum($request, Invoice::class, 'amount')
+        ->transform(fn($value) => $value / 100);
+}
+```
+
 ### Manually Building Value Results
 
 If you are not able to use the included query helpers for building your value metric, you may easily manually provide the final values to the metric using the `result` and `previous` methods, giving you full control over the calculation of these values:
@@ -440,7 +452,6 @@ class UsersPerPlan extends Partition
     }
 }
 ```
-
 
 ### Partition Query Types
 
