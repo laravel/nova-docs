@@ -535,6 +535,11 @@ You may override the currency on a per-field basis using the `currency` method:
 Currency::make('Price')->currency('EUR'),
 ```
 
+:::tip Prerequisites
+
+The `ext-intl` PHP extension is required to display formatted currency. Or, you may install the `symfony/polyfill-intl-icu` Composer package which offers support for the "en" locale.
+:::
+
 You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
 
 ```php
