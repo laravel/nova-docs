@@ -537,7 +537,7 @@ Currency::make('Price')->currency('EUR'),
 
 :::tip Prerequisites
 
-PHP extension `ext-intl` is required to display formatted currency. For development purpose you may opt to install `symfony/polyfill-intl-icu` which offer only "en" locale.
+The `ext-intl` PHP extension is required to display formatted currency. Or, you may install the `symfony/polyfill-intl-icu` Composer package which offers support for the "en" locale.
 :::
 
 You may use the `min`, `max`, and `step` methods to set their corresponding attributes on the generated `input` control:
