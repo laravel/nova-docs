@@ -240,6 +240,15 @@ Unfortunately, Algolia is [retiring their "Places" API](https://www.algolia.com/
 
 ### Updating Custom Tool, Cards, Fields, Filters
 
+:::tip Prerequisite
+
+To ease upgrading custom packages to support Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` especially the following files:
+
+* `nova.mix.js`
+* `packages.js` 
+* `webpack.mix.js`
+:::
+
 Unfortunately, since Nova 4 upgrades our frontend dependencies to Inertia, Vue 3, and Tailwind 3, it is necessary to review all custom tools and upgrade them accordingly. A general overview of the necessary changes can be found below; however, your custom Nova packages may require additional changes if they are depending on third-party packages that only support Vue 2 or prior versions of Tailwind.
 
 #### Vue 3
@@ -253,15 +262,10 @@ Nova 4 has been updated to use Vue 3, in order to upgrade all custom cards, cust
 mix.js('resources/js/field.js', 'js') 
 
 // After...
+require('./nova.mix')
+
 mix.js('resources/js/field.js', 'js').vue({ version: 3 })
-  .webpackConfig({
-    externals: {
-      vue: 'Vue',
-    },
-    output: {
-      uniqueName: 'vendor/package',
-    }
-  })
+  .nova('vendor/package')
 ```
 
 #### Replacing Vue Router With Inertia.js
@@ -313,28 +317,42 @@ Nova::router()
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
 
+:::tip Prerequisite
+
+To ease upgrading custom packages to support Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` especially the following files:
+
+* `nova.mix.js`
+* `packages.js` 
+* `webpack.mix.js`
+:::
+
 Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
-Typically, custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to the file within the Nova installation that is located within your root application's `vendor` directory:
+Typically, custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to the file within the Nova installation that is located within your root application's `vendor` directory using `nova.mix.js` file:
 
 ```js
-let mix = require('laravel-mix')
-let path = require('path')
-
-mix.alias({
-  'laravel-nova': path.join(__dirname, '../../vendor/laravel/nova/resources/js/mixins/packages.js'),
-})
+'laravel-nova': path.join(
+  __dirname,
+  '../../vendor/laravel/nova/resources/js/mixins/packages.js'
+),
 ```
 
 Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency, and then define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
 
 ```js
-let mix = require('laravel-mix')
-let path = require('path')
+'laravel-nova': path.join(
+  __dirname,
+  'vendor/laravel/nova/resources/js/mixins/packages.js'
+),
+```
 
-mix.alias({
-  'laravel-nova': path.join(__dirname, 'vendor/laravel/nova/resources/js/mixins/packages.js'),
-})
+In order to compile custom packages assets with `laravel-nova` mixins you are required to prepare `laravel/nova`'s `node_modules` by running the following command:
+
+```bash
+npm run nova:install
+
+# Or use the explicit command
+npm --prefix='vendor/laravel/nova' ci
 ```
 
 ### Event Cancellation On Save
