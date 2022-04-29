@@ -289,3 +289,14 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
         headers: ['API_TOKEN' => 'abcdefg1234567']
     )
 ```
+
+#### Filtering Authorized Menu
+
+By default, both `dashboard` and `resource` methods would automatically filters menu based on user's authorization. For custom menu using `path` or `externalLink` you should apply `canSee` method manually:
+
+```php
+MenuItem::link('Cashier', '/cashier')
+    ->canSee(function (NovaRequest $request) {
+        return $request->user()->can('manageCashier');
+    })
+```
