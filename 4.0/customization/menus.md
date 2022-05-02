@@ -289,3 +289,14 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
         headers: ['API_TOKEN' => 'abcdefg1234567']
     )
 ```
+
+#### Authorizing Menu Items
+
+You may use the `canSee` method to determine if a menu item should be displayed for the currently authenticated user:
+
+```php
+MenuItem::link('Cashier', '/cashier')
+    ->canSee(function (NovaRequest $request) {
+        return $request->user()->can('manageCashier');
+    })
+```
