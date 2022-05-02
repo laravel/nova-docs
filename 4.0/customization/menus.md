@@ -290,9 +290,9 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
     )
 ```
 
-#### Filtering Authorized Menu
+#### Authorizing Menu Items
 
-By default, both `dashboard` and `resource` methods would automatically filters menu based on user's authorization. For custom menu using `path` or `externalLink` you should apply `canSee` method manually:
+You may use the `canSee` method to determine if a menu item should be displayed for the currently authenticated user:
 
 ```php
 MenuItem::link('Cashier', '/cashier')
