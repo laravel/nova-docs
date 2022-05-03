@@ -101,6 +101,35 @@ const driver = Nova.config('mail_driver');
 
 Localization strings can be passed to the frontend via your `NovaServiceProvider`. To learn more, please consult the [full custom localization documentation](./../customization/localization.md#Frontend).
 
+### Using Nova Mixins
+
+Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to this file within the Nova installation that is located within your root application's `vendor` directory. This alias should be placed in your package's `nova.mix.js`:
+
+```js
+'laravel-nova': path.join(
+  __dirname,
+  '../../vendor/laravel/nova/resources/js/mixins/packages.js'
+),
+```
+
+Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency. Then, define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
+
+```js
+'laravel-nova': path.join(
+  __dirname,
+  'vendor/laravel/nova/resources/js/mixins/packages.js'
+),
+```
+
+In order to compile custom packages assets with `laravel-nova` mixins you are required to prepare `laravel/nova`'s `node_modules` by running the following command:
+
+```bash
+npm run nova:install
+
+# Or use the explicit command...
+npm --prefix='vendor/laravel/nova' ci
+```
+
 ### Vue DevTools
 
 By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may issue the following terminal commands from the root of your Nova project:
