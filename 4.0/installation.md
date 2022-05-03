@@ -203,12 +203,12 @@ public function boot()
     parent::boot();
 
     Nova::footer(function ($request) {
-    return Blade::render('
-        @env(\'prod\')
-            This is production!
-        @endenv
-    ');
-});
+        return Blade::render('
+            @env(\'prod\')
+                This is production!
+            @endenv
+        ');
+    });
 }
 ```
 
