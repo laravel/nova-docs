@@ -101,9 +101,9 @@ const driver = Nova.config('mail_driver');
 
 Localization strings can be passed to the frontend via your `NovaServiceProvider`. To learn more, please consult the [full custom localization documentation](./../customization/localization.md#Frontend).
 
-### Using Available Mixins
+### Using Nova Mixins
 
-Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to the file within the Nova installation that is located within your root application's `vendor` directory using `nova.mix.js` file:
+Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to this file within the Nova installation that is located within your root application's `vendor` directory. This alias should be placed in your package's `nova.mix.js`:
 
 ```js
 'laravel-nova': path.join(
@@ -112,7 +112,7 @@ Custom Nova tools, resource tools, cards, and other custom packages that are bei
 ),
 ```
 
-Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency, and then define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
+Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency. Then, define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
 
 ```js
 'laravel-nova': path.join(
@@ -126,7 +126,7 @@ In order to compile custom packages assets with `laravel-nova` mixins you are re
 ```bash
 npm run nova:install
 
-# Or use the explicit command
+# Or use the explicit command...
 npm --prefix='vendor/laravel/nova' ci
 ```
 
