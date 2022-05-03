@@ -185,6 +185,33 @@ To customize the color used as the "primary" color within the Nova interface, yo
 ],
 ```
 
+### Customizing Nova's footer
+
+There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. You can do this by setting Nova's footer within your `app/Providers/NovaServiceProvider`:
+
+```php
+use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Blade;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::footer(function ($request) {
+    return Blade::render('
+        @env(\'prod\')
+            This is production!
+        @endenv
+    ');
+});
+}
+```
+
 ### Customizing Nova's Authentication Guard
 
 Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
