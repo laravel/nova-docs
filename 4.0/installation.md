@@ -187,7 +187,7 @@ To customize the color used as the "primary" color within the Nova interface, yo
 
 ### Customizing Nova's footer
 
-There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. You can do this by setting Nova's footer within your `app/Providers/NovaServiceProvider`:
+There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. You can do this by setting Nova's footer within `App\Providers\NovaServiceProvider`:
 
 ```php
 use Laravel\Nova\Nova;
