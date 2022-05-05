@@ -256,6 +256,27 @@ public function register()
 }
 ```
 
+### Disabling Nova's Theme Switcher
+
+If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider': 
+
+```php
+use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Blade;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::withoutThemeSwitcher();
+}
+```
+
 ## Error Reporting
 
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:

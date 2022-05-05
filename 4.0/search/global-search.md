@@ -109,7 +109,7 @@ public function resolveThumbnailUrl()
 }
 ```
 
-## Disabling Global Search
+## Disabling Global Search For A Resource
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
 
@@ -120,4 +120,25 @@ By default, all Nova resources are globally searchable; however, you may exclude
  * @var bool
  */
 public static $globallySearchable = false;
+```
+
+### Disabling Global Search Globally
+
+If you wish to completely disable global search inside of Nova, you can call the `withoutGlobalSearch` method from your `App/Providers/NovaServiceProvider': 
+
+```php
+use Laravel\Nova\Nova;
+use Illuminate\Support\Facades\Blade;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::withoutGlobalSearch();
+}
 ```

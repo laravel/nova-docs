@@ -1092,6 +1092,14 @@ Text::make('Twitter Profile', function () {
 })->asHtml(),
 ```
 
+#### Copying Text Field Values to the Clipboard
+
+Sometimes you may wish to copy the value of a field into the system clipboard for pasting elsewhere. You can enable this on the detail view for a resource by calling the `copyable` method on the `Text` field:
+
+```php
+Text::make('Twitter Profile')->copyable(),
+```
+
 ### Textarea Field
 
 The `Textarea` field provides a `textarea` control:
