@@ -18,7 +18,7 @@ export default {
   },
 
   mounted() {
-    this.load();
+    // this.load();
   },
 
   methods: {
