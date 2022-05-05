@@ -74,11 +74,18 @@ use Laravel\Nova\Card;
 class Analytics extends Card
 {
     /**
-     * The width of the card (1/3, 1/2, or full).
+     * The width of the card (1/3, 2/3, 1/2, 1/4, 3/4, or full).
      *
      * @var string
      */
     public $width = '1/3';
+    
+    /**
+     * The height strategy of the card (fixed or dynamic).
+     *
+     * @var string
+     */
+    public $height = 'fixed';
 
     /**
      * Indicates that the analytics should show current visitors.
