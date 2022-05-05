@@ -122,7 +122,7 @@ By default, all Nova resources are globally searchable; however, you may exclude
 public static $globallySearchable = false;
 ```
 
-### Disabling Global Search Globally
+## Disabling Global Search Globally
 
 If you wish to completely disable global search inside of Nova, you can call the `withoutGlobalSearch` method from your `App/Providers/NovaServiceProvider': 
 
