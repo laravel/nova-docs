@@ -170,8 +170,7 @@ public function cards(NovaRequest $request)
 }
 ```
 
-When the metric width is set to full, by default the height of the card will become dynamic as it offers more flexibility since they'll likely have more content. You can change this behaviour by calling the `height`, `dynamicHeight` or `fixedHeight` method:
-
+When the metric width is set to `full`, the height of the card will become dynamic. You may explicitly define this behaviour by calling the `fixedHeight` or `dynamicHeight` methods:
 
 ```php
 /**
@@ -183,14 +182,7 @@ When the metric width is set to full, by default the height of the card will bec
 public function cards(NovaRequest $request)
 {
     return [
-        // Fixed height...
-        (new Metrics\UsersPerDay)->width('full')->height('fixed'),
-        // or
         (new Metrics\UsersPerDay)->width('full')->fixedHeight(),
-
-        // Dynamic height...
-        (new Metrics\UsersPerDay)->width('full')->height('dynamic'),
-        // or
         (new Metrics\UsersPerDay)->width('full')->dynamicHeight(),
     ];
 }
