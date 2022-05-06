@@ -170,6 +170,24 @@ public function cards(NovaRequest $request)
 }
 ```
 
+When the metric width is set to `full`, the height of the card will become dynamic. You may explicitly define this behaviour by calling the `fixedHeight` or `dynamicHeight` methods:
+
+```php
+/**
+ * Get the cards available for the request.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function cards(NovaRequest $request)
+{
+    return [
+        (new Metrics\UsersPerDay)->width('full')->fixedHeight(),
+        (new Metrics\UsersPerDay)->width('full')->dynamicHeight(),
+    ];
+}
+```
+
 ## Metric Help Text / Tooltips
 
 Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to the metric's value. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/3.0/resources/fields.html#field-help-text):
