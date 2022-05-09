@@ -81,6 +81,6 @@ public function boot()
 {
     parent::boot();
 
-    Nova::withoutNotifications();
+    Nova::withoutNotificationCenter();
 }
 ```
