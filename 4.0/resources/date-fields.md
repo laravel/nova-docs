@@ -12,6 +12,32 @@ Date::make('Birthday'),
 DateTime::make('Created At'),
 ```
 
+### Options
+
+#### Steps
+
+By default, Nova will set minimum step to 1 day for `Date` and 1 second for `DateTime`. You can change the option to both fields using either providing integer or an instance of `Carbon\CarbonInterval`:
+
+```php
+use Carbon\CarbonInterval;
+
+Date::make('Expired On')->step(7),
+
+// Alternatively, you can also use the following:
+Date::make('Expired On')->step(CarbonInterval::weeks(1)),
+```
+
+Similarly, you can also use the same options for `DateTime` field:
+
+```php
+use Carbon\CarbonInterval;
+
+DateTime::make('Published At')->step(60),
+
+// Alternatively, you can also use the following:
+DateTime::make('Published At')->step(CarbonInterval::minutes(1)),
+```
+
 ### Timezones
 
 By default, Nova users will always see dates presented in your application's "server-side" timezone as defined by the `timezone` configuration option in your application's `config/app.php` configuration file.
