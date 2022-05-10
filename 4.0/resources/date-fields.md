@@ -45,10 +45,14 @@ Sometimes you may wish to explicitly define minimum and maximum `Date` or `DateT
 ```php
 use Carbon\Carbon;
 
-Date::make('Expired On')->min('tomorrow')->max('next week'),
+Date::make('Expired On')
+    ->min('tomorrow')
+    ->max('next week'),
 
 // Alternatively, you can also use the following:
-Date::make('Expired On')->min(Carbon::tomorrow())->max(Carbon::today()->addWeek(1)),
+Date::make('Expired On')
+    ->min(Carbon::tomorrow())
+    ->max(Carbon::today()->addWeek(1)),
 ```
 
 ### Timezones
