@@ -353,6 +353,18 @@ Badge::make('Status')->addTypes([
 By default the `Badge` field is not shown on a resource's edit or update pages. If you wish to modify the underlying value represented by the `Badge` field on your edit forms, define another field in combination with the `onlyOnForms` field option.
 :::
 
+If you'd like to display your badge with an associate icon, you can use the `icons` method to specify which icon should be used with the value:
+
+```php
+Badge::make('Status')->map([
+    'draft' => 'danger',
+    'published' => 'success',
+])->icons([
+    'danger' => 'exclamation-circle',
+    'success' => 'check-circle',
+]),
+```
+
 ### Boolean Field
 
 The `Boolean` field may be used to represent a boolean / "tiny integer" column in your database. For example, assuming your database has a boolean column named `active`, you may attach a `Boolean` field to your resource like so:
