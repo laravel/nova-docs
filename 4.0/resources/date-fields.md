@@ -38,6 +38,19 @@ DateTime::make('Published At')->step(60),
 DateTime::make('Published At')->step(CarbonInterval::minutes(1)),
 ```
 
+#### Minimum and Maximum Values
+
+Sometimes you may wish to explicitly define minimum and maximum `Date` or `DateTime` values. This can be done by passing valid date expression or date format supported by `strtotime` or directly pass an instance of `Carbon\CarbonInterface`:
+
+```php
+use Carbon\Carbon;
+
+Date::make('Expired On')->min('tomorrow')->max('next week'),
+
+// Alternatively, you can also use the following:
+Date::make('Expired On')->min(Carbon::tomorrow())->max(Carbon::today()->addWeek(1)),
+```
+
 ### Timezones
 
 By default, Nova users will always see dates presented in your application's "server-side" timezone as defined by the `timezone` configuration option in your application's `config/app.php` configuration file.
