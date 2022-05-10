@@ -267,6 +267,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Currency](#currency-field)
 - [Date](#date-field)
 - [DateTime](#datetime-field)
+- [Email](#email-field)
 - [File](#file-field)
 - [Gravatar](#gravatar-field)
 - [Heading](#heading-field)
@@ -587,6 +588,16 @@ The `DateTime` field may be used to store a date-time value. For more informatio
 use Laravel\Nova\Fields\DateTime;
 
 DateTime::make('Updated At')->hideFromIndex(),
+```
+
+### Email Field
+
+The `Email` field may be used to display a column with a `mailto:` link on the index and detail views: 
+
+```php
+use Laravel\Nova\Fields\File;
+
+Email::make('Email'),
 ```
 
 ### File Field
