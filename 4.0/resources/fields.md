@@ -354,7 +354,16 @@ Badge::make('Status')->addTypes([
 By default the `Badge` field is not shown on a resource's edit or update pages. If you wish to modify the underlying value represented by the `Badge` field on your edit forms, define another field in combination with the `onlyOnForms` field option.
 :::
 
-If you'd like to display your badge with an associate icon, you can use the `icons` method to specify which icon should be used with the value:
+If you'd like to display your badge with an associated icon, you can use the `withIcons` method to direct Nova to display an icon: 
+
+```php
+Badge::make('Status')->map([
+    'draft' => 'danger',
+    'published' => 'success',
+])->withIcons(),
+```
+
+If you'd like to customize the icons used when display `Badge` fields you can use the `icons` method:
 
 ```php
 Badge::make('Status')->map([
@@ -365,6 +374,7 @@ Badge::make('Status')->map([
     'success' => 'check-circle',
 ]),
 ```
+
 
 ### Boolean Field
 
