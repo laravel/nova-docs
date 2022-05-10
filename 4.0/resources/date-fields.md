@@ -16,31 +16,21 @@ DateTime::make('Created At'),
 
 #### Steps
 
-By default, Nova will set minimum step to 1 day for `Date` and 1 second for `DateTime`. You can change the option to both fields using either providing integer or an instance of `Carbon\CarbonInterval`:
+By default, Nova will set a minimum "step" of 1 day for `Date` fields and 1 second for `DateTime` fields. You may modify the "step" value for both of these fields by providing an integer or `Carbon\CarbonInterval` to the field's `step` methods:
 
 ```php
 use Carbon\CarbonInterval;
 
 Date::make('Expired On')->step(7),
-
-// Alternatively, you can also use the following:
 Date::make('Expired On')->step(CarbonInterval::weeks(1)),
-```
-
-Similarly, you can also use the same options for `DateTime` field:
-
-```php
-use Carbon\CarbonInterval;
 
 DateTime::make('Published At')->step(60),
-
-// Alternatively, you can also use the following:
 DateTime::make('Published At')->step(CarbonInterval::minutes(1)),
 ```
 
 #### Minimum and Maximum Values
 
-Sometimes you may wish to explicitly define minimum and maximum `Date` or `DateTime` values. This can be done by passing valid date expression or date format supported by `strtotime` or directly pass an instance of `Carbon\CarbonInterface`:
+Sometimes you may wish to explicitly define minimum and maximum values for `Date` or `DateTime` fields. This can be done by passing a valid date expression, a date format supported by `strtotime`, or an instance of `Carbon\CarbonInterface` to the `min` and `max` methods of these fields:
 
 ```php
 use Carbon\Carbon;
@@ -49,7 +39,6 @@ Date::make('Expired On')
     ->min('tomorrow')
     ->max('next week'),
 
-// Alternatively, you can also use the following:
 Date::make('Expired On')
     ->min(Carbon::tomorrow())
     ->max(Carbon::today()->addWeek(1)),
