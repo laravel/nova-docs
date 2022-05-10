@@ -158,7 +158,7 @@ To customize the logo used at the top left of the Nova interface, you may specif
 
 ```php
 'brand' => [
-    'logo' => realpath(__DIR__.'/../public/img/example-logo.svg'),
+    'logo' => resource_path('/img/example-logo.svg'),
 
     // ...
 ],
