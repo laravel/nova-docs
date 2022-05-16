@@ -607,7 +607,9 @@ The `Email` field may be used to display a column with a `mailto:` link on the i
 ```php
 use Laravel\Nova\Fields\Email;
 
-Email::make('Email'),
+Email::make(),
+
+Email::make('Customer Email', 'customer_email'),
 ```
 
 ### File Field
