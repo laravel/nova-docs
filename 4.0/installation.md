@@ -86,7 +86,7 @@ After your `composer.json` file has been updated, run the `composer update` comm
 composer update --prefer-dist
 ```
 
-When running `composer update`, you will be prompted to provide your Nova website username and [license key](https://nova.laravel.com/licenses), which should be used in place of your password. These credentials will authenticate your Composer session as having permission to download the Nova source code.
+When running `composer update`, you will be prompted to provide a username and password. You should use your Nova website email for the username and a [license key](https://nova.laravel.com/licenses) should be used as the password. These credentials will authenticate your Composer session as having permission to download the Nova source code.
 
 To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while using your [license key](https://nova.laravel.com/licenses) in place of your password.
 
