@@ -91,7 +91,7 @@ When running `composer update`, you will be prompted to provide a username and p
 To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) while using your [license key](https://nova.laravel.com/licenses) in place of your password:
 
 ```bash
-composer config http-basic.nova.laravel.com your-nova-account@your-domain.com your-license-key
+composer config http-basic.nova.laravel.com your-nova-account-email@your-domain.com your-license-key
 ```
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
