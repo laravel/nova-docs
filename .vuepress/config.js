@@ -3,9 +3,16 @@ module.exports = {
   description: "Master Your Universe",
   base: "/docs/",
 
-  serviceWorker: true,
-
-  plugins: ["@vuepress/pwa", require("./plugins/metaVersion.js")],
+  plugins: [
+    [
+      '@vuepress/pwa',
+      {
+        serviceWorker: true,
+        updatePopup: true
+      },
+    ],
+    require("./plugins/metaVersion.js")
+  ],
 
   head: [
     [
