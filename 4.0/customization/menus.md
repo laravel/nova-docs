@@ -43,7 +43,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-    
+
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(Main::class)->icon('chart-bar'),
@@ -196,6 +196,33 @@ MenuSection::make('Resources', [
 
 Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
 
+#### Menu Section Badges
+
+You may add visual badges to your menu section by calling the `withBadge` method on your `MenuSection` and specifying the options for the badge:
+
+```php
+use Laravel\Nova\Menu\MenuSection;
+use Laravel\Nova\Badge;
+
+// Passing a string directly
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadge('New!', 'success')
+    ->icon('document-text')
+
+// Passing a Laravel\Nova\Badge instance directly
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadge(Badge::make('New!', 'info'))
+    ->icon('document-text')
+
+// Using a closure to resolve the value
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadge(fn () => static::$model::count(), 'warning')
+    ->icon('document-text')
+```
+
 #### Collapsable Menu Sections
 
 You may make your menu sections collapsable by invoking the `collapsable` method when defining the menu section. For convenience, Nova will remember the open state for the section between requests:
@@ -288,6 +315,31 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
         data: ['user' => 'hemp'],
         headers: ['API_TOKEN' => 'abcdefg1234567']
     )
+```
+
+#### Menu Item Badges
+
+You may add visual badges to your menu section by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
+
+```php
+use App\Nova\Dashboards\Issue;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Badge;
+
+// Passing a string directly
+MenuItem::dashboard(Issue::class)
+    ->withBadge('New!', 'info')
+    ->icon('document-text')
+
+// Passing a Laravel\Nova\Badge instance directly
+MenuItem::dashboard(Issue::class)
+    ->withBadge(Badge::make('New!', 'info'))
+    ->icon('document-text')
+
+// Using a closure to resolve the value
+MenuItem::dashboard(Issue::class)
+    ->withBadge(fn() => 13, 'danger')
+    ->icon('document-text')
 ```
 
 #### Authorizing Menu Items
