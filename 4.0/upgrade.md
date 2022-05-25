@@ -245,7 +245,7 @@ Unfortunately, Algolia is [retiring their "Places" API](https://www.algolia.com/
 To ease upgrading custom packages to Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` directory to your own custom package:
 
 * `nova.mix.js`
-* `packages.js` 
+* `packages.json` 
 * `webpack.mix.js`
 :::
 
