@@ -605,9 +605,11 @@ DateTime::make('Updated At')->hideFromIndex(),
 The `Email` field may be used to display a column with a `mailto:` link on the index and detail views: 
 
 ```php
-use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\Email;
 
-Email::make('Email'),
+Email::make(),
+
+Email::make('Customer Email', 'customer_email'),
 ```
 
 ### File Field
