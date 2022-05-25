@@ -322,7 +322,7 @@ Nova::router()
 To ease upgrading custom packages to support Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` especially the following files:
 
 * `nova.mix.js`
-* `packages.js` 
+* `packages.json` 
 * `webpack.mix.js`
 :::
 
