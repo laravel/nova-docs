@@ -249,7 +249,7 @@ To ease upgrading custom packages to Nova 4, please review and copy the followin
 * `webpack.mix.js`
 :::
 
-Since Nova 4 upgrades our frontend dependencies to Inertia, Vue 3, and Tailwind 3, it is necessary to review all custom tools and upgrade them accordingly. A general overview of the necessary changes can be found below; however, your custom Nova packages may require additional changes if they are depending on third-party packages that only support Vue 2 or prior versions of Tailwind.
+Since Nova 4 upgrades our frontend dependencies to Inertia, Vue 3, and Tailwind 2, it is necessary to review all custom tools and upgrade them accordingly. A general overview of the necessary changes can be found below; however, your custom Nova packages may require additional changes if they are depending on third-party packages that only support Vue 2 or prior versions of Tailwind.
 
 #### Vue 3
 
