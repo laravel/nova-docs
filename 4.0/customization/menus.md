@@ -329,17 +329,14 @@ use Laravel\Nova\Badge;
 // Passing a string directly
 MenuItem::dashboard(Issue::class)
     ->withBadge('New!', 'info')
-    ->icon('document-text')
 
 // Passing a Laravel\Nova\Badge instance directly
 MenuItem::dashboard(Issue::class)
     ->withBadge(Badge::make('New!', 'info'))
-    ->icon('document-text')
 
 // Using a closure to resolve the value
 MenuItem::dashboard(Issue::class)
     ->withBadge(fn() => 13, 'danger')
-    ->icon('document-text')
 ```
 
 #### Authorizing Menu Items
