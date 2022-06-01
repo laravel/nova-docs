@@ -527,6 +527,32 @@ You may wish to customize the search debounce timing of an individual resource's
 public static $debounce = 0.5; // 0.5 seconds
 ```
 
+## Resource Replication
+
+Sometimes, you may want to create a new resource while using all of the data from an existing resource as a starting point. Nova's new resource replication feature does just that. After clicking the replicate button, you'll be whisked away to a resource creation form with all of the replicated resource's data hydrated into the form and ready for tweaking:
+
+![Resource Replication](./../img/replicate.png)
+
+To customised the replication model, you can override the `replicate` method on the resource class:
+
+```php
+/**
+ * Return a replicated resource.
+ *
+ * @return static
+ *
+ * @throws \InvalidArgumentException
+ */
+public function replicate()
+{
+    return tap(parent::replicate(), function ($resource) {
+        $model = $resource->model();
+
+        $model->name = 'Duplicate of '.$model->name;
+    });
+}
+```
+
 ## Keyboard Shortcuts
 
 You may press the `C` key on a resource index to navigate to the "Create Resource" page. On the resource detail page, the `E` key may be used to navigate to the "Update Resource" page.
