@@ -157,6 +157,32 @@ For example, if you access a `Post` resource's `user` relationship within the `P
 public static $with = ['user'];
 ```
 
+## Resource Replication
+
+Sometimes, you may want to create a new resource while using all of the data from an existing resource as a starting point. Nova's resource replication feature does just that. After clicking the replicate button, you'll be whisked away to a resource creation form with all of the replicated resource's data hydrated into the form and ready for tweaking:
+
+![Resource Replication](./../img/replicate.png)
+
+To customize the replication model, you can override the `replicate` method on the resource class:
+
+```php
+/**
+ * Return a replicated resource.
+ *
+ * @return static
+ *
+ * @throws \InvalidArgumentException
+ */
+public function replicate()
+{
+    return tap(parent::replicate(), function ($resource) {
+        $model = $resource->model();
+
+        $model->name = 'Duplicate of '.$model->name;
+    });
+}
+```
+
 ## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a Laravel [model observer](https://laravel.com/docs/eloquent#observers) to a model:
