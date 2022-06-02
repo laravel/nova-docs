@@ -128,7 +128,6 @@ If you wish to completely disable global search inside of Nova, you can call the
 
 ```php
 use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\Blade;
 
 /**
  * Boot any application services.

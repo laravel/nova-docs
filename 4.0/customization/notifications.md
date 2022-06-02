@@ -66,11 +66,10 @@ Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Sc
 
 ## Disabling Notifications
 
-If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider': 
+If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider`: 
 
 ```php
 use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\Blade;
 
 /**
  * Boot any application services.
