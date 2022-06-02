@@ -277,5 +277,5 @@ npm run watch
 
 ::: tip The <code>nova:install</code> NPM Command
 
-The `nova:install` NPM command prepare Nova's `node_modules` dependencies used to interact with Nova's mixins. Please refer to the [Nova mixins](./frontend.html#using-nova-mixins) documentation for more information.
+The `nova:install` NPM command installs the mixins used by Nova's built-in fields for use in your field. Please refer to the [Nova mixins](./frontend.html#using-nova-mixins) documentation for more information.
 :::
