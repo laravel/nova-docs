@@ -124,7 +124,7 @@ public static $globallySearchable = false;
 
 ## Disabling Global Search Globally
 
-If you wish to completely disable global search inside of Nova, you can call the `withoutGlobalSearch` method from your `App/Providers/NovaServiceProvider': 
+If you wish to completely disable global search inside of Nova, you can call the `withoutGlobalSearch` method from your `App/Providers/NovaServiceProvider`: 
 
 ```php
 use Laravel\Nova\Nova;
