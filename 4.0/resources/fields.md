@@ -1575,6 +1575,7 @@ The following field types may depend on other fields:
 - Country
 - Currency
 - File
+- Heading
 - Hidden
 - Image
 - KeyValue
