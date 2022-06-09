@@ -204,7 +204,6 @@ use Laravel\Nova\Menu\MenuSection;
 MenuSection::lens(User::class, MostValuableUsers::class)
 ```
 
-
 :::warning Menu Sections As Links
 Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
 :::
@@ -248,6 +247,27 @@ MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
     ->withBadge(fn () => static::$model::count(), 'warning')
     ->icon('document-text')
+```
+
+##### Conditional Badges 
+
+You may also conditionally add badge only if the condition is met.
+
+```php
+// Passing a string directly
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf('New!', 'info', fn() => static::$model()->count() > 0)
+
+// Passing a Laravel\Nova\Badge instance directly
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+
+// Using a closure to resolve the value
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf(fn() => 'New!', 'info', fn() => static::$model()->count() > 0)
 ```
 
 #### Collapsable Menu Sections
@@ -323,7 +343,6 @@ use Laravel\Nova\Menu\MenuItem;
 
 MenuItem::lens(User::class, MostValuableUsers::class)
 ```
-
 
 Similarly, you may create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
 
