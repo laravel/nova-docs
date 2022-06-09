@@ -139,22 +139,29 @@ Menu sections represent a top-level navigation item and are typically displayed 
 
 ```php
 use App\Nova\Dashboards\Sales;
+use App\Nova\Lenses\MostValuableUsers;
 use App\Nova\License;
 use App\Nova\Refund;
+use App\Nova\User;
 use Illuminate\Http\Request;
+use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 
-Nova::mainMenu(function (Request $request) {
+Nova::mainMenu(function (Request $request, Menu $menu) {
     return [
         MenuSection::make('Business', [
             MenuGroup::make('Licensing', [
-                MenuItem::dashboard('Sales', Sales::class),
-                MenuItem::resource('Licenses', License::class),
-                MenuItem::resource('Refunds', Refund::class),
+                MenuItem::dashboard(Sales::class),
+                MenuItem::resource(License::class),
+                MenuItem::resource(Refund::class),
                 MenuItem::externalLink('Stripe Payments', 'https://dashboard.stripe.com/payments?status%5B%5D=successful'),
+            ]),
+
+            MenuGroup::make('Customers', [
+                MenuItem::lens(User::class, MostValuableUsers::class),
             ]),
         ]),
     ];
@@ -175,7 +182,7 @@ For convenience, if you are only creating a menu section to serve as a large, em
 use App\Nova\Dashboards\Sales;
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::dashboard('Sales', Sales::class),
+MenuSection::dashboard(Sales::class),
 ```
 
 :::warning Menu Sections As Links
