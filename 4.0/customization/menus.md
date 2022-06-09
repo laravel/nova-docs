@@ -357,7 +357,7 @@ MenuItem::dashboard(Issue::class)
 
 // Passing a Laravel\Nova\Badge instance directly
 MenuItem::dashboard(Issue::class)
-    ->withBadgeIF(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
 
 // Using a closure to resolve the value
 MenuItem::dashboard(Issue::class)
