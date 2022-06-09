@@ -326,7 +326,7 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
 
 #### Menu Item Badges
 
-You may add visual badges to your menu section by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
+You may add visual badges to your menu item by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
 
 ```php
 use App\Nova\Dashboards\Issue;
@@ -344,6 +344,24 @@ MenuItem::dashboard(Issue::class)
 // Using a closure to resolve the value
 MenuItem::dashboard(Issue::class)
     ->withBadge(fn() => 13, 'danger')
+```
+
+##### Conditional Badges 
+
+You may also conditionally add badge only if the condition is met.
+
+```php
+// Passing a string directly
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIf('New!', 'info', fn() => static::$model()->count() > 0)
+
+// Passing a Laravel\Nova\Badge instance directly
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIF(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+
+// Using a closure to resolve the value
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIf(fn() => 'New!', 'info', fn() => static::$model()->count() > 0)
 ```
 
 #### Authorizing Menu Items
