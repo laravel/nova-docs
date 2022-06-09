@@ -294,6 +294,17 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::resource(User::class)
 ```
 
+You also can create links to Nova lens, you may use the `lens` method to quickly create a link to the appropriate path for the given lens:
+
+```php
+use App\Nova\Lenses\MostValuableUsers;
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+
+MenuItem::lens(User::class, MostValuableUsers::class)
+```
+
+
 Similarly, you may create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
 
 ```php
