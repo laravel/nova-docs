@@ -194,7 +194,7 @@ use Laravel\Nova\Menu\MenuSection;
 MenuSection::resource(User::class)
 ```
 
-You also can create links to Nova lens, you may use the `lens` method to quickly create a link to the appropriate path for the given lens:
+Similarly, you may create links to Nova lenses via the `lens` method:
 
 ```php
 use App\Nova\Lenses\MostValuableUsers;
@@ -205,6 +205,7 @@ MenuSection::lens(User::class, MostValuableUsers::class)
 ```
 
 :::warning Menu Sections As Links
+
 Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
 :::
 
@@ -251,23 +252,23 @@ MenuSection::make('New Issues')
 
 ##### Conditional Badges 
 
-You may also conditionally add badge only if the condition is met.
+Using the `withBadgeIf` method, you may conditionally add a badge only if a given condition is met:
 
 ```php
-// Passing a string directly
+// Passing a string directly...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf('New!', 'info', fn() => static::$model()->count() > 0)
+    ->withBadgeIf('New!', 'info', fn () => static::$model()->count() > 0)
 
-// Passing a Laravel\Nova\Badge instance directly
+// Passing a Laravel\Nova\Badge instance...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn () => static::$model()->count() > 0)
 
-// Using a closure to resolve the value
+// Using a closure to resolve the value...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(fn() => 'New!', 'info', fn() => static::$model()->count() > 0)
+    ->withBadgeIf(fn() => 'New!', 'info', fn () => static::$model()->count() > 0)
 ```
 
 #### Collapsable Menu Sections
@@ -334,7 +335,7 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::resource(User::class)
 ```
 
-You also can create links to Nova lens, you may use the `lens` method to quickly create a link to the appropriate path for the given lens:
+Similarly, you may create links to Nova lenses via the `lens` method:
 
 ```php
 use App\Nova\Lenses\MostValuableUsers;
