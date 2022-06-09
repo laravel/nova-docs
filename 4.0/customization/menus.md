@@ -185,6 +185,26 @@ use Laravel\Nova\Menu\MenuSection;
 MenuSection::dashboard(Sales::class),
 ```
 
+Since you will often be creating links to Nova resources, you may use the `resource` method to quickly create a link to the appropriate path for a given resource:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuSection;
+
+MenuSection::resource(User::class)
+```
+
+You also can create links to Nova lens, you may use the `lens` method to quickly create a link to the appropriate path for the given lens:
+
+```php
+use App\Nova\Lenses\MostValuableUsers;
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuSection;
+
+MenuSection::lens(User::class, MostValuableUsers::class)
+```
+
+
 :::warning Menu Sections As Links
 Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
 :::
