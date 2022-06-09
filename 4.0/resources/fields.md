@@ -146,11 +146,12 @@ The available methods that may be defined for individual display contexts are:
 
 - `fieldsForIndex`
 - `fieldsForDetail`
+- `fieldsForInlineCreate`
 - `fieldsForCreate`
 - `fieldsForUpdate`
 
 :::tip Dynamic Field Methods Precedence ::
-The `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
+The `fieldsForIndex`, `fieldsForDetail`, `fieldsForInlineCreate`, `fieldsForCreate`, and `fieldsForUpdate` methods always take precedence over the `fields` method.
 :::
 
 ## Default Values
