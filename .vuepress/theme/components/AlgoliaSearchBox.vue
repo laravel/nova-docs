@@ -29,8 +29,10 @@ export default {
 
   methods: {
     initialize (userOptions, lang) {
-      console.dir({ page: this.$page.path.replace(/^\/([1-4]\.0)\/(.*)/g, 'version:$1.0') })
-      const facetFilters = [this.$page.path.replace(/^\/([1-4]\.0)\/(.*)/g, 'version:$1.0')]
+      const path = this.$page.path
+      const regex = /^\/([1-4]\.0)\/(.*)/g
+      const facetFilters = path.match(regex) ? [this.$page.path.replace(regex, 'version:$1.0')] : null
+
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
@@ -44,7 +46,7 @@ export default {
             inputSelector: '#algolia-search-input',
             // #697 Make docsearch work well at i18n mode.
             algoliaOptions: Object.assign({
-              'facetFilters': [`lang:${lang}`].concat(algoliaOptions.facetFilters || [])
+              'facetFilters': [`lang:${lang}`].concat(facetFilters || algoliaOptions.facetFilters || [])
             }, algoliaOptions),
             handleSelected: (input, event, suggestion) => {
               // MODIFICATION_FROM_THEME - old
