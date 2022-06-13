@@ -139,22 +139,29 @@ Menu sections represent a top-level navigation item and are typically displayed 
 
 ```php
 use App\Nova\Dashboards\Sales;
+use App\Nova\Lenses\MostValuableUsers;
 use App\Nova\License;
 use App\Nova\Refund;
+use App\Nova\User;
 use Illuminate\Http\Request;
+use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 
-Nova::mainMenu(function (Request $request) {
+Nova::mainMenu(function (Request $request, Menu $menu) {
     return [
         MenuSection::make('Business', [
             MenuGroup::make('Licensing', [
-                MenuItem::dashboard('Sales', Sales::class),
-                MenuItem::resource('Licenses', License::class),
-                MenuItem::resource('Refunds', Refund::class),
+                MenuItem::dashboard(Sales::class),
+                MenuItem::resource(License::class),
+                MenuItem::resource(Refund::class),
                 MenuItem::externalLink('Stripe Payments', 'https://dashboard.stripe.com/payments?status%5B%5D=successful'),
+            ]),
+
+            MenuGroup::make('Customers', [
+                MenuItem::lens(User::class, MostValuableUsers::class),
             ]),
         ]),
     ];
@@ -175,10 +182,30 @@ For convenience, if you are only creating a menu section to serve as a large, em
 use App\Nova\Dashboards\Sales;
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::dashboard('Sales', Sales::class),
+MenuSection::dashboard(Sales::class),
+```
+
+Since you will often be creating links to Nova resources, you may use the `resource` method to quickly create a link to the appropriate path for a given resource:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuSection;
+
+MenuSection::resource(User::class)
+```
+
+Similarly, you may create links to Nova lenses via the `lens` method:
+
+```php
+use App\Nova\Lenses\MostValuableUsers;
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuSection;
+
+MenuSection::lens(User::class, MostValuableUsers::class)
 ```
 
 :::warning Menu Sections As Links
+
 Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
 :::
 
@@ -221,6 +248,27 @@ MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
     ->withBadge(fn () => static::$model::count(), 'warning')
     ->icon('document-text')
+```
+
+##### Conditional Badges 
+
+Using the `withBadgeIf` method, you may conditionally add a badge only if a given condition is met:
+
+```php
+// Passing a string directly...
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf('New!', 'info', fn () => static::$model()->count() > 0)
+
+// Passing a Laravel\Nova\Badge instance...
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf(Badge::make('New!', 'info'), fn () => static::$model()->count() > 0)
+
+// Using a closure to resolve the value...
+MenuSection::make('New Issues')
+    ->path('/resources/issues/lens/new-issues')
+    ->withBadgeIf(fn() => 'New!', 'info', fn () => static::$model()->count() > 0)
 ```
 
 #### Collapsable Menu Sections
@@ -287,6 +335,16 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::resource(User::class)
 ```
 
+Similarly, you may create links to Nova lenses via the `lens` method:
+
+```php
+use App\Nova\Lenses\MostValuableUsers;
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+
+MenuItem::lens(User::class, MostValuableUsers::class)
+```
+
 Similarly, you may create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
 
 ```php
@@ -319,7 +377,7 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
 
 #### Menu Item Badges
 
-You may add visual badges to your menu section by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
+You may add visual badges to your menu item by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
 
 ```php
 use App\Nova\Dashboards\Issue;
@@ -337,6 +395,24 @@ MenuItem::dashboard(Issue::class)
 // Using a closure to resolve the value
 MenuItem::dashboard(Issue::class)
     ->withBadge(fn() => 13, 'danger')
+```
+
+##### Conditional Badges 
+
+You may also conditionally add badge only if the condition is met.
+
+```php
+// Passing a string directly
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIf('New!', 'info', fn() => static::$model()->count() > 0)
+
+// Passing a Laravel\Nova\Badge instance directly
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+
+// Using a closure to resolve the value
+MenuItem::dashboard(Issue::class)
+    ->withBadgeIf(fn() => 'New!', 'info', fn() => static::$model()->count() > 0)
 ```
 
 #### Authorizing Menu Items

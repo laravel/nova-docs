@@ -259,6 +259,9 @@ Your components are bootstrapped and registered in the `resources/js/field.js` f
 Your Nova field contains a `webpack.mix.js` file, which is generated when Nova creates your field. You may build your field using the NPM `dev` and `prod` commands:
 
 ```bash
+# Prepare Laravel Nova's dependencies...
+npm run nova:install
+
 # Compile your assets for local development...
 npm run dev
 
@@ -271,3 +274,8 @@ In addition, you may run the NPM `watch` command to auto-compile your assets whe
 ```bash
 npm run watch
 ```
+
+::: tip The <code>nova:install</code> NPM Command
+
+The `nova:install` NPM command installs the mixins used by Nova's built-in fields for use in your field. Please refer to the [Nova mixins](./frontend.html#using-nova-mixins) documentation for more information.
+:::
