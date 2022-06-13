@@ -29,6 +29,8 @@ export default {
 
   methods: {
     initialize (userOptions, lang) {
+      console.dir({ page: this.$page.path.replace(/^\/([1-4]\.0)\/(.*)/g, 'version:$1.0') })
+      const facetFilters = [this.$page.path.replace(/^\/([1-4]\.0)\/(.*)/g, 'version:$1.0')]
       Promise.all([
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.js'),
         import(/* webpackChunkName: "docsearch" */ 'docsearch.js/dist/cdn/docsearch.min.css')
