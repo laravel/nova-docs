@@ -228,6 +228,7 @@ Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Sc
 You may add visual badges to your menu section by calling the `withBadge` method on your `MenuSection` and specifying the options for the badge:
 
 ```php
+use App\Models\Issue;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Badge;
 
@@ -246,29 +247,33 @@ MenuSection::make('New Issues')
 // Using a closure to resolve the value
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadge(fn () => static::$model::count(), 'warning')
+    ->withBadge(fn () => Issue::count(), 'warning')
     ->icon('document-text')
 ```
 
-##### Conditional Badges 
+##### Conditional Badges
 
 Using the `withBadgeIf` method, you may conditionally add a badge only if a given condition is met:
 
 ```php
+use App\Models\Issue;
+use Laravel\Nova\Menu\MenuSection;
+use Laravel\Nova\Badge;
+
 // Passing a string directly...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf('New!', 'info', fn () => static::$model()->count() > 0)
+    ->withBadgeIf('New!', 'info', fn () => Issue::count() > 0)
 
 // Passing a Laravel\Nova\Badge instance...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(Badge::make('New!', 'info'), fn () => static::$model()->count() > 0)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn () => Issue::count() > 0)
 
 // Using a closure to resolve the value...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(fn() => 'New!', 'info', fn () => static::$model()->count() > 0)
+    ->withBadgeIf(fn() => 'New!', 'info', fn () => Issue::count() > 0)
 ```
 
 #### Collapsable Menu Sections
@@ -397,22 +402,25 @@ MenuItem::dashboard(Issue::class)
     ->withBadge(fn() => 13, 'danger')
 ```
 
-##### Conditional Badges 
+##### Conditional Badges
 
 You may also conditionally add badge only if the condition is met.
 
 ```php
+use App\Nova\Issue;
+use Laravel\Nova\Menu\MenuItem;
+
 // Passing a string directly
-MenuItem::dashboard(Issue::class)
-    ->withBadgeIf('New!', 'info', fn() => static::$model()->count() > 0)
+MenuItem::resource(Issue::class)
+    ->withBadgeIf('New!', 'info', fn() => Issue::newModel()->count() > 0)
 
 // Passing a Laravel\Nova\Badge instance directly
-MenuItem::dashboard(Issue::class)
-    ->withBadgeIf(Badge::make('New!', 'info'), fn() => static::$model()->count() > 0)
+MenuItem::resource(Issue::class)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn() => Issue::newModel()->count() > 0)
 
 // Using a closure to resolve the value
-MenuItem::dashboard(Issue::class)
-    ->withBadgeIf(fn() => 'New!', 'info', fn() => static::$model()->count() > 0)
+MenuItem::resource(Issue::class)
+    ->withBadgeIf(fn() => 'New!', 'info', fn() => Issue::newModel()->count() > 0)
 ```
 
 #### Authorizing Menu Items

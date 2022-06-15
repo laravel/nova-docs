@@ -91,6 +91,28 @@ If you do not want a resource to appear in the sidebar, you may override the `di
 public static $displayInNavigation = false;
 ```
 
+#### Customizing Resource Menu Items
+
+You can customize the resource's menu item by defining a `menuItem` method on your resource class:
+
+```php
+use Laravel\Nova\Menu\MenuItem;
+
+/**
+ * Get the menu item that should represent the resource.
+ *
+ * @return \Laravel\Nova\Menu\MenuItem
+ */
+public static function menuItem()
+{
+    return MenuItem::resource(static::class)->withBadge(function () {
+        return static::$model::count();
+    });
+}
+```
+
+Please refer to our documentation regarding [menu item customization](./../customization/menus.html#menu-item-badges) for more information.
+
 ## Grouping Resources
 
 If you would like to separate resources into different sidebar groups, you may override the `group` property of your resource class:
