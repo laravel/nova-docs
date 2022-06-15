@@ -133,7 +133,7 @@ use Laravel\Nova\Menu\MenuItem;
 public function menuItem()
 {
     return MenuItem::dashboard(static::class)->withBadge(function () {
-        return 'NEW!'
+        return 'NEW!';
     });
 }
 ```
