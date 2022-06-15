@@ -91,6 +91,28 @@ If you do not want a resource to appear in the sidebar, you may override the `di
 public static $displayInNavigation = false;
 ```
 
+#### Customizing Generated Menu
+
+You can customise the generated menu and add Badge by adding the `menuItem` static method in your resource class:
+
+```php
+use Laravel\Nova\Menu\MenuItem;
+
+/**
+ * Return the menu item that should represent the resource.
+ *
+ * @return \Laravel\Nova\Menu\MenuItem
+ */
+public static function menuItem()
+{
+    return MenuItem::resource(static::class)->withBadge(function () {
+        return static::$model::count();
+    });
+}
+```
+
+Please refer to our documentation regarding [Menu Item customization](./../customization/menus.html#menu-item-badges) for more information.
+
 ## Grouping Resources
 
 If you would like to separate resources into different sidebar groups, you may override the `group` property of your resource class:

@@ -118,6 +118,28 @@ protected function dashboards()
 }
 ```
 
+#### Customizing Generated Menu
+
+You can customise the generated menu and add Badge by adding the `menuItem` method in your dashboard class:
+
+```php
+use Laravel\Nova\Menu\MenuItem;
+
+/**
+ * Return the menu item that should represent the dashboard.
+ *
+ * @return \Laravel\Nova\Menu\MenuItem
+ */
+public function menuItem()
+{
+    return MenuItem::dashboard(static::class)->withBadge(function () {
+        return 'NEW!'
+    });
+}
+```
+
+Please refer to our documentation regarding [Menu Item customization](./menus.html#menu-item-badges) for more information.
+
 ### Authorization
 
 If you would like to only expose a given dashboard to certain users, you may invoke the `canSee` method when registering your dashboard. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
