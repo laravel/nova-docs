@@ -1036,7 +1036,7 @@ Status::make('Status')
 
 ### Stack Field
 
-As you resource classes grow, you may find it useful to be able to group fields together to simplify your index and detail views. A `Stack` field allows you to display fields like `BelongsTo`, `Text`, and others in a vertical orientation:
+As your resource classes grow, you may find it useful to be able to group fields together to simplify your index and detail views. A `Stack` field allows you to display fields like `BelongsTo`, `Text`, and others in a vertical orientation:
 
 ```php
 Stack::make('Details', [
