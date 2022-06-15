@@ -118,27 +118,28 @@ protected function dashboards()
 }
 ```
 
-#### Customizing Dashboard Menu Items
+#### Customizing Dashboard Menus
 
-You can customize the dashboard's menu item by defining a `menuItem` method on your dashboard class:
+You can customize the dashboard's menu by defining a `menu` method on your dashboard class:
 
 ```php
+use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuItem;
 
 /**
- * Get the menu item that should represent the dashboard.
+ * Get the menu that should represent the dashboard.
  *
  * @return \Laravel\Nova\Menu\MenuItem
  */
-public function menuItem()
+public function menu(Request $request)
 {
-    return MenuItem::dashboard(static::class)->withBadge(function () {
+    return parent::menu($request)->withBadge(function () {
         return 'NEW!';
     });
 }
 ```
 
-Please refer to our documentation regarding [menu item customization](./menus.html#menu-item-badges) for more information.
+Please refer to the documentation on [menu customization](./menus) for more information.
 
 ### Authorization
 

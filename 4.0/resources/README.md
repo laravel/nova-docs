@@ -91,27 +91,28 @@ If you do not want a resource to appear in the sidebar, you may override the `di
 public static $displayInNavigation = false;
 ```
 
-#### Customizing Resource Menu Items
+#### Customizing Resource Menus
 
-You can customize the resource's menu item by defining a `menuItem` method on your resource class:
+You can customize the resource's menu by defining a `menu` method on your resource class:
 
 ```php
+use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuItem;
 
 /**
- * Get the menu item that should represent the resource.
+ * Get the menu that should represent the resource.
  *
  * @return \Laravel\Nova\Menu\MenuItem
  */
-public static function menuItem()
+public static function menu(Request $request)
 {
-    return MenuItem::resource(static::class)->withBadge(function () {
+    return parent::menu($request)->withBadge(function () {
         return static::$model::count();
     });
 }
 ```
 
-Please refer to our documentation regarding [menu item customization](./../customization/menus.html#menu-item-badges) for more information.
+Please refer to the documentation on [menu customization](./menus) for more information.
 
 ## Grouping Resources
 
@@ -292,10 +293,10 @@ class UserObserver
 
 Nova also allows you to define the following static methods on a resource to serve as hooks that are only invoked when the corresponding resource action is executed from within Laravel Nova:
 
-* `afterCreate`
-* `afterUpdate`
-* `afterDelete`
-* `afterForceDelete`
+- `afterCreate`
+- `afterUpdate`
+- `afterDelete`
+- `afterForceDelete`
 
 For example, you may want to send an email verification notification after a user has been created within Nova:
 
