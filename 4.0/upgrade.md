@@ -8,17 +8,17 @@ Nova's upstream dependencies have been upgraded. You will find a complete list o
 
 #### Server
 
-* PHP 7.3+
-* Laravel Framework 8.0+
-* Updated `doctrine/dbal` from `^2.9` to `^2.13.3|^3.1.2`
-* Updated `laravel/ui` from `^2.0|^3.0` to `^3.3`
-* Updated `symfony/*` from `^5.0` to `^5.4|^6.0`
-* Removed `cakephp/chronos` and `moontoast/math` dependencies
+- PHP 7.3+
+- Laravel Framework 8.0+
+- Updated `doctrine/dbal` from `^2.9` to `^2.13.3|^3.1.2`
+- Updated `laravel/ui` from `^2.0|^3.0` to `^3.3`
+- Updated `symfony/*` from `^5.0` to `^5.4|^6.0`
+- Removed `cakephp/chronos` and `moontoast/math` dependencies
 
 #### Client
 
-* Updated supported Laravel Mix version from `v1` to `v6`
-* Removed `flatpickr` and `moment.js`
+- Updated supported Laravel Mix version from `v1` to `v6`
+- Removed `flatpickr` and `moment.js`
 
 ### Updating Composer Dependencies
 
@@ -72,7 +72,7 @@ use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
 return [
 
     // ...
-    
+
     'middleware' => [
         'web',
         HandleInertiaRequests::class,
@@ -86,7 +86,7 @@ return [
         Authorize::class,
     ],
 
-    // ... 
+    // ...
 ];
 ```
 
@@ -97,6 +97,10 @@ Next, ensure your application's `nova` configuration file contains a `storage_di
 ```
 
 Once your configuration has been updated, you should review the following list of changes and upgrade your application accordingly.
+
+### Registering a Nova license key and production URL
+
+Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account. You can learn more in the [installation docs](/4.0/installation.html#registering-a-nova-license-key-and-production-url).
 
 ### Updating Third-Party Nova Packages
 
@@ -115,11 +119,11 @@ The `fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsFor
 ```php
 class Resource
 {
-    public function fields(NovaRequest $request) {} 
-    public function fieldsForIndex(NovaRequest $request) {} 
-    public function fieldsForDetail(NovaRequest $request) {} 
-    public function fieldsForCreate(NovaRequest $request) {} 
-    public function fieldsForUpdate(NovaRequest $request) {} 
+    public function fields(NovaRequest $request) {}
+    public function fieldsForIndex(NovaRequest $request) {}
+    public function fieldsForDetail(NovaRequest $request) {}
+    public function fieldsForCreate(NovaRequest $request) {}
+    public function fieldsForUpdate(NovaRequest $request) {}
     public function cards(NovaRequest $request) {}
     public function filters(NovaRequest $request) {}
     public function lenses(NovaRequest $request) {}
@@ -134,10 +138,10 @@ The `fields`, `filters`, and `actions` methods:
 ```php
 class Lens
 {
-    public function fields(NovaRequest $request) {} 
+    public function fields(NovaRequest $request) {}
     public function filters(NovaRequest $request) {}
     public function actions(NovaRequest $request) {}
-} 
+}
 ```
 
 #### Actions
@@ -147,7 +151,7 @@ The `fields` method:
 ```php
 class Action
 {
-    public function fields(NovaRequest $request) {} 
+    public function fields(NovaRequest $request) {}
 }
 ```
 
@@ -213,7 +217,7 @@ public function uriKey()
 {
     return 'posts-dashboard';
 }
-``` 
+```
 
 ### Client-Side Timezone Detection
 
@@ -225,12 +229,12 @@ Please refer to our documentation regarding [timezone customization](./resources
 
 Nova 4 utilizes native `<input type="date" />` and `<input type="datetime-local" />` elements to render the `Date` and `DateTime` fields. Therefore, the following methods have been removed from Nova 4:
 
-* `firstDayOfWeek()`
-* `format()`
-* `pickerFormat()`
-* `pickerDisplayFormat()`
-* `incrementPickerHourBy()`
-* `incrementPickerMinuteBy()`
+- `firstDayOfWeek()`
+- `format()`
+- `pickerFormat()`
+- `pickerDisplayFormat()`
+- `incrementPickerHourBy()`
+- `incrementPickerMinuteBy()`
 
 ### Algolia Place Field
 
@@ -244,10 +248,10 @@ Unfortunately, Algolia is [retiring their "Places" API](https://www.algolia.com/
 
 To ease upgrading custom packages to Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` directory to your own custom package:
 
-* `nova.mix.js`
-* `packages.json` 
-* `webpack.mix.js`
-:::
+- `nova.mix.js`
+- `packages.json`
+- `webpack.mix.js`
+  :::
 
 Since Nova 4 upgrades our frontend dependencies to Inertia, Vue 3, and Tailwind 2, it is necessary to review all custom tools and upgrade them accordingly. A general overview of the necessary changes can be found below; however, your custom Nova packages may require additional changes if they are depending on third-party packages that only support Vue 2 or prior versions of Tailwind.
 
@@ -259,13 +263,15 @@ Nova 4 has been updated to use Vue 3, in order to upgrade all custom cards, cust
 
 ```js
 // Before...
-mix.js('resources/js/field.js', 'js') 
+mix.js("resources/js/field.js", "js");
 
 // After...
-require('./nova.mix')
+require("./nova.mix");
 
-mix.js('resources/js/field.js', 'js').vue({ version: 3 })
-  .nova('vendor/package')
+mix
+  .js("resources/js/field.js", "js")
+  .vue({ version: 3 })
+  .nova("vendor/package");
 ```
 
 #### Replacing Vue Router With Inertia.js
@@ -280,13 +286,13 @@ Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). Therefo
 Nova.booting((Vue, router) => {
   router.addRoutes([
     {
-      name: 'sidebar-tool',
-      path: '/sidebar-tool',
-      component: require('./components/Tool'),
+      name: "sidebar-tool",
+      path: "/sidebar-tool",
+      component: require("./components/Tool"),
     },
-  ])
-})
-````
+  ]);
+});
+```
 
 When using Nova 4, you should register the tool component with Inertia like so:
 
@@ -294,8 +300,8 @@ When using Nova 4, you should register the tool component with Inertia like so:
 // Within tool.js...
 
 Nova.booting((Vue) => {
-  Nova.inertia('SidebarTool', require('./component/Tool').default)
-})
+  Nova.inertia("SidebarTool", require("./component/Tool").default);
+});
 ```
 
 Once your Vue component has been registered, you should define a server-side route definition for your tool so that it may be rendered:
@@ -321,10 +327,10 @@ Nova::router()
 
 To ease upgrading custom packages to support Nova 4, please review and copy the following files from Laravel Nova's `src/Console/stubs` especially the following files:
 
-* `nova.mix.js`
-* `packages.json` 
-* `webpack.mix.js`
-:::
+- `nova.mix.js`
+- `packages.json`
+- `webpack.mix.js`
+  :::
 
 Previous versions of Nova required the `laravel-nova` NPM package. In 4.0, this is no longer the case as each mixin has been integrated into Nova itself. To upgrade any custom packages you've created, you must update your `webpack.mix.js` file to define an alias to `vendor/laravel/nova/resources/js/mixins/packages.js`:
 
@@ -363,7 +369,7 @@ Nova 3 ignores event cancellation when creating or updating a resource. For exam
 User::updating(function ($model) {
     return false;
 });
-``` 
+```
 
 However, this code will throw a `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Nova 4.
 
@@ -374,7 +380,7 @@ Nova 4 will no longer resolve default values for "index" and "detail" requests. 
 ```php
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model 
+class User extends Model
 {
     /**
      * The model's attributes.
@@ -429,9 +435,9 @@ The `Action::showOnTableRow` method has been deprecated. Instead, we suggest upd
 
 Nova 4 introduce the following tweaks to authorization order / precedence:
 
-* Authorizing if a user can `view` a resource no longer depends on the `viewAny` permission.
-* Actions can be executed regardless of `view` and `viewAny` permissions.
-* Destructive actions will now authorize via their own `canRun` method before falling back to the model's policy.
+- Authorizing if a user can `view` a resource no longer depends on the `viewAny` permission.
+- Actions can be executed regardless of `view` and `viewAny` permissions.
+- Destructive actions will now authorize via their own `canRun` method before falling back to the model's policy.
 
 Further detail regarding Nova authorization is available within the [resource policy documentation](./resources/authorization.html#policies) and [action authorization documentation](./actions/registering-actions.md#authorization).
 

@@ -93,9 +93,17 @@ php artisan nova:user
 
 That's it! Next, you may navigate to your application's `/nova` path in your browser and you should be greeted with the Nova dashboard which includes links to various parts of this documentation.
 
-## Registering a Nova License Key
+## Registering a Nova License Key and Production URL
 
-Nova requires a license key to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account.
+Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account.
+
+You can generate license keys and register the production URL for your project inside the license's page on your Nova account at [https://nova.laravel.com/licenses](https://nova.laravel.com/licenses):
+
+![Registering your production site](./img/register-site.png)
+
+:::tip Wildcard subdomains
+You can register a wildcard subdomain for your production URL for use in multi-tenant scenarios (e.g. `*.laravel.com`).
+:::
 
 You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
 
@@ -103,7 +111,7 @@ You can register your license key by setting the `license_key` option in your `c
 'license_key' => env('NOVA_LICENSE_KEY', ''),
 ```
 
-Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in IETF RFC 2606:
+Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
 
 - `.test`
 - `.example`
@@ -118,9 +126,9 @@ Nova will also not check the current license key when the hostname contains comm
 - `dev.`
 - `development.`
 
-### Verifying Registered Nova License Key
+### Verifying Your Nova License Key Configuration
 
-To verify everything has been configured correctly you should run the following command:
+To verify everything has been configured correctly, you should run the following command:
 
 ```bash
 php artisan nova:check-license
@@ -270,7 +278,7 @@ public function register()
 
 ### Disabling Nova's Theme Switcher
 
-If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider`: 
+If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider`:
 
 ```php
 use Laravel\Nova\Nova;
