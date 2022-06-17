@@ -117,12 +117,15 @@ Since Nova can be used in staging and local development environments, Nova will 
 - `.example`
 - `.invalid`
 - `.localhost`
+- `.local`
 
 Nova will also not check the current license key when the hostname contains commonly-used staging subdomains:
 
 - `admin.`
 - `staging.`
+- `stage.`
 - `test.`
+- `testing.`
 - `dev.`
 - `development.`
 
