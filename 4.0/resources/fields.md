@@ -1601,3 +1601,49 @@ The following field types may not be depended upon by other fields since they do
 - Trix
 - VaporFile
 - VaporImage
+
+#### Toggling Field Visibility
+
+One common use-case for dependent fields is toggling field visibility based on the value of another field. You can accomplish this using the `hide` and `show` methods:
+
+```php
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Boolean::make('Anonymous Comment', 'anonymous')
+    ->default(true),
+
+BelongsTo::make('User')
+    ->hide()
+    ->rules('sometimes')
+    ->dependsOn('anonymous', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+        if ($formData->anonymous === false) {
+            $field->show()->rules('required');
+        }
+    }),
+```
+
+#### Accessing Request Resource IDs
+
+When interacting with dependent fields, you may retrieve the current resource and related resource IDs via the `resource` method:
+
+```php
+Currency::make('Price')
+    ->dependsOn('book', function ($field, NovaRequest $request, $formData) {
+        $bookId = (int) $formData->resource('book', $formData->book);
+
+        if ($bookId == 1) {
+            $field->rules([
+                'required', 'numeric', 'min:10', 'max:199'
+            ])->help('Price starts from $10-$199');
+
+            return;
+        }
+
+        $field->rules([
+            'required', 'numeric', 'min:0', 'max:99'
+        ])->help('Price starts from $0-$99');
+    }),
+```
