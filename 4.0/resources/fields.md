@@ -1601,3 +1601,26 @@ The following field types may not be depended upon by other fields since they do
 - Trix
 - VaporFile
 - VaporImage
+
+#### Toggle field visibility
+
+One common use-case for dependent fields is toggling field visibility based on value from another field, you can do this by using `hide` and `show` method:
+
+```php
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+Boolean::make('Anonymous Comment', 'anonymous')
+    ->default(true),
+
+BelongsTo::make('User')
+    ->hide()
+    ->rules('sometimes')
+    ->dependsOn('anonymous', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+        if ($formData->anonymous === false) {
+            $field->show()->rules('required');
+        }
+    }),
+```
