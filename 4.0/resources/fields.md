@@ -1625,4 +1625,23 @@ BelongsTo::make('User')
     }),
 ```
 
+#### Accessing Request Resource IDs
 
+You can also retrieve the relevant Current Resource and Related Resource IDs using `resource` method:
+
+```php
+Currency::make('Price')
+    ->dependsOn('books', function ($field, NovaRequest $request, $formData) {
+        $bookId = (int) $formData->resource('books', $formData->books);
+
+        if ($bookId == 1) {
+            $field->rules(['required', 'numeric', 'min:10', 'max:199'])
+                ->help('Price starts from $10-$199');
+
+            return;
+        }
+
+        $field->rules(['required', 'numeric', 'min:0', 'max:99'])
+            ->help('Price starts from $0-$99');
+    }),
+```
