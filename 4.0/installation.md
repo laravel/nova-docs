@@ -279,6 +279,37 @@ public function register()
 }
 ```
 
+### Enabling RTL Support
+
+If you wish to display Nova's content in "right-to-left" (RTL) you can enable it by calling the `enableRTL` method from your `App/Providers/NovaServiceProvider`:
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::enableRTL();
+}
+```
+
+The `enableRTL` method also accept a callback to allow you to customise RTL support only for certain user, e.g:
+
+```php
+use Illuminate\Http\Request;
+use Laravel\Nova\Nova;
+
+Nova::enableRTL(function (Request $request) {
+    return $request->user()->wantsRTL();
+});
+```
+
 ### Disabling Nova's Theme Switcher
 
 If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider`:
