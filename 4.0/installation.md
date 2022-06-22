@@ -261,7 +261,7 @@ Nova uses the default storage disk driver defined in your `filesystems` configur
 
 ### Customizing Nova's Initial Path
 
-When visiting Nova, the `Main` dashboard is typically loaded by default. However, you are free to define a different initial path that should be loaded using Nova's `initialPath` method. Typically, this method may be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider`:
+When visiting Nova, the `Main` dashboard is typically loaded by default. However, you are free to define a different initial path that should be loaded using Nova's `initialPath` method. Typically, this method may be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` service provider:
 
 ```php
 use Laravel\Nova\Nova;
@@ -281,7 +281,7 @@ public function register()
 
 ### Enabling RTL Support
 
-If you wish to display Nova's content in "right-to-left" (RTL) you can enable it by calling the `enableRTL` method from your `App/Providers/NovaServiceProvider`:
+If you wish to display Nova's content "right-to-left" (RTL), you can enable this behavior by calling the `enableRTL` method from your `App\Providers\NovaServiceProvider` service provider:
 
 ```php
 use Laravel\Nova\Nova;
@@ -299,15 +299,13 @@ public function boot()
 }
 ```
 
-The `enableRTL` method also accept a callback to allow you to customise RTL support only for certain user, e.g:
+The `enableRTL` method also accept a closure that allows you to enable RTL support for specific users or in other custom scenarios:
 
 ```php
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 
-Nova::enableRTL(function (Request $request) {
-    return $request->user()->wantsRTL();
-});
+Nova::enableRTL(fn (Request $request) => $request->user()->wantsRTL());
 ```
 
 ### Disabling Nova's Theme Switcher
