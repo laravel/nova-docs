@@ -97,14 +97,13 @@ You can customize the resource's menu by defining a `menu` method on your resour
 
 ```php
 use Illuminate\Http\Request;
-use Laravel\Nova\Menu\MenuItem;
 
 /**
  * Get the menu that should represent the resource.
  *
  * @return \Laravel\Nova\Menu\MenuItem
  */
-public static function menu(Request $request)
+public function menu(Request $request)
 {
     return parent::menu($request)->withBadge(function () {
         return static::$model::count();
@@ -112,7 +111,7 @@ public static function menu(Request $request)
 }
 ```
 
-Please refer to the documentation on [menu customization](./menus) for more information.
+Please refer to the documentation on [menu customization](./../customization/menus.html) for more information.
 
 ## Grouping Resources
 
