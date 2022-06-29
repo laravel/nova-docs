@@ -141,6 +141,36 @@ In this example, the `columns` method has been extracted from the `query` method
 When writing your lens query, you should always try to include the resource's ID as a selected column. If the ID is not included, Nova will not be able to display the "Select All Matching" option for the lens. In addition, the resource deletion menu will not be available.
 :::
 
+### Sortable Fields
+
+When attaching a field to a lens, you may use the `sortable` method to indicate that the lens may be sorted by the given field:
+
+```php
+Text::make('Name', 'name')->sortable(),
+```
+
+However, when you want to sort a field generated from SQL aggregate function you need to call `$request->withoutTableOrderPrefix()` on the `query()` method.
+
+```php
+/**
+ * Get the query builder / paginator for the lens.
+ *
+ * @param  \Laravel\Nova\Http\Requests\LensRequest  $request
+ * @param  \Illuminate\Database\Eloquent\Builder  $query
+ * @return mixed
+ */
+public static function query(LensRequest $request, $query)
+{
+    return $request->withoutTableOrderPrefix()
+                ->withOrdering($request->withFilters(
+                    $query->select(self::columns())
+                            ->join('licenses', 'users.id', '=', 'licenses.user_id')
+                            ->orderBy('revenue', 'desc')
+                            ->groupBy('users.id', 'users.name')
+                ));
+}
+```
+
 ## Lens Polling
 
 Nova can automatically fetch the latest records for a lens at a specified interval via polling. To enable polling, overwrite the `polling` property of your lens class:
