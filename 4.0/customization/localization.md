@@ -191,6 +191,7 @@ You may also pass an array of key / value pairs representing each localization:
 Nova::serving(function () {
     Nova::translations([
         'Total Users' => 'Total Users'
+        'Active Users' => 'Active Users',
     ]);
 });
 ```
@@ -200,6 +201,7 @@ As in Laravel, you may use the `__` helper within your custom Vue components to 
 ```js
 <template>
   <h2>{{ __('Total Users') }}</h2>
+  <span v-html="subtitle" />
 </template>
 
 <script>
@@ -209,6 +211,30 @@ export default {
   mixins: [Localization]
 
   // ...
+
+  computed: {
+    subtitle() {
+        return this.__('Active Users')
+    }
+  }
 }
 </script>
+```
+
+### Avoiding Key / File Conflicts
+
+There will be situation where you need to define translation string keys that conflict with other translation filenames. For example, translating `__('Post')` for the "NL" locale while a `nl/post.php` file exists but a `nl.json` file does not exist will result in the translator returning the contents of `nl/post.php`. To avoid the issue, you can use `Nova::__()` method instead of `__()` global function.
+
+``php
+use Laravel\Nova\Nova;
+
+/**
+ * Get the displayable singular label of the resource.
+ *
+ * @return string
+ */
+public static function singularLabel()
+{
+    return Nova::__('Post');
+}
 ```
