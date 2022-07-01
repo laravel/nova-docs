@@ -376,6 +376,16 @@ Badge::make('Status')->map([
 ]),
 ```
 
+If you'd like to customize the label that is displayed you can use the `label` method:
+
+```php
+Badge::make('Status')->map([
+    'draft' => 'danger',
+    'published' => 'success',
+])->label(function ($value) {
+    return __($value);
+}),
+```
 
 ### Boolean Field
 
