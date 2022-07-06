@@ -792,6 +792,12 @@ You may use the `min`, `max`, and `step` methods to set their corresponding attr
 Number::make('price')->min(1)->max(1000)->step(0.01),
 ```
 
+You may also allow arbitrary-precision decimal values:
+
+```php
+Number::make('price')->min(1)->max(1000)->step('any'),
+```
+
 ### Password Field
 
 The `Password` field provides an `input` control with a `type` attribute of `password`:
