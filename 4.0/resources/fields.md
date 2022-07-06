@@ -858,7 +858,11 @@ You may use the `min`, `max`, and `step` methods to set the corresponding HTML a
 Number::make('price')->min(1)->max(1000)->step(0.01),
 ```
 
-To allow arbitrary-precision decimal values, set `step('any')` on the field.
+You may also allow arbitrary-precision decimal values:
+
+```php
+Number::make('price')->min(1)->max(1000)->step('any'),
+```
 
 ### Password Field
 
