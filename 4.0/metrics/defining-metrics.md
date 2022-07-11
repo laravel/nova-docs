@@ -656,7 +656,7 @@ Table metrics may be generated using the `nova:table` Artisan command. By defaul
 php artisan nova:table NewReleases
 ```
 
-Once your table metric class has been generated, you're ready to customize it. Each table metric class contains a `calculate` method. This method should return an array of `Laravel\Nova\Metrics\MetricRow` objects. Each metric row allows you to specify a title and subtitle, which will be displayed stacked on the row:
+Once your table metric class has been generated, you're ready to customize it. Each table metric class contains a `calculate` method. This method should return an array of `Laravel\Nova\Metrics\TableMetricRow` objects. Each metric row allows you to specify a title and subtitle, which will be displayed stacked on the row:
 
 ```php
 <?php
@@ -677,11 +677,11 @@ class NewReleases extends Table
     public function calculate(NovaRequest $request)
     {
         return [
-            MetricRow::make()
+            TableMetricRow::make()
                 ->title('v1.0')
                 ->subtitle('Initial release of Laravel Nova'),
 
-            MetricRow::make()
+            TableMetricRow::make()
                 ->title('v2.0')
                 ->subtitle('The second major series of Laravel Nova'),
         ];
@@ -716,7 +716,7 @@ class NewReleases extends Table
     public function calculate(NovaRequest $request)
     {
         return [
-            MetricRow::make()
+            TableMetricRow::make()
                 ->title('v1.0')
                 ->subtitle('Initial release of Laravel Nova')
                 ->actions(function () {
@@ -726,7 +726,7 @@ class NewReleases extends Table
                     ]
                 }),
 
-            MetricRow::make()
+            TableMetricRow::make()
                 ->title('v2.0 (pre-release)')
                 ->subtitle('The second major series of Laravel Nova')
                 ->actions(function () {
@@ -771,19 +771,19 @@ class NextSteps extends Table
     public function calculate(NovaRequest $request)
     {
         return [
-            MetricRow::make()
+            TableMetricRow::make()
                 ->icon('check-circle')
                 ->iconClass('text-green-500')
                 ->title('Get your welcome kit from HR')
                 ->subtitle('Includes a Macbook Pro and swag!'),
 
-            MetricRow::make()
+            TableMetricRow::make()
                 ->icon('check-circle')
                 ->iconClass('text-green-500')
                 ->title('Bootstrap your development environment')
                 ->subtitle('Install the repository and get your credentials.'),
 
-            MetricRow::make()
+            TableMetricRow::make()
                 ->icon('check-circle')
                 ->iconClass('text-gray-400 dark:text-gray-700')
                 ->title('Make your first production deployment')
@@ -796,7 +796,7 @@ class NextSteps extends Table
 You may customize the icon's color via CSS by using the `iconClass` method to add the needed classes to the icon:
 
 ```php
-MetricRow::make()
+TableMetricRow::make()
     ->icon('check-circle')
     ->iconClass('text-gray-400 dark:text-gray-700')
     ->title('Make your first production deployment')
