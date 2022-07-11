@@ -171,6 +171,7 @@ By default, when clicking on the a resource table row, Nova will navigate to the
 ```php
 /**
  * The click action to use when clicking on the resource in the table.
+ *
  * Can be one of: 'detail' (default), 'edit', 'select', or 'ignore'.
  *
  * @var string
