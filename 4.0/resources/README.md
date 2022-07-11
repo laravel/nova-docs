@@ -164,6 +164,23 @@ Setting this property to `true` will instruct Nova to display the table with bor
 
 ![Table Column Borders](./img/resource-column-borders.png)
 
+## Resource Table Click Action
+
+By default, when clicking on the a resource table row, Nova will navigate to the detail view for the resource. However, you may want Nova to navigate to the edit form instead. You can customize this behavior by changing the `clickAction` property on the resource's class:
+
+```php
+/**
+ * The click action to use when clicking on the resource in the table.
+ *
+ * Can be one of: 'detail' (default), 'edit', 'select', or 'ignore'.
+ *
+ * @var string
+ */
+public static $clickAction = 'edit';
+```
+
+Choosing the `select` option will select the resource row's checkbox. The `ignore` option instructs Nova to ignore click events altogether.
+
 ## Eager Loading
 
 If you routinely need to access a resource's relationships within your fields, [resource title](./../search/global-search.md#title-subtitle-attributes), or [resource subtitle](./../search/global-search.md#title-subtitle-attributes), it may be a good idea to add the relationship to the `with` property of your resource. This property instructs Nova to always eager load the listed relationships when retrieving the resource.
