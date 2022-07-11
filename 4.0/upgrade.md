@@ -267,11 +267,13 @@ mix.js("resources/js/field.js", "js");
 
 // After...
 require("./nova.mix");
-
+  
 mix
-  .js("resources/js/field.js", "js")
+  .setPublicPath('dist')
+  .js('resources/js/tool.js', 'js')
   .vue({ version: 3 })
-  .nova("vendor/package");
+  .css('resources/css/tool.css', 'css')
+  .nova('vendor/package')
 ```
 
 #### Replacing Vue Router With Inertia.js
