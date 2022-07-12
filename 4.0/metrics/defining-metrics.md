@@ -806,7 +806,7 @@ MetricTableRow::make()
 
 :::tip Heroicons
 
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.
+Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
 :::
 
 ## Caching
