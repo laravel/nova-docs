@@ -648,7 +648,7 @@ return $this->result(80, 100);
 
 ## Table Metrics
 
-Table metrics allow you to display custom lists of links along with a list of actions, and optionally, an icon.
+Table metrics allow you to display custom lists of links along with a list of actions, as well as an optional icon.
 
 Table metrics may be generated using the `nova:table` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
 
@@ -689,7 +689,7 @@ class NewReleases extends Table
 }
 ```
 
-### Adding Actions to the Table Row
+### Adding Actions To Table Rows
 
 While table metrics are great for showing progress, documentation links, or recent entries to your models, they become even more powerful by attaching actions to them.
 
@@ -741,12 +741,13 @@ class NewReleases extends Table
 ```
 
 :::tip Customizing Menu Items
-You can read more about menu customization by reading the [menu item customization documentation](/4.0/customization/menus.html#menu-items).
+
+You can learn more about menu customization by reading the [menu item customization documentation](/4.0/customization/menus.html#menu-items).
 :::
 
-### Displaying an Icon on the Table Row
+### Displaying Icons On Table Rows
 
-Table metrics also optionally support showing an icon to the left of the title and subtitle for each row. You can use this information to visually delineate different table rows by type, or by using them to show progress on an internal process.
+Table metrics also support displaying an icon to the left of the title and subtitle for each row. You can use this information to visually delineate different table rows by type, or by using them to show progress on an internal process.
 
 ![Table Icons](./img/table-icons.jpg)
 
@@ -804,8 +805,8 @@ MetricTableRow::make()
 ```
 
 :::tip Heroicons
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.
 
+Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in ones.
 :::
 
 ## Caching
