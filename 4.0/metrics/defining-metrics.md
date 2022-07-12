@@ -646,6 +646,169 @@ If you are not able to use the included query helpers for building your progress
 return $this->result(80, 100);
 ```
 
+## Table Metrics
+
+Table metrics allow you to display custom lists of links along with a list of actions, as well as an optional icon.
+
+Table metrics may be generated using the `nova:table` Artisan command. By default, all new metrics will be placed in the `app/Nova/Metrics` directory:
+
+```php
+php artisan nova:table NewReleases
+```
+
+Once your table metric class has been generated, you're ready to customize it. Each table metric class contains a `calculate` method. This method should return an array of `Laravel\Nova\Metrics\MetricTableRow` objects. Each metric row allows you to specify a title and subtitle, which will be displayed stacked on the row:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Table;
+
+class NewReleases extends Table
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return mixed
+     */
+    public function calculate(NovaRequest $request)
+    {
+        return [
+            MetricTableRow::make()
+                ->title('v1.0')
+                ->subtitle('Initial release of Laravel Nova'),
+
+            MetricTableRow::make()
+                ->title('v2.0')
+                ->subtitle('The second major series of Laravel Nova'),
+        ];
+    }
+}
+```
+
+### Adding Actions To Table Rows
+
+While table metrics are great for showing progress, documentation links, or recent entries to your models, they become even more powerful by attaching actions to them.
+
+![Table Actions](./img/table-actions.jpg)
+
+You can use the `actions` method to return an array of `Laravel\Nova\Menu\MenuItem` instances, which will be displayed in a dropdown menu:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Table;
+
+class NewReleases extends Table
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return mixed
+     */
+    public function calculate(NovaRequest $request)
+    {
+        return [
+            MetricTableRow::make()
+                ->title('v1.0')
+                ->subtitle('Initial release of Laravel Nova')
+                ->actions(function () {
+                    return [
+                        MenuItem::externalLink('View release notes', '/releases/1.0'),
+                        MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
+                    ]
+                }),
+
+            MetricTableRow::make()
+                ->title('v2.0 (pre-release)')
+                ->subtitle('The second major series of Laravel Nova')
+                ->actions(function () {
+                    return [
+                        MenuItem::externalLink('View release notes', '/releases/2.0'),
+                        MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
+                    ]
+                }),
+        ];
+    }
+}
+```
+
+:::tip Customizing Menu Items
+
+You can learn more about menu customization by reading the [menu item customization documentation](/4.0/customization/menus.html#menu-items).
+:::
+
+### Displaying Icons On Table Rows
+
+Table metrics also support displaying an icon to the left of the title and subtitle for each row. You can use this information to visually delineate different table rows by type, or by using them to show progress on an internal process.
+
+![Table Icons](./img/table-icons.jpg)
+
+To show an icon on your table metric row, use the `icon` method and pass in the key for the icon you wish to use:
+
+```php
+<?php
+
+namespace App\Nova\Metrics;
+
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Table;
+
+class NextSteps extends Table
+{
+    /**
+     * Calculate the value of the metric.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return mixed
+     */
+    public function calculate(NovaRequest $request)
+    {
+        return [
+            MetricTableRow::make()
+                ->icon('check-circle')
+                ->iconClass('text-green-500')
+                ->title('Get your welcome kit from HR')
+                ->subtitle('Includes a Macbook Pro and swag!'),
+
+            MetricTableRow::make()
+                ->icon('check-circle')
+                ->iconClass('text-green-500')
+                ->title('Bootstrap your development environment')
+                ->subtitle('Install the repository and get your credentials.'),
+
+            MetricTableRow::make()
+                ->icon('check-circle')
+                ->iconClass('text-gray-400 dark:text-gray-700')
+                ->title('Make your first production deployment')
+                ->subtitle('Push your first code change to our servers.'),
+        ];
+    }
+}
+```
+
+You may customize the icon's color via CSS by using the `iconClass` method to add the needed classes to the icon:
+
+```php
+MetricTableRow::make()
+    ->icon('check-circle')
+    ->iconClass('text-gray-400 dark:text-gray-700')
+    ->title('Make your first production deployment')
+    ->subtitle('Push your first code change to our servers.'),
+```
+
+:::tip Heroicons
+
+Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
+:::
+
 ## Caching
 
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
