@@ -139,6 +139,7 @@ The `fields`, `filters`, and `actions` methods:
 class Lens
 {
     public function fields(NovaRequest $request) {}
+    public function cards(NovaRequest $request) {}
     public function filters(NovaRequest $request) {}
     public function actions(NovaRequest $request) {}
 }
