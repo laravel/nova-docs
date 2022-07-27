@@ -100,9 +100,9 @@ class PostPolicy
 }
 ```
 
-### Separate logic between Nova and Application Policy
+### When Nova & Application Authorization Logic Differs
 
-If you have a requirement to handle different authorization logic between Nova and your main application, you can use Nova's `whenServing()` method: 
+If you need to authorize actions differently when a request is initiated from within Nova versus your primary application, you may utilize Nova's `whenServing` method within your policy. This method allows you to only execute the given callback if the request is a Nova request. An additional callback may be provided that will be executed for non-Nova requests:
 
 ```php
 <?php
