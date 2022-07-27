@@ -1493,7 +1493,7 @@ Text::make('Last Name')->help(
 
 ### Field Stacking
 
-By default, Nova displays fields next to their labels, however some fields like "Code", "Markdown", and "Trix" may benefit from the extra width that can be gained by placing the field under their corresponding labels. Fields can be stacked underneath their label using the `stacked` method:
+By default, Nova displays fields next to their labels on form views, however some fields like "Code", "Markdown", and "Trix" may benefit from the extra width that can be gained by placing the field under their corresponding labels. Fields can be stacked underneath their label using the `stacked` method:
 
 ```php
 Trix::make('Content')->stacked(),
