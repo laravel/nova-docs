@@ -283,6 +283,7 @@ Alternatively, you can determine if the current HTTP request is serving a Nova r
 namespace App\Observers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
@@ -298,6 +299,8 @@ class UserObserver
     {
         Nova::whenServing(function (NovaRequest $request) use ($user) {
             // Only invoked during Nova requests...
+        }, function (Request $request) use ($user) {
+            // Invoke outside of Nova requests...
         });
 
         // Always invoked...
