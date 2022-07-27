@@ -723,7 +723,7 @@ class NewReleases extends Table
                     return [
                         MenuItem::externalLink('View release notes', '/releases/1.0'),
                         MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
-                    ]
+                    ];
                 }),
 
             MetricTableRow::make()
@@ -733,7 +733,7 @@ class NewReleases extends Table
                     return [
                         MenuItem::externalLink('View release notes', '/releases/2.0'),
                         MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
-                    ]
+                    ];
                 }),
         ];
     }
