@@ -100,6 +100,43 @@ class PostPolicy
 }
 ```
 
+### When Nova & Application Authorization Logic Differs
+
+If you need to authorize actions differently when a request is initiated from within Nova versus your primary application, you may utilize Nova's `whenServing` method within your policy. This method allows you to only execute the given callback if the request is a Nova request. An additional callback may be provided that will be executed for non-Nova requests:
+
+```php
+<?php
+
+namespace App\Policies;
+
+use App\Models\User;
+use App\Models\Post;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Http\Request;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
+class PostPolicy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view any posts.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    public function viewAny(User $user)
+    {
+        return Nova::whenServing(function (NovaRequest $request) use ($user) {
+            return in_array('nova:view-posts', $user->permissions);
+        }, function (Request $request) use ($user) {
+            return in_array('view-posts', $user->permissions);
+        });
+    }
+}
+```
+
 ### Relationships
 
 We have already learned how to authorize the typical view, create, update, and delete actions, but what about relationship interactions? For example, if you are building a podcasting application, perhaps you would like to specify that only certain Nova users may add comments to podcasts. Again, Nova makes this simple by leveraging Laravel's policies.
