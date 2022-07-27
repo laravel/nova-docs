@@ -387,7 +387,7 @@ Badge::make('Status')->map([
 }),
 ```
 
-You can also provide a list of possible labels by using the `labels` method:
+You may provide a list of labels using the `labels` method:
 
 ```php
 Badge::make('Status')->map([
