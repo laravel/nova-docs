@@ -387,6 +387,18 @@ Badge::make('Status')->map([
 }),
 ```
 
+You can also provide a list of possible labels by using the `labels` method:
+
+```php
+Badge::make('Status')->map([
+    'draft' => 'danger',
+    'published' => 'success',
+])->labels([
+    'draft' => 'Draft',
+    'published' => 'Published',
+]),
+```
+
 ### Boolean Field
 
 The `Boolean` field may be used to represent a boolean / "tiny integer" column in your database. For example, assuming your database has a boolean column named `active`, you may attach a `Boolean` field to your resource like so:
