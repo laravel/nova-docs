@@ -95,7 +95,7 @@ That's it! Next, you may navigate to your application's `/nova` path in your bro
 
 ## Registering a Nova License Key and Production URL
 
-Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account.
+Nova requires a license key and a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account.
 
 You can generate license keys and register the production URL for your project inside the license's page on your Nova account at [https://nova.laravel.com/licenses](https://nova.laravel.com/licenses):
 
