@@ -63,6 +63,7 @@ php artisan view:clear
 Next, let's update the Nova configuration file. First, ensure that the `middleware` and `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
 
 ```php
+use Laravel\Nova\Actions\ActionResource;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
