@@ -1664,8 +1664,8 @@ use Laravel\Nova\Fields\Currency;
 BelongsTo::make(__('Books'), 'books', Book::class),
 
 Currency::make('Price')
-    ->dependsOn('book', function ($field, NovaRequest $request, $formData) {
-        $bookId = (int) $formData->resource(Book::uriKey(), $formData->book);
+    ->dependsOn('books', function ($field, NovaRequest $request, $formData) {
+        $bookId = (int) $formData->resource(Book::uriKey(), $formData->books);
 
         if ($bookId == 1) {
             $field->rules([
