@@ -201,9 +201,9 @@ To customize the color used as the "primary" color within the Nova interface, yo
     // ...
 
     'colors' => [
-        "400" => "24, 182, 155, 0.5",
+        "400" => "29, 218, 187",
         "500" => "24, 182, 155",
-        "600" => "24, 182, 155, 0.75",
+        "600" => "17, 132, 114",
     ]
 ],
 ```
