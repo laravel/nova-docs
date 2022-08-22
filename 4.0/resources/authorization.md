@@ -64,6 +64,7 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | `restore`              | Forbidden                         |
 | `add{Model}`           | Allowed                           |
 | `attach{Model}`        | Allowed                           |
+| `attachAny{Model}`     | Allowed                           |
 | `detach{Model}`        | Allowed                           |
 | `runAction`            | Fallback to `update`              |
 | `runDestructiveAction` | Fallback to `delete`              |

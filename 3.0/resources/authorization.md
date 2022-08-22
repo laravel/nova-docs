@@ -62,6 +62,7 @@ If a policy exists but is missing a method for a particular action, Nova will us
 | `restore` | Disallowed
 | `add{Model}` | Allowed
 | `attach{Model}` | Allowed
+| `attachAny{Model}` | Allowed
 | `detach{Model}` | Allowed
 
 So, if you have defined a policy, don't forget to define all of its relevant authorization methods.
