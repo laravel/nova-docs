@@ -819,6 +819,29 @@ The Markdown field uses the `league/commonmark` package to parse Markdown conten
 Markdown::make('Biography')->preset('commonmark'),
 ```
 
+Using the `preset()` method, you can also register and use custom preset implementation such as:
+
+```php
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Markdown\MarkdownPreset;
+
+Markdown::make('Biography')->preset('github', new class implements MarkdownPreset {
+    /**
+     * Convert the given content from markdown to HTML.
+     *
+     * @param  string  $content
+     * @return string
+     */
+    public function convert(string $content)
+    {
+        return Str::of('# Taylor <b>Otwell</b>')->markdown([
+            'html_input' => 'strip',
+        ]);
+    }
+}),
+```
+
 ### MultiSelect Field
 
 The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array` or equivalent:
