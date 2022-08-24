@@ -813,13 +813,13 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
-The Markdown field uses the `league/commonmark` package to parse Markdown content. By default, it uses a parsing strategy similar to GitHub Flavoured Markdown, which does not allow certain HTML within the Markdown content. However, you can change the parsing strategy using the `preset` method. The currently built-in presets are `default`, `commonmark`, and `zero`:
+The Markdown field uses the `league/commonmark` package to parse Markdown content. By default, it uses a parsing strategy similar to GitHub Flavoured Markdown, which does not allow certain HTML within the Markdown content. However, you can change the parsing strategy using the `preset` method. Currently, the following built-in presets are `default`, `commonmark`, and `zero`:
 
 ```php
 Markdown::make('Biography')->preset('commonmark'),
 ```
 
-Using the `preset()` method, you can also register and use custom preset implementation such as:
+Using the `preset` method, you can also register and use custom preset implementation such as:
 
 ```php
 use Illuminate\Support\Str;
