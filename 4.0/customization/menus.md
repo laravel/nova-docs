@@ -367,7 +367,7 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::externalLink('Documentation', 'https://nova.laravel.com/docs')
 ```
 
-To specify the external link should open using a separate tab, you may call the `openOnNewTab` helper on your menu item:
+To specify an external link should open within a separate tab, you may call the `openOnNewTab` method on your menu item:
 
 ```php
 MenuItem::externalLink('Documentation', 'https://nova.laravel.com/docs')->openOnNewTab();
