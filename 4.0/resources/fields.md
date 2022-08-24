@@ -819,7 +819,7 @@ The Markdown field uses the `league/commonmark` package to parse Markdown conten
 Markdown::make('Biography')->preset('commonmark'),
 ```
 
-Using the `preset` method, you can also register and use custom preset implementation such as:
+Using the `preset` method, you may register and use custom preset implementations:
 
 ```php
 use Illuminate\Support\Str;
