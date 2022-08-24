@@ -813,10 +813,33 @@ By default, Markdown fields will not display their content when viewing a resour
 Markdown::make('Biography')->alwaysShow(),
 ```
 
-The Markdown field uses the `markdown-it` npm package to parse Markdown content. By default, it uses a parsing strategy similar to GitHub Flavoured Markdown, which does not allow HTML within the Markdown content. However, you can change the parsing strategy using the `preset` method. The currently supported presets are `default`, `commonmark`, and `zero`:
+The Markdown field uses the `league/commonmark` package to parse Markdown content. By default, it uses a parsing strategy similar to GitHub Flavoured Markdown, which does not allow certain HTML within the Markdown content. However, you can change the parsing strategy using the `preset` method. Currently, the following built-in presets are `default`, `commonmark`, and `zero`:
 
 ```php
 Markdown::make('Biography')->preset('commonmark'),
+```
+
+Using the `preset` method, you may register and use custom preset implementations:
+
+```php
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Markdown\MarkdownPreset;
+
+Markdown::make('Biography')->preset('github', new class implements MarkdownPreset {
+    /**
+     * Convert the given content from markdown to HTML.
+     *
+     * @param  string  $content
+     * @return string
+     */
+    public function convert(string $content)
+    {
+        return Str::of($content)->markdown([
+            'html_input' => 'strip',
+        ]);
+    }
+}),
 ```
 
 ### MultiSelect Field
