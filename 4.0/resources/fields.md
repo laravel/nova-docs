@@ -835,7 +835,7 @@ Markdown::make('Biography')->preset('github', new class implements MarkdownPrese
      */
     public function convert(string $content)
     {
-        return Str::of('# Taylor <b>Otwell</b>')->markdown([
+        return Str::of($content)->markdown([
             'html_input' => 'strip',
         ]);
     }
