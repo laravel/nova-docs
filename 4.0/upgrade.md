@@ -30,6 +30,12 @@ You should update your `laravel/nova` dependency to `^4.0` in your application's
 
 After purchasing a Nova 4.0 license, you should update your [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication.md) to use your newly generated license key instead of your previous Nova 3 API token or account password.
 
+You can do this by updating your basic auth details to use your username & **license key** instead of your account password:
+
+```shell
+composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
+```
+
 Next, install your updated your Composer dependencies:
 
 ```shell
