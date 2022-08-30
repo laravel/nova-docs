@@ -111,7 +111,7 @@ If you have [customized Nova's main sidebar menu](./menus.md#customizing-the-mai
 
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
+Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
 
 ## Assets
 
