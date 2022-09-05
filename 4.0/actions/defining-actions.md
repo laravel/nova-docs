@@ -363,6 +363,7 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Contacts\BatchableAction;
 use Laravel\Nova\Fields\ActionFields;
+use Throwable;
 
 class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 {
