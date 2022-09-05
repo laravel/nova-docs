@@ -58,6 +58,9 @@ public function actions(NovaRequest $request)
 Actions may now take advantage of Laravel's [job batching](https://laravel.com/docs/queues#job-batching) functionality, offering the ability to register batch callbacks that perform additional tasks once the entire batch of actions has finished executing:
 
 ```php
+use Illuminate\Bus\Batch;
+use Throwable;
+
 /**
  * Prepare the given batch for execution.
  *
