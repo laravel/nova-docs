@@ -121,7 +121,6 @@ Since Nova can be used in staging and local development environments, Nova will 
 
 Nova will also not check the current license key when the hostname contains commonly-used staging subdomains:
 
-- `admin.`
 - `staging.`
 - `stage.`
 - `test.`
