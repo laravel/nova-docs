@@ -78,3 +78,40 @@ Route::get('/impersonation', function (Request $request, ImpersonatesUsers $impe
     }
 });
 ```
+
+## Impersonation Events
+
+By default, you add additional customisation by using available events for Impersonations:
+
+* `Laravel\Nova\Events\StartedImpersonating`
+* `Laravel\Nova\Events\StoppedImpersonating`
+
+For example, you may want to log impersonating events to logger:
+
+```php
+use Illuminate\Support\Facades\Event;
+use Laravel\Nova\Events\StartedImpersonating;
+
+Event::listen(StartedImpersonating::class, function ($event) {
+    logger("User {$event->impersonator->name} has impersonated {$event->impersonated->name}");
+});
+```
+
+You can also configure redirection back to the Impersonated User's Detail page by using the following:
+
+```php
+use Illuminate\Support\Facades\Event;
+use Laravel\Nova\Events\StoppedImpersonating;
+use Laravel\Nova\Nova;
+
+Event::listen(StoppedImpersonating::class, function ($event) {
+    $resource = Nova::resourceForModel($event->impersonated);
+
+    config([
+        'nova.impersonation.stopped' => route('nova.pages.detail', [
+            'resource' => $resource::uriKey(),
+            'resourceId' => $event->impersonated->getKey(),
+        ]),
+    ]);
+});
+```
