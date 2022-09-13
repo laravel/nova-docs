@@ -78,3 +78,24 @@ Route::get('/impersonation', function (Request $request, ImpersonatesUsers $impe
     }
 });
 ```
+
+## Impersonation Events
+
+By default, you add additional customisation by using available events for Impersonations:
+
+* `Laravel\Nova\Events\StartedImpersonating`
+* `Laravel\Nova\Events\StoppedImpersonating`
+
+For example, you may want to log impersonating events to Nova's Action Events:
+
+```php
+use Illuminate\Support\Facades\Event;
+use Laravel\Nova\Actions\ActionEvent;
+use Laravel\Nova\Events\StartedImpersonating;
+use Laravel\Nova\Nova;
+
+Event::listen(StartedImpersonating::class, function ($event) {
+    Nova::usingActionEvent(function (ActionEvent $actionEvent) use ($event) {
+
+    });
+})
