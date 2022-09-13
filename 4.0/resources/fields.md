@@ -75,7 +75,7 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->showOnIndex(function () {
+Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -83,7 +83,7 @@ Text::make('Name')->showOnIndex(function () {
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideFromIndex(function () {
+Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -96,6 +96,14 @@ You may also define which fields should be included in the resource's "preview" 
 Text::make('Title')->showOnPreview(),
 
 Markdown::make('Content')->showOnPreview(),
+```
+
+Alternatively, you may pass a callback to the `showOnPreview` method:
+
+```php
+Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
+    return $request->user()->can('previewContent');
+}),
 ```
 
 ![Resource Preview](./img/resource-preview.png)
