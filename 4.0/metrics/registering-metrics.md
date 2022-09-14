@@ -75,7 +75,7 @@ return $this->count($request, Podcast::where('user_id', $request->resourceId));
 
 ### Dashboard Metrics
 
-You are also free to add metrics to your primary Nova "dashboard", which is the default page that Nova displays after login. By default, this page displays some helpful links to the Nova documentation via the built-in `Help` card. To add a metric to your dashboard, add the metric to the array of cards returned by the `cards` method of your `app/Providers/NovaServiceProvider` class:
+You are also free to add metrics to your primary Nova "dashboard", which is the default page that Nova displays after login. By default, this page displays some helpful links to the Nova documentation via the built-in `Help` card. To add a metric to your dashboard, add the metric to the array of cards returned by the `cards` method of your `app/Nova/Dashboards/Main` class:
 
 ```php
 use App\Nova\Metrics\NewUsers;
