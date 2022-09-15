@@ -101,6 +101,7 @@ use Illuminate\Http\Request;
 /**
  * Get the menu that should represent the resource.
  *
+ * @param  \Illuminate\Http\Request  $request
  * @return \Laravel\Nova\Menu\MenuItem
  */
 public function menu(Request $request)
@@ -242,6 +243,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
+
         User::observe(UserObserver::class);
     }
 

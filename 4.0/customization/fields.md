@@ -100,9 +100,9 @@ When creating fields, Nova also creates a `resources/js/components/DetailField.v
 
 Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a creation or update form. By default, this template contains a simple `input` control to modify your field's underlying value; however, you are free to customize this template. For example, we may update the template to display a color-picker control:
 
-```html
+```vue
 <template>
-    <default-field :field="field">
+    <DefaultField :field="field">
         <template #field>
             <input :id="field.name" type="color"
                 class="w-full form-control form-input form-input-bordered"
@@ -115,8 +115,18 @@ Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. T
                 {{ firstError }}
             </p>
         </template>
-    </default-field>
+    </DefaultField>
 </template>
+
+<script>
+import { FormField, HandlesValidationErrors } from 'laravel-nova'
+
+export default {
+  mixins: [FormField, HandlesValidationErrors],
+
+  //
+}
+</script>
 ```
 
 #### Setting The Form Value
@@ -158,7 +168,7 @@ export default {
 
 Next, within your Vue template, you should typically refer to your field using `this.currentField` instead of `this.field`:
 
-```js
+```vue
 <template>
   <DefaultField :field="currentField" :errors="errors">
     <template #field>
@@ -177,6 +187,16 @@ Next, within your Vue template, you should typically refer to your field using `
     </template>
   </DefaultField>
 </template>
+
+<script>
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
+
+export default {
+  mixins: [DependentFormField, HandlesValidationErrors],
+
+  //
+}
+</script>
 ```
 
 #### Hydrating The Model
