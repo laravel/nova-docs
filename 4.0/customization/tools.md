@@ -171,7 +171,7 @@ npm run watch
 
 Vue page components contained by your tool have access to all of the components and plugins registered by Nova, including `v-tooltip`. For example, your tool's `resources/js/pages/Tool.vue` stub will contain a default page title which is managed by the Inertia.js `Head` component:
 
-```js
+```vue
 <template>
   <Head title="PriceTracker" />
 </template>
