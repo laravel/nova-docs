@@ -57,8 +57,8 @@ class UserInsights extends Dashboard
     public function cards()
     {
         return [
-            new TotalUsers,
-            new UsersOverTime,
+            TotalUsers::make(),
+            UsersOverTime::make(),
         ];
     }
 }
@@ -112,8 +112,8 @@ use App\Nova\Dashboards\UserInsights;
 protected function dashboards()
 {
     return [
-        new Main,
-        new UserInsights,
+        Main::make(),
+        UserInsights::make(),
     ];
 }
 ```
@@ -141,6 +141,28 @@ public function menu(Request $request)
 
 Please refer to the documentation on [menu customization](./menus) for more information.
 
+### Refreshing Dashboard Metrics
+
+Occasionally, you may wish to refresh all the metrics' values inside your dashboard. You may do this by enabling the refresh button by using the `showRefreshButton` method on the dashboard instance:
+
+```php
+use App\Nova\Dashboards\Main;
+use App\Nova\Dashboards\UserInsights;
+
+/**
+ * Get the dashboards that should be listed in the Nova sidebar.
+ *
+ * @return array
+ */
+protected function dashboards()
+{
+    return [
+        Main::make(),
+        UserInsights::make()->showRefreshButton(),
+    ];
+}
+```
+
 ### Authorization
 
 If you would like to only expose a given dashboard to certain users, you may invoke the `canSee` method when registering your dashboard. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
@@ -158,8 +180,8 @@ use App\Nova\Dashboards\UserInsights;
 protected function dashboards()
 {
     return [
-        new Main,
-        (new UserInsights)->canSee(function ($request) {
+        Main::make(),
+        UserInsights::make()->canSee(function ($request) {
             return $request->user()->can('viewUserInsights', User::class);
         }),
     ];
@@ -181,8 +203,8 @@ use App\Nova\Dashboards\UserInsights;
 protected function dashboards()
 {
     return [
-        new Main,
-        (new UserInsights)->canSeeWhen('viewUserInsights', User::class),
+        Main::make(),
+        UserInsights::make()->canSeeWhen('viewUserInsights', User::class),
     ];
 }
 ```
