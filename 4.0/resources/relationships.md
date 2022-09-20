@@ -100,7 +100,7 @@ When hovering over a `BelongsTo` link when viewing the index or detail views, No
 
 ![Relationship Peeking](./img/peeking.png)
 
-### Preventing Peeking At BelongsTo Relationships
+### Preventing Peeking At `BelongsTo` Relationships
 
 Relationship peeking is enabled by default; however, you can prevent the user from peeking at the relation using the `noPeeking` helper on your `BelongsTo` field:
 
@@ -422,15 +422,15 @@ MorphTo::make('Commentable')->types([
 ])->nullable(),
 ```
 
-### Peeking at `MorphTo` relationships
+### Peeking At `MorphTo` Relationships
 
-When hovering over a `MorphTo` link when viewing index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
+When hovering over a `MorphTo` link when viewing the index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
 
 ![Relationship Peeking](./img/peeking.png)
 
-### Preventing the user from peeking at `MorphTo` fields.
+### Preventing Peeking At `MorphTo` Relationships
 
-Since relation peeking is enabled by default, you can prevent the user from peeking at the relation by using the `noPeeking` helper on your `MorphTo` field:
+Relationship peeking is enabled by default; however, you can prevent the user from peeking at the relation using the `noPeeking` helper on your `MorphTo` field:
 
 ```php
 MorphTo::make('Author')->noPeeking()
