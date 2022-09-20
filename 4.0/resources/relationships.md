@@ -94,15 +94,15 @@ BelongsTo::make('Author', 'author', 'App\Nova\User'),
 
 :::
 
-### Peeking at BelongsTo relationships
+### Peeking At BelongsTo Relationships
 
-When hovering over a `BelongsTo` link when viewing index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
+When hovering over a `BelongsTo` link when viewing the index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
 
 ![Relationship Peeking](./img/peeking.png)
 
-### Preventing the user from peeking at `BelongsTo` fields.
+### Preventing Peeking At BelongsTo Relationships
 
-Since relation peeking is enabled by default, you can prevent the user from peeking at the relation by using the `noPeeking` helper on your `BelongsTo` field:
+Relationship peeking is enabled by default; however, you can prevent the user from peeking at the relation using the `noPeeking` helper on your `BelongsTo` field:
 
 ```php
 BelongsTo::make('Author')->noPeeking()
