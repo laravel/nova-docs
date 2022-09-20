@@ -111,7 +111,7 @@ BelongsTo::make('Author')->noPeeking()
 You may also use the `peekable` method to determine whether the user should be allowed to peek at the relation:
 
 ```php
-use \Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 BelongsTo::make('Author')->peekable(function (NovaRequest $request) {
     return $request->isResourceDetailRequest();
@@ -439,7 +439,7 @@ MorphTo::make('Author')->noPeeking()
 You may also use the `peekable` method to determine whether the user should be allowed to peek at the relation:
 
 ```php
-use \Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 MorphTo::make('Author')->peekable(function (NovaRequest $request) {
     return $request->isResourceDetailRequest();
