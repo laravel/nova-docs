@@ -94,6 +94,30 @@ BelongsTo::make('Author', 'author', 'App\Nova\User'),
 
 :::
 
+### Peeking at BelongsTo relationships
+
+When hovering over a `BelongsTo` link when viewing index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
+
+![Relationship Peeking](./img/peeking.png)
+
+### Preventing the user from peeking at `BelongsTo` fields.
+
+Since relation peeking is enabled by default, you can prevent the user from peeking at the relation by using the `noPeeking` helper on your `BelongsTo` field:
+
+```php
+BelongsTo::make('Author')->noPeeking()
+```
+
+You may also use the `peekable` method to determine whether the user should be allowed to peek at the relation:
+
+```php
+use \Laravel\Nova\Http\Requests\NovaRequest;
+
+BelongsTo::make('Author')->peekable(function (NovaRequest $request) {
+    return $request->isResourceDetailRequest();
+})
+```
+
 #### Nullable Relationships
 
 If you would like your `BelongsTo` relationship to be `nullable`, you may simply chain the `nullable` method onto the field's definition:
@@ -396,6 +420,30 @@ MorphTo::make('Commentable')->types([
     Post::class,
     Video::class,
 ])->nullable(),
+```
+
+### Peeking at `MorphTo` relationships
+
+When hovering over a `MorphTo` link when viewing index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
+
+![Relationship Peeking](./img/peeking.png)
+
+### Preventing the user from peeking at `MorphTo` fields.
+
+Since relation peeking is enabled by default, you can prevent the user from peeking at the relation by using the `noPeeking` helper on your `MorphTo` field:
+
+```php
+MorphTo::make('Author')->noPeeking()
+```
+
+You may also use the `peekable` method to determine whether the user should be allowed to peek at the relation:
+
+```php
+use \Laravel\Nova\Http\Requests\NovaRequest;
+
+MorphTo::make('Author')->peekable(function (NovaRequest $request) {
+    return $request->isResourceDetailRequest();
+})
 ```
 
 ## MorphToMany
