@@ -301,6 +301,15 @@ public function title()
 }
 ```
 
+#### Disable Ordering By Title
+
+By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAttachables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](./authorization.html#relatable-filtering):
+
+```php
+BelongsToMany::make('Roles')->dontReorderAttachables(),
+```
+
+
 #### Allowing Duplicate Relations
 
 By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, if necessary, you may instruct Nova to allow duplicate relationship entries.
