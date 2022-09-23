@@ -161,11 +161,9 @@ Once the action has been attached to the field, you will be able to select the a
 
 ## Action Confirmation Modal
 
-When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. Following are the customisation available for confirmation modal in Nova:
-
 ### Fullscreen or Custom Sizes
 
-To enable confirmation modal to display as fullscreen, you can invoke the `fullscreen` method when registering your action with a given resource:
+When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. To indicate that the confirmation modal should display as fullscreen, you may invoke the `fullscreen` method when registering your action with a given resource:
 
 ```php
 /**
@@ -182,7 +180,7 @@ public function actions(NovaRequest $request)
 }
 ```
 
-Alternatively, you could also customise the max width size for customisation modal using the `size` method:
+Alternatively, you may further customize the maximum width of the customization modal using the `size` method:
 
 ```php
 /**
@@ -194,8 +192,7 @@ Alternatively, you could also customise the max width size for customisation mod
 public function actions(NovaRequest $request)
 {
     return [
-        // The size of the modal can be either of the following:
-        // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
+        // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", or "7xl"...
         Actions\EmailAccountProfile::make()->size('7xl')
     ];
 }
@@ -203,7 +200,7 @@ public function actions(NovaRequest $request)
 
 ### Disabling Action Confirmation
 
-To disable confirmation modal (and therefore run the action immediately), you can invoke the `withoutConfirmation` method when registering your action with a given resource:
+To disable the action confirmation modal and therefore run actions immediately, you can invoke the `withoutConfirmation` method when registering your action with a given resource:
 
 ```php
 /**
