@@ -309,7 +309,6 @@ By default, associatable resources will be sorted by their title when listed in 
 BelongsToMany::make('Roles')->dontReorderAttachables(),
 ```
 
-
 #### Allowing Duplicate Relations
 
 By default, Laravel Nova ensures that "belongs to many" relationships are unique. However, if necessary, you may instruct Nova to allow duplicate relationship entries.
