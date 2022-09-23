@@ -161,7 +161,7 @@ Once the action has been attached to the field, you will be able to select the a
 
 ## Action Confirmation Modal
 
-### Fullscreen or Custom Sizes
+### Fullscreen / Custom Modal Sizes
 
 When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. To indicate that the confirmation modal should display as fullscreen, you may invoke the `fullscreen` method when registering your action with a given resource:
 
