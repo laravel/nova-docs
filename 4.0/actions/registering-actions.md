@@ -159,9 +159,51 @@ BelongsToMany::make('Roles')
 
 Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent resource's detail page.
 
-## Disabling Action Confirmation
+## Action Confirmation Modal
 
-When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. To disable this (and therefore run the action immediately), you can invoke the `withoutConfirmation` method when registering your action with a given resource:
+When running an action, a confirmation modal is typically displayed to the user, allowing them an opportunity to cancel the pending operation. Following are the customisation available for confirmation modal in Nova:
+
+### Fullscreen or Custom Sizes
+
+To enable confirmation modal to display as fullscreen, you can invoke the `fullscreen` method when registering your action with a given resource:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        Actions\EmailAccountProfile::make()->fullscreen()
+    ];
+}
+```
+
+Alternatively, you could also customise the max width size for customisation modal using the `size` method:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        // The size of the modal can be either of the following:
+        // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
+        Actions\EmailAccountProfile::make()->size('7xl')
+    ];
+}
+```
+
+### Disabling Action Confirmation
+
+To disable confirmation modal (and therefore run the action immediately), you can invoke the `withoutConfirmation` method when registering your action with a given resource:
 
 ```php
 /**
