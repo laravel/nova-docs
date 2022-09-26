@@ -378,7 +378,6 @@ return $this->countByDays($request, User::class)
 You may customize the display format of the latest value using the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/format.html):
 
 ```php
-
 return $this->countByDays($request, User::class)
             ->showLatestValue()
             ->format([
