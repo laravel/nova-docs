@@ -184,7 +184,7 @@ public function calculate(NovaRequest $request)
                 ]);
 }
 
-// Numbro pre-v2.0 (http://numbrojs.com/old-format.html)
+// Numbro < v2.0 (http://numbrojs.com/old-format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
