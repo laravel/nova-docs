@@ -377,7 +377,7 @@ return $this->countByDays($request, User::class)
 To customize the display format of a value result, you may use the `format` method. The format must be one of the formats supported by [Numbro](http://numbrojs.com):
 
 ```php
-// Numbro 2.0+ (http://numbrojs.com/format.html)
+// Numbro v2.0+ (http://numbrojs.com/format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
