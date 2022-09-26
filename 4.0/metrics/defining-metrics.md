@@ -171,9 +171,10 @@ return $this->max($request, Order::class, 'total')->currency();
 return $this->max($request, Order::class, 'total')->currency('£');
 ```
 
-To customize the display format of a value result, you may use the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/format.html):
+To customize the display format of a value result, you may use the `format` method. The format must be one of the formats supported by [Numbro](http://numbrojs.com):
 
 ```php
+// 2.0+ (http://numbrojs.com/format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
@@ -182,17 +183,15 @@ public function calculate(NovaRequest $request)
                     'mantissa' => 2,
                 ]);
 }
-```
 
-You can also format it using [Numbro's old format](https://numbrojs.com/old-format.html):
-
-```php
+// pre-2.0 (http://numbrojs.com/old-format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
                 ->format('0,0');
 }
 ```
+
 
 ### Transforming a Value Result
 
@@ -375,23 +374,25 @@ return $this->countByDays($request, User::class)
             ->showLatestValue();
 ```
 
-You may customize the display format of the latest value using the `format` method. The format must be a format supported by [Numbro](http://numbrojs.com/format.html):
+To customize the display format of a value result, you may use the `format` method. The format must be one of the formats supported by [Numbro](http://numbrojs.com):
 
 ```php
-return $this->countByDays($request, User::class)
-            ->showLatestValue()
-            ->format([
-                'thousandSeparated' => true,
-                'mantissa' => 2,
-            ]);
-```
+// 2.0+ (http://numbrojs.com/format.html)
+public function calculate(NovaRequest $request)
+{
+    return $this->count($request, User::class)
+                ->format([
+                    'thousandSeparated' => true,
+                    'mantissa' => 2,
+                ]);
+}
 
-You can also format it using [Numbro's old format](https://numbrojs.com/old-format.html):
-
-```php
-return $this->countByDays($request, User::class)
-            ->showLatestValue()
-            ->format('0,0');
+// pre-2.0 (http://numbrojs.com/old-format.html)
+public function calculate(NovaRequest $request)
+{
+    return $this->count($request, User::class)
+                ->format('0,0');
+}
 ```
 
 #### Displaying The Trend Sum
