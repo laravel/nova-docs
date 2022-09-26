@@ -174,7 +174,7 @@ return $this->max($request, Order::class, 'total')->currency('£');
 To customize the display format of a value result, you may use the `format` method. The format must be one of the formats supported by [Numbro](http://numbrojs.com):
 
 ```php
-// 2.0+ (http://numbrojs.com/format.html)
+// Numbro v2.0+ (http://numbrojs.com/format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
@@ -184,7 +184,7 @@ public function calculate(NovaRequest $request)
                 ]);
 }
 
-// pre-2.0 (http://numbrojs.com/old-format.html)
+// Numbro pre-v2.0 (http://numbrojs.com/old-format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
@@ -377,7 +377,7 @@ return $this->countByDays($request, User::class)
 To customize the display format of a value result, you may use the `format` method. The format must be one of the formats supported by [Numbro](http://numbrojs.com):
 
 ```php
-// 2.0+ (http://numbrojs.com/format.html)
+// Numbro 2.0+ (http://numbrojs.com/format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
@@ -387,7 +387,7 @@ public function calculate(NovaRequest $request)
                 ]);
 }
 
-// pre-2.0 (http://numbrojs.com/old-format.html)
+// Numbro pre-v2.0 (http://numbrojs.com/old-format.html)
 public function calculate(NovaRequest $request)
 {
     return $this->count($request, User::class)
