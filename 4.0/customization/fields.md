@@ -199,6 +199,20 @@ export default {
 </script>
 ```
 
+Next, don't forget to use the `Laravel\Nova\Fields\SupportsDependentFields` trait on your `Field` class:
+
+```php
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\SupportsDependentFields;
+
+class ColorPicker extends Field
+{
+    use SupportsDependentFields;
+
+    // ...
+}
+```
+
 #### Hydrating The Model
 
 By default, when saving a model, your field class will simply copy the incoming form field value into the field's associated model attribute. However, you may customize how your field hydrates the resource model. To accomplish this, override the `fillAttributeFromRequest` method on your field class:
@@ -206,7 +220,7 @@ By default, when saving a model, your field class will simply copy the incoming 
 ```php
 <?php
 
-namespace Otwell\ColorPicker;
+namespace Acme\ColorPicker;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
