@@ -202,10 +202,6 @@ export default {
 Next, don't forget to use `Laravel\Nova\Fields\SupportsDependentFields` trait on your `Field` class:
 
 ```php
-<?php
-
-namespace Acme\ColorPicker;
-
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\SupportsDependentFields;
 
