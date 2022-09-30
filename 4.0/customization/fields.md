@@ -199,7 +199,7 @@ export default {
 </script>
 ```
 
-Next, don't forget to use `Laravel\Nova\Fields\SupportsDependentFields` trait on your `Field` class:
+Next, don't forget to use the `Laravel\Nova\Fields\SupportsDependentFields` trait on your `Field` class:
 
 ```php
 use Laravel\Nova\Fields\Field;
