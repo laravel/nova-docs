@@ -363,7 +363,7 @@ Badge::make('Status')->addTypes([
 By default the `Badge` field is not shown on a resource's edit or update pages. If you wish to modify the underlying value represented by the `Badge` field on your edit forms, define another field in combination with the `onlyOnForms` field option.
 :::
 
-If you'd like to display your badge with an associated icon, you can use the `withIcons` method to direct Nova to display an icon: 
+If you'd like to display your badge with an associated icon, you can use the `withIcons` method to direct Nova to display an icon:
 
 ```php
 Badge::make('Status')->map([
@@ -633,7 +633,7 @@ DateTime::make('Updated At')->hideFromIndex(),
 
 ### Email Field
 
-The `Email` field may be used to display a column with a `mailto:` link on the index and detail views: 
+The `Email` field may be used to display a column with a `mailto:` link on the index and detail views:
 
 ```php
 use Laravel\Nova\Fields\Email;
@@ -862,7 +862,7 @@ MultiSelect::make('Sizes')->options([
     'M' => 'Medium',
     'L' => 'Large',
 ]),
-``` 
+```
 
 On the resource index and detail pages, the `MultiSelect` field's "key" value will be displayed. If you would like to display the label values instead, you may invoke the `displayUsingLabels` method when defining the field:
 
@@ -1195,6 +1195,24 @@ Sometimes you may wish to copy the value of a field into the system clipboard fo
 Text::make('Twitter Profile')->copyable(),
 ```
 
+#### Setting `maxlength` on Text Fields
+
+You may wish to indicate to the user that the content of a `Text` field should be kept within a certain length. You can do this by using the `maxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250),
+```
+
+Nova will display the maximum length for the field along with a character counter. However, Nova will not enforce the maximum length. To instruct Nova to enforce the limit, you may call the `enforceMaxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250)->enforceMaxlength(),
+```
+
 ### Textarea Field
 
 The `Textarea` field provides a `textarea` control:
@@ -1223,6 +1241,24 @@ Textarea::make('Excerpt')->rows(3),
 Textarea::make('Excerpt')->withMeta(['extraAttributes' => [
     'placeholder' => 'Make it less than 50 characters']
 ]),
+```
+
+#### Setting `maxlength` on Textarea Fields
+
+You may wish to indicate to the user that the content of a `Textarea` field should be kept within a certain length. You can do this by using the `maxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Textarea;
+
+Textarea::make('Name')->maxlength(250),
+```
+
+Nova will display the maximum length for the field along with a character counter. However, Nova will not enforce the maximum length. To instruct Nova to enforce the limit, you may call the `enforceMaxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250)->enforceMaxlength(),
 ```
 
 ### Timezone Field
@@ -1326,7 +1362,7 @@ UiAvatar::make('Avatar', 'fullname')->squared(),
 Additional options available when defining `UiAvatar` fields include:
 
 | Option           | Method                      | Description                                 |
-|:-----------------|:----------------------------|:--------------------------------------------|
+| :--------------- | :-------------------------- | :------------------------------------------ |
 | Font Size        | `fontSize(0.4)`             | Set a font size between `0.1` to `1`.       |
 | Bold             | `bold()`                    | Set font weight to bold.                    |
 | Background Color | `backgroundColor('1D4ED7')` | Set the hex color for the image background. |
@@ -1616,7 +1652,7 @@ Select::make('Purchase Type', 'type')
 Text::make('Recipient')
     ->readonly()
     ->dependsOn(
-        ['type'], 
+        ['type'],
         function (Text $field, NovaRequest $request, FormData $formData) {
             if ($formData->type === 'gift') {
                 $field->readonly(false)->rules(['required', 'email']);
