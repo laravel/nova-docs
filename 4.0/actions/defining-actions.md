@@ -112,7 +112,7 @@ When running an action against multiple resources, you may wish to execute some 
 
 The `then` methods accepts a closure which will be invoked when the action has finished executing against all of the selected resources. The closure will receive a flattened Laravel [collection](https://laravel.com/docs/collections) containing the values that were returned by the action.
 
-For example, note that that the following action's `handle` method returns the `$models` it receives:
+For example, note that the following action's `handle` method returns the `$models` it receives:
 
 ```php
 public function handle(ActionFields $fields, Collection $models)
