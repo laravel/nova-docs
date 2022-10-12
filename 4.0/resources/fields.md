@@ -1195,6 +1195,24 @@ Sometimes you may wish to copy the value of a field into the system clipboard fo
 Text::make('Twitter Profile')->copyable(),
 ```
 
+#### Setting `maxlength` on Text Fields
+
+You may wish to indicate to the user that the content of a `Text` field should be kept within a certain length. You can do this by using the `maxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250),
+```
+
+Nova will display the maximum length for the field along with a character counter. However, Nova will not enforce the maximum length. To instruct Nova to enforce the limit, you may call the `enforceMaxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250)->enforceMaxlength(),
+```
+
 ### Textarea Field
 
 The `Textarea` field provides a `textarea` control:
@@ -1223,6 +1241,24 @@ Textarea::make('Excerpt')->rows(3),
 Textarea::make('Excerpt')->withMeta(['extraAttributes' => [
     'placeholder' => 'Make it less than 50 characters']
 ]),
+```
+
+#### Setting `maxlength` on Textarea Fields
+
+You may wish to indicate to the user that the content of a `Textarea` field should be kept within a certain length. You can do this by using the `maxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Textarea;
+
+Textarea::make('Name')->maxlength(250),
+```
+
+Nova will display the maximum length for the field along with a character counter. However, Nova will not enforce the maximum length. To instruct Nova to enforce the limit, you may call the `enforceMaxlength` method on the field:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+Text::make('Name')->maxlength(250)->enforceMaxlength(),
 ```
 
 ### Timezone Field
