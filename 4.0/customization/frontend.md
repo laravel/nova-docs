@@ -137,7 +137,7 @@ By default, Nova's JavaScript is compiled for production. As such, you will not 
 ```bash
 cd ./vendor/laravel/nova
 mv webpack.mix.js.dist webpack.mix.js
-npm install
+npm ci
 npm run dev
 rm -rf node_modules
 cd -
