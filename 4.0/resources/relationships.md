@@ -626,6 +626,15 @@ BelongsTo::make('User')->hideCreateRelationButton(),
 
 The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
 
+### Adjust the inline creation modal's size:
+
+You may adjust the size of the modal by using the `modalSize` method:
+
+```php
+// Can be "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
+BelongsTo::make('User')->showCreateRelationButton()->modalSize('7xl'),
+```
+
 :::warning Inline Creation Limitations
 
 Inline relation creation only supports creating relations **one level deep**. This means you cannot trigger an additional inline creation modal inside an existing inline creation modal. Instead, you must select a resource that already exists.

@@ -1148,7 +1148,7 @@ The `Tag` field allows you to search and attach `BelongsToMany` relationships us
 ```php
 use Laravel\Nova\Fields\Tag;
 
-Tag::make('Tag'),
+Tag::make('Tags'),
 ```
 
 ![Tag Field](./img/tag-field.png)
@@ -1164,7 +1164,7 @@ You may instruct the `Tag` field to allow previewing the tag's relation by using
 ```php
 use Laravel\Nova\Fields\Tag;
 
-Tag::make('Tag')->withPreview(),
+Tag::make('Tags')->withPreview(),
 ```
 
 ![Previewing Tags](./img/previewing-tags.png)
@@ -1176,7 +1176,7 @@ Instead of displaying your tags as an inline group, you may opt to display your 
 ```php
 use Laravel\Nova\Fields\Tag;
 
-Tag::make('Tag')->displayAsList(),
+Tag::make('Tags')->displayAsList(),
 ```
 
 This allows tags to be displayed with their title, subtitle, and a configured image field:
@@ -1196,7 +1196,16 @@ To enable this functionality, invoke the `showCreateRelationButton` method when 
 ```php
 use Laravel\Nova\Fields\Tag;
 
-Tag::make('Tag')->showCreateRelationButton(),
+Tag::make('Tags')->showCreateRelationButton(),
+```
+
+### Adjust the inline creation modal's size:
+
+You may adjust the size of the modal by using the `modalSize` method:
+
+```php
+// Can be "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
+Tag::make('Tags')->showCreateRelationButton()->modalSize('7xl'),
 ```
 
 ### Text Field
