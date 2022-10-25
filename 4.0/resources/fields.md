@@ -291,6 +291,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [Sparkline](#sparkline-field)
 - [Status](#status-field)
 - [Stack](#stack-field)
+- [Tag](#tag-field)
 - [Text](#text-field)
 - [Textarea](#textarea-field)
 - [Timezone](#timezone-field)
@@ -1138,6 +1139,64 @@ Stack::make('Details', [
     Line::make('Name')->asHeading(),
     fn () => optional($this->resource)->position
 ]),
+```
+
+### Tag Field
+
+The `Tag` field allows you to search and attach `BelongsToMany` relationships using a tag selection interface. This field is useful for adding roles to users, tagging articles, or assigning authors to books:
+
+```php
+use Laravel\Nova\Fields\Tag;
+
+Tag::make('Tag'),
+```
+
+![Tag Field](./img/tag-field.png)
+
+`Tag` fields will be displayed in a dropdown on the index view:
+
+![Tag Field on index views](./img/tag-field-index.png)
+
+### Previewing Tags
+
+You may instruct the `Tag` field to allow previewing the tag's relation by using the `withPreview` method on the field. This will display the related resource's preview details in a modal:
+
+```php
+use Laravel\Nova\Fields\Tag;
+
+Tag::make('Tag')->withPreview(),
+```
+
+![Previewing Tags](./img/previewing-tags.png)
+
+### Displaying Tags as a List
+
+Instead of displaying your tags as an inline group, you may opt to display your tags as a list:
+
+```php
+use Laravel\Nova\Fields\Tag;
+
+Tag::make('Tag')->displayAsList(),
+```
+
+This allows tags to be displayed with their title, subtitle, and a configured image field:
+
+![Tag field displayed as a list](./img/tag-field-list-index.png)
+
+![Tag field displayed as a list](./img/tag-field-list-edit.png)
+
+### Creating New Tags Inline
+
+For convenience, When `Tag` fields are shown on a resource create or update page, you may create the related resource inline via a modal window without leaving the creation / update page:
+
+![Creating Tags Inline](./img/tag-field-with-create-relation.png)
+
+To enable this functionality, invoke the `showCreateRelationButton` method when defining the field:
+
+```php
+use Laravel\Nova\Fields\Tag;
+
+Tag::make('Tag')->showCreateRelationButton(),
 ```
 
 ### Text Field
