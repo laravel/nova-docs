@@ -1157,7 +1157,7 @@ Tag::make('Tags'),
 
 ![Tag Field on index views](./img/tag-field-index.png)
 
-### Previewing Tags
+#### Previewing Tags
 
 You may instruct the `Tag` field to allow previewing the tag's relation by using the `withPreview` method on the field. This will display the related resource's preview details in a modal:
 
@@ -1169,7 +1169,7 @@ Tag::make('Tags')->withPreview(),
 
 ![Previewing Tags](./img/previewing-tags.png)
 
-### Displaying Tags as a List
+#### Displaying Tags as a List
 
 Instead of displaying your tags as an inline group, you may opt to display your tags as a list:
 
@@ -1185,7 +1185,7 @@ This allows tags to be displayed with their title, subtitle, and a configured im
 
 ![Tag field displayed as a list](./img/tag-field-list-edit.png)
 
-### Creating New Tags Inline
+#### Creating New Tags Inline
 
 For convenience, When `Tag` fields are shown on a resource create or update page, you may create the related resource inline via a modal window without leaving the creation / update page:
 
@@ -1199,7 +1199,7 @@ use Laravel\Nova\Fields\Tag;
 Tag::make('Tags')->showCreateRelationButton(),
 ```
 
-### Adjust the inline creation modal's size:
+#### Adjust the inline creation modal's size:
 
 You may adjust the size of the modal by using the `modalSize` method:
 
