@@ -1143,7 +1143,7 @@ Stack::make('Details', [
 
 ### Tag Field
 
-The `Tag` field allows you to search and attach `BelongsToMany` relationships using a tag selection interface. This field is useful for adding roles to users, tagging articles, or assigning authors to books:
+The `Tag` field allows you to search and attach `BelongsToMany` relationships using a tag selection interface. This field is useful for adding roles to users, tagging articles, assigning authors to books, and other similar scenarios:
 
 ```php
 use Laravel\Nova\Fields\Tag;
@@ -1159,7 +1159,7 @@ Tag::make('Tags'),
 
 #### Previewing Tags
 
-You may instruct the `Tag` field to allow previewing the tag's relation by using the `withPreview` method on the field. This will display the related resource's preview details in a modal:
+You may instruct the `Tag` field to allow previewing the tag's relation by invoking the `withPreview` method on the field. This will display the related resource's preview details in a modal:
 
 ```php
 use Laravel\Nova\Fields\Tag;
@@ -1169,9 +1169,9 @@ Tag::make('Tags')->withPreview(),
 
 ![Previewing Tags](./img/previewing-tags.png)
 
-#### Displaying Tags as a List
+#### Displaying Tags As Lists
 
-Instead of displaying your tags as an inline group, you may opt to display your tags as a list:
+Instead of displaying your tags as an inline group, you may instead display your tags as a list:
 
 ```php
 use Laravel\Nova\Fields\Tag;
@@ -1187,7 +1187,7 @@ This allows tags to be displayed with their title, subtitle, and a configured im
 
 #### Creating New Tags Inline
 
-For convenience, When `Tag` fields are shown on a resource create or update page, you may create the related resource inline via a modal window without leaving the creation / update page:
+For convenience, when `Tag` fields are shown on a resource create or update page, you may create the related resource inline via a modal window without leaving the creation / update page:
 
 ![Creating Tags Inline](./img/tag-field-with-create-relation.png)
 
@@ -1199,9 +1199,9 @@ use Laravel\Nova\Fields\Tag;
 Tag::make('Tags')->showCreateRelationButton(),
 ```
 
-#### Adjust the inline creation modal's size
+#### Adjusting Inline Creation Modal's Size
 
-You may adjust the size of the modal by using the `modalSize` method:
+You may adjust the size of the modal using the `modalSize` method:
 
 ```php
 // Can be "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
