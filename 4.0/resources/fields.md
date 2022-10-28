@@ -1199,7 +1199,7 @@ use Laravel\Nova\Fields\Tag;
 Tag::make('Tags')->showCreateRelationButton(),
 ```
 
-#### Adjust the inline creation modal's size:
+#### Adjust the inline creation modal's size
 
 You may adjust the size of the modal by using the `modalSize` method:
 
