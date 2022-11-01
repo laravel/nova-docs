@@ -556,7 +556,7 @@ The `Code` field's currently supported languages are:
 
 ### Color Field
 
-The `Color` field generate a color picker using the HTML5 `color` input element:
+The `Color` field generates a color picker using the HTML5 `color` input element:
 
 ```php
 use Laravel\Nova\Fields\Color;
