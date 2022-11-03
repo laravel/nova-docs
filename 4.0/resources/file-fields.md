@@ -78,7 +78,7 @@ To set the width of the `Image` field when being displayed, you can use the `max
 Image::make('Profile Photo')->maxWidth(100),
 ```
 
-Alternatively, you can set separate widths for the index and detail views using the `indexWidth` and `detailWidth` helpers:
+Alternatively, you can set separate widths for the index and detail views using the `indexWidth` and `detailWidth` methods:
 
 ```php
 Image::make('Profile Photo')->indexWidth(60)->detailWidth(150),
@@ -86,7 +86,7 @@ Image::make('Profile Photo')->indexWidth(60)->detailWidth(150),
 
 :::tip Max Width
 
-You may also use the `maxWidth`, `indexWidth` and `detailWidth` methods on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
+You may also use the `maxWidth`, `indexWidth`, and `detailWidth` methods on the [Avatar](#avatars) and [Gravatar](/1.0/resources/fields.html#gravatar-field) fields.
 :::
 
 ## Avatars
