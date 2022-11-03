@@ -579,6 +579,34 @@ You may also instruct the relation field to display the [resource's subtitle](./
 BelongsTo::make('User')->searchable()->withSubtitles(),
 ```
 
+#### Relatable Query Filtering
+
+Often you would need to be able to add relatable query, insteads of using [Relatable Filtering](./authorization.html#relatable-filter) you can also filtering by invoking the `relatableQueryUsing()` method:
+
+```php
+BelongsTo::make('User')
+    ->relatableQueryUsing(function ($query) {
+        $query->whereIn('teams', ['editor', 'writer']);
+    }),
+```
+
+This also useful when you need to change relatable query filter based on value from another field:
+
+```php
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+BelongsTo::make('User')
+    ->dependsOn('topic', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+        if ($formData->topic === 'laravel-nova') {
+            $field->relatableQueryUsing(function ($query) {
+                $query->whereIn('email', ['taylor@laravel.com', 'david@laravel.com']);
+            });
+        }
+    }),
+```
+
 #### Limiting Relation Results
 
 You can limit the number of results that are returned when searching the field by defining a `relatableSearchResults` property on the class of the resource that you are searching for:
@@ -626,7 +654,7 @@ BelongsTo::make('User')->hideCreateRelationButton(),
 
 The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
 
-### Adjust the inline creation modal's size:
+### Adjust the inline creation modal's size
 
 You may adjust the size of the modal by using the `modalSize` method:
 
