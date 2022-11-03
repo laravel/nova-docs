@@ -1761,6 +1761,7 @@ The following field types may not be depended upon by other fields since they do
 - Image
 - KeyValue
 - Status
+- Tag
 - Trix
 - VaporFile
 - VaporImage
