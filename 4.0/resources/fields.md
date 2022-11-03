@@ -71,6 +71,9 @@ Alternatively, you may pass a callback to the following methods.
 - `hideFromDetail`
 - `hideWhenCreating`
 - `hideWhenUpdating`
+- `showOnPreview`
+- `onlyOnPreview`
+- `showWhenPeeking`
 
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
