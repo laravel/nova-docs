@@ -78,7 +78,7 @@ To set the width of the `Image` field when being displayed, you can use the `max
 Image::make('Profile Photo')->maxWidth(100),
 ```
 
-Alternatively, you can also separate the max width value for Index and Detail view using `indexWidth` and `detailWidth`:
+Alternatively, you can set separate widths for the index and detail views using the `indexWidth` and `detailWidth` helpers:
 
 ```php
 Image::make('Profile Photo')->indexWidth(60)->detailWidth(150),
