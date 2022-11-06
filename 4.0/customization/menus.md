@@ -26,7 +26,7 @@ use App\Nova\Release;
 use App\Nova\Series;
 use App\Nova\User;
 use Illuminate\Http\Request;
-use Laravel\Nova\Nova\Dashboards\Main;
+use Laravel\Nova\Dashboards\Main;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
