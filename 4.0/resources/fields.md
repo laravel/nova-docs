@@ -46,6 +46,7 @@ The following methods may be used to show / hide fields based on the display con
 - `showOnCreating`
 - `showOnUpdating`
 - `showOnPreview`
+- `showWhenPeeking`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -67,6 +68,7 @@ Alternatively, you may pass a callback to the following methods.
 - `showOnDetail`
 - `showOnCreating`
 - `showOnUpdating`
+- `showWhenPeeking`
 - `hideFromIndex`
 - `hideFromDetail`
 - `hideWhenCreating`
@@ -86,6 +88,14 @@ For `hide*` methods, the field will be hidden if the given callback returns `tru
 Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
+```
+
+### Showing Fields When Peeking
+
+You may allow a field to be visible [when peeking at the resource](/4.0/resources/relationships.html#peeking-at-belongsto-relationships) by using the `showWhenPeeking` method on the field:
+
+```php
+Text::make('Name')->showWhenPeeking(),
 ```
 
 ### Resource Preview Modal
