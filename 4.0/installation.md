@@ -327,6 +327,37 @@ public function boot()
 }
 ```
 
+### Enabling Breadcrumbs Menu
+
+If you wish to display Nova's Breadcrumb Menu, you can enable this behavior by calling `showBreadcrumbs` method from your `App\Providers\NovaServiceProvider` service provider:
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::showBreadcrumbs();
+}
+```
+
+Alternatively, you can also add a condition to when Breadcrumb should be displayed, e.g:
+
+```php
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
+Nova::showBreadcrumbs(function (NovaRequest $request) {
+    return $request->is('nova/resources/*');
+});
+```
+
 ## Error Reporting
 
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
