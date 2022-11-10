@@ -99,7 +99,7 @@ To remove a site from a license, make a `DELETE` request to the `sites` endpoint
 ```php
 Http::baseUrl('https://nova.laravel.com/api')
     ->withToken('{your-license-key}')
-    ->patch('/sites', [
+    ->delete('/sites', [
         'url' => 'http://example.com'
     ]);
 ```
