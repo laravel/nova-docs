@@ -49,7 +49,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the tools that should be listed in the Nova sidebar.
  *
- * @return array<int, \Laravel\Tool\Nova>
+ * @return array<int, \Laravel\Nova\Tool>
  */
 public function tools(): array
 {
