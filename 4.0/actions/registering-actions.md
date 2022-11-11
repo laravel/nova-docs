@@ -159,9 +159,9 @@ BelongsToMany::make('Roles')
 
 Once the action has been attached to the field, you will be able to select the action and execute it from the relationship index on the parent resource's detail page.
 
-### Custom Pivot Action Name
+#### Custom Pivot Action Name
 
-By default, Pivot Actions dropdown will be grouped as "Pivot" but you can override it by using `referToPivotAs` method:
+By default, the pivot actions within the action dropdown menu will be grouped as "Pivot", but you may customize this name using the `referToPivotAs` method:
 
 ```php
 BelongsToMany::make('Roles')

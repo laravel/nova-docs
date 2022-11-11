@@ -11,7 +11,7 @@ To publish the stubs used by Nova to generate various classes, execute the follo
 php artisan nova:stubs
 ``` 
 
-Artisan command in your terminal. Nova will copy all of its stub files into `./stubs/nova`, where you may then customize the files.
+When running this Artisan command in your terminal, Nova will copy all of its stub files into `./stubs/nova`, where they may then be customized.
 
 If you do not wish to customize a particular stub, you may delete the stub and Nova will continue to use the default version of the stub that exists within Nova itself.
 

@@ -26,13 +26,13 @@ Text::make('State')
     ->rules('required', new ValidState),
 ```
 
-You can also define the same rules using array or Closure:
+You may also provide rules to the `rules` method via an array or Closure:
 
 ```php
-// Define using array
+// Using an array...
 Text::make('State')->rules(['required', new ValidState]),
 
-// Define using Closure
+// Using a Closure...
 Text::make('State')->rules(fn ($request) => [
     'required', 
     new ValidState(),

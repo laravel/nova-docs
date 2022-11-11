@@ -1646,9 +1646,9 @@ By default, Nova displays fields next to their labels on the create / update for
 Trix::make('Content')->stacked(),
 ```
 
-### Field Full Width
+### Full Width Fields
 
-Other than Stacking, you can also use set the field to full width field by using the `fullWidth` method:
+You may indicate that the field should be "full width" using the `fullWidth` method:
 
 ```php
 Trix::make('Content')->fullWidth(),
