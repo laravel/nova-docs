@@ -34,9 +34,9 @@ use Laravel\Nova\Query\Search\SearchableText;
 /**
  * Get the searchable columns for the resource.
  *
- * @return array
+ * @return array<int, callable|string>
  */
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return ['id', new SearchableText('title')];
 }
@@ -54,9 +54,9 @@ use Laravel\Nova\Query\Search\SearchableRelation;
 /**
  * Get the searchable columns for the resource.
  *
- * @return array
+ * @return array<int, callable|string>
  */
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return ['id', new SearchableRelation('author', 'name')];
 }
@@ -86,9 +86,9 @@ use Laravel\Nova\Query\Search\SearchableMorphToRelation;
 /**
  * Get the searchable columns for the resource.
  *
- * @return array
+ * @return array<int, callable|string>
  */
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return ['id', new SearchableMorphToRelation('commentable', 'title', [Post::class])];
 }
@@ -106,9 +106,9 @@ use Laravel\Nova\Query\Search\SearchableJson;
 /**
  * Get the searchable columns for the resource.
  *
- * @return array
+ * @return array<int, callable|string>
  */
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return ['id', new SearchableJson('meta->address->postcode')];
 }

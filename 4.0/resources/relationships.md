@@ -145,10 +145,8 @@ Alternatively, you may override the resource's `title` method:
 ```php
 /**
  * Get the value that should be displayed to represent the resource.
- *
- * @return string
  */
-public function title()
+public function title(): string
 {
     return $this->name;
 }
@@ -175,7 +173,7 @@ BelongsTo::make('User')->withoutTrashed(),
 The `BelongsToMany` field corresponds to a `belongsToMany` Eloquent relationship. For example, let's assume a `User` model `belongsToMany` `Role` models:
 
 ```php
-public function roles()
+public function roles(): BelongsToMany
 {
     return $this->belongsToMany(Role::class);
 }
@@ -205,7 +203,7 @@ For example, let's assume our `User` model `belongsToMany` `Role` models. On our
 
 ```php
 BelongsToMany::make('Roles')
-    ->fields(function ($request, $relatedModel) {
+    ->fields(function (NovaRequest $request, Model $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -216,7 +214,7 @@ Of course, it is likely we would also define this field on the inverse of the re
 
 ```php
 BelongsToMany::make('Users')
-    ->fields(function ($request, $relatedModel) {
+    ->fields(function (NovaRequest $request, Model $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -249,11 +247,9 @@ class RoleUserFields
     /**
      * Get the pivot fields for the relationship.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $relatedModel
-     * @return array
+     * @return array<int, \Laravel\Nova\Fields\Fields>
      */
-    public function __invoke($request, $relatedModel)
+    public function __invoke(NovaRequest $request, Model $relatedModel): array
     {
         return [
             Text::make('Notes'),
@@ -268,7 +264,7 @@ Laravel Nova also allows you to define computed fields within the field list of 
 
 ```php
 BelongsToMany::make('Users')
-    ->fields(function ($request, $relatedModel) {
+    ->fields(function (NovaRequest $request, Model $relatedModel) {
         return [
             Text::make('Notes'),
 
@@ -316,10 +312,8 @@ Alternatively, you may override the resource's `title` method:
 ```php
 /**
  * Get the value that should be displayed to represent the resource.
- *
- * @return string
  */
-public function title()
+public function title(): string
 {
     return $this->name;
 }
@@ -340,7 +334,7 @@ By default, Laravel Nova ensures that "belongs to many" relationships are unique
 To get started, you should ensure that your pivot record's `id` column is available by using the `withPivot` method when defining the relationship on your Eloquent model. In this example, let's imagine that a `User` may purchase a `Book` one or more times:
 
 ```php
-public function books()
+public function books(): BelongsToMany
 {
     return $this->belongsToMany(Book::class)
                 ->using(BookPurchase::class)
@@ -472,7 +466,7 @@ For example, on our `taggables` intermediate table, let's imagine we have a `not
 
 ```php
 MorphToMany::make('Tags')
-    ->fields(function ($request, $relatedModel) {
+    ->fields(function (NovaRequest $request, Model $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -483,7 +477,7 @@ Of course, it is likely we would also define this field on the inverse of the re
 
 ```php
 MorphToMany::make('Posts')
-    ->fields(function ($request, $relatedModel) {
+    ->fields(function (NovaRequest $request, Model $relatedModel) {
         return [
             Text::make('Notes'),
         ];
@@ -516,11 +510,9 @@ class TaggableFields
     /**
      * Get the pivot fields for the relationship.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $relatedModel
-     * @return array
+     * @return array<int, \Laravel\Nova\Fields\Field>
      */
-    public function __invoke($request, $relatedModel)
+    public function __invoke(NovaRequest $request, Model $relatedModel): array
     {
         return [
             Text::make('Notes'),
@@ -546,10 +538,8 @@ Alternatively, you may override the resource's `title` method:
 ```php
 /**
  * Get the value that should be displayed to represent the resource.
- *
- * @return string
  */
-public function title()
+public function title(): string
 {
     return $this->name;
 }
@@ -568,7 +558,7 @@ To mark a relationship as `searchable`, chain the `searchable` method onto the f
 ```php
 BelongsTo::make('User')->searchable(),
 
-BelongsTo::make('User')->searchable(function ($request) {
+BelongsTo::make('User')->searchable(function (NovaRequest $request) {
     return true;
 }),
 ```
@@ -607,7 +597,7 @@ BelongsTo::make('User')->showCreateRelationButton(),
 You may also pass a closure to the `showCreateRelationButton` method to conditionally determine if inline resource creation should be enabled:
 
 ```php
-BelongsTo::make('User')->showCreateRelationButton(function ($request) {
+BelongsTo::make('User')->showCreateRelationButton(function (NovaRequest $request) {
     //
 }),
 ```

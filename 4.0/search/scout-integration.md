@@ -12,16 +12,15 @@ For this reason, Nova integrates seamlessly with [Laravel Scout](https://laravel
 If you would like to call methods on the `Laravel\Scout\Builder` instance before it executes your search query against your search engine, you may override the `scoutQuery` method on your resource:
 
 ```php
+use Laravel\Scout\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Build a Scout search query for the given resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Laravel\Scout\Builder  $query
- * @return \Laravel\Scout\Builder
  */
-public static function scoutQuery(NovaRequest $request, $query)
+public static function scoutQuery(NovaRequest $request, $query): Builder
 {
     return $query;
 }
@@ -47,10 +46,8 @@ You may disable Scout search support for a specific resource by defining a `uses
 ```php
 /**
  * Determine if this resource uses Laravel Scout.
- *
- * @return bool
  */
-public static function usesScout()
+public static function usesScout(): bool
 {
     return false;
 }

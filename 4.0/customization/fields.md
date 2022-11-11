@@ -62,8 +62,10 @@ class ColorPicker extends Field
 
     /**
      * Set the hues that may be selected by the color picker.
+     *
+     * @return $this
      */
-    public function hues(array $hues): static
+    public function hues(array $hues)
     {
         return $this->withMeta(['hues' => $hues]);
     }
@@ -233,16 +235,14 @@ class ColorPicker extends Field
     /**
      * Hydrate the given attribute on the model based on the incoming request.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  string  $requestAttribute
      * @param  object  $model
      * @param  string  $attribute
-     * @return void
      */
     protected function fillAttributeFromRequest(NovaRequest $request,
                                                 $requestAttribute,
                                                 $model,
-                                                $attribute)
+                                                $attribute): void
     {
         if ($request->exists($requestAttribute)) {
             $model->{$attribute} = $request[$requestAttribute];

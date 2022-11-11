@@ -31,7 +31,7 @@ Additionally, you may use [custom closure rules](https://laravel.com/docs/valida
 ```php
 Text::make('State')
     ->sortable()
-    ->rules('required', function($attribute, $value, $fail) {
+    ->rules('required', function(string $attribute, $value, Closure $fail) {
         if (strtoupper($value) !== $value) {
             return $fail('The '.$attribute.' field must be uppercase.');
         }
@@ -78,11 +78,9 @@ The `afterValidation` method will always be called after a resource has been val
 /**
  * Handle any post-validation processing.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Validation\Validator  $validator
- * @return void
  */
-protected static function afterValidation(NovaRequest $request, $validator)
+protected static function afterValidation(NovaRequest $request, $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -98,11 +96,9 @@ The `afterCreationValidation` method will be called after a resource that is bei
 /**
  * Handle any post-creation validation processing.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Validation\Validator  $validator
- * @return void
  */
-protected static function afterCreationValidation(NovaRequest $request, $validator)
+protected static function afterCreationValidation(NovaRequest $request, $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -118,11 +114,9 @@ The `afterUpdateValidation` method will be called after a resource that is being
 /**
  * Handle any post-update validation processing.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Validation\Validator  $validator
- * @return void
  */
-protected static function afterUpdateValidation(NovaRequest $request, $validator)
+protected static function afterUpdateValidation(NovaRequest $request, $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');

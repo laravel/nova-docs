@@ -31,10 +31,8 @@ Alternatively, you may override the resource's `title` method:
 ```php
 /**
  * Get the value that should be displayed to represent the resource.
- *
- * @return string
  */
-public function title()
+public function title(): string
 {
     return $this->name;
 }
@@ -56,10 +54,8 @@ To define a resource's subtitle, you should override the `subtitle` method of th
 ```php
 /**
  * Get the search result subtitle for the resource.
- *
- * @return string
  */
-public function subtitle()
+public function subtitle(): string
 {
     return "Author: {$this->user->name}";
 }
@@ -131,10 +127,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 

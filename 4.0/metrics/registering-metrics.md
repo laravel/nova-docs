@@ -13,10 +13,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         new UsersPerDay
@@ -33,10 +32,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         UsersPerDay::make()
@@ -54,10 +52,9 @@ In addition to placing metrics on the resource index page, you may also attach a
 /**
  * Get the cards available for the request.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         (new Metrics\PodcastCount)->onlyOnDetail(),
@@ -83,9 +80,9 @@ use App\Nova\Metrics\NewUsers;
 /**
  * Get the cards that should be displayed on the Nova dashboard.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-protected function cards()
+protected function cards(): array
 {
     return [
         new NewUsers,
@@ -104,13 +101,12 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
-        (new Metrics\UsersPerDay)->canSee(function ($request) {
+        (new Metrics\UsersPerDay)->canSee(function (NovaRequest $request) {
             return $request->user()->can('viewUsersPerDay', User::class);
         }),
     ];
@@ -137,9 +133,9 @@ use App\Nova\Metrics\NewUsers;
 /**
  * Get the cards that should be displayed on the Nova dashboard.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-protected function cards()
+protected function cards(): array
 {
     return [
         NewUsers::make()->defaultRange('YTD'),
@@ -155,10 +151,9 @@ By default, metrics take up one-third of the Nova content area. However, you are
 /**
  * Get the cards available for the request.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         // Two-thirds of the content area...
@@ -176,10 +171,9 @@ When the metric width is set to `full`, the height of the card will become dynam
 /**
  * Get the cards available for the request.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         (new Metrics\UsersPerDay)->width('full')->fixedHeight(),
@@ -200,10 +194,9 @@ To enable the tooltip, invoke the `help` method while registering your metric. T
 /**
  * Get the cards available for the request.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         (new TotalUsers)
@@ -234,7 +227,7 @@ Laravel Nova will automatically fetch updated results (without requiring the use
 
 By default, Nova does not automatically update metric results after an action is executed without the user manually refreshing the page; however, you may indicate that metrics should automatically refresh after actions have executed by invoking the `refreshWhenActionsRun` method when registering your metric:
 ```php
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         TotalUsers::make()->refreshWhenActionsRun(),
@@ -247,7 +240,7 @@ public function cards(NovaRequest $request)
 Likewise, Laravel Nova will only automatically update a metric's value when a page's selected filters change if the metric's `refreshWhenFiltersChange` method is invoked when the metric is registered:
 
 ```php
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         TotalUsers::make()->refreshWhenFiltersChange(),

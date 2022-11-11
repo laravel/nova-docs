@@ -38,13 +38,12 @@ The new `Action::then` method allows you to easily execute code after an action 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new Actions\EmailAccountProfile)->then(function ($models) {
+        (new Actions\EmailAccountProfile)->then(function (Collection $models) {
             $models->each(function ($model) {
                 //
             });
@@ -63,12 +62,8 @@ use Throwable;
 
 /**
  * Prepare the given batch for execution.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Bus\PendingBatch  $batch
- * @return void
  */
-public function withBatch(ActionFields $fields, PendingBatch $batch)
+public function withBatch(ActionFields $fields, PendingBatch $batch): void
 {
     $batch->then(function (Batch $batch) {
         // All jobs completed successfully...
@@ -238,9 +233,9 @@ use Laravel\Nova\Query\Search\SearchableText;
 /**
  * Get the searchable columns for the resource.
  *
- * @return array
+ * @return array<int, callable|string>
  */
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return ['id', new SearchableText('title')];
 }
@@ -252,7 +247,7 @@ In addition, Nova 4 even allows you to search within a resource's relationships 
 use Laravel\Nova\Query\Search\SearchableJson;
 use Laravel\Nova\Query\Search\SearchableRelation;
 
-public static function searchableColumns()
+public static function searchableColumns(): array
 {
     return [
         'id',

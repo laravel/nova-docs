@@ -90,7 +90,7 @@ class Analytics extends Card
      *
      * @return $this
      */
-    public function currentVisitors(): static
+    public function currentVisitors()
     {
         return $this->withMeta(['currentVisitors' => true]);
     }

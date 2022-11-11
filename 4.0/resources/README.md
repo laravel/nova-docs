@@ -62,10 +62,8 @@ use App\Nova\Post;
 
 /**
  * Register the application's Nova resources.
- *
- * @return void
  */
-protected function resources()
+protected function resources(): void
 {
     Nova::resourcesIn(app_path('Nova'));
 
@@ -100,11 +98,8 @@ use Illuminate\Http\Request;
 
 /**
  * Get the menu that should represent the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return \Laravel\Nova\Menu\MenuItem
  */
-public function menu(Request $request)
+public function menu(Request $request): MenuItem
 {
     return parent::menu($request)->withBadge(function () {
         return static::$model::count();
@@ -215,7 +210,7 @@ To customize the replication model, you can override the `replicate` method on t
  */
 public function replicate()
 {
-    return tap(parent::replicate(), function ($resource) {
+    return tap(parent::replicate(), function (Resource $resource) {
         $model = $resource->model();
 
         $model->name = 'Duplicate of '.$model->name;
@@ -238,10 +233,8 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -250,10 +243,8 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -269,10 +260,8 @@ use App\Observers\UserObserver;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -294,11 +283,8 @@ class UserObserver
 {
     /**
      * Handle the User "created" event.
-     *
-     * @param  \App\Models\User  $user
-     * @return void
      */
-    public function created(User $user)
+    public function created(User $user): void
     {
         Nova::whenServing(function (NovaRequest $request) use ($user) {
             // Only invoked during Nova requests...
@@ -332,12 +318,8 @@ class User extends Resource
 {
     /**
      * Register a callback to be called after the resource is created.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return void
      */
-    public static function afterCreate(NovaRequest $request, Model $model)
+    public static function afterCreate(NovaRequest $request, Model $model): void
     {
         $model->sendEmailVerificationNotification();
     }
@@ -366,11 +348,8 @@ You may also override the `trafficCop` method on the resource if you have more i
 ```php
 /**
  * Indicates whether Nova should check for modifications between viewing and updating a resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return  bool
 */
-public static function trafficCop(Request $request)
+public static function trafficCop(Request $request): bool
 {
     return static::$trafficCop;
 }
@@ -446,7 +425,6 @@ You may customize where a user is redirected after creating a resource using by 
 /**
  * Return the location to redirect the user after creation.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Laravel\Nova\Resource  $resource
  * @return \Laravel\Nova\URL|string
  */
@@ -464,7 +442,6 @@ You may customize where a user is redirected after updating a resource using by 
 /**
  * Return the location to redirect the user after update.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Laravel\Nova\Resource  $resource
  * @return \Laravel\Nova\URL|string
  */
@@ -482,7 +459,6 @@ You may customize where a user is redirected after deleting a resource using by 
 /**
  * Return the location to redirect the user after deletion.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return \Laravel\Nova\URL|string|null
  */
 public static function redirectAfterDelete(NovaRequest $request)
@@ -526,9 +502,9 @@ Alternatively, you can override the `perPageOptions` method on your application'
 /**
  * The pagination per-page options configured for this resource.
  *
- * @return array
+ * @return array<int, int>
  */
-public static function perPageOptions()
+public static function perPageOptions(): array
 {
     return [50, 100, 150];
 }
@@ -552,10 +528,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         ExportAsCsv::make(),
@@ -575,7 +550,7 @@ If you would like to customize and format the fields that are included in the ge
 
 ```php
 return [
-    ExportAsCsv::make()->withFormat(function ($model) {
+    ExportAsCsv::make()->withFormat(function (Model $model) {
         return [
             'ID' => $model->getKey(),
             'Name' => $model->name,

@@ -36,12 +36,8 @@ class PostPolicy
 
     /**
      * Determine whether the user can update the post.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
-     * @return mixed
      */
-    public function update(User $user, Post $post)
+    public function update(User $user, Post $post): bool
     {
         return $user->type == 'editor';
     }
@@ -90,11 +86,8 @@ class PostPolicy
 
     /**
      * Determine whether the user can view any posts.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return in_array('view-posts', $user->permissions);
     }
@@ -123,11 +116,8 @@ class PostPolicy
 
     /**
      * Determine whether the user can view any posts.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return Nova::whenServing(function (NovaRequest $request) use ($user) {
             return in_array('nova:view-posts', $user->permissions);
@@ -159,12 +149,8 @@ class PodcastPolicy
 
     /**
      * Determine whether the user can add a comment to the podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @return mixed
      */
-    public function addComment(User $user, Podcast $podcast)
+    public function addComment(User $user, Podcast $podcast): bool
     {
         return true;
     }
@@ -193,26 +179,16 @@ class PodcastPolicy
 
     /**
      * Determine whether the user can attach a tag to a podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
-     * @return mixed
      */
-    public function attachTag(User $user, Podcast $podcast, Tag $tag)
+    public function attachTag(User $user, Podcast $podcast, Tag $tag): bool
     {
         return true;
     }
 
     /**
      * Determine whether the user can detach a tag from a podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
-     * @return mixed
      */
-    public function detachTag(User $user, Podcast $podcast, Tag $tag)
+    public function detachTag(User $user, Podcast $podcast, Tag $tag): bool
     {
         return true;
     }
@@ -236,12 +212,8 @@ class PodcastPolicy
 
     /**
      * Determine whether the user can attach any tags to the podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @return mixed
      */
-    public function attachAnyTag(User $user, Podcast $podcast)
+    public function attachAnyTag(User $user, Podcast $podcast): bool
     {
         return false;
     }
@@ -260,10 +232,8 @@ If one of your Nova resources' models has a corresponding policy, but you want t
 ```php
 /**
  * Determine if the given resource is authorizable.
- *
- * @return bool
  */
-public static function authorizable()
+public static function authorizable(): bool
 {
     return false;
 }
@@ -281,10 +251,9 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -318,14 +287,15 @@ You may notice that returning `false` from a policy's `view` method does not sto
 This method is already defined in your application's `App\Nova\Resource` base class; therefore, you may simply copy and paste the method into a specific resource and then modify the query based on how you would like to filter the resource's index results:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 /**
  * Build an "index" query for the given resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
- * @return \Illuminate\Database\Eloquent\Builder
  */
-public static function indexQuery(NovaRequest $request, $query)
+public static function indexQuery(NovaRequest $request, $query): Builder
 {
     return $query->where('user_id', $request->user()->id);
 }
@@ -338,17 +308,17 @@ If you would like to filter the queries that are used to populate relationship m
 For example, if your application has a `Comment` resource that belongs to a `Podcast` resource, Nova will allow you to select the parent `Podcast` when creating a `Comment`. To limit the podcasts that are available in that selection menu, you should override the `relatableQuery` method on your `Podcast` resource:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 /**
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
- * @param  \Laravel\Nova\Fields\Field  $field
- * @return \Illuminate\Database\Eloquent\Builder
  */
-public static function relatableQuery(NovaRequest $request, $query)
+public static function relatableQuery(NovaRequest $request, $query): Builder
 {
     return $query->where('user_id', $request->user()->id);
 }
@@ -359,17 +329,17 @@ public static function relatableQuery(NovaRequest $request, $query)
 You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 /**
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
- * @param  \Laravel\Nova\Fields\Field  $field
- * @return \Illuminate\Database\Eloquent\Builder
  */
-public static function relatableTags(NovaRequest $request, $query)
+public static function relatableTags(NovaRequest $request, $query): Builder
 {
     return $query->where('type', 'posts');
 }
@@ -378,7 +348,7 @@ public static function relatableTags(NovaRequest $request, $query)
 If necessary, you may access the `resource` and `resourceId` for the request via the `NovaRequest` instance that is passed to your method:
 
 ```php
-public static function relatableTags(NovaRequest $request, $query)
+public static function relatableTags(NovaRequest $request, $query): Builder
 {
     $resource = $request->route('resource'); // The resource type...
     $resourceId = $request->route('resourceId'); // The resource ID...
@@ -399,17 +369,18 @@ BelongsToMany::make('Teams', 'teams', Team::class),
 If necessary when customizing the "relatable" query, you may examine the field type to determine how to build the relationship query:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Field;
+
 /**
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Illuminate\Database\Eloquent\Builder  $query
- * @param  \Laravel\Nova\Fields\Field  $field
- * @return \Illuminate\Database\Eloquent\Builder
  */
-public static function relatableTeams(NovaRequest $request, $query, Field $field)
+public static function relatableTeams(NovaRequest $request, $query, Field $field): Builder
 {
     if ($field instanceof BelongsToMany) {
         // ...
@@ -424,14 +395,15 @@ public static function relatableTeams(NovaRequest $request, $query, Field $field
 If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource class:
 
 ```php
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Scout\Builder;
+
 /**
  * Build a Scout search query for the given resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @param  \Laravel\Scout\Builder  $query
- * @return \Laravel\Scout\Builder
  */
-public static function scoutQuery(NovaRequest $request, $query)
+public static function scoutQuery(NovaRequest $request, $query): Builder
 {
     return $query->where('user_id', $request->user()->id);
 }

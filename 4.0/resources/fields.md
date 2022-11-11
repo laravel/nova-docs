@@ -1,4 +1,4 @@
-# Fields
+f# Fields
 
 [[toc]]
 
@@ -15,10 +15,9 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -80,7 +79,7 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
+Text::make('Name')->showOnIndex(function (NovaRequest $request, Resource $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -88,7 +87,7 @@ Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
+Text::make('Name')->hideFromIndex(function (NovaRequest $request, Resource $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -114,7 +113,7 @@ Markdown::make('Content')->showOnPreview(),
 Alternatively, you may pass a callback to the `showOnPreview` method:
 
 ```php
-Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
+Markdown::make('Content')->showOnPreview(function (NovaRequest $request, Resource $resource) {
     return $request->user()->can('previewContent');
 }),
 ```
@@ -129,10 +128,9 @@ If your application requires it, you may specify a separate list of fields for s
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         Text::make('First Name'),
@@ -148,10 +146,9 @@ On your detail page, you may wish to show a combined name via a computed field, 
 /**
  * Get the fields displayed by the resource on detail page.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fieldsForDetail(NovaRequest $request)
+public function fieldsForDetail(NovaRequest $request): array
 {
     return [
         Text::make('Name', function () {
@@ -182,7 +179,7 @@ There are times you may wish to provide a default value to your fields. Nova off
 ```php
 BelongsTo::make('Name')->default($request->user()->getKey()),
 
-Text::make('Uuid')->default(function ($request) {
+Text::make('Uuid')->default(function (NovaRequest $request) {
     return Str::orderedUuid();
 }),
 ```
@@ -201,7 +198,7 @@ On every create or update request that Nova receives for a given resource, each 
 
 ```php
 Text::make('Name', 'name')
-    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
+    ->fillUsing(function (NovaRequest $request, object $model, string $attribute, string $requestAttribute) {
         $model->{$attribute} = Str::title($request->input($attribute));
     }),
 ```
@@ -220,10 +217,9 @@ use Laravel\Nova\Panel;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -235,9 +231,9 @@ public function fields(NovaRequest $request)
 /**
  * Get the address fields for the resource.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-protected function addressFields()
+protected function addressFields(): array
 {
     return [
         Text::make('Address', 'address_line_1')->hideFromIndex(),
@@ -725,7 +721,7 @@ Hidden::make('Slug')->default(Str::random(64)),
 Combined with [default values](#default-values), `Hidden` fields are useful for passing things like related IDs to your forms:
 
 ```php
-Hidden::make('User', 'user_id')->default(function ($request) {
+Hidden::make('User', 'user_id')->default(function (NovaRequest $request) {
     return $request->user()->id;
 }),
 ```
@@ -851,11 +847,8 @@ use Laravel\Nova\Fields\Markdown\MarkdownPreset;
 Markdown::make('Biography')->preset('github', new class implements MarkdownPreset {
     /**
      * Convert the given content from markdown to HTML.
-     *
-     * @param  string  $content
-     * @return string
      */
-    public function convert(string $content)
+    public function convert(string $content): string
     {
         return Str::of($content)->markdown([
             'html_input' => 'strip',
@@ -1512,7 +1505,7 @@ In order to validate the size or other attributes of a Vapor file, you will need
 use Illuminate\Support\Facades\Storage;
 
 VaporFile::make('Document')
-    ->rules('bail', 'required', function ($attribute, $value, $fail) use ($request) {
+    ->rules('bail', 'required', function (string $attribute, $value, Closure $fail) use ($request) {
         if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
             return $fail('The document size may not be greater than 1 MB');
         }
@@ -1565,7 +1558,7 @@ Text::make('Email')->readonly(optional($this->resource)->trashed()),
 You may also pass a closure to the `readonly` method, and the result of the closure will be used to determine if the field should be "read only". The closure will receive the current `NovaRequest` as its first argument:
 
 ```php
-Text::make('Email')->readonly(function ($request) {
+Text::make('Email')->readonly(function (NovaRequest $request) {
     return ! $request->user()->isAdmin();
 }),
 ```
@@ -1573,7 +1566,7 @@ Text::make('Email')->readonly(function ($request) {
 If you only want to mark a field as "read only" when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods available via the `NovaRequest` instance, respectively:
 
 ```php
-Text::make('Email')->readonly(function ($request) {
+Text::make('Email')->readonly(function (NovaRequest $request) {
     return $request->isUpdateOrUpdateAttachedRequest();
 }),
 ```
@@ -1601,7 +1594,7 @@ In addition, you may also pass a closure to the `required` method to determine i
 ```php
 use Illuminate\Validation\Rule;
 
-Text::make('Email')->required(function ($request) {
+Text::make('Email')->required(function (NovaRequest $request) {
     return $this->notify_via_email;
 }),
 ```
@@ -1678,7 +1671,7 @@ The following alignments are valid:
 The `resolveUsing` method allows you to customize how a field is formatted after it is retrieved from your database but before it is sent to the Nova front-end. This method accepts a callback which receives the raw value of the underlying database column:
 
 ```php
-Text::make('Name')->resolveUsing(function ($name) {
+Text::make('Name')->resolveUsing(function (string $name) {
     return strtoupper($name);
 }),
 ```
@@ -1686,7 +1679,7 @@ Text::make('Name')->resolveUsing(function ($name) {
 If you would like to customize how a field is formatted only when it is displayed on a resource's "index" or "detail" pages, you may use the `displayUsing` method. Like the `resolveUsing` method, this method accepts a single callback:
 
 ```php
-Text::make('Name')->displayUsing(function ($name) {
+Text::make('Name')->displayUsing(function (string $name) {
     return strtoupper($name);
 }),
 ```
@@ -1704,7 +1697,7 @@ DateTime::make('Created At')->filterable(),
 The `filterable` method also accepts a closure as an argument. This closure will receive the filter query, which you may then customize in order to filter the resource results to your liking:
 
 ```php
-Text::make('Email')->filterable(function ($request, $query, $value, $attribute) {
+Text::make('Email')->filterable(function (NovaRequest $request, Builder $query, $value, string $attribute) {
     $query->where($attribute, 'LIKE', "{$value}%");
 }),
 ```
@@ -1813,7 +1806,7 @@ use Laravel\Nova\Fields\Currency;
 BelongsTo::make(__('Books'), 'books', Book::class),
 
 Currency::make('Price')
-    ->dependsOn('books', function ($field, NovaRequest $request, $formData) {
+    ->dependsOn('books', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
         $bookId = (int) $formData->resource(Book::uriKey(), $formData->books);
 
         if ($bookId == 1) {

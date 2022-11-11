@@ -119,15 +119,15 @@ The `fields`, `fieldsForIndex`, `fieldsForDetail`, `fieldsForCreate`, `fieldsFor
 ```php
 class Resource
 {
-    public function fields(NovaRequest $request) {}
-    public function fieldsForIndex(NovaRequest $request) {}
-    public function fieldsForDetail(NovaRequest $request) {}
-    public function fieldsForCreate(NovaRequest $request) {}
-    public function fieldsForUpdate(NovaRequest $request) {}
-    public function cards(NovaRequest $request) {}
-    public function filters(NovaRequest $request) {}
-    public function lenses(NovaRequest $request) {}
-    public function actions(NovaRequest $request) {}
+    public function fields(NovaRequest $request): array {}
+    public function fieldsForIndex(NovaRequest $request): array {}
+    public function fieldsForDetail(NovaRequest $request): array {}
+    public function fieldsForCreate(NovaRequest $request): array {}
+    public function fieldsForUpdate(NovaRequest $request): array {}
+    public function cards(NovaRequest $request): array {}
+    public function filters(NovaRequest $request): array {}
+    public function lenses(NovaRequest $request): array {}
+    public function actions(NovaRequest $request): array {}
 }
 ```
 
@@ -138,10 +138,10 @@ The `fields`, `filters`, and `actions` methods:
 ```php
 class Lens
 {
-    public function fields(NovaRequest $request) {}
-    public function cards(NovaRequest $request) {}
-    public function filters(NovaRequest $request) {}
-    public function actions(NovaRequest $request) {}
+    public function fields(NovaRequest $request): array {}
+    public function cards(NovaRequest $request): array {}
+    public function filters(NovaRequest $request): array {}
+    public function actions(NovaRequest $request): array {}
 }
 ```
 
@@ -163,8 +163,8 @@ The `apply` and `options` methods:
 ```php
 class Filter
 {
-    public function apply(NovaRequest $request, $query, $value) {}
-    public function options(NovaRequest $request) {}
+    public function apply(NovaRequest $request, $query, $value): Builder {}
+    public function options(NovaRequest $request): array {}
 }
 ```
 
@@ -184,9 +184,9 @@ use App\Nova\Dashboards\Main;
 /**
  * Get the extra dashboards that should be displayed on the Nova dashboard.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         new Main,
@@ -201,20 +201,16 @@ In Nova 4, the `cards` and `uriKey` methods defined on dashboard classes are no 
 ```php
 /**
  * Get the displayable name of the dashboard.
- *
- * @return string
  */
-public function label()
+public function label(): string
 {
     return 'Post Stats';
 }
 
 /**
  * Get the URI key for the dashboard.
- *
- * @return string
  */
-public function uriKey()
+public function uriKey(): string
 {
     return 'posts-dashboard';
 }
@@ -312,11 +308,13 @@ Once your Vue component has been registered, you should define a server-side rou
 ```php
 // Within ToolServiceProvider.php...
 
+use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Laravel\Nova\Nova;
 
 Nova::router()
-    ->group(function ($router) {
-        $router->get('sidebar-tool', function ($request) {
+    ->group(function (Router $router) {
+        $router->get('sidebar-tool', function (Request $request) {
             return inertia('SidebarTool');
         });
     });
