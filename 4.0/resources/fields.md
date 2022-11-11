@@ -1592,6 +1592,14 @@ By default, Nova displays fields next to their labels on the create / update for
 Trix::make('Content')->stacked(),
 ```
 
+### Full Width Fields
+
+You may indicate that the field should be "full width" using the `fullWidth` method:
+
+```php
+Trix::make('Content')->fullWidth(),
+``` 
+
 ### Field Text Alignment
 
 You may change the text alignment of fields using the `textAlign` method:
