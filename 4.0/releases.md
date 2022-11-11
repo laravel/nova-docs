@@ -131,6 +131,8 @@ DateTime::make('Created At')->filterable(),
 
 ![Filterable fields](./resources/img/filterable-fields-date.png)
 
+To learn more, please consult the [filterable fields documentation](./resources/fields.html#filterable-fields).
+
 ### Notifications
 
 Nova 4 also introduces support for "Nova notifications", a brand new notification menu within Nova that you may use to display information for your Nova users. For example, you could use this menu to notify users that a report has been generated or that an invoice needs attention:
