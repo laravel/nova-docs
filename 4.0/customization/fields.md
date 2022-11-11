@@ -138,7 +138,7 @@ Before creating or updating a resource, Nova asks each field on the form to "fil
  * Fill the given FormData object with the field's internal value.
  */
 fill(formData) {
-  formData.append(this.field.attribute, this.value || '')
+  this.fillIfVisible(formData, this.field.attribute, this.value || '')
 }
 ```
 

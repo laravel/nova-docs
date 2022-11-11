@@ -26,6 +26,19 @@ Text::make('State')
     ->rules('required', new ValidState),
 ```
 
+You may also provide rules to the `rules` method via an array or Closure:
+
+```php
+// Using an array...
+Text::make('State')->rules(['required', new ValidState]),
+
+// Using a Closure...
+Text::make('State')->rules(fn ($request) => [
+    'required', 
+    new ValidState(),
+]);
+```
+
 Additionally, you may use [custom closure rules](https://laravel.com/docs/validation#using-closures) to validate your resource fields:
 
 ```php

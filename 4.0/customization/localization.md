@@ -212,3 +212,20 @@ export default {
 }
 </script>
 ```
+
+Alternatively, you may also use `useLocalization` on Vue via the Composition API:
+
+```vue
+<template>
+  <h2>{{ __('Total Users') }}</h2>
+</template>
+
+<script setup>
+import { useLocalization } from '@/mixins/Localization'
+
+const { __ } = useLocalization()
+
+// ...
+</script>
+```
+
