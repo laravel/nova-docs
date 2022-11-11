@@ -28,7 +28,7 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {
@@ -51,7 +51,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {
@@ -124,7 +124,7 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {

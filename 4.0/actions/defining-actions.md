@@ -149,7 +149,7 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields available on the action.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {

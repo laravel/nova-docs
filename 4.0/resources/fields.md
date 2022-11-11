@@ -15,7 +15,7 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {
@@ -128,7 +128,7 @@ If your application requires it, you may specify a separate list of fields for s
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {
@@ -217,7 +217,7 @@ use Laravel\Nova\Panel;
 /**
  * Get the fields displayed by the resource.
  *
- * @return array<int, \Laravel\Nova\Fields\Field>
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
 public function fields(NovaRequest $request): array
 {
