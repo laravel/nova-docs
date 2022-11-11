@@ -121,6 +121,8 @@ Text::make('Recipient')
     ),
 ```
 
+To learn more, please consult the [Dependent Fields documentation](./resources/fields.html#dependent-fields).
+
 ### Filterable Fields
 
 Nova 4 introduces a new `filterable` method that allows you to enable convenient, automatic [filtering](./filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses without creating a custom filter. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
@@ -131,7 +133,7 @@ DateTime::make('Created At')->filterable(),
 
 ![Filterable fields](./resources/img/filterable-fields-date.png)
 
-To learn more, please consult the [filterable fields documentation](./resources/fields.html#filterable-fields).
+To learn more, please consult the [Filterable Fields documentation](./resources/fields.html#filterable-fields).
 
 ### Notifications
 
