@@ -30,16 +30,14 @@ namespace App\Nova\Metrics;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
 class NewUsers extends Value
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): ValueResult
     {
         return $this->count($request, User::class);
     }
@@ -47,9 +45,9 @@ class NewUsers extends Value
     /**
      * Get the ranges available for the metric.
      *
-     * @return array
+     * @return array<int, string>
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -65,10 +63,8 @@ class NewUsers extends Value
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'new-users';
     }
@@ -119,9 +115,9 @@ Every value metric class contains a `ranges` method. This method determines the 
 /**
  * Get the ranges available for the metric.
  *
- * @return array
+ * @return array<int|string, string>
  */
-public function ranges()
+public function ranges(): array
 {
     return [
         5 => '5 Days',
@@ -155,7 +151,7 @@ return $this->result(0)->allowZeroResult();
 You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
 
 ```php
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->max($request, Order::class, 'total')
                 ->prefix('$')
@@ -175,7 +171,7 @@ To customize the display format of a value result, you may use the `format` meth
 
 ```php
 // Numbro v2.0+ (http://numbrojs.com/format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->count($request, User::class)
                 ->format([
@@ -237,16 +233,14 @@ namespace App\Nova\Metrics;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
+use Laravel\Nova\Metrics\TrendResult;
 
 class UsersPerDay extends Trend
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): TrendResult
     {
         return $this->countByDays($request, User::class);
     }
@@ -254,9 +248,9 @@ class UsersPerDay extends Trend
     /**
      * Get the ranges available for the metric.
      *
-     * @return array
+     * @return array<int, string>
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -267,10 +261,8 @@ class UsersPerDay extends Trend
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'users-per-day';
     }
@@ -349,9 +341,9 @@ Every trend metric class contains a `ranges` method. This method determines the 
 /**
  * Get the ranges available for the metric.
  *
- * @return array
+ * @return array<int, string>
  */
-public function ranges()
+public function ranges(): array
 {
     return [
         5 => '5 Days',
@@ -378,7 +370,7 @@ To customize the display format of a value result, you may use the `format` meth
 
 ```php
 // Numbro v2.0+ (http://numbrojs.com/format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request):
 {
     return $this->count($request, User::class)
                 ->format([

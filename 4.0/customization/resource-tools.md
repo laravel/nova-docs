@@ -28,10 +28,9 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -47,19 +46,19 @@ If you would like to only expose a given tool to certain users, you may invoke t
 
 ```php
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
 
-        StripeInspector::make()->canSee(function ($request) {
+        StripeInspector::make()->canSee(function (NovaRequest $request) {
             return $request->user()->managesBilling();
         }),
     ];
@@ -81,10 +80,8 @@ class StripeInspector extends ResourceTool
 {
     /**
      * Get the displayable name of the resource tool.
-     *
-     * @return string
      */
-    public function name()
+    public function name(): string
     {
         return 'Stripe Inspector';
     }
@@ -94,17 +91,15 @@ class StripeInspector extends ResourceTool
      *
      * @return $this
      */
-    public function issuesRefunds()
+    public function issuesRefunds(): static
     {
         return $this->withMeta(['issuesRefunds' => true]);
     }
 
     /**
      * Get the component name for the resource tool.
-     *
-     * @return string
      */
-    public function component()
+    public function component(): string
     {
         return 'stripe-inspector';
     }
@@ -129,10 +124,9 @@ use Acme\StripeInspector\StripeInspector;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -175,10 +169,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     $this->app->booted(function () {
         $this->routes();

@@ -36,7 +36,6 @@ class UserType extends Filter
     /**
      * Apply the filter to the given query.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  mixed  $value
      * @return \Illuminate\Database\Eloquent\Builder
@@ -49,10 +48,9 @@ class UserType extends Filter
     /**
      * Get the filter's available options.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return array
+     * @return array<string, string>
      */
-    public function options(NovaRequest $request)
+    public function options(NovaRequest $request): array
     {
         return [
             'Administrator' => 'admin',
@@ -111,10 +109,9 @@ class UserType extends BooleanFilter
     /**
      * Get the filter's available options.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return array
+     * @return array<string, string>
      */
-    public function options(NovaRequest $request)
+    public function options(NovaRequest $request): array
     {
         return [
             'Administrator' => 'admin',
@@ -190,10 +187,8 @@ If the name of your filter needs to be dynamic, you should create a `name` metho
 ```php
 /**
  * Get the displayable name of the filter.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return 'Filter By '.$this->customProperty;
 }
@@ -206,10 +201,8 @@ If you would like to set the default value of a filter, you may define a `defaul
 ```php
 /**
  * The default value of the filter.
- *
- * @var string
  */
-public function default()
+public function default(): bool
 {
     return true;
 }
@@ -241,11 +234,8 @@ class TimestampFilter extends DateFilter
 
     /**
      * Create a new filter instance.
-     *
-     * @param  string  $column
-     * @return void
      */
-    public function __construct($column)
+    public function __construct(string $column)
     {
         $this->column = $column;
     }
@@ -265,10 +255,8 @@ class TimestampFilter extends DateFilter
 
     /**
      * Get the key for the filter.
-     *
-     * @return string
      */
-    public function key()
+    public function key(): string
     {
         return 'timestamp_'.$this->column;
     }
@@ -281,10 +269,9 @@ Then, as discussed, you should pass the name of the column you wish to filter on
 /**
  * Get the filters available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Filters\Filter>
  */
-public function filters(NovaRequest $request)
+public function filters(NovaRequest $request): array
 {
     return [
         new Filters\TimestampFilter('created_at'),

@@ -23,20 +23,16 @@ Resource names may be localized by overriding the `label` and `singularLabel` me
 ```php
 /**
  * Get the displayable label of the resource.
- *
- * @return string
  */
-public static function label()
+public static function label(): string
 {
     return __('Posts');
 }
 
 /**
  * Get the displayable singular label of the resource.
- *
- * @return string
  */
-public static function singularLabel()
+public static function singularLabel(): string
 {
     return __('Post');
 }
@@ -47,20 +43,16 @@ To customize labels for the resource's create and update buttons, you may overri
 ```php
 /**
  * Get the text for the create resource button.
- *
- * @return string|null
  */
-public static function createButtonLabel()
+public static function createButtonLabel(): string|null
 {
     return __('Publish Post');
 }
 
 /**
  * Get the text for the update resource button.
- *
- * @return string|null
  */
-public static function updateButtonLabel()
+public static function updateButtonLabel(): string|null
 {
     return __('Save Changes');
 }
@@ -92,20 +84,16 @@ In addition, you should also override the `label` and `singularLabel` methods on
 ```php
 /**
  * Get the displayable label of the resource.
- *
- * @return string
  */
-public static function label()
+public static function label(): string
 {
     return __('Posts');
 }
 
 /**
  * Get the displayable singular label of the resource.
- *
- * @return string
  */
-public static function singularLabel()
+public static function singularLabel(): string
 {
     return __('Post');
 }
@@ -118,10 +106,8 @@ Filter names may be localized by overriding the `name` method on the filter clas
 ```php
 /**
  * Get the displayable name of the filter.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return __('Admin Users');
 }
@@ -134,10 +120,8 @@ Lens names may be localized by overriding the `name` method on the lens class:
 ```php
 /**
  * Get the displayable name of the lens.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return __('Most Valuable Users');
 }
@@ -150,10 +134,8 @@ Action names may be localized by overriding the `name` method on the action clas
 ```php
 /**
  * Get the displayable name of the action.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return __('Email Account Profile');
 }
@@ -166,10 +148,8 @@ Metric names may be localized by overriding the `name` method on the metric clas
 ```php
 /**
  * Get the displayable name of the metric.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return __('Total Users');
 }

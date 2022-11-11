@@ -8,10 +8,9 @@ Once you have defined an action, you are ready to attach it to a resource. Each 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         new Actions\EmailAccountProfile
@@ -25,10 +24,9 @@ Alternatively, you may use the `make` method to instantiate your action. Any arg
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         Actions\EmailAccountProfile::make()
@@ -42,18 +40,18 @@ If you would like to only expose a given action to certain users, you may invoke
 
 ```php
 use App\Models\User;
+use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new Actions\EmailAccountProfile)->canSee(function ($request) {
+        (new Actions\EmailAccountProfile)->canSee(function (Request $request) {
             return $request->user()->can(
                 'emailAnyAccountProfile', User::class
             );
@@ -70,15 +68,14 @@ Sometimes a user may be able to "see" that an action exists but only "run" that 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new Actions\EmailAccountProfile)->canSee(function ($request) {
+        (new Actions\EmailAccountProfile)->canSee(function (Request $request) {
             return true;
-        })->canRun(function ($request, $user) {
+        })->canRun(function (Request $request, User $user) {
             return $request->user()->can('emailAccountProfile', $user);
         }),
     ];
@@ -118,10 +115,9 @@ Inline actions are actions that are displayed directly on the index table row of
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         (new ConsolidateTransaction())->showInline()
@@ -137,10 +133,9 @@ Typically, actions are executed against resources selected on a resource index o
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         Actions\InviteUser::make()->standalone()
@@ -169,10 +164,9 @@ When running an action, a confirmation modal is typically displayed to the user,
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         Actions\EmailAccountProfile::make()->fullscreen()
@@ -186,10 +180,9 @@ Alternatively, you may further customize the maximum width of the customization 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", or "7xl"...
@@ -206,10 +199,9 @@ To disable the action confirmation modal and therefore run actions immediately, 
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         Actions\EmailAccountProfile::make()->withoutConfirmation()

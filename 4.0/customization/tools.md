@@ -28,9 +28,9 @@ use Acme\PriceTracker\PriceTracker;
 /**
  * Get the tools that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Tool>
  */
-public function tools()
+public function tools(): array
 {
     return [
         new PriceTracker,
@@ -44,16 +44,17 @@ If you would like to only expose a given tool to certain users, you may chain th
 
 ```php
 use Acme\PriceTracker\PriceTracker;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the tools that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Tool\Nova>
  */
-public function tools()
+public function tools(): array
 {
     return [
-        (new PriceTracker)->canSee(function ($request) {
+        (new PriceTracker)->canSee(function (NovaRequest $request) {
             return false;
         }),
     ];
@@ -92,11 +93,8 @@ use Laravel\Nova\Menu\MenuSection;
 
 /**
  * Build the menu that renders the navigation links for the tool.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return mixed
  */
-public function menu(Request $request)
+public function menu(Request $request): MenuSection
 {
     return MenuSection::make('Price Tracker')
         ->path('/price-tracker')
@@ -129,10 +127,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Perform any tasks that need to happen on tool registration.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
     Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');

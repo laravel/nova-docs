@@ -28,10 +28,9 @@ use Acme\ColorPicker\ColorPicker;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -63,11 +62,8 @@ class ColorPicker extends Field
 
     /**
      * Set the hues that may be selected by the color picker.
-     *
-     * @param  array  $hues
-     * @return $this
      */
-    public function hues(array $hues)
+    public function hues(array $hues): static
     {
         return $this->withMeta(['hues' => $hues]);
     }
@@ -271,10 +267,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Nova::serving(function (ServingNova $event) {
         Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');

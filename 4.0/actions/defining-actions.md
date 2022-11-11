@@ -48,12 +48,8 @@ class EmailAccountProfile extends Action
 
     /**
     * Perform the action on the given models.
-    *
-    * @param  \Laravel\Nova\Fields\ActionFields  $fields
-    * @param  \Illuminate\Support\Collection  $models
-    * @return mixed
     */
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): void
     {
         foreach ($models as $model) {
             (new AccountData($model))->send();
@@ -63,10 +59,9 @@ class EmailAccountProfile extends Action
     /**
     * Get the fields available on the action.
     *
-    * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-    * @return array
+    * @return array<int, \Laravel\Nova\Fields\Field>
     */
-    public function fields(NovaRequest $request)
+    public function fields(NovaRequest $request): array
     {
         return [];
     }
@@ -115,7 +110,7 @@ The `then` methods accepts a closure which will be invoked when the action has f
 For example, note that the following action's `handle` method returns the `$models` it receives:
 
 ```php
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): Collection
 {
     foreach ($models as $model) {
         (new AccountData($model))->send();
@@ -128,11 +123,11 @@ public function handle(ActionFields $fields, Collection $models)
 When registering this action on a resource, we may use the `then` callback to access the returned models and interact with them after the action has finished executing:
 
 ```php
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new Actions\EmailAccountProfile)->then(function ($models) {
-            $models->each(function ($model) {
+        (new Actions\EmailAccountProfile)->then(function (Collection $models) {
+            $models->each(function (Model $model) {
                 //
             });
         }),
@@ -154,10 +149,9 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields available on the action.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         Text::make('Subject'),
@@ -170,12 +164,8 @@ Finally, within your action's `handle` method, you may access your fields using 
 ```php
 /**
  * Perform the action on the given models.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void
 {
     foreach ($models as $model) {
         (new AccountData($model))->send($fields->subject);
@@ -188,7 +178,7 @@ public function handle(ActionFields $fields, Collection $models)
 You may use the `default` method to set the default value for an action field:
 
 ```php
-Text::make('Subject')->default(function ($request) {
+Text::make('Subject')->default(function (Request $request) {
     return 'Test: Subject';
 }),
 ```
@@ -201,11 +191,9 @@ Typically, when an action is executed, a generic "success" messages is displayed
 /**
  * Perform the action on the given models.
  *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
+ * @return array<string, string>
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): array
 {
     // ...
 
@@ -270,7 +258,7 @@ Nova.booting(app => {
 Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component. The data will be made available to the custom modal's Vue component as props:
 
 ```php
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): array
 {
     if ($models->count() > 1) {
         return Action::danger('Please run this on only one user resource.');
@@ -331,8 +319,6 @@ You may customize the queue connection and queue name that the action is queued 
 ```php
 /**
  * Create a new action instance.
- *
- * @return void
  */
 public function __construct()
 {
@@ -371,12 +357,8 @@ class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 
     /**
      * Prepare the given batch for execution.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return void
      */
-    public function withBatch(ActionFields $fields, PendingBatch $batch)
+    public function withBatch(ActionFields $fields, PendingBatch $batch): void
     {
         $batch->then(function (Batch $batch) {
             // All jobs completed successfully...
@@ -437,10 +419,9 @@ Or, using the `withoutActionEvents` method, you may disable the action log for a
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         (new SomeAction)->withoutActionEvents()
@@ -455,12 +436,8 @@ While a queued action is running, you may update the action's "status" for any o
 ```php
 /**
  * Perform the action on the given models.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void
 {
     foreach ($models as $model) {
         (new AccountData($model))->send($fields->subject);
@@ -475,12 +452,8 @@ Or, if you would like to indicate that an action has "failed" for a given model,
 ```php
 /**
  * Perform the action on the given models.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void
 {
     foreach ($models as $model) {
         try {
@@ -500,10 +473,9 @@ By default, actions will ask the user for confirmation before running. You can c
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
         (new Actions\ActivateUser)

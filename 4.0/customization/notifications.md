@@ -37,20 +37,17 @@ use Laravel\Nova\URL;
 /**
  * Get the notification's delivery channels
  * 
- * @param mixed $notifiable
- * @return array
+ * @return array<int, string>
  */
-public function via($notifiable)
+public function via(object $notifiable): array
 {
     return [NovaChannel::class];
 }
 
 /**
  * Get the nova representation of the notification
- * 
- * @return array
  */
-public function toNova()
+public function toNova(): NovaNotification|array
 {
     return (new NovaNotification)
         ->message('Your report is ready to download.')
@@ -73,10 +70,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
