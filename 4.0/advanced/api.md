@@ -2,8 +2,9 @@
 
 [[toc]]
 
-:::warning This API is beta!
-This API is considered beta and is not intended for widespread usage. While we don't intend on breaking it often, it is not versioned and may change as required.
+:::warning Beta
+
+The Nova API is considered a "beta" feature and is not intended for widespread usage. While we don't intend on breaking it often, it is not versioned and may change as required.
 :::
 
 ## Base URL
@@ -16,15 +17,15 @@ use Illuminate\Support\Facades\Http;
 Http::baseUrl('https://nova.laravel.com/api');
 ```
 
-## Authenticating with the Nova's API
+## Authenticating With Nova's API
 
 To authenticate with the Nova API, include a license key along with your request as an `Authorization` header:
 
-| Header        | Example                     |
+| Header        | Value                       |
 | ------------- | --------------------------- |
 | Authorization | `Bearer {your-license-key}` |
 
-Using Laravel's `Http` client, you may authenticate your request by using the `withToken` method to attach your license key to your request:
+Using Laravel's `Http` client, you may authenticate your request using the `withToken` method to attach your license key to your request:
 
 ```php
 use Illuminate\Support\Facades\Http;
@@ -47,7 +48,8 @@ Http::baseUrl('https://nova.laravel.com/api')->get('/releases')
 ```
 
 :::tip No Authentication Needed
-The `releases` endpoint is a public API and does not require authentication.
+
+The `releases` endpoint is a public endpoint and does not require authentication.
 :::
 
 ### Sites
