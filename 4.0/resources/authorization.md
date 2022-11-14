@@ -396,14 +396,14 @@ If your application is leveraging the power of Laravel Scout for [search](./../s
 
 ```php
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Scout\Builder;
+use Laravel\Scout\Builder as ScoutBuilder;
 
 /**
  * Build a Scout search query for the given resource.
  *
  * @param  \Laravel\Scout\Builder  $query
  */
-public static function scoutQuery(NovaRequest $request, $query): Builder
+public static function scoutQuery(NovaRequest $request, $query): ScoutBuilder
 {
     return $query->where('user_id', $request->user()->id);
 }
