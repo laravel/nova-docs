@@ -213,7 +213,7 @@ export default {
 </script>
 ```
 
-Alternatively, you may also use `useLocalization` on Vue via the Composition API:
+If your components use the Vue Composition API, you may use the `useLocalization` composable to localize your component:
 
 ```vue
 <template>
