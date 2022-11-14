@@ -196,7 +196,7 @@ protected function dashboards()
 
 ### Dashboard Methods
 
-In Nova 4, the `cards` and `uriKey` methods defined on dashboard classes are no longer static. You should update your methods accordingly:
+In Nova 4, the `label` and `uriKey` methods defined on dashboard classes are no longer static. You should update your methods accordingly:
 
 ```php
 /**
