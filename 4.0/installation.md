@@ -111,7 +111,23 @@ You can register your license key by setting the `license_key` option in your `c
 'license_key' => env('NOVA_LICENSE_KEY', ''),
 ```
 
-### Using Nova on Development and Staging Domains
+### Verifying Your Nova License Key Configuration
+
+To verify everything has been configured correctly, you should run the following command:
+
+```bash
+php artisan nova:check-license
+```
+
+## Authenticating Nova in Continuous Integration (CI) Environments
+
+It's not advised to store your Composer `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
+
+```bash
+composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
+```
+
+## Using Nova on Development and Staging Domains
 
 Since Nova can be used in local and staging development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
 
@@ -129,22 +145,6 @@ Nova will also not check the current license key when the hostname contains comm
 - `testing.`
 - `dev.`
 - `development.`
-
-### Verifying Your Nova License Key Configuration
-
-To verify everything has been configured correctly, you should run the following command:
-
-```bash
-php artisan nova:check-license
-```
-
-## Authenticating Nova in Continuous Integration (CI) Environments
-
-It's not advised to store your Composer `auth.json` file inside your project's version control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create. To authenticate Nova in these situations, you can use Composer to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
-
-```bash
-composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
-```
 
 ## Authorizing Access To Nova
 
