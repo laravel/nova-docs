@@ -111,7 +111,9 @@ You can register your license key by setting the `license_key` option in your `c
 'license_key' => env('NOVA_LICENSE_KEY', ''),
 ```
 
-Since Nova can be used in staging and local development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
+### Ignored Development and Staging Domains
+
+Since Nova can be used in local and staging development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
 
 - `.test`
 - `.example`
