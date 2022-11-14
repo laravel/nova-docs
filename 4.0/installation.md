@@ -343,7 +343,7 @@ public function boot()
 {
     parent::boot();
 
-    Nova::showBreadcrumbs();
+    Nova::withBreadcrumbs();
 }
 ```
 
@@ -353,7 +353,7 @@ Alternatively, you can also add a condition to when Breadcrumb should be display
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
-Nova::showBreadcrumbs(function (NovaRequest $request) {
+Nova::withBreadcrumbs(function (NovaRequest $request) {
     return $request->is('nova/resources/*');
 });
 ```
