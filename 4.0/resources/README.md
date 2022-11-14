@@ -210,7 +210,7 @@ To customize the replication model, you can override the `replicate` method on t
  */
 public function replicate()
 {
-    return tap(parent::replicate(), function (Resource $resource) {
+    return tap(parent::replicate(), function ($resource) {
         $model = $resource->model();
 
         $model->name = 'Duplicate of '.$model->name;

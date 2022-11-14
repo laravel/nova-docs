@@ -79,7 +79,7 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->showOnIndex(function (NovaRequest $request, Resource $resource) {
+Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -87,7 +87,7 @@ Text::make('Name')->showOnIndex(function (NovaRequest $request, Resource $resour
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideFromIndex(function (NovaRequest $request, Resource $resource) {
+Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -113,7 +113,7 @@ Markdown::make('Content')->showOnPreview(),
 Alternatively, you may pass a callback to the `showOnPreview` method:
 
 ```php
-Markdown::make('Content')->showOnPreview(function (NovaRequest $request, Resource $resource) {
+Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
     return $request->user()->can('previewContent');
 }),
 ```
