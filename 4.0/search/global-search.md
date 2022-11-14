@@ -96,10 +96,8 @@ If you are building a [custom field](./../customization/fields.md) that you woul
 ```php
 /**
  * Resolve the thumbnail URL for the field.
- *
- * @return string|null
  */
-public function resolveThumbnailUrl()
+public function resolveThumbnailUrl(): string|null
 {
     return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
 }

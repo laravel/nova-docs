@@ -31,7 +31,7 @@ Additionally, you may use [custom closure rules](https://laravel.com/docs/valida
 ```php
 Text::make('State')
     ->sortable()
-    ->rules('required', function(string $attribute, $value, Closure $fail) {
+    ->rules('required', function(string $attribute, mixed $value, Closure $fail) {
         if (strtoupper($value) !== $value) {
             return $fail('The '.$attribute.' field must be uppercase.');
         }
@@ -75,12 +75,12 @@ Nova also provides several methods that allow you to perform tasks after a resou
 The `afterValidation` method will always be called after a resource has been validated during its creation or during an update. This method will be called before calling `afterCreationValidation` or `afterUpdateValidation`:
 
 ```php
+use Illuminate\Contracts\Validation\Validator;
+
 /**
  * Handle any post-validation processing.
- *
- * @param  \Illuminate\Validation\Validator  $validator
  */
-protected static function afterValidation(NovaRequest $request, $validator): void
+protected static function afterValidation(NovaRequest $request, Validator $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -93,12 +93,12 @@ protected static function afterValidation(NovaRequest $request, $validator): voi
 The `afterCreationValidation` method will be called after a resource that is being created has been validated:
 
 ```php
+use Illuminate\Contracts\Validation\Validator;
+
 /**
  * Handle any post-creation validation processing.
- *
- * @param  \Illuminate\Validation\Validator  $validator
  */
-protected static function afterCreationValidation(NovaRequest $request, $validator): void
+protected static function afterCreationValidation(NovaRequest $request, Validator $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -111,12 +111,12 @@ protected static function afterCreationValidation(NovaRequest $request, $validat
 The `afterUpdateValidation` method will be called after a resource that is being updated has been validated:
 
 ```php
+use Illuminate\Contracts\Validation\Validator;
+
 /**
  * Handle any post-update validation processing.
- *
- * @param  \Illuminate\Validation\Validator  $validator
  */
-protected static function afterUpdateValidation(NovaRequest $request, $validator): void
+protected static function afterUpdateValidation(NovaRequest $request, Validator $validator): void
 {
     if ($this->somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');

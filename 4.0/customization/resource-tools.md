@@ -91,7 +91,7 @@ class StripeInspector extends ResourceTool
      *
      * @return $this
      */
-    public function issuesRefunds()
+    public function issuesRefunds(): static
     {
         return $this->withMeta(['issuesRefunds' => true]);
     }

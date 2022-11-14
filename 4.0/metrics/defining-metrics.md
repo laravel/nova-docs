@@ -815,12 +815,12 @@ Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroi
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
 
 ```php
+use DateTimeInterface;
+
 /**
  * Determine the amount of time the results of the metric should be cached.
- *
- * @return \DateTimeInterface|\DateInterval|float|int|null
  */
-public function cacheFor()
+public function cacheFor(): DateTimeInterface|null
 {
     return now()->addMinutes(5);
 }
@@ -833,10 +833,8 @@ By default, Nova will use the metric class name as the displayable name of your 
 ```php
 /**
  * Get the displayable name of the metric
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return 'Users Created';
 }

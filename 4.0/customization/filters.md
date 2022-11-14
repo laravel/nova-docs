@@ -97,10 +97,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Nova::serving(function (ServingNova $event) {
         Nova::script('age-range', __DIR__.'/../dist/js/filter.js');

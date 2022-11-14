@@ -201,16 +201,16 @@ Sometimes, you may want to create a new resource while using all of the data fro
 To customize the replication model, you can override the `replicate` method on the resource class:
 
 ```php
+use Laravel\Nova\Resource;
+
 /**
  * Return a replicated resource.
  *
- * @return static
- *
  * @throws \InvalidArgumentException
  */
-public function replicate()
+public function replicate(): static
 {
-    return tap(parent::replicate(), function ($resource) {
+    return tap(parent::replicate(), function (Resource $resource) {
         $model = $resource->model();
 
         $model->name = 'Duplicate of '.$model->name;
@@ -422,13 +422,13 @@ return URL::remote('https://nova.laravel.com');
 You may customize where a user is redirected after creating a resource using by overriding your resource's `redirectAfterCreate` method:
 
 ```php
+use Laravel\Nova\Resource;
+use Laravel\Nova\URL;
+
 /**
  * Return the location to redirect the user after creation.
- *
- * @param  \Laravel\Nova\Resource  $resource
- * @return \Laravel\Nova\URL|string
  */
-public static function redirectAfterCreate(NovaRequest $request, $resource)
+public static function redirectAfterCreate(NovaRequest $request, Resource $resource): Url|string
 {
     return '/resources/'.static::uriKey().'/'.$resource->getKey();
 }
@@ -439,13 +439,13 @@ public static function redirectAfterCreate(NovaRequest $request, $resource)
 You may customize where a user is redirected after updating a resource using by overriding your resource's `redirectAfterUpdate` method:
 
 ```php
+use Laravel\Nova\Resource;
+use Laravel\Nova\URL;
+
 /**
  * Return the location to redirect the user after update.
- *
- * @param  \Laravel\Nova\Resource  $resource
- * @return \Laravel\Nova\URL|string
  */
-public static function redirectAfterUpdate(NovaRequest $request, $resource)
+public static function redirectAfterUpdate(NovaRequest $request, Resource $resource): URL|string
 {
     return '/resources/'.static::uriKey().'/'.$resource->getKey();
 }
@@ -456,12 +456,12 @@ public static function redirectAfterUpdate(NovaRequest $request, $resource)
 You may customize where a user is redirected after deleting a resource using by overriding your resource's `redirectAfterDelete` method:
 
 ```php
+use Laravel\Nova\URL;
+
 /**
  * Return the location to redirect the user after deletion.
- *
- * @return \Laravel\Nova\URL|string|null
  */
-public static function redirectAfterDelete(NovaRequest $request)
+public static function redirectAfterDelete(NovaRequest $request): URL|string|null
 {
     return null;
 }

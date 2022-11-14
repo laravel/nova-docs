@@ -79,7 +79,7 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
+Text::make('Name')->showOnIndex(function (NovaRequest $request, Resource $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -87,7 +87,7 @@ Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
+Text::make('Name')->hideFromIndex(function (NovaRequest $request, Resource $resource) {
     return $this->name === 'Taylor Otwell';
 }),
 ```
@@ -113,7 +113,7 @@ Markdown::make('Content')->showOnPreview(),
 Alternatively, you may pass a callback to the `showOnPreview` method:
 
 ```php
-Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
+Markdown::make('Content')->showOnPreview(function (NovaRequest $request, Resource $resource) {
     return $request->user()->can('previewContent');
 }),
 ```
@@ -1505,7 +1505,7 @@ In order to validate the size or other attributes of a Vapor file, you will need
 use Illuminate\Support\Facades\Storage;
 
 VaporFile::make('Document')
-    ->rules('bail', 'required', function (string $attribute, $value, Closure $fail) use ($request) {
+    ->rules('bail', 'required', function (string $attribute, mixed $value, Closure $fail) use ($request) {
         if (Storage::size($request->input('vaporFile')[$attribute]['key']) > 1000000) {
             return $fail('The document size may not be greater than 1 MB');
         }
@@ -1617,7 +1617,7 @@ You may also set which values should be interpreted as a `null` value using the 
 ```php
 Text::make('Position')->nullable()->nullValues(['', '0', 'null']),
 
-Text::make('Position')->nullable()->nullValues(function ($value) {
+Text::make('Position')->nullable()->nullValues(function (mixed $value) {
     return $value == '' || $value == 'null' || (int)$value === 0;
 }),
 ```
@@ -1697,7 +1697,7 @@ DateTime::make('Created At')->filterable(),
 The `filterable` method also accepts a closure as an argument. This closure will receive the filter query, which you may then customize in order to filter the resource results to your liking:
 
 ```php
-Text::make('Email')->filterable(function (NovaRequest $request, Builder $query, $value, string $attribute) {
+Text::make('Email')->filterable(function (NovaRequest $request, Builder $query, mixed $value, string $attribute) {
     $query->where($attribute, 'LIKE', "{$value}%");
 }),
 ```

@@ -36,11 +36,8 @@ class UserType extends Filter
 {
     /**
      * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
      */
-    public function apply(NovaRequest $request, $query, $value): Builder
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         return $query->where('type', $value);
     }
@@ -93,11 +90,8 @@ class UserType extends BooleanFilter
 {
     /**
      * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
      */
-    public function apply(NovaRequest $request, $query, $value): Builder
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         // $value = ['admin' => true / false, 'editor' => true / false]
 
@@ -153,11 +147,8 @@ class BirthdayFilter extends DateFilter
 {
     /**
      * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
      */
-    public function apply(NovaRequest $request, $query, $value): Builder
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         return $query->where('birthday', '<=', Carbon::parse($value));
     }
@@ -239,11 +230,8 @@ class TimestampFilter extends DateFilter
 
     /**
      * Apply the filter to the given query.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
      */
-    public function apply(NovaRequest $request, $query, $value): Builder
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         return $query->where($this->column, '<=', Carbon::parse($value));
     }

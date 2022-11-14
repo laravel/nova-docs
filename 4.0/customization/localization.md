@@ -44,7 +44,7 @@ To customize labels for the resource's create and update buttons, you may overri
 /**
  * Get the text for the create resource button.
  */
-public static function createButtonLabel(): string|null
+public static function createButtonLabel(): string
 {
     return __('Publish Post');
 }
@@ -52,7 +52,7 @@ public static function createButtonLabel(): string|null
 /**
  * Get the text for the update resource button.
  */
-public static function updateButtonLabel(): string|null
+public static function updateButtonLabel(): string
 {
     return __('Save Changes');
 }

@@ -17,10 +17,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Build a Scout search query for the given resource.
- *
- * @param  \Laravel\Scout\Builder  $query
  */
-public static function scoutQuery(NovaRequest $request, $query): Builder
+public static function scoutQuery(NovaRequest $request, Builder $query): Builder
 {
     return $query;
 }

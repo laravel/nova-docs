@@ -25,6 +25,8 @@ To learn more, let's take a look at a complete lens definition that displays use
 
 namespace App\Nova\Lenses;
 
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
@@ -37,11 +39,8 @@ class MostValuableUsers extends Lens
 {
     /**
      * Get the query builder / paginator for the lens.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return mixed
      */
-    public static function query(LensRequest $request, $query)
+    public static function query(LensRequest $request, Builder $query): Builder|Paginator
     {
         return $request->withOrdering($request->withFilters(
             $query->select(self::columns())

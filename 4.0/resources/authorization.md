@@ -292,10 +292,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Build an "index" query for the given resource.
- *
- * @param  \Illuminate\Database\Eloquent\Builder  $query
  */
-public static function indexQuery(NovaRequest $request, $query): Builder
+public static function indexQuery(NovaRequest $request, Builder $query): Builder
 {
     return $query->where('user_id', $request->user()->id);
 }
@@ -315,10 +313,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
- *
- * @param  \Illuminate\Database\Eloquent\Builder  $query
  */
-public static function relatableQuery(NovaRequest $request, $query): Builder
+public static function relatableQuery(NovaRequest $request, Builder $query): Builder
 {
     return $query->where('user_id', $request->user()->id);
 }
@@ -336,10 +332,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
- *
- * @param  \Illuminate\Database\Eloquent\Builder  $query
  */
-public static function relatableTags(NovaRequest $request, $query): Builder
+public static function relatableTags(NovaRequest $request, Builder $query): Builder
 {
     return $query->where('type', 'posts');
 }
@@ -348,7 +342,7 @@ public static function relatableTags(NovaRequest $request, $query): Builder
 If necessary, you may access the `resource` and `resourceId` for the request via the `NovaRequest` instance that is passed to your method:
 
 ```php
-public static function relatableTags(NovaRequest $request, $query): Builder
+public static function relatableTags(NovaRequest $request, Builder $query): Builder
 {
     $resource = $request->route('resource'); // The resource type...
     $resourceId = $request->route('resourceId'); // The resource ID...
@@ -377,10 +371,8 @@ use Laravel\Nova\Fields\Field;
  * Build a "relatable" query for the given resource.
  *
  * This query determines which instances of the model may be attached to other resources.
- *
- * @param  \Illuminate\Database\Eloquent\Builder  $query
  */
-public static function relatableTeams(NovaRequest $request, $query, Field $field): Builder
+public static function relatableTeams(NovaRequest $request, Builder $query, Field $field): Builder
 {
     if ($field instanceof BelongsToMany) {
         // ...
@@ -400,10 +392,8 @@ use Laravel\Scout\Builder as ScoutBuilder;
 
 /**
  * Build a Scout search query for the given resource.
- *
- * @param  \Laravel\Scout\Builder  $query
  */
-public static function scoutQuery(NovaRequest $request, $query): ScoutBuilder
+public static function scoutQuery(NovaRequest $request, ScoutBuilder $query): ScoutBuilder
 {
     return $query->where('user_id', $request->user()->id);
 }
