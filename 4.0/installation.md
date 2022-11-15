@@ -327,9 +327,9 @@ public function boot()
 }
 ```
 
-### Enabling Breadcrumbs Menu
+### Enabling Breadcrumbs
 
-If you wish to display Nova's Breadcrumb Menu, you can enable this behavior by calling `withBreadcrumbs` method from your `App\Providers\NovaServiceProvider` service provider:
+If you wish to display Nova's Breadcrumb Menu, you can enable this behavior by calling the `withBreadcrumbs` method from your `App\Providers\NovaServiceProvider` service provider:
 
 ```php
 use Laravel\Nova\Nova;
@@ -347,7 +347,7 @@ public function boot()
 }
 ```
 
-Alternatively, you can also add a condition to when Breadcrumb should be displayed, e.g:
+The `withBreadcrumbs` method also accepts a closure that allows you to enable breadcrumbs for specific users or in other custom scenarios:
 
 ```php
 use Laravel\Nova\Http\Requests\NovaRequest;
