@@ -207,9 +207,9 @@ To customize the color used as the "primary" color within the Nova interface, yo
 ],
 ```
 
-### Customizing Nova's footer
+### Customizing Nova's Footer
 
-There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. You can do this by setting Nova's footer within `App\Providers\NovaServiceProvider`:
+There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. Using the `Nova::footer` method, you may customize the footer text of your Nova installation. Typically, the `footer` method should be called within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
 use Laravel\Nova\Nova;
@@ -278,6 +278,37 @@ public function register()
 }
 ```
 
+### Enabling Breadcrumbs
+
+If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of you application's `App\Providers\NovaServiceProvider` class:
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::withBreadcrumbs();
+}
+```
+
+The `withBreadcrumbs` method also accepts a closure that allows you to enable breadcrumbs for specific users or other custom scenarios:
+
+```php
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
+Nova::withBreadcrumbs(function (NovaRequest $request) {
+    return $request->user()->wantsBreadcrumbs();
+});
+```
+
 ### Enabling RTL Support
 
 If you wish to display Nova's content "right-to-left" (RTL), you can enable this behavior by calling the `enableRTL` method from your `App\Providers\NovaServiceProvider` service provider:
@@ -325,37 +356,6 @@ public function boot()
 
     Nova::withoutThemeSwitcher();
 }
-```
-
-### Enabling Breadcrumbs
-
-If you wish to display Nova's Breadcrumb menu, you can enable this behavior by calling the `withBreadcrumbs` method from your `App\Providers\NovaServiceProvider` service provider:
-
-```php
-use Laravel\Nova\Nova;
-
-/**
- * Boot any application services.
- *
- * @return void
- */
-public function boot()
-{
-    parent::boot();
-
-    Nova::withBreadcrumbs();
-}
-```
-
-The `withBreadcrumbs` method also accepts a closure that allows you to enable breadcrumbs for specific users or in other custom scenarios:
-
-```php
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
-
-Nova::withBreadcrumbs(function (NovaRequest $request) {
-    return $request->user()->wantsBreadcrumbs();
-});
 ```
 
 ## Error Reporting
