@@ -354,7 +354,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
 Nova::withBreadcrumbs(function (NovaRequest $request) {
-    return $request->is('nova/resources/*');
+    return $request->user()->wantsBreadcrumbs();
 });
 ```
 
