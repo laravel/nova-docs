@@ -422,13 +422,13 @@ return URL::remote('https://nova.laravel.com');
 You may customize where a user is redirected after creating a resource using by overriding your resource's `redirectAfterCreate` method:
 
 ```php
-use Laravel\Nova\Resource;
+use Laravel\Nova\Resource as BaseResource;
 use Laravel\Nova\URL;
 
 /**
  * Return the location to redirect the user after creation.
  */
-public static function redirectAfterCreate(NovaRequest $request, Resource $resource): Url|string
+public static function redirectAfterCreate(NovaRequest $request, BaseResource $resource): Url|string
 {
     return '/resources/'.static::uriKey().'/'.$resource->getKey();
 }
@@ -439,13 +439,13 @@ public static function redirectAfterCreate(NovaRequest $request, Resource $resou
 You may customize where a user is redirected after updating a resource using by overriding your resource's `redirectAfterUpdate` method:
 
 ```php
-use Laravel\Nova\Resource;
+use Laravel\Nova\Resource as BaseResource;
 use Laravel\Nova\URL;
 
 /**
  * Return the location to redirect the user after update.
  */
-public static function redirectAfterUpdate(NovaRequest $request, Resource $resource): URL|string
+public static function redirectAfterUpdate(NovaRequest $request, BaseResource $resource): URL|string
 {
     return '/resources/'.static::uriKey().'/'.$resource->getKey();
 }
