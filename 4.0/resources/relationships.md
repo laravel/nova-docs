@@ -581,7 +581,7 @@ BelongsTo::make('User')->searchable()->withSubtitles(),
 
 #### Relatable Query Filtering
 
-Often you would need to be able to add relatable query, insteads of using [Relatable Filtering](./authorization.html#relatable-filter) you can also filtering by invoking the `relatableQueryUsing()` method:
+If you would like to customize the relatable query, you may do so by invoking the `relatableQueryUsing` method:
 
 ```php
 BelongsTo::make('User')
@@ -590,7 +590,7 @@ BelongsTo::make('User')
     }),
 ```
 
-This also useful when you need to change relatable query filter based on value from another field:
+The `relatableQueryUsing` method may also prove useful when you need to adjust the query based on the value of another field:
 
 ```php
 use Laravel\Nova\Fields\BelongsTo;
@@ -654,9 +654,9 @@ BelongsTo::make('User')->hideCreateRelationButton(),
 
 The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
 
-### Adjust the inline creation modal's size
+### Inline Creation Modal Size
 
-You may adjust the size of the modal by using the `modalSize` method:
+You may adjust the size of the modal using the `modalSize` method:
 
 ```php
 // Can be "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl".
