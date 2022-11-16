@@ -584,8 +584,12 @@ BelongsTo::make('User')->searchable()->withSubtitles(),
 If you would like to customize the relatable query, you may do so by invoking the `relatableQueryUsing` method:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 BelongsTo::make('User')
-    ->relatableQueryUsing(function ($query) {
+    ->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
         $query->whereIn('teams', ['editor', 'writer']);
     }),
 ```
