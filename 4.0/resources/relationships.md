@@ -597,6 +597,7 @@ BelongsTo::make('User')
 The `relatableQueryUsing` method may also prove useful when you need to adjust the query based on the value of another field:
 
 ```php
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -604,7 +605,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 BelongsTo::make('User')
     ->dependsOn('topic', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
         if ($formData->topic === 'laravel-nova') {
-            $field->relatableQueryUsing(function ($query) {
+            $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) {
                 $query->whereIn('email', ['taylor@laravel.com', 'david@laravel.com']);
             });
         }
