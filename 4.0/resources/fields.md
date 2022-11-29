@@ -95,7 +95,7 @@ Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
 
 ### Showing Fields When Peeking
 
-You may allow a field to be visible [when peeking at the resource](/4.0/resources/relationships.html#peeking-at-belongsto-relationships) by using the `showWhenPeeking` method on the field:
+You may allow a field to be visible [when peeking at the resource](/4.0/resources/relationships.html#peeking-at-belongsto-relationships) by invoking the `showWhenPeeking` method when defining the field:
 
 ```php
 Text::make('Name')->showWhenPeeking(),

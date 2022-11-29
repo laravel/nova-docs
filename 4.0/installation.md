@@ -131,7 +131,7 @@ composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
 
 ## Using Nova on Development & Staging Domains
 
-Since Nova can be used in local and staging development environments, Nova will not check your license key when used on `localhost` or these local TLDs specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
+Since Nova can be used in local and staging development environments, Nova will not check your license key when used on `localhost` or local TLDs like those specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
 
 - `.test`
 - `.example`
