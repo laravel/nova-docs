@@ -334,6 +334,8 @@ Audio::make('Theme Song')->disableDownload(),
 You can set the [preload attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#attr-preload) of the field by using the `preload` method:
 
 ```php
+Audio::make('Theme Song')->preload('auto'),
+
 Audio::make('Theme Song')->preload(Audio::PRELOAD_METADATA),
 ```
 
