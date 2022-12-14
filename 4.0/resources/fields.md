@@ -317,7 +317,7 @@ Nova ships with a variety of field types. So, let's explore all of the available
 
 ### Audio Field
 
-The `Audio` field extends the [File field](#file-field) and accepts the same options and configurations. The `Audio` field, unlike the `File` field, will display a thumbnail preview of the underlying image when viewing the resource:
+The `Audio` field extends the [File field](#file-field) and accepts the same options and configurations. The `Audio` field will display an audio player for the underlying file when viewing the resource:
 
 ```php
 use Laravel\Nova\Fields\Audio;
