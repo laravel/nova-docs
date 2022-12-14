@@ -221,7 +221,7 @@ If your components use the Vue Composition API, you may use the `useLocalization
 </template>
 
 <script setup>
-import { useLocalization } from '@/mixins/Localization'
+import { useLocalization } from 'laravel-nova'
 
 const { __ } = useLocalization()
 
