@@ -280,6 +280,7 @@ This portion of the documentation only discusses non-relationship fields. To lea
 
 Nova ships with a variety of field types. So, let's explore all of the available types and their options:
 
+- [Audio](#audio-field)
 - [Avatar](#avatar-field)
 - [Badge](#badge-field)
 - [Boolean](#boolean-field)
@@ -314,6 +315,35 @@ Nova ships with a variety of field types. So, let's explore all of the available
 - [URL](#url-field)
 - [Vapor File](#vapor-file-field)
 - [Vapor Image](#vapor-image-field)
+
+### Audio Field
+
+The `Audio` field extends the [File field](#file-field) and accepts the same options and configurations. The `Audio` field will display an audio player for the underlying file when viewing the resource:
+
+```php
+use Laravel\Nova\Fields\Audio;
+
+Audio::make('Theme Song'),
+```
+
+By default, the `Audio` field allows the user to download the linked file. To disable downloads, you may use the `disableDownload` method on the field definition:
+
+```php
+Audio::make('Theme Song')->disableDownload(),
+```
+
+You can set the [preload attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#attr-preload) of the field by using the `preload` method:
+
+```php
+Audio::make('Theme Song')->preload('auto'),
+
+Audio::make('Theme Song')->preload(Audio::PRELOAD_METADATA),
+```
+
+:::tip File Fields
+
+To learn more about defining file fields and handling uploads, check out the comprehensive [file field documentation](./file-fields.md).
+:::
 
 ### Avatar Field
 
@@ -1666,7 +1696,7 @@ You may indicate that the field should be "full width" using the `fullWidth` met
 
 ```php
 Trix::make('Content')->fullWidth(),
-``` 
+```
 
 ### Field Text Alignment
 
@@ -1753,6 +1783,7 @@ Text::make('Recipient')
 
 The following field types may depend on other fields:
 
+- Audio
 - BelongsTo
 - Boolean
 - BooleanGroup
@@ -1773,11 +1804,13 @@ The following field types may depend on other fields:
 - Textarea
 - Text
 - URL
+- VaporAudio
 - VaporFile
 - VaporImage
 
 The following field types may not be depended upon by other fields since they do not live-report their changes to Nova:
 
+- Audio
 - Code
 - File
 - Image
@@ -1785,6 +1818,7 @@ The following field types may not be depended upon by other fields since they do
 - Status
 - Tag
 - Trix
+- VaporAudio
 - VaporFile
 - VaporImage
 
