@@ -251,6 +251,29 @@ To initiate a file download after the action is executed, you may use the `Actio
 return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
 ```
 
+### Action Callbacks
+
+The new `Action::then` method allows you to easily execute code after an action has finished executing against all of its selected resources. This feature allows you to easily generate reports or send notifications when an action has finished executing:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        (new Actions\EmailAccountProfile)->then(function ($models) {
+            $models->each(function ($model) {
+                //
+            });
+        }),
+    ];
+}
+```
+
 ### Custom Modal Responses
 
 In addition to the customization options provided before and during an action's execution, Nova also supports the ability to present a custom modal response to the user. This allows you to provide additional context or follow-up actions to the user, customized to your use-case.
