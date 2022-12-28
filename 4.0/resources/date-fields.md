@@ -68,7 +68,7 @@ public function boot()
     parent::boot();
 
     Nova::userTimezone(function (Request $request) {
-        return $request->user()->timezone;
+        return $request->user()?->timezone;
     });
 }
 ```
