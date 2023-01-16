@@ -97,7 +97,7 @@ The `afterValidation` method will always be called after a resource has been val
  */
 protected static function afterValidation(NovaRequest $request, $validator)
 {
-    if ($this->somethingElseIsInvalid()) {
+    if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
     }
 }
@@ -117,7 +117,7 @@ The `afterCreationValidation` method will be called after a resource that is bei
  */
 protected static function afterCreationValidation(NovaRequest $request, $validator)
 {
-    if ($this->somethingElseIsInvalid()) {
+    if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
     }
 }
@@ -137,7 +137,7 @@ The `afterUpdateValidation` method will be called after a resource that is being
  */
 protected static function afterUpdateValidation(NovaRequest $request, $validator)
 {
-    if ($this->somethingElseIsInvalid()) {
+    if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
     }
 }
