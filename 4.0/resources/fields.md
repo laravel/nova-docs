@@ -1799,6 +1799,7 @@ The following field types may depend on other fields:
 - Image
 - KeyValue
 - Markdown
+- MorphTo
 - Number
 - Password
 - PasswordConfirmation
