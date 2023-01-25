@@ -1789,6 +1789,7 @@ The following field types may depend on other fields:
 - BelongsTo
 - Boolean
 - BooleanGroup
+- MorphTo
 - Color
 - Code
 - Country
