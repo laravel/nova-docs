@@ -1842,7 +1842,7 @@ BelongsTo::make('User')
     ->hide()
     ->rules('sometimes')
     ->dependsOn('anonymous', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-        if ($formData->anonymous === false) {
+        if ($formData->boolean('anonymous') === false) {
             $field->show()->rules('required');
         }
     }),
