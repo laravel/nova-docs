@@ -15,5 +15,8 @@
   "overrides": {
     "webpack-dev-middleware": "3.6.0",
     "watchpack": "1.6.1"
+  },
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.9.8"
   }
 }
