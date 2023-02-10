@@ -897,6 +897,26 @@ Markdown::make('Biography')->preset('github', new class implements MarkdownPrese
 }),
 ```
 
+#### Markdown File Uploads
+
+If you would like to allow users to drag-and-drop photos into the `Markdown` field, you may chain the `withFiles` method onto the field's definition. When calling the `withFiles` method, you should pass the name of the [filesystem disk](https://laravel.com/docs/filesystem) that photos should be stored on:
+
+```php
+use Laravel\Nova\Fields\Markdown;
+
+Markdown::make('Biography')->withFiles('public'),
+```
+
+Nova will define two database tables to store pending and persisted `Field` uploads. These two tables will be created automatically when you run Nova's migrations during installation: `nova_pending_field_attachments` and `nova_field_attachments`.
+
+Finally, in your `app/Console/Kernel.php` file, you should register a [daily scheduled task](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
+
+```php
+use Laravel\Nova\Fields\Attachments\PruneStaleAttachments;
+
+$schedule->call(new PruneStaleAttachments)->daily();
+```
+
 ### MultiSelect Field
 
 The `MultiSelect` field provides a `Select` field that allows multiple selection options. This field pairs nicely with model attributes that are cast to `array` or equivalent:
@@ -1411,34 +1431,12 @@ use Laravel\Nova\Fields\Trix;
 Trix::make('Biography')->withFiles('public'),
 ```
 
-In addition, you should define two database tables to store pending and persisted Trix uploads. To do so, create a migration with the following table definitions:
+In addition, Nova will define two database tables to store pending and persisted `Field` uploads. These two tables will be created automatically when you run Nova's migrations during installation: `nova_pending_field_attachments` and `nova_field_attachments`.
+
+Finally, in your `app/Console/Kernel.php` file, you should register a [daily scheduled task](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
 
 ```php
-Schema::create('nova_pending_trix_attachments', function (Blueprint $table) {
-    $table->increments('id');
-    $table->string('draft_id')->index();
-    $table->string('attachment');
-    $table->string('disk');
-    $table->timestamps();
-});
-
-Schema::create('nova_trix_attachments', function (Blueprint $table) {
-    $table->increments('id');
-    $table->string('attachable_type');
-    $table->unsignedInteger('attachable_id');
-    $table->string('attachment');
-    $table->string('disk');
-    $table->string('url')->index();
-    $table->timestamps();
-
-    $table->index(['attachable_type', 'attachable_id']);
-});
-```
-
-Finally, in your `app/Console/Kernel.php` file, you should register a [daily job](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
-
-```php
-use Laravel\Nova\Trix\PruneStaleAttachments;
+use Laravel\Nova\Fields\Attachments\PruneStaleAttachments;
 
 $schedule->call(new PruneStaleAttachments)->daily();
 ```
