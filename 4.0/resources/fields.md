@@ -1390,9 +1390,9 @@ Textarea::make('Name')->maxlength(250),
 Nova will display the maximum length for the field along with a character counter. However, Nova will not enforce the maximum length. To instruct Nova to enforce the limit, you may call the `enforceMaxlength` method on the field:
 
 ```php
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 
-Text::make('Name')->maxlength(250)->enforceMaxlength(),
+Textarea::make('Name')->maxlength(250)->enforceMaxlength(),
 ```
 
 ### Timezone Field
