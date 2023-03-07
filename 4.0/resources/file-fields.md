@@ -422,7 +422,7 @@ By default, the `File` field will allow any type of file to be uploaded; however
 File::make('Disk Image')->acceptedTypes('.dmg,.exe')
 ```
 
-When using the `acceptedTypes` method, Nova adds the `accepts` attribute to the file input element; therefore, all of the following media types may be provided to the `acceptedTypes` method:
+When using the `acceptedTypes` method, Nova adds the `accept` attribute to the file input element; therefore, all of the following media types may be provided to the `acceptedTypes` method:
 
 - `.dmg`
 - `.dmg,.exe,.deb`
