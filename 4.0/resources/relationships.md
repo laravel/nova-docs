@@ -226,7 +226,7 @@ BelongsToMany::make('Users')
 :::warning Pivot fields must be defined
 Don't forget to define the pivot fields inside your Model's relationship definition using the
 `withPivot` method:
-[https://laravel.com/docs/9.x/eloquent-relationships#retrieving-intermediate-table-columns](https://laravel.com/docs/9.x/eloquent-relationships#retrieving-intermediate-table-columns)
+[https://laravel.com/docs/eloquent-relationships#retrieving-intermediate-table-columns](https://laravel.com/docs/eloquent-relationships#retrieving-intermediate-table-columns)
 :::
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
@@ -493,7 +493,7 @@ MorphToMany::make('Posts')
 :::warning Pivot fields must be defined
 Don't forget to define the pivot fields inside your Model's relationship definition using the
 `withPivot` method:
-[https://laravel.com/docs/9.x/eloquent-relationships#retrieving-intermediate-table-columns](https://laravel.com/docs/9.x/eloquent-relationships#retrieving-intermediate-table-columns)
+[https://laravel.com/docs/eloquent-relationships#retrieving-intermediate-table-columns](https://laravel.com/docs/eloquent-relationships#retrieving-intermediate-table-columns)
 :::
 
 Since defining the field on both ends of the relationship can cause some code duplication, Nova allows you to pass an invokable object to the `fields` method:
