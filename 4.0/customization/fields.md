@@ -28,10 +28,9 @@ use Acme\ColorPicker\ColorPicker;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -64,10 +63,9 @@ class ColorPicker extends Field
     /**
      * Set the hues that may be selected by the color picker.
      *
-     * @param  array  $hues
      * @return $this
      */
-    public function hues(array $hues)
+    public function hues(array $hues): static
     {
         return $this->withMeta(['hues' => $hues]);
     }
@@ -236,17 +234,11 @@ class ColorPicker extends Field
 
     /**
      * Hydrate the given attribute on the model based on the incoming request.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  string  $requestAttribute
-     * @param  object  $model
-     * @param  string  $attribute
-     * @return void
      */
     protected function fillAttributeFromRequest(NovaRequest $request,
-                                                $requestAttribute,
-                                                $model,
-                                                $attribute)
+                                                string $requestAttribute,
+                                                object $model,
+                                                string $attribute): void
     {
         if ($request->exists($requestAttribute)) {
             $model->{$attribute} = $request[$requestAttribute];
@@ -271,10 +263,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Nova::serving(function (ServingNova $event) {
         Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');

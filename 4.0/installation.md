@@ -157,12 +157,10 @@ Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` meth
  * Register the Nova gate.
  *
  * This gate determines who can access Nova in non-local environments.
- *
- * @return void
  */
-protected function gate()
+protected function gate(): void
 {
-    Gate::define('viewNova', function ($user) {
+    Gate::define('viewNova', function (User $user = null) {
         return in_array($user->email, [
             'taylor@laravel.com',
         ]);
@@ -217,18 +215,17 @@ There are times you may wish to customize Nova's default footer text to include 
 
 ```php
 use Laravel\Nova\Nova;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
-    Nova::footer(function ($request) {
+    Nova::footer(function (Request $request) {
         return Blade::render('
             @env(\'prod\')
                 This is production!
@@ -271,10 +268,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
     Nova::initialPath('/resources/users');
 
@@ -322,10 +317,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -351,10 +344,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -368,8 +359,9 @@ Nova uses its own internal exception handler instead of using the default `App\E
 
 ```php
 use Laravel\Nova\Nova;
+use Throwable;
 
-Nova::report(function ($exception) {
+Nova::report(function (Throwable $exception) {
     if (app()->bound('sentry')) {
         app('sentry')->captureException($exception);
     }

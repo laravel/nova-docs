@@ -43,20 +43,16 @@ use Illuminate\Support\Facades\Gate;
 
 /**
  * Determine if the user can impersonate another user.
- *
- * @return bool
  */
-public function canImpersonate()
+public function canImpersonate(): bool
 {
     return Gate::forUser($this)->check('viewNova');
 }
 
 /**
  * Determine if the user can be impersonated.
- *
- * @return bool
  */
-public function canBeImpersonated()
+public function canBeImpersonated(): bool
 {
     return true;
 }
@@ -93,11 +89,11 @@ use Illuminate\Support\Facades\Event;
 use Laravel\Nova\Events\StartedImpersonating;
 use Laravel\Nova\Events\StoppedImpersonating;
 
-Event::listen(StartedImpersonating::class, function ($event) {
+Event::listen(StartedImpersonating::class, function (StartedImpersonating $event) {
     logger("User {$event->impersonator->name} started impersonating {$event->impersonated->name}");
 });
 
-Event::listen(StoppedImpersonating::class, function ($event) {
+Event::listen(StoppedImpersonating::class, function (StoppedImpersonating $event) {
     logger("User {$event->impersonator->name} stopped impersonating {$event->impersonated->name}");
 });
 ```

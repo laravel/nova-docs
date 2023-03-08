@@ -28,10 +28,9 @@ use Acme\Analytics\Analytics;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [new Analytics];
 }
@@ -47,13 +46,12 @@ use Acme\Analytics\Analytics;
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
-        (new Analytics)->canSee(function ($request) {
+        (new Analytics)->canSee(function (Request $request) {
             return false;
         }),
     ];
@@ -92,17 +90,15 @@ class Analytics extends Card
      *
      * @return $this
      */
-    public function currentVisitors()
+    public function currentVisitors(): static
     {
         return $this->withMeta(['currentVisitors' => true]);
     }
 
     /**
      * Get the component name for the card.
-     *
-     * @return string
      */
-    public function component()
+    public function component(): string
     {
         return 'analytics';
     }
@@ -156,10 +152,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     $this->app->booted(function () {
         $this->routes();

@@ -115,10 +115,9 @@ use Laravel\Nova\Fields\Text;
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         // ...
@@ -132,7 +131,7 @@ public function fields(NovaRequest $request)
 
         Text::make('Attachment Size')
                 ->exceptOnForms()
-                ->displayUsing(function ($value) {
+                ->displayUsing(function (float $value) {
                     return number_format($value / 1024, 2).'kb';
                 }),
     ];
@@ -207,7 +206,7 @@ However, if you would like to take **total** control over the file storage logic
 use Illuminate\Http\Request;
 
 File::make('Attachment')
-    ->store(function (Request $request, $model) {
+    ->store(function (Request $request, object $model) {
         return [
             'attachment' => $request->attachment->store('/', 's3'),
             'attachment_name' => $request->attachment->getClientOriginalName(),
@@ -224,7 +223,7 @@ Here's another example of customizing the storage process. In this example, we'r
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 File::make('Attachment')
-    ->store(function (NovaRequest $request, $model) {
+    ->store(function (NovaRequest $request, object $model) {
         return function () use ($resource, $request) {
             $media = $resource->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
@@ -250,6 +249,7 @@ The invokable object should be a simple PHP class with a single `__invoke` metho
 
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class StoreAttachment
@@ -257,15 +257,9 @@ class StoreAttachment
     /**
      * Store the incoming file upload.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $attribute
-     * @param  string  $requestAttribute
-     * @param  string  $disk
-     * @param  string  $storagePath
-     * @return array
+     * @return array<string, mixed>
      */
-    public function __invoke(NovaRequest $request, $model, $attribute, $requestAttribute, $disk, $storagePath)
+    public function __invoke(NovaRequest $request, object $model, string $attribute, string $requestAttribute, string|null $disk, string|null $storagePath): array
     {
         return [
             'attachment' => $request->attachment->store('/', 's3'),
@@ -288,7 +282,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 File::make('Attachment')
     ->disk('s3')
-    ->delete(function (NovaRequest $request, $model, $disk, $path) {
+    ->delete(function (NovaRequest $request, object $model, string|null $disk, string|null $path) {
         if (! $path) {
             return;
         }
@@ -328,13 +322,9 @@ class DeleteAttachment
     /**
      * Delete the field's underlying file.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string|null  $disk
-     * @param  string|null  $path
-     * @return array
+     * @return array<string, mixed>
      */
-    public function __invoke(NovaRequest $request, $model, $disk, $path)
+    public function __invoke(NovaRequest $request, object $model, string|null $disk, string|null $path): array
     {
         if (! $path) {
             return;
@@ -363,7 +353,7 @@ use Illuminate\Support\Facades\Storage;
 
 Image::make('Profile Photo')
     ->disk('public')
-    ->preview(function ($value, $disk) {
+    ->preview(function (string|null $value, string|null $disk) {
         return $value
                     ? Storage::disk($disk)->url($value)
                     : null;
@@ -387,7 +377,7 @@ use Illuminate\Support\Facades\Storage;
 
 Image::make('Profile Photo')
     ->disk('public')
-    ->thumbnail(function ($value, $disk) {
+    ->thumbnail(function (string|null $value, string|null $disk) {
         return $value
                     ? Storage::disk($disk)->url($value)
                     : null;
@@ -409,7 +399,7 @@ use Illuminate\Support\Facades\Storage;
 
 Image::make('Profile Photo')
     ->disk('public')
-    ->download(function ($request, $model, $disk, $value) {
+    ->download(function (NovaRequest $request, object $model, string|null $disk, string|null $value) {
         return Storage::disk($disk)->download($value, 'avatar');
     }),
 ```

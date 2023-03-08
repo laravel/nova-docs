@@ -28,10 +28,9 @@ use Acme\AgeRange\AgeRange;
 /**
  * Get the filters available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Filters\Filter>
  */
-public function filters(NovaRequest $request)
+public function filters(NovaRequest $request): array
 {
     return [
         new AgeRange,
@@ -47,10 +46,9 @@ use Acme\AgeRange\AgeRange;
 /**
  * Get the filters available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Filters\Filter>
  */
-public function filters(NovaRequest $request)
+public function filters(NovaRequest $request): array
 {
     return [
         AgeRange::make(),
@@ -99,10 +97,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     Nova::serving(function (ServingNova $event) {
         Nova::script('age-range', __DIR__.'/../dist/js/filter.js');

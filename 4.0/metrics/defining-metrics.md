@@ -30,16 +30,14 @@ namespace App\Nova\Metrics;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
 class NewUsers extends Value
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): ValueResult
     {
         return $this->count($request, User::class);
     }
@@ -47,9 +45,9 @@ class NewUsers extends Value
     /**
      * Get the ranges available for the metric.
      *
-     * @return array
+     * @return array<int, string>
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -65,10 +63,8 @@ class NewUsers extends Value
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'new-users';
     }
@@ -119,9 +115,9 @@ Every value metric class contains a `ranges` method. This method determines the 
 /**
  * Get the ranges available for the metric.
  *
- * @return array
+ * @return array<int|string, string>
  */
-public function ranges()
+public function ranges(): array
 {
     return [
         5 => '5 Days',
@@ -155,7 +151,7 @@ return $this->result(0)->allowZeroResult();
 You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
 
 ```php
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->max($request, Order::class, 'total')
                 ->prefix('$')
@@ -175,7 +171,7 @@ To customize the display format of a value result, you may use the `format` meth
 
 ```php
 // Numbro v2.0+ (http://numbrojs.com/format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->count($request, User::class)
                 ->format([
@@ -185,7 +181,7 @@ public function calculate(NovaRequest $request)
 }
 
 // Numbro < v2.0 (http://numbrojs.com/old-format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->count($request, User::class)
                 ->format('0,0');
@@ -198,7 +194,7 @@ public function calculate(NovaRequest $request)
 There may be times you need to "transform" a value result before it is displayed to the user. For example, let's say you have a "Total Revenue" metric which calculates the total revenue for a product in cents. You may wish to present this value to the user in dollars versus cents. To transform the value before it's displayed, you can use the `transform` helper:
 
 ```php
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): ValueResult
 {
     return $this->sum($request, Invoice::class, 'amount')
         ->transform(fn($value) => $value / 100);
@@ -237,16 +233,14 @@ namespace App\Nova\Metrics;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
+use Laravel\Nova\Metrics\TrendResult;
 
 class UsersPerDay extends Trend
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): TrendResult
     {
         return $this->countByDays($request, User::class);
     }
@@ -254,9 +248,9 @@ class UsersPerDay extends Trend
     /**
      * Get the ranges available for the metric.
      *
-     * @return array
+     * @return array<int, string>
      */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             30 => '30 Days',
@@ -267,10 +261,8 @@ class UsersPerDay extends Trend
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'users-per-day';
     }
@@ -349,9 +341,9 @@ Every trend metric class contains a `ranges` method. This method determines the 
 /**
  * Get the ranges available for the metric.
  *
- * @return array
+ * @return array<int, string>
  */
-public function ranges()
+public function ranges(): array
 {
     return [
         5 => '5 Days',
@@ -378,7 +370,7 @@ To customize the display format of a value result, you may use the `format` meth
 
 ```php
 // Numbro v2.0+ (http://numbrojs.com/format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): TrendResult
 {
     return $this->count($request, User::class)
                 ->format([
@@ -388,7 +380,7 @@ public function calculate(NovaRequest $request)
 }
 
 // Numbro < v2.0 (http://numbrojs.com/old-format.html)
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): TrendResult
 {
     return $this->count($request, User::class)
                 ->format('0,0');
@@ -454,26 +446,22 @@ namespace App\Nova\Metrics;
 use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\PartitionResult;
 
 class UsersPerPlan extends Partition
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): PartitionResult
     {
         return $this->count($request, User::class, 'stripe_plan');
     }
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'users-by-plan';
     }
@@ -523,11 +511,8 @@ Often, the column values that divide your partition metrics into groups will be 
 ```php
 /**
  * Calculate the value of the metric.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return mixed
  */
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): PartitionResult
 {
     return $this->count($request, User::class, 'stripe_plan')
             ->label(fn ($value) => match ($value) {
@@ -544,11 +529,8 @@ By default, Nova will choose the colors used in a partition metric. Sometimes, y
 ```php
 /**
  * Calculate the value of the metric.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return mixed
  */
-public function calculate(NovaRequest $request)
+public function calculate(NovaRequest $request): PartitionResult
 {
     // This metric has `audio`, `video`, and `photo` types...
     return $this->count($request, Post::class, 'type')->colors([
@@ -593,30 +575,27 @@ In this example, we are using the `count` helper to determine if we have reached
 namespace App\Nova\Metrics;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Progress;
+use Laravel\Nova\Metrics\ProgressResult;
 
 class NewUsers extends Progress
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): ProgressResult
     {
-        return $this->count($request, User::class, function ($query) {
+        return $this->count($request, User::class, function (Builder $query) {
             return $query->where('created_at', '>=', now()->startOfMonth());
         }, target: 200);
     }
 
     /**
      * Get the URI key for the metric.
-     *
-     * @return string
      */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'new-users';
     }
@@ -628,7 +607,7 @@ class NewUsers extends Progress
 Progress metrics don't only ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress metric with the sum of the completed transaction amounts against a target sales goal:
 
 ```php
-return $this->sum($request, Transaction::class, function ($query) {
+return $this->sum($request, Transaction::class, function (Builder $query) {
     return $query->where('completed', '=', 1);
 }, 'amount', target: 2000);
 ```
@@ -640,7 +619,7 @@ Sometimes you may be tracking progress towards a "goal" you would rather avoid, 
 When using the `avoid` method to specify that the metric is something you wish to avoid, Nova will use green to indicate lack of progress towards the "goal", while using yellow to indicate the approaching completion of the "goal":
 
 ```php
-return $this->count($request, User::class, function ($query) {
+return $this->count($request, User::class, function (Builder $query) {
     return $query->where('cancelled_at', '>=', now()->startOfMonth());
 }, target: 200)->avoid();
 ```
@@ -650,7 +629,7 @@ return $this->count($request, User::class, function ($query) {
 Sometimes you may wish to add a prefix or suffix to the current progress value. To accomplish this, you may use the `prefix` and `suffix` methods:
 
 ```php
-return $this->sum($request, Transaction::class, function ($query) {
+return $this->sum($request, Transaction::class, function (Builder $query) {
     return $query->where('completed', '=', 1);
 }, 'amount', target: 2000)->prefix('$');
 ```
@@ -658,7 +637,7 @@ return $this->sum($request, Transaction::class, function ($query) {
 If your progress metric is displaying a monetary value, you may use the `dollars` and `euros` convenience methods for quickly prefixing a Dollar or Euro sign to the progress values:
 
 ```php
-return $this->sum($request, Transaction::class, function ($query) {
+return $this->sum($request, Transaction::class, function (Builder $query) {
     return $query->where('completed', '=', 1);
 }, 'amount', target: 2000)->dollars();
 ```
@@ -696,10 +675,9 @@ class NewReleases extends Table
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
+     * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): array
     {
         return [
             MetricTableRow::make()
@@ -735,10 +713,9 @@ class NewReleases extends Table
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
+     * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): array
     {
         return [
             MetricTableRow::make()
@@ -791,10 +768,9 @@ class NextSteps extends Table
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
+     * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): array
     {
         return [
             MetricTableRow::make()
@@ -839,12 +815,12 @@ Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroi
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
 
 ```php
+use DateTimeInterface;
+
 /**
  * Determine the amount of time the results of the metric should be cached.
- *
- * @return \DateTimeInterface|\DateInterval|float|int|null
  */
-public function cacheFor()
+public function cacheFor(): DateTimeInterface|null
 {
     return now()->addMinutes(5);
 }
@@ -857,10 +833,8 @@ By default, Nova will use the metric class name as the displayable name of your 
 ```php
 /**
  * Get the displayable name of the metric
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return 'Users Created';
 }

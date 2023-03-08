@@ -16,9 +16,9 @@ Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing 
 /**
  * Get the cards that should be displayed on the Nova dashboard.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards()
+public function cards(): array
 {
     return [
         new Help,
@@ -52,9 +52,9 @@ class UserInsights extends Dashboard
     /**
      * Get the cards for the dashboard.
      *
-     * @return array
+     * @return array<int, \Laravel\Nova\Card>
      */
-    public function cards()
+    public function cards(): array
     {
         return [
             TotalUsers::make(),
@@ -71,10 +71,8 @@ By default, Nova will use the dashboard's class name to determine the displayabl
 ```php
 /**
  * Get the displayable name of the dashboard.
- *
- * @return string
  */
-public function name()
+public function name(): string
 {
     return 'User Insights';
 }
@@ -87,10 +85,8 @@ If you need to change the URI of the dashboard, you may override the dashboard c
 ```php
 /**
  * Get the URI key of the dashboard.
- *
- * @return string
  */
-public function uriKey()
+public function uriKey(): string
 {
     return 'user-insights-improved';
 }
@@ -107,9 +103,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
@@ -128,10 +124,8 @@ use Laravel\Nova\Menu\MenuItem;
 
 /**
  * Get the menu that should represent the dashboard.
- *
- * @return \Laravel\Nova\Menu\MenuItem
  */
-public function menu(Request $request)
+public function menu(Request $request): MenuItem
 {
     return parent::menu($request)->withBadge(function () {
         return 'NEW!';
@@ -152,9 +146,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
@@ -171,17 +165,18 @@ If you would like to only expose a given dashboard to certain users, you may inv
 use App\Models\User;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\UserInsights;
+use Illuminate\Http\Request;
 
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
-        UserInsights::make()->canSee(function ($request) {
+        UserInsights::make()->canSee(function (Request $request) {
             return $request->user()->can('viewUserInsights', User::class);
         }),
     ];
@@ -198,9 +193,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),

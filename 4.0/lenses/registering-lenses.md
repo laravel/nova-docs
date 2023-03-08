@@ -8,10 +8,9 @@ Once you have defined a lens, you are ready to attach it to a resource. Each res
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Lenses\Lens>
  */
-public function lenses(NovaRequest $request)
+public function lenses(NovaRequest $request): array
 {
     return [
         new Lenses\MostValuableUsers,
@@ -25,10 +24,9 @@ Alternatively, you may use the `make` method to instantiate your lens. Any argum
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Lenses\Lens>
  */
-public function lenses(NovaRequest $request)
+public function lenses(NovaRequest $request): array
 {
     return [
         Lenses\MostValuableUsers::make(),
@@ -47,13 +45,12 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Lenses\Lens>
  */
-public function lenses(NovaRequest $request)
+public function lenses(NovaRequest $request): array
 {
     return [
-        (new Lenses\MostValuableUsers)->canSee(function ($request) {
+        (new Lenses\MostValuableUsers)->canSee(function (NovaRequest $request) {
             return $request->user()->can(
                 'viewValuableUsers', User::class
             );
@@ -68,10 +65,9 @@ In the example above, we are using Laravel's `Authorizable` trait's `can` method
 /**
  * Get the lenses available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Lenses\Lens>
  */
-public function lenses(NovaRequest $request)
+public function lenses(NovaRequest $request): array
 {
     return [
         (new Lenses\MostValuableUsers)->canSeeWhen(
