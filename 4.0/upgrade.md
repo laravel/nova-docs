@@ -312,11 +312,12 @@ Once your Vue component has been registered, you should define a server-side rou
 ```php
 // Within ToolServiceProvider.php...
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 
 Nova::router()
     ->group(function ($router) {
-        $router->get('sidebar-tool', function ($request) {
+        $router->get('sidebar-tool', function (Request $request) {
             return inertia('SidebarTool');
         });
     });
