@@ -261,8 +261,8 @@ class StoreAttachment
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $attribute
      * @param  string  $requestAttribute
-     * @param  string  $disk
-     * @param  string  $storagePath
+     * @param  string|null  $disk
+     * @param  string|null  $storagePath
      * @return array
      */
     public function __invoke(NovaRequest $request, $model, $attribute, $requestAttribute, $disk, $storagePath)
