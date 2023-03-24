@@ -1801,9 +1801,11 @@ The following field types may depend on other fields:
 - Number
 - Password
 - PasswordConfirmation
+- Select
 - Status
 - Textarea
 - Text
+- Trix
 - URL
 - VaporAudio
 - VaporFile
