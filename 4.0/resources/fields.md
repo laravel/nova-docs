@@ -1801,8 +1801,8 @@ The following field types may depend on other fields:
 - Number
 - Password
 - PasswordConfirmation
-- Status
 - Select
+- Status
 - Textarea
 - Text
 - Trix
