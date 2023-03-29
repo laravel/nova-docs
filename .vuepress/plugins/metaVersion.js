@@ -3,7 +3,7 @@ var currentVersion = versions[versions.length - 1]
 
 module.exports = (options = {}, context) => ({
   extendPageData($page) {
-    const { regularPath, path, frontmatter } = $page;
+    const { regularPath, frontmatter } = $page;
 
     frontmatter.meta = [];
 
