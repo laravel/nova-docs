@@ -223,6 +223,10 @@ public function replicate()
 }
 ```
 
+::: warning Replication skipped field with attachments
+To avoid attachments from getting out-of-sync after deleting any of the replicated content, Nova exclude any fields with attachments using `Laravel\Nova\Contracts\Deletable` interface. However, `Markdown` and `Trix` field still can be replicated unless it configured with `withFiles()`.
+:::
+
 ## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a Laravel [model observer](https://laravel.com/docs/eloquent#observers) to a model:
