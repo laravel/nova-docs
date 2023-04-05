@@ -225,8 +225,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 File::make('Attachment')
     ->store(function (NovaRequest $request, $model) {
-        return function () use ($resource, $request) {
-            $media = $resource->media()->updateOrCreate([], [
+        return function () use ($model, $request) {
+            $media = $model->media()->updateOrCreate([], [
                 'path'=> $request->file('attachment')->store('/path', 'public')
             ]);
 
