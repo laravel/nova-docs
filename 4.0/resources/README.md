@@ -223,6 +223,11 @@ public function replicate()
 }
 ```
 
+::: warning Attachments May Not Be Replicated
+
+`Markdown` and `Trix` fields that use the `withFiles` method may not be replicated.
+:::
+
 ## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a Laravel [model observer](https://laravel.com/docs/eloquent#observers) to a model:
