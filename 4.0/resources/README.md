@@ -223,8 +223,9 @@ public function replicate()
 }
 ```
 
-::: warning Replication skipped field with attachments
-To avoid attachments from getting out-of-sync after deleting any of the replicated content, Nova exclude any fields with attachments using `Laravel\Nova\Contracts\Deletable` interface. However, `Markdown` and `Trix` field still can be replicated unless it configured with `withFiles()`.
+::: warning Attachments May Not Be Replicated
+
+`Markdown` and `Trix` fields that use the `withFiles` method may not be replicated.
 :::
 
 ## Resource Events
