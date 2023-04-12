@@ -1274,6 +1274,14 @@ You may adjust the size of the modal using the `modalSize` method:
 Tag::make('Tags')->showCreateRelationButton()->modalSize('7xl'),
 ```
 
+#### Preloading Available Tags
+
+For convenience, you can show all available tags options on a resource create or update page using the `preload` method:
+
+```php
+Tag::make('Tags')->preload(),
+```
+
 ### Text Field
 
 The `Text` field provides an `input` control with a `type` attribute of `text`:
