@@ -439,3 +439,18 @@ MenuItem::link('Cashier', '/cashier')
         return $request->user()->can('manageCashier');
     })
 ```
+
+#### Customising Menu Items's Active State
+
+You may use the `activeWhen` method to determine if the menu item should be displayed as active for the currently authenticated user:
+
+```php
+use Illuminate\Http\Request;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\URL;
+
+MenuItem::link('Cashier', '/cashier')
+    ->activeWhen(function (Request $request, URL $url) {
+        return $url->active() && $request->user()->can('manageCashier');
+    }),
+```
