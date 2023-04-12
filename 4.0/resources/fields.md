@@ -1265,7 +1265,7 @@ use Laravel\Nova\Fields\Tag;
 Tag::make('Tags')->showCreateRelationButton(),
 ```
 
-#### Adjusting Inline Creation Modal's Size
+#### Adjusting The Inline Creation Modal's Size
 
 You may adjust the size of the modal using the `modalSize` method:
 
@@ -1276,7 +1276,7 @@ Tag::make('Tags')->showCreateRelationButton()->modalSize('7xl'),
 
 #### Preloading Available Tags
 
-For convenience, you can show all available tags options on a resource create or update page using the `preload` method:
+To make existing tags more discoverable, you may show the user all available tags during resource creation or update by invoking the `preload` method when defining the field:
 
 ```php
 Tag::make('Tags')->preload(),
