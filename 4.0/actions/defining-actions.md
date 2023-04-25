@@ -294,7 +294,7 @@ Occasionally, you may have actions that take a while to finish running. For this
 
 namespace App\Nova\Actions;
 
-use App\AccountData;
+use App\Models\AccountData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -352,7 +352,7 @@ When an action is batchable, you should define a `withBatch` method that will be
 
 namespace App\Nova\Actions;
 
-use App\AccountData;
+use App\Models\AccountData;
 use Illuminate\Bus\Batch;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\PendingBatch;
