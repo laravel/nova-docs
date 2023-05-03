@@ -171,7 +171,7 @@ BelongsToMany::make('Roles')
 
 ## Closure Actions
 
-Closure actions allow you to create actions without generating a separate class. To define a closure action, call the `using` factory method on the `Action` class, passing it's name and a `Closure` for the handler:
+Closure actions allow you to create actions without defining the action as a separate class. To define a closure action, call the `using` factory method on the `Action` class, passing the action's name and a closure. The closure given to the `using` method receives the same parameters as a dedicated action's `handle` method:
 
 ```php 
 public function actions()
@@ -184,21 +184,18 @@ public function actions()
 }
 ```
 
-:::tip Closure actions parameters 
-The `Closure` receives the same parameters as a dedicated action's `handle` method.
-:::
+:::warning Queueing Closure Actions
 
-:::warning Closure actions are not queueable
-Closure actions are not queueable since they cannot use the `ShouldQueue` trait from Laravel.
+Closure actions are not queueable since they cannot use the `ShouldQueue` trait provided by Laravel.
 :::
 
 ## Static Actions
 
-In Nova, it's common to have standalone actions which only function to provide things like downloads, redirect to other sections of Nova, open new windows and similar. Luckily, Nova provides static actions, allowing us to skip the need to create dedicated action classes for these common tasks.
+When using Nova, it's common to define actions to accomplish simple tasks like downloading files, redirecting users, or opening new windows. Luckily, Nova provides static actions, allowing you to accomplish a variety of common tasks without writing a dedicated action of your own.
 
 ### Redirect Actions
 
-The `redirect` action will redirect the user to an external URL. To create a `redirect` action, pass the action name, and the URL you would like to redirect the user to:
+The `redirect` action will redirect the user to an external URL. To create a `redirect` action, pass the action name and the URL you would like to redirect the user to:
 
 ```php
 public function actions()
@@ -211,7 +208,7 @@ public function actions()
 
 ### Visit Actions
 
-The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you wish to visit:
+The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you want them to visit:
 
 ```php
 public function actions()
@@ -224,9 +221,7 @@ public function actions()
 
 ### Danger Actions
 
-The `danger` action displays an error toast notification to the user. 
-
-For instance, your Nova application may have an action that was previously available but is no longer available, and to avoid confusion you wish to notify the user of its removal. To accomplish this, pass the action name and the message to display to the user:
+The `danger` action displays an error toast notification to the user. For instance, your Nova application may have an action that was previously available but is no longer available, and to avoid confusion you may wish to notify the user of its removal. To accomplish this, pass the action name and the message to display to the user:
 
 ```php
 public function actions()
@@ -239,7 +234,7 @@ public function actions()
 
 ### Custom Modal Actions
 
-The `modal` action allows you to display a custom modal to the user. To create a `modal` action, pass the action name, your custom Vue component, and any additional data:
+The `modal` action allows you to display a custom modal to the user. To create a `modal` action, pass the action name, your custom Vue component, and any additional data that should be made available to the component:
 
 ```php
 public function actions()
@@ -250,12 +245,11 @@ public function actions()
         ]),
     ];
 }
-
 ```
 
-### Open a URL in a new tab
+### Open URLs In New Tabs
 
-The `openInNewTab` action opens a URL in a new browser tab. To create an `openInNewTab` action, pass the action name and the URL that should be opened in a new browser tab: 
+The `openInNewTab` action opens a URL in a new browser tab. To create an `openInNewTab` action, pass the action name and the URL that should be opened in the new browser tab:
 
 ```php
 public function actions()
@@ -264,21 +258,22 @@ public function actions()
         Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com'),
     ];
 }
-
 ```
 
 ### Downloading Files
 
-The `downloadURL` action downloads the given URL. To create a `downloadURL` action, pass the action name and the URL for the file to be downloaded:
+The `downloadUrl` action downloads the file at the given URL. To create a `downloadUrl` action, pass the action name and the URL of the file to be downloaded:
 
 ```php
 public function actions()
 {
     return [
-        Action::downloadURL('Download User Summary', route('users.summary', $this->resource)),
+        Action::downloadUrl(
+            'Download User Summary',
+            route('users.summary', $this->resource)
+        ),
     ];
 }
-
 ```
 
 ## Action Confirmation Modal
