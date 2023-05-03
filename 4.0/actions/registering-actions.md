@@ -177,7 +177,7 @@ Closure actions allow you to create actions without generating a separate class.
 public function actions()
 {
     return [
-        Action::using('Deactive User', function (ActionFields $fields, Collection $models) {
+        Action::using('Deactivate User', function (ActionFields $fields, Collection $models) {
             $models->each->update(['active' => false]);
         }),
     ];
