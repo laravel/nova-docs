@@ -169,6 +169,118 @@ BelongsToMany::make('Roles')
     ->referToPivotAs('Role Assignment'),
 ```
 
+## Closure Actions
+
+Closure actions allow you to create actions without generating a separate class. To define a closure action, call the `using` factory method on the `Action` class, passing it's name and a `Closure` for the handler:
+
+```php 
+public function actions()
+{
+    return [
+        Action::using('Deactive User', function (ActionFields $fields, Collection $models) {
+            $models->each->update(['active' => false]);
+        }),
+    ];
+}
+```
+
+:::tip Closure actions parameters 
+The `Closure` receives the same parameters as a dedicated action's `handle` method.
+:::
+
+:::warning Closure actions are not queueable
+Closure actions are not queueable since they cannot use the `ShouldQueue` trait from Laravel.
+:::
+
+## Static Actions
+
+In Nova, it's common to have standalone actions which only function to provide things like downloads, redirect to other sections of Nova, open new windows and similar. Luckily, Nova provides static actions, allowing us to skip the need to create dedicated action classes for these common tasks.
+
+### Redirect Actions
+
+The `redirect` action will redirect the user to an external URL. To create a `redirect` action, pass the action name, and the URL you would like to redirect the user to:
+
+```php
+public function actions()
+{
+    return [
+        Action::redirect('Visit Stripe Dashboard', 'https://stripe.com'),
+    ];
+}
+```
+
+### Visit Actions
+
+The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you wish to visit:
+
+```php
+public function actions()
+{
+    return [
+        Action::visit('View Logs', '/nova/logs'),
+    ];
+}
+```
+
+### Danger Actions
+
+The `danger` action displays an error toast notification to the user. 
+
+For instance, your Nova application may have an action that was previously available but is no longer available, and to avoid confusion you wish to notify the user of its removal. To accomplish this, pass the action name and the message to display to the user:
+
+```php
+public function actions()
+{
+    return [
+        Action::danger('Disable User Account', 'This action is no longer available!'),
+    ];
+}
+```
+
+### Custom Modal Actions
+
+The `modal` action allows you to display a custom modal to the user. To create a `modal` action, pass the action name, your custom Vue component, and any additional data:
+
+```php
+public function actions()
+{
+    return [
+        Action::modal('Download User Summary', 'UserSummary',  [
+            'user_id' => optional($this->resource)->getKey(),
+        ]),
+    ];
+}
+
+```
+
+### Open a URL in a new tab
+
+The `openInNewTab` action opens a URL in a new browser tab. To create an `openInNewTab` action, pass the action name and the URL that should be opened in a new browser tab: 
+
+```php
+public function actions()
+{
+    return [
+        Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com'),
+    ];
+}
+
+```
+
+### Downloading Files
+
+The `downloadURL` action downloads the given URL. To create a `downloadURL` action, pass the action name and the URL for the file to be downloaded:
+
+```php
+public function actions()
+{
+    return [
+        Action::downloadURL('Download User Summary', route('users.summary', $this->resource)),
+    ];
+}
+
+```
+
 ## Action Confirmation Modal
 
 ### Fullscreen / Custom Modal Sizes
