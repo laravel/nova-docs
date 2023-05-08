@@ -89,7 +89,7 @@ Repeater::make('Attachments')->blocks([
 
 When creating Invoices inside Nova, you will be presented a with an interface for adding and editing items in the field:
 
-![[Pasted image 20230403113322.png]]
+![Repeater Field](./img/repeater-field-2.png)
 
 ## Repeater Presets
 
@@ -285,7 +285,7 @@ class LineItem extends Block
 
 When creating Repeater items, you will be presented with a form similar to the one presented when creating Nova resources:
 
-![[Pasted image 20230403114740.png]]
+![Repeater Field](./img/repeater-field-1.png)
 
 ### Limitations of Fields Inside Blocks
 
