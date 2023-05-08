@@ -16,6 +16,7 @@ module.exports = [
     children: prefix("resources", [
       "",
       "fields",
+      "repeater-field",
       "date-fields",
       "file-fields",
       "relationships",
