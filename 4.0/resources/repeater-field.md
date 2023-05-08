@@ -2,7 +2,7 @@
 
 ## Overview
 
-The `Repeater` field allows you to create, store and edit repeatable data in JSON format, and HasMany or MorphMany relationships.
+The `Repeater` field allows you to create, store and edit repeatable data in JSON format, and HasMany or HasManyMorphable relationships.
 
 For example, you may use a `Repeater` field to edit the line items for an invoice. Using the `Laravel\Nova\Fields\Repeater\Json` preset, those line items could be stored in a `line_items` JSON column. Using the `HasMany` preset, the line items could be stored in a separate 'line_items' database table, with fields corresponding to each database column.
 
@@ -93,7 +93,7 @@ When creating Invoices inside Nova, you will be presented a with an interface fo
 
 ## Repeater Presets
 
-The Repeater field supports 3 presets out-of-the-box: `Json`, `HasMany`, and `MorphMany`. Each preset defines specific functionality for saving and retrieving repeater items from storage.
+The Repeater field supports 3 presets out-of-the-box: `Json`, `HasMany`, and `HasManyMorphable`. Each preset defines specific functionality for saving and retrieving repeater items from storage.
 
 ### JSON Preset
 
@@ -160,16 +160,16 @@ $lineItem->update([
 The `HasMany` preset
 !!!
 
-### MorphMany Preset
+### HasManyMorphable Preset
 
-The `MorphMany` preset saves data using Eloquent `MorphMany` relationships. To use the `MorphMany` preset, pass a new instance into the `preset` helper:
+The `HasManyMorphable` preset saves data using Eloquent `HasMany` relationships, but each repeatable item can be of multiple types. To use the `HasManyMorphable` preset, pass a new instance into the `preset` helper:
 
 ```php
 Repeater::make('Attachments')
-	->preset(new \Laravel\Nova\Fields\Repeater\Presets\MorphMany('attachable', 'attachment'))
+	->preset(new \Laravel\Nova\Fields\Repeater\Presets\HasManyMorphable('attachable', 'attachment'))
 ```
 
-Notice how the `MorphMany` preset takes two parameters in its constructor...`attachable` and `attachment`. The first parameter is the method name used when defining the `MorphMany` relationship, and the second is the method name used when defining the reverse relation.
+Notice how the `HasManyMorphable` preset takes two parameters in its constructor...`attachable` and `attachment`. The first parameter is the method name used when defining the `HasManyMorphable` relationship, and the second is the method name used when defining the reverse relation.
 
 Similarly to the `HasMany` preset, Nova will update the related models with the data from the repeater. This would be similar to updating the related models yourself:
 
@@ -301,7 +301,7 @@ The following field types are not currently supported for use within Blocks:
 
 ### Using 
 
-To use the `HasMany` and `MorphMany` preset with your blocks, you must set the static `$model` property to match the underlying Eloquent model it represents:
+To use the `HasMany` and `HasManyMorphable` preset with your blocks, you must set the static `$model` property to match the underlying Eloquent model it represents:
 
 ```php
 <?
