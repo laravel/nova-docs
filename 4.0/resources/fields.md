@@ -1792,10 +1792,7 @@ Text::make('Recipient')
     ),
 ```
 
-:::tip Separate Dependent Fields logic on "Create" and "Update"
-
-For futher customisation, you may use `dependsOnCreating` and `dependsOnUpdating` to split the dependent logic on both usage.
-:::
+To define dependent fields separately for creating and updating resources, you may use the `dependsOnCreating` and `dependsOnUpdating` methods.
 
 #### Dependent Fields Supports
 
