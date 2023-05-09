@@ -16,6 +16,22 @@ To quickly create a new translation file for your language, you may execute the 
 php artisan nova:translate es
 ```
 
+#### User Locale Overrides
+
+Laravel Nova frontend libraries including the browser, Numbro.js, Luxon etc will utilise the locale value from `app()->getLocale()` by default. However, if your application is only using ISO 639-1 language code (e.g: `en`) you might want to convert it to IETF language tag (e.g: `en-US`, `en-GB`). 
+
+To accomplish this, you may use the `Nova::userLocale` method. Typically you should call this method in the `boot` method of your application's `NovaServiceProvider`:
+
+```php
+Nova::userLocale(function (Request $request) {
+    return match (app()->getLocale()) {
+        'en' => 'en-US',
+        'de' => 'de-DE',
+        default => null,
+    }
+});
+```
+
 ### Resources
 
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
