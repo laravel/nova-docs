@@ -1794,7 +1794,7 @@ Text::make('Recipient')
 
 To define dependent fields separately for creating and updating resources, you may use the `dependsOnCreating` and `dependsOnUpdating` methods.
 
-#### Dependent Fields Supports
+#### Supported Dependent Fields
 
 The following field types may depend on other fields:
 
