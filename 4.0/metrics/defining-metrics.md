@@ -215,7 +215,7 @@ return $this->result(100)->previous(50);
 However, you are not restricted to static values. The result method can also handle dynamic data, such as filters that come through a request. Here's an example showing how you might apply a filter to a model using the applyFilterQuery method:
 
 ```php
-return $this->result($this->applyFilterQuery($request, Model::class));
+return $this->result($this->applyFilterQuery($request, Model::class)->count());
 ```
 
 ## Trend Metrics
