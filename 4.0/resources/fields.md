@@ -784,6 +784,10 @@ If your application contains very large integer IDs, you may need to use the `as
 ID::make()->asBigInt(),
 ```
 
+:::warning ID Fields
+There should only be one `ID` field configured per resource.
+:::
+
 ### Image Field
 
 The `Image` field extends the [File field](#file-field) and accepts the same options and configurations. The `Image` field, unlike the `File` field, will display a thumbnail preview of the underlying image when viewing the resource:
