@@ -212,7 +212,7 @@ If you are not able to use the included query helpers for building your value me
 ```php
 return $this->result(100)->previous(50);
 ```
-However, you are not restricted to static values. The result method can also handle dynamic data, such as filters that come through a request. Here's an example showing how you might apply a filter to a model using the applyFilterQuery method:
+The result method in Resource Index metrics can handle dynamic data, including filters received through a request. For instance, you can use the applyFilterQuery method to apply the selected filters on the resource to a model. Here's an example that illustrates this process:
 
 ```php
 return $this->result($this->applyFilterQuery($request, Model::class)->count());
