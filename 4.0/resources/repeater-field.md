@@ -45,11 +45,40 @@ class Invoice extends Resource
 }
 ```
 
-Next, we need to create a "repeatable" to represent the line items for our invoice. To generate a new `Repeatable`, call the `nova:repeatable` Artisan command from the CLI:
+## Repeatables
+
+Next, we need to create a "repeatable" to represent the line items for our invoice. A `Repeatable` defines the set of fields and/or an Eloquent `Model` class used for a repeatable item. Continuing with our invoice example, 
+
+To generate a new `Repeatable`, call the `nova:repeatable` Artisan command from the CLI:
 
 ```sh
 php artisan nova:repeatable LineItem
 ```
+
+ For example, here is a `Repeatable` representing a line item for an invoice:
+
+```php
+<?
+
+namespace App\Nova\Blocks;
+
+use Laravel\Nova\Fields\Repeater\Block;
+
+class LineItem extends Block
+{
+	public static $model;
+
+	public function fields()
+	{
+		return [
+			Number::make('Quantity'),
+			Textarea::make('Description'),
+			Currency::make('Price'),
+		];
+	}
+}
+```
+
 
 Nova will generate a new file (`app/Nova/Repeater/LineItem.php`). In this file we can define the `quantity`, `description`, and `price` fields:
 
@@ -83,31 +112,6 @@ class LineItem extends Repeatable
 }
 ```
 
-## Repeatables
-
-A `Repeatable` defines the set of fields and/or an Eloquent `Model` class used for a repeatable item. For example, here is a `Repeatable` representing a line item for an invoice:
-
-```php
-<?
-
-namespace App\Nova\Blocks;
-
-use Laravel\Nova\Fields\Repeater\Block;
-
-class LineItem extends Block
-{
-	public static $model;
-
-	public function fields()
-	{
-		return [
-			Number::make('Quantity'),
-			Textarea::make('Description'),
-			Currency::make('Price'),
-		];
-	}
-}
-```
 
 ## Confirming Removal of Repeatables
 
