@@ -7,7 +7,7 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 8.0+
+- Laravel Framework 8.x, 9.x, or 10.x
 - Laravel Mix
 - Node.js (Version 14)
 - NPM
