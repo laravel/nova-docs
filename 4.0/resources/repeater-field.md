@@ -41,7 +41,7 @@ class Invoice extends Resource
 ```
 When using a `Repeater` inside Nova, you will be presented with an elegant interface for adding and editing repeatable items in the field:
 
-![Repeater Field](./img/repeater-field-2.png)
+![Repeater Field](./img/repeater-field.png)
 
 ## Repeatables
 
