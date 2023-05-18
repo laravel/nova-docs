@@ -164,7 +164,37 @@ class LineItem extends Repeatable
 
 ### HasManyMorphable Preset
 
-The `HasManyMorphable` preset saves data using Eloquent `HasMany` relationships, but each repeatable item can be of multiple object types. To use the `HasManyMorphable` preset, invoke the `asHasManyMorphable` method on the `Repeater` field definition:
+The `HasManyMorphable` preset saves data using Eloquent `HasMany` relationships, but each repeatable item can be of multiple object types. 
+
+For example, imagine you have a `Project` resource that can have many `Attachments`. Each attachment can be a `Link`, `File`, or a `Note`. Each attachment type has their own unique fields. Your table structure would look something like this:
+
+```
+projects
+    id - integer
+    name - string
+ 
+attachments
+    id - integer
+    project_id - string
+    attachable_type - string
+    attachable_id - integer
+ 
+links
+    id - integer
+	attachment_id - integer
+    name - string
+    href - string
+
+files
+    id - integer
+    path - string
+
+notes
+    id - integer
+    content - text
+```
+
+To use the `HasManyMorphable` preset, invoke the `asHasManyMorphable` method on the `Repeater` field definition:
 
 ```php
 Repeater::make('Attachments')
