@@ -139,7 +139,7 @@ Since Nova can be used in local and staging development environments, Nova will 
 - `.localhost`
 - `.local`
 
-Nova will also not check the current license key when the hostname contains commonly-used staging subdomains:
+Nova will also not check the current license key when the subdomain is one of these commonly-used staging subdomains:
 
 - `staging.`
 - `stage.`
