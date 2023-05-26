@@ -228,6 +228,26 @@ public function replicate()
 `Markdown` and `Trix` fields that use the `withFiles` method may not be replicated.
 :::
 
+If you need to store the reference where the replication was created from you can use `fromResourceId` value provided during the creation request: 
+
+```php
+namespace App\Observers;
+
+use App\Models\Post;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+
+class PostObserver
+{
+    public function created(Post $model): void
+    {
+        Nova::whenServing(function (NovaRequest $request) use ($model) {
+            $model->parent_id = $request->input('fromResourceId');
+        });
+    }
+}
+```
+
 ## Resource Events
 
 All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` Eloquent methods you are familiar with. Therefore, it is easy to listen for model events triggered by Nova and react to them. The easiest approach is to simply attach a Laravel [model observer](https://laravel.com/docs/eloquent#observers) to a model:
