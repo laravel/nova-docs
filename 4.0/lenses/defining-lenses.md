@@ -45,10 +45,11 @@ class MostValuableUsers extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->select(['id', 'name'])
-                ->addSelect([
-                    'revenue' => DB::table('licenses')->selectRaw('sum(price) as revenue')->whereColumn('user_id', 'users.id'),
-                ]);
+            $query->addSelect([
+                'id',
+                'name',
+                'revenue' => DB::table('licenses')->selectRaw('sum(price) as revenue')->whereColumn('user_id', 'users.id'),
+            ])
         ));
     }
 
