@@ -1,19 +1,24 @@
 {
   "dependencies": {
-    "@vuepress/plugin-pwa": "^1.5.2",
-    "vuepress": "^1.9.7"
+    "@tailwindcss/typography": "^0.5.9",
+    "autoprefixer": "^10.4.14",
+    "tailwindcss": "^3.3.2",
+    "vitepress": "^1.0.0-beta.1"
   },
   "scripts": {
     "start": "npm run docs:dev",
-    "docs:build": "vuepress build",
-    "docs:dev": "vuepress dev"
+    "docs:build": "vitepress build",
+    "docs:dev": "vitepress dev",
+    "docs:preview": "vitepress preview"
   },
-  "resolutions": {
-    "webpack-dev-middleware": "3.6.0",
-    "watchpack": "1.6.1"
+  "postcss": {
+    "plugins": {
+      "tailwindcss": {},
+      "autoprefixer": {}
+    }
   },
-  "overrides": {
-    "webpack-dev-middleware": "3.6.0",
-    "watchpack": "1.6.1"
+  "devDependencies": {
+    "postcss-import": "^15.1.0",
+    "postcss-nested": "^6.0.1"
   }
 }
