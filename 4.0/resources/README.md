@@ -239,7 +239,7 @@ use Laravel\Nova\Nova;
 
 class PostObserver
 {
-    public function created(Post $model): void
+    public function creating(Post $model): void
     {
         Nova::whenServing(function (NovaRequest $request) use ($model) {
             $model->parent_id = $request->input('fromResourceId');
