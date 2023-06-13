@@ -44,16 +44,49 @@ class MostValuableUsers extends Lens
      */
     public static function query(LensRequest $request, $query)
     {
+        return $request->withOrdering($request->withFilters(
+            $query->select(self::columns())
+                  ->join('licenses', 'users.id', '=', 'licenses.user_id')
+                  ->groupBy('users.id', 'users.name')
+        ), fn ($query) => $query->orderBy('revenue', 'desc'));
+    }
+
+    /**
+     * Get the columns that should be selected.
+     *
+     * @return array
+     */
+    protected static function columns()
+    {
+        return [
+            'users.id',
+            'users.name',
+            DB::raw('sum(licenses.price) as revenue'),
+        ];
+    }
+```
+
+Alternatively you can also write the above code using "SELECT" subqueries:
+
+```php
+    /**
+     * Get the query builder / paginator for the lens.
+     *
+     * @param  \Laravel\Nova\Http\Requests\LensRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return mixed
+     */
+    public static function query(LensRequest $request, $query)
+    {
         return $request->withOrdering(
             $request->withFilters(
                 $query->addSelect([
                     'id',
                     'name',
                     'revenue' => DB::table('licenses')->selectRaw('sum(price) as revenue')->whereColumn('user_id', 'users.id'),
-                ])->when(! ($request->orderBy && $request->orderByDirection), function ($query) {
-                    return $query->orderBy('total', 'desc');
-                })
-            )
+                ])
+            ),
+            fn ($query) => $query->orderBy('total', 'desc')
         );
     }
 
