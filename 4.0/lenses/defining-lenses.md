@@ -64,31 +64,6 @@ class MostValuableUsers extends Lens
             DB::raw('sum(licenses.price) as revenue'),
         ];
     }
-```
-
-Alternatively you can also write the above code using "SELECT" subqueries:
-
-```php
-    /**
-     * Get the query builder / paginator for the lens.
-     *
-     * @param  \Laravel\Nova\Http\Requests\LensRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return mixed
-     */
-    public static function query(LensRequest $request, $query)
-    {
-        return $request->withOrdering(
-            $request->withFilters(
-                $query->addSelect([
-                    'id',
-                    'name',
-                    'revenue' => DB::table('licenses')->selectRaw('sum(price) as revenue')->whereColumn('user_id', 'users.id'),
-                ])
-            ),
-            fn ($query) => $query->orderBy('total', 'desc')
-        );
-    }
 
     /**
      * Get the fields available to the lens.
@@ -151,6 +126,31 @@ Alternatively you can also write the above code using "SELECT" subqueries:
         return 'most-profitable-users';
     }
 }
+```
+
+Alternatively you can also write the above code using "SELECT" subqueries:
+
+```php
+    /**
+     * Get the query builder / paginator for the lens.
+     *
+     * @param  \Laravel\Nova\Http\Requests\LensRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return mixed
+     */
+    public static function query(LensRequest $request, $query)
+    {
+        return $request->withOrdering(
+            $request->withFilters(
+                $query->addSelect([
+                    'id',
+                    'name',
+                    'revenue' => DB::table('licenses')->selectRaw('sum(price) as revenue')->whereColumn('user_id', 'users.id'),
+                ])
+            ),
+            fn ($query) => $query->orderBy('total', 'desc')
+        );
+    }
 ```
 
 As you can see in the example above, the `query` method has full control of the Eloquent query used to retrieve the lens data. The `fields` method may leverage any of Nova's fields in order to appropriately display the data retrieved by the query.
