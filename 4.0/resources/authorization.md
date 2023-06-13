@@ -355,7 +355,7 @@ public static function relatableQuery(NovaRequest $request, $query)
 
 #### Dynamic Relatable Methods
 
-You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
+You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method (Nova uses `relatable{Model}s` method naming convention) to customize the relatable query for this relationship:
 
 ```php
 /**
@@ -380,22 +380,23 @@ If necessary, you may access the `resource` and `resourceId` for the request via
 public static function relatableTags(NovaRequest $request, $query)
 {
     $resource = $request->route('resource'); // The resource type...
-    $resourceId = $request->route('resourceId'); // The resource ID...
+    $resourceId = $request->resourceId; // The resource ID...
 
     return $query->where('type', $resource);
 }
 ```
 
+#### Relationship Types
+
 When a Nova resource depends on another resource via multiple fields, you will often assign the fields different names. In these situations, you should supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize, since Nova may not be able to determine this via convention:
 
 ```php
+BelongsTo::make('Current Team', 'currentTeam', Team::class),
 HasMany::make('Owned Teams', 'ownedTeams', Team::class),
 BelongsToMany::make('Teams', 'teams', Team::class),
 ```
 
-#### Relationship Types
-
-If necessary when customizing the "relatable" query, you may examine the field type to determine how to build the relationship query:
+You may examine the field type to determine how to build the relationship query:
 
 ```php
 /**
@@ -410,7 +411,9 @@ If necessary when customizing the "relatable" query, you may examine the field t
  */
 public static function relatableTeams(NovaRequest $request, $query, Field $field)
 {
-    if ($field instanceof BelongsToMany) {
+    if ($field instanceof BelongsToMany && $field->attribute === 'teams') {
+        // ... 
+    } elseif ($field instanceof BelongsTo && $field->attribute === 'currentTeam') {
         // ...
     }
 
