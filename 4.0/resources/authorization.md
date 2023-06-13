@@ -355,7 +355,7 @@ public static function relatableQuery(NovaRequest $request, $query)
 
 #### Dynamic Relatable Methods
 
-You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method (Nova uses `relatable{Model}s` method naming convention) to customize the relatable query for this relationship:
+You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name that is suffixed with the pluralized name of the model. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
 
 ```php
 /**
