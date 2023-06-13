@@ -388,7 +388,7 @@ public static function relatableTags(NovaRequest $request, $query)
 
 #### Relationship Types
 
-When a Nova resource depends on another resource via multiple fields, you will often assign the fields different names. In these situations, you should supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize, since Nova may not be able to determine this via convention:
+When a Nova resource depends on another resource via multiple fields, you will often assign the fields different names such as:
 
 ```php
 BelongsTo::make('Current Team', 'currentTeam', Team::class),
@@ -396,7 +396,7 @@ HasMany::make('Owned Teams', 'ownedTeams', Team::class),
 BelongsToMany::make('Teams', 'teams', Team::class),
 ```
 
-You may examine the field type to determine how to build the relationship query:
+In these situations, you should supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize, since Nova may not be able to determine this via convention:
 
 ```php
 /**
