@@ -35,7 +35,7 @@ As noted above, Nova will "snake case" the displayable name of the field to dete
 Text::make('Name', 'name_column'),
 ```
 
-You can also define JSON, `ArrayObject` or array casted attribute using the `->` operator, for example:
+If the field has a JSON, `ArrayObject`, or array cast assigned to it, you may use the `->` operator to specify nested properties within the field:
 
 ```php
 Timezone::make('User Timezone', 'settings->timezone'),
