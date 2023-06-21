@@ -35,6 +35,12 @@ As noted above, Nova will "snake case" the displayable name of the field to dete
 Text::make('Name', 'name_column'),
 ```
 
+If the field has a JSON, `ArrayObject`, or array cast assigned to it, you may use the `->` operator to specify nested properties within the field:
+
+```php
+Timezone::make('User Timezone', 'settings->timezone'),
+```
+
 ## Showing / Hiding Fields
 
 Often, you will only want to display a field in certain situations. For example, there is typically no need to show a `Password` field on a resource index listing. Likewise, you may wish to only display a `Created At` field on the creation / update forms. Nova makes it a breeze to hide / show fields on certain pages.
