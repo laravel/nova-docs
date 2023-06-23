@@ -25,6 +25,26 @@ Nova.$off(event, callback)
 Nova.$emit(event, [...args])
 ```
 
+### Manual Visits
+
+In a common Inertia application, you may use `Inertia.visit()` to manually handle page visit. `Nova` JavaScript object provide a similar API to handle visting local and remote URL. 
+
+```js
+// Navigate to User's detail page
+Nova.visit(`/resources/users/${userId}`)
+
+// Navigate to remote URL
+Nova.visit({ url: 'https://nova.laravel.com', remote: true })
+```
+
+You can also add 2nd parameter to includes `options` available from `Inertia.visit()`:
+
+```js
+Nova.visit(`/resources/users/${userId}`, {
+  onFinish: () => Nova.success(`User ${userId} detail page`)
+})
+```
+
 ### Notifications
 
 You may display toast notification to users of your custom frontend components by calling the `success`, `error`, `info`, or `warning` methods on the global `Nova` object:
