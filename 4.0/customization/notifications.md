@@ -64,6 +64,18 @@ public function toNova()
 
 Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the Nova notification's `icon` method.
 
+#### Open Remote Action URL in a New Tab
+
+If you wish to open the remote Action URL in a new tab you can change the following code:
+
+```php
+// Before
+->action('Download', URL::remote('https://example.com/report.pdf'))
+
+// After
+->action('Download', URL::remote('https://example.com/report.pdf'))->openInNewTab()
+```
+
 ## Disabling Notifications
 
 If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider`: 
