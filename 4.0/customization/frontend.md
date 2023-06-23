@@ -14,6 +14,26 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 })
 ```
 
+### Manual Navigation
+
+The global `Nova` JavaScript object offers a `visit` method that may be invoked to navigate to other URLs within your Nova dashboard:
+
+```js
+// Navigate to User's detail page...
+Nova.visit(`/resources/users/${userId}`)
+
+// Navigate to remote URL...
+Nova.visit({ url: 'https://nova.laravel.com', remote: true })
+```
+
+The `visit` method accepts an array of navigation options as its second argument. As the `visit` method uses Inertia's own `visit` method behind the scenes, all of [Inertia's `visit` options](https://inertiajs.com/manual-visits) are supported by Nova's `visit` method:
+
+```js
+Nova.visit(`/resources/users/${userId}`, {
+  onFinish: () => Nova.success(`User ${userId} detail page.`)
+})
+```
+
 ### Event Bus
 
 The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods provided by [tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
