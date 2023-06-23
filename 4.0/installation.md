@@ -49,9 +49,9 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^8.0",
-    "laravel/framework": "^9.0",
-    "laravel/nova": "~4.0"
+    "php": "^8.1",
+    "laravel/framework": "^10.0",
+    "laravel/nova": "^4.0"
 },
 ```
 
