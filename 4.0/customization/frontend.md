@@ -25,23 +25,23 @@ Nova.$off(event, callback)
 Nova.$emit(event, [...args])
 ```
 
-### Manual Visits
+### Manual Navigation
 
-In a common Inertia application, you may use `Inertia.visit()` to manually handle page visit. `Nova` JavaScript object provide a similar API to handle visting local and remote URL. 
+The global `Nova` JavaScript object offers a `visit` method that may be invoked to navigate to other URLs within your Nova dashboard:
 
 ```js
-// Navigate to User's detail page
+// Navigate to User's detail page...
 Nova.visit(`/resources/users/${userId}`)
 
-// Navigate to remote URL
+// Navigate to remote URL...
 Nova.visit({ url: 'https://nova.laravel.com', remote: true })
 ```
 
-You can also add 2nd parameter to includes `options` available from `Inertia.visit()`:
+The `visit` method accepts an array of navigation options as its second argument. As the `visit` method uses Inertia's own `visit` method behind the scenes, all of [Inertia's `visit` options](https://inertiajs.com/manual-visits) are supported by Nova's `visit` method:
 
 ```js
 Nova.visit(`/resources/users/${userId}`, {
-  onFinish: () => Nova.success(`User ${userId} detail page`)
+  onFinish: () => Nova.success(`User ${userId} detail page.`)
 })
 ```
 
