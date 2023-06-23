@@ -14,17 +14,6 @@ Nova.request().get('/nova-vendor/stripe-inspector/endpoint').then(response => {
 })
 ```
 
-### Event Bus
-
-The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods provided by [tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
-
-```js
-Nova.$on(event, callback)
-Nova.$once(event, callback)
-Nova.$off(event, callback)
-Nova.$emit(event, [...args])
-```
-
 ### Manual Navigation
 
 The global `Nova` JavaScript object offers a `visit` method that may be invoked to navigate to other URLs within your Nova dashboard:
@@ -43,6 +32,17 @@ The `visit` method accepts an array of navigation options as its second argument
 Nova.visit(`/resources/users/${userId}`, {
   onFinish: () => Nova.success(`User ${userId} detail page.`)
 })
+```
+
+### Event Bus
+
+The global `Nova` JavaScript object may be used as an event bus by your custom components. The bus provides the following methods, which correspond to and have the same behavior as the event methods provided by [tiny-emitter](https://www.npmjs.com/package/tiny-emitter):
+
+```js
+Nova.$on(event, callback)
+Nova.$once(event, callback)
+Nova.$off(event, callback)
+Nova.$emit(event, [...args])
 ```
 
 ### Notifications
