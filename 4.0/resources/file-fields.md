@@ -414,6 +414,24 @@ Image::make('Profile Photo')
     }),
 ```
 
+#### Using Storage Temporary URL to Download Large Files
+
+By default, the download will be downloaded directly from Laravel request and this may have issue when running in certain environments such as Vapor. To solve this you may instead use Storage Temporary URL using the following code:
+
+```php
+
+use Laravel\Nova\Fields\Image;
+use Illuminate\Support\Facades\Storage;
+
+Image::make('Photo')
+    ->disk('public')
+    ->download(function ($request, $model, $disk, $value) {
+        return redirect(
+            Storage::disk($disk)->temporaryUrl($value, now()->addMinutes(5))
+        );
+    }),
+```
+
 ### Customizing Accepted File Types
 
 By default, the `File` field will allow any type of file to be uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
