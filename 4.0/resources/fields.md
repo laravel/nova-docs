@@ -1751,7 +1751,7 @@ Text::make('Name')->displayUsing(function ($name) {
 }),
 ```
 
-### Filterable Fields
+## Filterable Fields
 
 The `filterable` method allows you to enable convenient, automatic [filtering](./../filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
@@ -1771,7 +1771,7 @@ Text::make('Email')->filterable(function ($request, $query, $value, $attribute) 
 
 The generated filter will be a text filter, select filter, number range filter, or date range filter depending on the underlying field type that was marked as filterable.
 
-### Dependent Fields
+## Dependent Fields
 
 The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
 
@@ -1899,4 +1899,59 @@ Currency::make('Price')
             'required', 'numeric', 'min:0', 'max:99'
         ])->help('Price starts from $0-$99');
     }),
+```
+
+## Extending Fields
+
+Fields are "macroable", which allows you to add additional methods to the `Field` class at run time. The `Field` class' `macro` method accepts a closure that will be executed when your macro is called. The macro closure may access the field's other methods via `$this`, just as if it were a real method of the field class. For example, the following code adds a `toUpper` method to the `Field` class:
+
+```php
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Field;
+
+Field::macro('toUpper', function () {
+    return $this->displayUsing(function ($value) {
+        return Str::upper($value);
+    });
+});
+```
+
+Once the macro has been defined, it may be used when defining any field:
+
+```php
+Text::make('Name')->toUpper(),
+```
+
+#### Macro Arguments
+
+If necessary, you may define macros that accept additional arguments:
+
+```php
+use Laravel\Nova\Fields\Field;
+
+Field::macro('showWhen', function ($condition) {
+    $condition === true ? $this->show() : $this->hide();
+
+    return $this;
+});
+```
+
+#### Macro On Specific Fields
+
+You can also add a macro only to a specific type of `Field`. For example, you might add a `withFriendlyDate` macro to the `DateTime` field class:
+
+```php
+use Laravel\Nova\Fields\DateTime;
+
+DateTime::macro('withFriendlyDate', function () {
+    return $this->tap(function ($field) {
+        $field->displayUsing(function ($d) use ($field) {
+            if ($field->isValidNullValue($d)) {
+                return null;
+            }
+
+            return Carbon::parse($d)->diffForHumans();
+        });
+    });
+});
 ```
