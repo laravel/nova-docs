@@ -62,6 +62,14 @@ public function actions(NovaRequest $request)
 }
 ```
 
+Additional to accessing user from the request, you may also get the current selected resources using helper methods from `Laravel\Nova\Http\Requests\InteractsWithResourcesSelection`:
+
+| Method                 | Return Type              | Description
+|:-----------------------|:-------------------------|:----------------------
+| `allResourcesSelected` | `bool`                   | Return `true` if "Select all" selected. 
+| `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection if selected Resource Ids.
+| `create`               | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection of selected Resource Models.
+
 ### Resource Specific Authorization
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
