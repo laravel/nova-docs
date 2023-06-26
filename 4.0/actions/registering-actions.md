@@ -68,7 +68,7 @@ Additional to accessing user from the request, you may also get the current sele
 |:-----------------------|:-------------------------|:----------------------
 | `allResourcesSelected` | `bool`                   | Return `true` if "Select all" selected. 
 | `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection if selected Resource Ids.
-| `create`               | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection of selected Resource Models.
+| `selectedResources`    | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection of selected Resource Models.
 
 ### Resource Specific Authorization
 
