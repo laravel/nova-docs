@@ -1900,3 +1900,52 @@ Currency::make('Price')
         ])->help('Price starts from $0-$99');
     }),
 ```
+
+### Extending Fields
+
+Fields are "macroable", which allows you to add additional methods to the Field class at run time. The Field class' `macro` method accepts a closure that will be executed when your macro is called. The macro closure may access the field's other methods via `$this`, just as if it were a real method of the field class. For example, the following code adds a `showWhen` method to the Collection class:
+
+```php
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Field;
+
+Field::macro('toUpper', function () {
+    return $this->displayUsing(function ($value) {
+        return Str::upper($value);
+    });
+});
+```
+
+#### Macro Arguments
+
+If necessary, you may define macros that accept additional arguments:
+
+```php
+use Laravel\Nova\Fields\Field;
+
+Field::macro('showWhen', function ($condition) {
+    $condition === true ? $this->show() : $this->hide();
+
+    return $this;
+});
+```
+
+#### Macro on Specific Fields
+
+You can also opt to add macro only to specific Field, such as `withFriendlyDate` to `DateTime` field class:
+
+```php
+use Laravel\Nova\Fields\DateTime;
+
+DateTime::macro('withFriendlyDate', function () {
+    return $this->tap(function ($field) {
+        $field->displayUsing(function ($d) use ($field) {
+            if ($field->isValidNullValue($d)) {
+                return null;
+            }
+
+            return Carbon::parse($d)->diffForHumans();
+        });
+    });
+});
+```
