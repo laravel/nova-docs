@@ -62,13 +62,13 @@ public function actions(NovaRequest $request)
 }
 ```
 
-Additional to accessing user from the request, you may also get the current selected resources using helper methods from `Laravel\Nova\Http\Requests\InteractsWithResourcesSelection`:
+You may also use a variety of request methods to get the currently selected resources:
 
 | Method                 | Return Type              | Description
 |:-----------------------|:-------------------------|:----------------------
-| `allResourcesSelected` | `bool`                   | Return `true` if "Select all" selected. 
-| `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection if selected Resource Ids.
-| `selectedResources`    | `\Illuminate\Support\Collection|null` | Return `null` if "Select all" selected or return the collection of selected Resource Models.
+| `allResourcesSelected` | `bool`                   | Returns `true` if "Select all" selected. 
+| `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of selected resource IDs.
+| `selectedResources`    | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of resource models.
 
 ### Resource Specific Authorization
 
