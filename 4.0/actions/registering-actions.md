@@ -62,6 +62,14 @@ public function actions(NovaRequest $request)
 }
 ```
 
+You may also use a variety of request methods to get the currently selected resources:
+
+| Method                 | Return Type              | Description
+|:-----------------------|:-------------------------|:----------------------
+| `allResourcesSelected` | `bool`                   | Returns `true` if "Select all" selected. 
+| `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of selected resource IDs.
+| `selectedResources`    | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of resource models.
+
 ### Resource Specific Authorization
 
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
