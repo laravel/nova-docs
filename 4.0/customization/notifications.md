@@ -60,21 +60,19 @@ public function toNova()
 }
 ```
 
+#### Opening Remote Action URLs New Tabs
+
+When defining a notification action, the `openInNewTab` method may be invoked to instruct Nova to open the given URL in a new browser tab:
+
+```php
+->action(
+    'Download', URL::remote('https://example.com/report.pdf')
+)->openInNewTab()
+```
+
 #### Notification Icons
 
 Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the Nova notification's `icon` method.
-
-#### Open Remote Action URL in a New Tab
-
-If you wish to open the remote Action URL in a new tab you can change the following code:
-
-```php
-// Before
-->action('Download', URL::remote('https://example.com/report.pdf'))
-
-// After
-->action('Download', URL::remote('https://example.com/report.pdf'))->openInNewTab()
-```
 
 ## Disabling Notifications
 
