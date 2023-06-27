@@ -156,6 +156,25 @@ public function actions(NovaRequest $request)
 }
 ```
 
+## Sole Actions
+
+Alternatively, you may have an action that should be executed on a single resource / model. In these situations, you may register the action as a "sole" action by invoking the `sole` method when registering the action. These actions always receives a collection of models containing single model in their `handle` method:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        Actions\BanUser::make()->sole()
+    ];
+}
+```
+
 ## Pivot Actions
 
 Typically, actions operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
@@ -214,17 +233,35 @@ public function actions()
 }
 ```
 
+You may also configura the URL to be unique for a resource by defining a Sole Action:
+
+```php
+Action::redirect('Visit User Profile', function ($user) {
+    return route('user.profile', $user);
+})->sole(),
+```
+
 ### Visit Actions
 
 The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you want them to visit:
 
 ```php
+use Laravel\Nova\Nova;
+
 public function actions()
 {
     return [
-        Action::visit('View Logs', '/nova/logs'),
+        Action::visit('View Logs', Nova::url('/logs')),
     ];
 }
+```
+
+You may also configura the URL to be unique for a resource by defining a Sole Action:
+
+```php
+Action::visit('Visit User Logs', function ($user) {
+    return Nova::url("/logs?userId={$user->getKey()}");
+})->sole(),
 ```
 
 ### Danger Actions
@@ -248,9 +285,11 @@ The `modal` action allows you to display a custom modal to the user. To create a
 public function actions()
 {
     return [
-        Action::modal('Download User Summary', 'UserSummary',  [
-            'user_id' => optional($this->resource)->getKey(),
-        ]),
+        Action::modal('Download User Summary', 'UserSummary', function ($user) {
+            return [
+                'user_id' => $user->getKey(),
+            ];
+        })->sole(),
     ];
 }
 ```
@@ -268,6 +307,14 @@ public function actions()
 }
 ```
 
+You may also configura the URL to be unique for a resource by defining a Sole Action:
+
+```php
+Action::openInNewTab('Visit User Profile', function ($user) {
+    return route('user.profile', $user);
+})->sole(),
+```
+
 ### Downloading Files
 
 The `downloadUrl` action downloads the file at the given URL. To create a `downloadUrl` action, pass the action name and the URL of the file to be downloaded:
@@ -276,10 +323,9 @@ The `downloadUrl` action downloads the file at the given URL. To create a `downl
 public function actions()
 {
     return [
-        Action::downloadUrl(
-            'Download User Summary',
-            route('users.summary', $this->resource)
-        ),
+        Action::downloadUrl('Download User Summary', function ($user) {
+            return route('users.summary', $user);
+        })->sole(),
     ];
 }
 ```
