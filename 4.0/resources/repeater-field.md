@@ -48,7 +48,7 @@ After defining a `Repeater` field, your resource will have an elegant interface 
 
 ## Repeatables
 
-A `Repeatable` object represents the repeatable data for a `Repeater` field. It defines the set of fields used for the repeatable item. It also optionally defines an Eloquent `Model` class when the `Repeater` is using the `HasMany` and `HasManyMorphable` presets.
+A `Repeatable` object represents the repeatable data for a `Repeater` field. It defines the set of fields used for the repeatable item. It also optionally defines an Eloquent `Model` class when the `Repeater` is using the `HasMany` preset.
 
 The `Repeater` field is not limited to a single type of repeatable. It also supports multiple "repeatable" types, which may contain their own unique field sets and models. These repeatables could be used to create interfaces for editing flexible content areas, similar to those offered by content management systems.
 
@@ -106,11 +106,9 @@ Repeater::make('Attachments')->repeatables([
 
 ## Repeater Presets
 
-The `Repeater` field includes three storage "presets" out-of-the-box: `Json`, `HasMany`, and `HasManyMorphable`. Each preset defines how the repeatable data is stored and retrieved from your database.
+The `Repeater` field includes two storage "presets" out-of-the-box: `Json` and `HasMany`. Each preset defines how the repeatable data is stored and retrieved from your database.
 
 For example, an `Invoice` resource could use a `Repeater` field to edit the line items for an invoice. Using the `Laravel\Nova\Fields\Repeater\JSON` preset, those line items would be stored in a `line_items` JSON column. However, when using the `HasMany` preset, the line items would be stored in a separate 'line_items' database table, with fields corresponding to each database column.
-
-In addition to the `JSON` and `HasMany` presets, the `Repeater` field also supports an additional preset, `HasManyMorphable`, which allows for storing repeatables in a `HasMany` relationship, while also allowing for the related models to be polymorphic.
 
 ### JSON Preset
 
@@ -162,69 +160,9 @@ class LineItem extends Repeatable
 }
 ```
 
-### HasManyMorphable Preset
-
-The `HasManyMorphable` preset saves data using Eloquent `HasMany` relationships, but each repeatable item can be of multiple object types. 
-
-For example, imagine you have a `Project` resource that can have many `Attachments`. Each attachment can be a `Link`, `File`, or a `Note`. Each attachment type has their own unique fields. Your table structure would look something like this:
-
-```
-projects
-    id - integer
-    name - string
- 
-attachments
-    id - integer
-    project_id - string
-    attachable_type - string
-    attachable_id - integer
- 
-links
-    id - integer
-	attachment_id - integer
-    name - string
-    href - string
-
-files
-    id - integer
-    path - string
-
-notes
-    id - integer
-    content - text
-```
-
-To use the `HasManyMorphable` preset, invoke the `asHasManyMorphable` method on the `Repeater` field definition:
-
-```php
-Repeater::make('Attachments')
-	->repeatables([
-		\App\Nova\Repeater\Link::make(),
-		\App\Nova\Repeater\File::make(),
-		\App\Nova\Repeater\Note::make(),
-	])
-	->asHasManyMorphable('attachable', 'attachment')
-```
-
-As you can see, the `HasManyMorphable` preset requires two parameters. The first parameter is the method name used when defining the `MorphTo` relationship of your related parent model, and the second is the method name used when defining the reverse 'MorphOne' relationship. These parameters correspond to the relationship method names used inside your application's models:
-
-```php
-// app/Models/Attachment.php
-public function attachable()
-{
-	return $this->morphTo();
-}
-
-// app/Models/Link.php
-public function attachment()
-{
-	return $this->morphOne(Attachment::class, 'attachable');
-}
-```
-
 ## Upserting Repeatables Using Unique Fields
 
-By default, when editing your repeatables configured with the `HasMany` and `HasManyMorphable` presets, Nova will delete all of the related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
+By default, when editing your repeatables configured with the `HasMany` preset, Nova will delete all of the related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
 
 ```php
 /**  
