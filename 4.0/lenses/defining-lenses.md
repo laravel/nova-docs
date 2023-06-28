@@ -143,9 +143,9 @@ In this example, the `columns` method has been extracted from the `query` method
 When writing your lens query, you should always try to include the resource's ID as a selected column. If the ID is not included, Nova will not be able to display the "Select All Matching" option for the lens. In addition, the resource deletion menu will not be available.
 :::
 
-### Query Helpers
+#### Query Helpers
 
-Both `withOrdering` and `withFilters` helpers are used to apply orderings and filters to Lens query and should always be applied in the `query` method. Both methods accept `$query` as the first parameter and `withOrdering` may accept second parameter to handle default sorting, as an example:
+The `withOrdering` and `withFilters` methods are used to apply orderings and filters to lens queries and should always be applied in the `query` method. Both methods accept the `$query` as the first parameter, and the `withOrdering` method accepts a second parameter to handle default sorting:
 
 ```php
 return $request->withOrdering(
