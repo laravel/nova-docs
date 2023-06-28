@@ -228,7 +228,7 @@ public function replicate()
 `Markdown` and `Trix` fields that use the `withFiles` method may not be replicated.
 :::
 
-If you need to store the reference where the replication was created from you can use `fromResourceId` value provided during the creation request: 
+If you need to store a reference to the original resource's ID, you may access the `fromResourceId` value on the replication request. Typically, this value would be accessed from an event listener or observer that is listening for the model's `creating` event:
 
 ```php
 namespace App\Observers;
@@ -239,6 +239,12 @@ use Laravel\Nova\Nova;
 
 class PostObserver
 {
+    /**
+     * Handle the creation of a new Post.
+     *
+     * @param  \App\Models\Post  $model
+     * @return void
+     */
     public function creating(Post $model): void
     {
         Nova::whenServing(function (NovaRequest $request) use ($model) {
