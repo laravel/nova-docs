@@ -138,7 +138,7 @@ Before creating or updating a resource, Nova asks each field on the form to "fil
  * Fill the given FormData object with the field's internal value.
  */
 fill(formData) {
-  this.fillIfVisible(formData, this.field.attribute, this.value || '')
+  this.fillIfVisible(formData, this.fieldAttribute, this.value || '')
 }
 ```
 
@@ -222,6 +222,7 @@ By default, when saving a model, your field class will simply copy the incoming 
 
 namespace Acme\ColorPicker;
 
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -235,22 +236,18 @@ class ColorPicker extends Field
     public $component = 'color-picker';
 
     /**
-     * Hydrate the given attribute on the model based on the incoming request.
+     * Fill the model's attribute with data.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  string  $requestAttribute
-     * @param  object  $model
+     * @param  \Illuminate\Database\Eloquent\Model|\Laravel\Nova\Support\Fluent  $model
+     * @param  mixed  $value
      * @param  string  $attribute
      * @return void
      */
-    protected function fillAttributeFromRequest(NovaRequest $request,
-                                                $requestAttribute,
-                                                $model,
-                                                $attribute)
+    public function fillModelWithData(mixed $model, mixed $value, string $attribute)
     {
-        if ($request->exists($requestAttribute)) {
-            $model->{$attribute} = $request[$requestAttribute];
-        }
+        $attributes = [Str::replace('.', '->', $attribute) => $value];
+
+        $model->forceFill($attributes);
     }
 }
 ```
