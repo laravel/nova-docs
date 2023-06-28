@@ -228,7 +228,7 @@ The `redirect` action will redirect the user to an external URL. To create a `re
 public function actions()
 {
     return [
-        Action::redirect('Visit Stripe Dashboard', 'https://stripe.com'),
+        Action::redirect('Visit Stripe Dashboard', 'https://stripe.com')->standalone(),
     ];
 }
 ```
@@ -251,7 +251,7 @@ use Laravel\Nova\Nova;
 public function actions()
 {
     return [
-        Action::visit('View Logs', Nova::url('/logs')),
+        Action::visit('View Logs', Nova::url('/logs'))->standalone(),
     ];
 }
 ```
@@ -302,7 +302,7 @@ The `openInNewTab` action opens a URL in a new browser tab. To create an `openIn
 public function actions()
 {
     return [
-        Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com'),
+        Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com')->standalone(),
     ];
 }
 ```
@@ -323,11 +323,19 @@ The `downloadUrl` action downloads the file at the given URL. To create a `downl
 public function actions()
 {
     return [
-        Action::downloadUrl('Download User Summary', function ($user) {
-            return route('users.summary', $user);
-        })->sole(),
+        Action::downloadUrl('Download Users Summaries', function () {
+            return route('users.summaries');
+        })->standalone(),
     ];
 }
+```
+
+You may also configura the URL to be unique for a resource by defining a Sole Action:
+
+```php
+Action::downloadUrl('Download User Summary', function ($user) {
+    return route('user.summary', $user);
+})->sole(),
 ```
 
 ## Action Confirmation Modal
