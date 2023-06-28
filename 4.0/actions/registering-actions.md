@@ -158,7 +158,7 @@ public function actions(NovaRequest $request)
 
 ## Sole Actions
 
-Alternatively, you may have an action that should be executed on a single resource / model. In these situations, you may register the action as a "sole" action by invoking the `sole` method when registering the action. These actions always receives a collection of models containing single model in their `handle` method:
+Sometimes you may have actions that should only ever be run on a single resource / model. By registering the action as a `sole` action, Nova will only display the action when a single resource is selected. Sole actions still receive a collection in their `handle` method, but the collection will only contain a single model:
 
 ```php
 /**
@@ -233,14 +233,6 @@ public function actions()
 }
 ```
 
-You may also configura the URL to be unique for a resource by defining a Sole Action:
-
-```php
-Action::redirect('Visit User Profile', function ($user) {
-    return route('user.profile', $user);
-})->sole(),
-```
-
 ### Visit Actions
 
 The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you want them to visit:
@@ -254,14 +246,6 @@ public function actions()
         Action::visit('View Logs', Nova::url('/logs'))->standalone(),
     ];
 }
-```
-
-You may also configura the URL to be unique for a resource by defining a Sole Action:
-
-```php
-Action::visit('Visit User Logs', function ($user) {
-    return Nova::url("/logs?userId={$user->getKey()}");
-})->sole(),
 ```
 
 ### Danger Actions
@@ -328,14 +312,6 @@ public function actions()
         })->standalone(),
     ];
 }
-```
-
-You may also configura the URL to be unique for a resource by defining a Sole Action:
-
-```php
-Action::downloadUrl('Download User Summary', function ($user) {
-    return route('user.summary', $user);
-})->sole(),
 ```
 
 ## Action Confirmation Modal
