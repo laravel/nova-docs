@@ -156,6 +156,25 @@ public function actions(NovaRequest $request)
 }
 ```
 
+## Sole Actions
+
+Sometimes you may have actions that should only ever be run on a single resource / model. By registering the action as a `sole` action, Nova will only display the action when a single resource is selected. Sole actions still receive a collection in their `handle` method, but the collection will only contain a single model:
+
+```php
+/**
+ * Get the actions available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function actions(NovaRequest $request)
+{
+    return [
+        Actions\BanUser::make()->sole()
+    ];
+}
+```
+
 ## Pivot Actions
 
 Typically, actions operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
@@ -209,7 +228,7 @@ The `redirect` action will redirect the user to an external URL. To create a `re
 public function actions()
 {
     return [
-        Action::redirect('Visit Stripe Dashboard', 'https://stripe.com'),
+        Action::redirect('Visit Stripe Dashboard', 'https://stripe.com')->standalone(),
     ];
 }
 ```
@@ -219,10 +238,12 @@ public function actions()
 The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you want them to visit:
 
 ```php
+use Laravel\Nova\Nova;
+
 public function actions()
 {
     return [
-        Action::visit('View Logs', '/nova/logs'),
+        Action::visit('View Logs', Nova::url('/logs'))->standalone(),
     ];
 }
 ```
@@ -248,9 +269,11 @@ The `modal` action allows you to display a custom modal to the user. To create a
 public function actions()
 {
     return [
-        Action::modal('Download User Summary', 'UserSummary',  [
-            'user_id' => optional($this->resource)->getKey(),
-        ]),
+        Action::modal('Download User Summary', 'UserSummary', function ($user) {
+            return [
+                'user_id' => $user->getKey(),
+            ];
+        })->sole(),
     ];
 }
 ```
@@ -263,9 +286,17 @@ The `openInNewTab` action opens a URL in a new browser tab. To create an `openIn
 public function actions()
 {
     return [
-        Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com'),
+        Action::openInNewTab('Visit Stripe Dashboard', 'https://stripe.com')->standalone(),
     ];
 }
+```
+
+You may also configura the URL to be unique for a resource by defining a Sole Action:
+
+```php
+Action::openInNewTab('Visit User Profile', function ($user) {
+    return route('user.profile', $user);
+})->sole(),
 ```
 
 ### Downloading Files
@@ -276,10 +307,9 @@ The `downloadUrl` action downloads the file at the given URL. To create a `downl
 public function actions()
 {
     return [
-        Action::downloadUrl(
-            'Download User Summary',
-            route('users.summary', $this->resource)
-        ),
+        Action::downloadUrl('Download Users Summaries', function () {
+            return route('users.summaries');
+        })->standalone(),
     ];
 }
 ```
