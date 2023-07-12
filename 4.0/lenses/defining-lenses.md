@@ -145,7 +145,7 @@ When writing your lens query, you should always try to include the resource's ID
 
 #### Query Helpers
 
-The `withOrdering` and `withFilters` methods are used to apply orderings and filters to lens queries and should always be applied in the `query` method. Both methods accept the `$query` as the first parameter, and the `withOrdering` method accepts a second parameter to handle default sorting:
+The `withOrdering` and `withFilters` methods are used to apply orderings and filters to lens queries and should always be applied in the `query` method. Both methods accept the `$query` as the first parameter, and the `withOrdering` method accepts a closure as its second parameter. The closure passed to the `withOrdering` method should apply the default ordering to the query that will be applied if no other ordering has been selected from the Nova dashboard:
 
 ```php
 return $request->withOrdering(
