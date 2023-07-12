@@ -46,10 +46,12 @@ class MostValuableUsers extends Lens
     {
         return $request->withOrdering($request->withFilters(
             $query->select(self::columns())
-                  ->join('licenses', 'users.id', '=', 'licenses.user_id')
-                  ->orderBy('revenue', 'desc')
-                  ->groupBy('users.id', 'users.name')
-        ));
+                ->join('licenses', 'users.id', '=', 'licenses.user_id')
+                ->groupBy('users.id', 'users.name')
+                ->withCasts([
+                    'revenue' => 'float',
+                ])
+        ), fn ($query) => $query->orderBy('revenue', 'desc'));
     }
 
     /**
@@ -140,6 +142,17 @@ In this example, the `columns` method has been extracted from the `query` method
 
 When writing your lens query, you should always try to include the resource's ID as a selected column. If the ID is not included, Nova will not be able to display the "Select All Matching" option for the lens. In addition, the resource deletion menu will not be available.
 :::
+
+#### Query Helpers
+
+The `withOrdering` and `withFilters` methods are used to apply orderings and filters to lens queries and should always be applied in the `query` method. Both methods accept the `$query` as the first parameter, and the `withOrdering` method accepts a closure as its second parameter. The closure passed to the `withOrdering` method should apply the default ordering to the query that will be applied if no other ordering has been selected from the Nova dashboard:
+
+```php
+return $request->withOrdering(
+    $request->withFilters($query),
+    fn ($query) => $query->latest()
+);
+```
 
 ## Lens Polling
 
