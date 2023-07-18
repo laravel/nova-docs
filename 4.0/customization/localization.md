@@ -30,7 +30,7 @@ Nova::userLocale(function () {
         'en' => 'en-US',
         'de' => 'de-DE',
         default => null,
-    }
+    };
 });
 ```
 
