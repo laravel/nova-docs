@@ -4,7 +4,7 @@
 
 ## Overview
 
-After deploying your application to production, you may occasionally need to "impersonate" another user of your application in order to debug problems your customers are reporting. Thankfully, Nova include built-in functionality to handle this exact scenario.
+After deploying your application to production, you may occasionally need to "impersonate" another user of your application in order to debug problems your customers are reporting. Thankfully, Nova includes built-in functionality to handle this exact scenario.
 
 ## Enabling Impersonation
 
