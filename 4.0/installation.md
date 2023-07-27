@@ -284,7 +284,7 @@ public function register()
 
 ### Enabling Breadcrumbs
 
-If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of you application's `App\Providers\NovaServiceProvider` class:
+If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
 use Laravel\Nova\Nova;

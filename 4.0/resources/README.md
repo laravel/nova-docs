@@ -167,7 +167,7 @@ Setting this property to `true` will instruct Nova to display the table with bor
 
 ## Resource Table Click Action
 
-By default, when clicking on the a resource table row, Nova will navigate to the detail view for the resource. However, you may want Nova to navigate to the edit form instead. You can customize this behavior by changing the `clickAction` property on the resource's class:
+By default, when clicking on a resource table row, Nova will navigate to the detail view for the resource. However, you may want Nova to navigate to the edit form instead. You can customize this behavior by changing the `clickAction` property on the resource's class:
 
 ```php
 /**
