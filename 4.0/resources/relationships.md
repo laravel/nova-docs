@@ -557,9 +557,9 @@ public function title()
 
 ## Collapsable Relations
 
-By default, the `BelongsToMany`, `HasMany`, and `MorphToMany` relationship fields are shown on a resource detail page. However, this can quickly become cumbersome if a resource has many performance-intensive relationships which cause the page to be slow.
+By default, the `BelongsToMany`, `HasMany`, and `MorphToMany` relationship fields are shown on the resource detail page. However, this can quickly become cumbersome if a resource has many performance-intensive relationships which cause the page to be slow.
 
-For this reason, Nova allows you to mark as relationship as `collapsable`. When a relationship is collapsable, user's may collapse some of the relations for a given resource and Nova will remember their preferences on subsequent page loads. Collapsed relationships are not retrieved from the database until the relationship is expanded in Nova's user interface:
+For this reason, Nova allows you to mark as relationship as `collapsable`. When a relationship is collapsable, users may collapse some of the relations for a given resource and Nova will remember their preferences on subsequent page loads. Collapsed relationships are not retrieved from the database until the relationship is expanded in Nova's user interface:
 
 ```php
 MorphToMany::make('Tags')->collapsable(),
