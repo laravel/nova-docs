@@ -222,7 +222,7 @@ public function uriKey()
 
 ### Client-Side Timezone Detection
 
-Nova 4 removes the ability to rely on the client machine timezone in order to display timezone related information. Instead, Nova 4 utilizes the application's "server side" timezone as defined by the timezone option in your application's `app` configuration file.
+Nova 4 removes the ability to rely on the client machine's timezone in order to display timezone related information. Instead, Nova 4 utilizes the application's "server side" timezone as defined by the timezone option in your application's `app` configuration file.
 
 Please refer to our documentation regarding [timezone customization](./resources/date-fields.html#customizing-the-timezone) for more information.
 
@@ -367,7 +367,7 @@ npm --prefix='vendor/laravel/nova' ci
 
 ### Event Cancellation On Save
 
-Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database, even though the even listener returns `false`:
+Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database, even though the event listener returns `false`:
 
 ```php
 User::updating(function ($model) {
