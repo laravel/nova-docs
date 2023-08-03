@@ -56,9 +56,9 @@ export default defineConfigWithTheme<ThemeConfig>({
         ],
         versions:[
             { text: 'v4.0', link: '/docs/4.0/', current: true },
-            { text: 'v3.0', link: '/docs/3.0/'},
-            { text: 'v2.0', link: '/docs/2.0/'},
-            { text: 'v1.0', link: '/docs/1.0/'},
+            { text: 'v3.0', link: 'https://github.com/laravel/nova-docs/tree/3.x'},
+            { text: 'v2.0', link: 'https://github.com/laravel/nova-docs/tree/2.x'},
+            { text: 'v1.0', link: 'https://github.com/laravel/nova-docs/tree/1.x'},
         ],
         sidebar: [
             {
