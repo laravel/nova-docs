@@ -190,7 +190,7 @@ public function cards(NovaRequest $request)
 
 ## Metric Help Text / Tooltips
 
-Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to the metric's value. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/3.0/resources/fields.html#field-help-text):
+Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to the metric's value. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/resources/fields.html#field-help-text):
 
 ![Metric Help Tooltip](./img/metric-tooltip-help.png)
 
@@ -228,7 +228,7 @@ Laravel Nova will automatically fetch updated results (without requiring the use
 | Resource Deleted  | Automatic Update                                                                                                             |
 | Resource Restored | Automatic Update                                                                                                             |
 | Action Executed   | [Only update if the metric's `refreshWhenActionsRun` method is invoked during registration](#refresh-after-actions)          |
-| Filter Change     | [Only update if the metric's `refreshWhenFiltersChange` method is invoked during registration](refresh-after-filter-changes) |
+| Filter Change     | [Only update if the metric's `refreshWhenFiltersChange` method is invoked during registration](#refresh-after-filter-changes) |
 
 ### Refresh After Actions
 

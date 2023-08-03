@@ -767,7 +767,7 @@ class NewReleases extends Table
 
 :::tip Customizing Menu Items
 
-You can learn more about menu customization by reading the [menu item customization documentation](/4.0/customization/menus.html#menu-items).
+You can learn more about menu customization by reading the [menu item customization documentation](/customization/menus.html#menu-items).
 :::
 
 ### Displaying Icons On Table Rows
