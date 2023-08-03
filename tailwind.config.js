@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
 import tailwindConfig from '@hempworks/pilgrim/tailwind.config'
 
 const primary = {
@@ -19,6 +20,9 @@ module.exports = {
     theme: {
         extend: {
             colors: { primary },
+            fontFamily: {
+                sans: ['Nunito Sans', ...defaultTheme.fontFamily.sans],
+            },
         },
     },
 }

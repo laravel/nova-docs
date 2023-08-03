@@ -3,14 +3,32 @@ import type { ThemeConfig } from '@hempworks/pilgrim'
 import config from '@hempworks/pilgrim/config'
 
 export default defineConfigWithTheme<ThemeConfig>({
-    extends: config,
+    // extends: config,
     title: 'Laravel Nova',
     description: 'Master Your Universe',
     base: '/docs/',
     cleanUrls: false,
     srcDir: 'src',
 
+    markdown: {
+        lineNumbers: false,
+        theme: 'css-variables',
+    },
+
     head: [
+        ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+        [
+            'link',
+            { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        ],
+        [
+            'link',
+            {
+                rel: 'stylesheet',
+                href: 'https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;0,6..12,900;0,6..12,1000;1,6..12,200;1,6..12,300;1,6..12,400;1,6..12,500;1,6..12,600;1,6..12,700;1,6..12,800;1,6..12,900;1,6..12,1000&display=swap',
+            },
+        ],
+
         ['link', {
             rel: 'apple-touch-icon',
             sizes: '180x180',
