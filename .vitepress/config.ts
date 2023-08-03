@@ -68,8 +68,8 @@ export default defineConfigWithTheme<ThemeConfig>({
             dark: '/logo-dark.svg',
         },
         nav: [
-            { text: 'Home', link: 'https://nova.laravel.com/' },
-            { text: 'Purchase a License', link: 'https://nova.laravel.com/licenses' },
+            { text: 'Home', link: 'https://bit.ly/3KppFiG' },
+            { text: 'Purchase a License', link: 'https://bit.ly/3QlZywL' },
             { text: 'Video Tutorials', link: 'https://laracasts.com/series/laravel-nova-mastery-2023-edition' },
         ],
         versions:[
