@@ -1,5 +1,5 @@
 /node_modules
-/.vuepress/dist
+/.vitepress/dist
 .DS_Store
 .idea
 .vitepress/cache
