@@ -2,3 +2,4 @@
 /.vuepress/dist
 .DS_Store
 .idea
+.vitepress/cache
