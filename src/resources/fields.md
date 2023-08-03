@@ -1850,7 +1850,7 @@ The following field types may not be depended upon by other fields since they do
 - VaporFile
 - VaporImage
 
-#### Toggling Field Visibility
+#### Toggling Field Visibility using `dependsOn`
 
 One common use-case for dependent fields is toggling field visibility based on the value of another field. You can accomplish this using the `hide` and `show` methods:
 
@@ -1871,6 +1871,22 @@ BelongsTo::make('User')
             $field->show()->rules('required');
         }
     }),
+```
+
+#### Setting a Field's Value using `dependsOn`
+
+Another common use-case for dependent fields is to set the value of a field based on the value of another field. You can accomplish this using the `setValue` method:
+
+```php
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+DateTime::make('Created At'),
+
+DateTime::make('Updated At')->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
+    $field->setValue(Carbon::parse($form->created_at)->addDays(7));
+}),
 ```
 
 #### Accessing Request Resource IDs
