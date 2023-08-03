@@ -83,9 +83,9 @@ export default defineConfigWithTheme<ThemeConfig>({
                 text: "Getting Started",
                 items: [
                     { text: 'Installation', link: '/installation' },
-                    { text: 'Releases', link: '/releases' },
-                    { text: 'Upgrade', link: '/upgrade' },
-                    { text: 'Support', link: '/support' },
+                    { text: 'Release Notes', link: '/releases' },
+                    { text: 'Upgrade Guide', link: '/upgrade' },
+                    { text: 'Support & Bug Reports', link: '/support' },
                     { text: 'Code of Conduct', link: '/code-of-conduct' },
                 ]
             },
@@ -104,7 +104,7 @@ export default defineConfigWithTheme<ThemeConfig>({
             {
                 text: "Search",
                 items: [
-                    { text: 'Getting Started', link: '/search/' },
+                    { text: 'The Basics', link: '/search/' },
                     { text: 'Global Search', link: '/search/global-search' },
                     { text: 'Scout Integration', link: '/search/scout-integration' },
                 ]
@@ -149,7 +149,7 @@ export default defineConfigWithTheme<ThemeConfig>({
                     { text: 'Cards', link: '/customization/cards' },
                     { text: 'Fields', link: '/customization/fields' },
                     { text: 'Filters', link: '/customization/filters' },
-                    { text: 'Frontend', link: '/customization/frontend' },
+                    { text: 'CSS & JavaScript', link: '/customization/frontend' },
                     { text: 'Assets', link: '/customization/assets' },
                     { text: 'Localization', link: '/customization/localization' },
                     { text: 'Stubs', link: '/customization/stubs' },
