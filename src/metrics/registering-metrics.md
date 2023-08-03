@@ -24,7 +24,7 @@ public function cards(NovaRequest $request)
 }
 ```
 
-Alternatively, you may use the `make` method to instantiate your metric: 
+Alternatively, you may use the `make` method to instantiate your metric:
 
 ```php
 use App\Nova\Metrics\UsersPerDay;
@@ -223,16 +223,17 @@ You may also use HTML when defining your help text. For example, you may pass a 
 
 Laravel Nova will automatically fetch updated results (without requiring the user to refresh the page) for metrics attached to a resource based on following events:
 
-| Event             | Behaviour                                                                                                                    |
-|:------------------|:-----------------------------------------------------------------------------------------------------------------------------|
-| Resource Deleted  | Automatic Update                                                                                                             |
-| Resource Restored | Automatic Update                                                                                                             |
-| Action Executed   | [Only update if the metric's `refreshWhenActionsRun` method is invoked during registration](#refresh-after-actions)          |
+| Event             | Behaviour                                                                                                                     |
+| :---------------- | :---------------------------------------------------------------------------------------------------------------------------- |
+| Resource Deleted  | Automatic Update                                                                                                              |
+| Resource Restored | Automatic Update                                                                                                              |
+| Action Executed   | [Only update if the metric's `refreshWhenActionsRun` method is invoked during registration](#refresh-after-actions)           |
 | Filter Change     | [Only update if the metric's `refreshWhenFiltersChange` method is invoked during registration](#refresh-after-filter-changes) |
 
 ### Refresh After Actions
 
 By default, Nova does not automatically update metric results after an action is executed without the user manually refreshing the page; however, you may indicate that metrics should automatically refresh after actions have executed by invoking the `refreshWhenActionsRun` method when registering your metric:
+
 ```php
 public function cards(NovaRequest $request)
 {
