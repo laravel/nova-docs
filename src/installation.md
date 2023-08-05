@@ -282,6 +282,26 @@ public function register()
 }
 ```
 
+In addition to a string path, the `initialPath` method also accepts a closure that returns the path that should be loaded. This allows you to dynamically determine the initial path based on the incoming request:
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Register any application services.
+ *
+ * @return void
+ */
+public function register()
+{
+    Nova::initialPath(function ($request) {
+        return $request->user()->initialPath();
+    });
+
+    // ...
+}
+```
+
 ### Enabling Breadcrumbs
 
 If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
