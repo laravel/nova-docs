@@ -1816,6 +1816,8 @@ The following field types may depend on other fields:
 - Code
 - Country
 - Currency
+- Date
+- DateTime
 - File
 - Heading
 - Hidden
@@ -1830,6 +1832,7 @@ The following field types may depend on other fields:
 - Status
 - Textarea
 - Text
+- Timezone
 - Trix
 - URL
 - VaporAudio
