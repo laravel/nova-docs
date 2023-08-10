@@ -150,12 +150,9 @@ npm run nova:install
 npm --prefix='vendor/laravel/nova' ci
 ```
 
-:::tip `nova:install` requirements
+:::tip NPM Requirements
 
-Laravel Nova's assets are built using **lockfile** version `3` and requires NPM 9, if you encounter an error when running the command please ensure you have the correct NPM version installed using the following command: 
-```
-npm -v
-```
+Laravel Nova's assets are built using **lockfile** version `3` and require NPM 9+.
 :::
 
 ### Vue DevTools
