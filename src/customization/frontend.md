@@ -150,6 +150,14 @@ npm run nova:install
 npm --prefix='vendor/laravel/nova' ci
 ```
 
+:::tip `nova:install` requirements
+
+Laravel Nova's assets are built using **lockfile** version `3` and requires NPM 9, if you encounter an error when running the command please ensure you have the correct NPM version installed using the following command: 
+```
+npm -v
+```
+:::
+
 ### Vue DevTools
 
 By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may issue the following terminal commands from the root of your Nova project:
