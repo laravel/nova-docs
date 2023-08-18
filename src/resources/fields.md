@@ -1002,8 +1002,8 @@ The `Password` field will automatically preserve the password that is currently 
 ```php
 Password::make('Password')
     ->onlyOnForms()
-    ->creationRules('required', Rules\Password::defaults())
-    ->updateRules('nullable', Rules\Password::defaults()),
+    ->creationRules('required', \Illuminate\Validation\Rules\Password::defaults())
+    ->updateRules('nullable', \Illuminate\Validation\Rules\Password::defaults()),
 ```
 
 ### Password Confirmation Field
