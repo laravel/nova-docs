@@ -1000,6 +1000,8 @@ Password::make('Password'),
 The `Password` field will automatically preserve the password that is currently stored in the database if the incoming password field is empty. Therefore, a typical password field definition might look like the following:
 
 ```php
+use Illuminate\Validation\Rules;
+
 Password::make('Password')
     ->onlyOnForms()
     ->creationRules('required', Rules\Password::defaults())
