@@ -137,7 +137,7 @@ public function fields(NovaRequest $request)
     return [
         ID::make('ID', 'id')->sortable(),
 
-        StripInspector::make()->issuesRefunds(),
+        StripeInspector::make()->issuesRefunds(),
     ];
 }
 ```
