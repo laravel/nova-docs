@@ -84,9 +84,9 @@ class LineItem extends Repeatable
 	public function fields(NovaRequest $request)
 	{
 		return [
-			Number::make('Quantity')->rules('required', 'number'),
+			Number::make('Quantity')->rules('required', 'numeric'),
 			Textarea::make('Description')->rules('required', 'max:255'),
-			Currency::make('Price')->rules('required', 'number'),
+			Currency::make('Price')->rules('required', 'numeric'),
 		];
 	}
 }
