@@ -119,7 +119,7 @@ By default, Nova is configured to display a "logout" link in the user menu. This
 Nova's user menu only supports `MenuItem` objects. Using `MenuSection` or `MenuGroup` inside the user menu will throw an `Exception`.
 :::
 
-#### Appending / Prepending To The Menu
+### Appending / Prepending To The Menu
 
 You may call the `append` and `prepend` methods on a `Menu` instance to prepend or append new items to the. These methods are typically most helpful when customizing the user menu, since you often do not want to completely replace the existing menu:
 
@@ -131,9 +131,7 @@ Nova::userMenu(function (Request $request, Menu $menu) {
     });
 ```
 
-## Building Menus
-
-### Menu Sections
+## Menu Sections
 
 Menu sections represent a top-level navigation item and are typically displayed with an corresponding icon representing the types of items in the menu. You can create a new menu section by calling the `MenuSection::make` method. This method accepts the name of the menu section and array of menu groups / items that should be placed within the section:
 
@@ -209,7 +207,7 @@ MenuSection::lens(User::class, MostValuableUsers::class)
 Menu sections that are defined as `collapsable` do not support also being a link. Calling `path` on a menu section when it's `collapseable` will result in no link being shown.
 :::
 
-#### Menu Section Icons
+### Menu Section Icons
 
 You can customize the icon displayed for your menu section by invoking the `icon` method when defining the menu section:
 
@@ -223,7 +221,7 @@ MenuSection::make('Resources', [
 
 Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
 
-#### Menu Section Badges
+### Menu Section Badges
 
 You may add visual badges to your menu section by calling the `withBadge` method on your `MenuSection` and specifying the options for the badge:
 
@@ -251,7 +249,7 @@ MenuSection::make('New Issues')
     ->icon('document-text')
 ```
 
-##### Conditional Badges
+### Conditional Badges
 
 Using the `withBadgeIf` method, you may conditionally add a badge only if a given condition is met:
 
@@ -276,7 +274,7 @@ MenuSection::make('New Issues')
     ->withBadgeIf(fn() => 'New!', 'info', fn () => Issue::count() > 0)
 ```
 
-#### Collapsable Menu Sections
+### Collapsable Menu Sections
 
 You may make your menu sections collapsable by invoking the `collapsable` method when defining the menu section. For convenience, Nova will remember the open state for the section between requests:
 
@@ -288,7 +286,7 @@ MenuSection::make('Resources', [
 ])->collapsable()
 ```
 
-### Menu Groups
+## Menu Groups
 
 Sometimes you may need another logical level between your menu sections and menu items. In this case, menu groups are the perfect solution. Menu groups allow you to group menu items under their own emphasized heading:
 
@@ -311,6 +309,8 @@ MenuSection::make('Business', [
 ]),
 ```
 
+### Collapsable Menu Groups
+
 You may make your menu groups collapsable by invoking the `collapsable` method on the group. For convenience, Nova will remember the open state for the group between requests:
 
 ```php
@@ -319,7 +319,7 @@ MenuGroup::make('Resources', [
 ])->collapsable()
 ```
 
-### Menu Items
+## Menu Items
 
 Menu items represent the different types of links to areas inside and outside of your application that may be added to a custom Nova menu. Nova ships with several convenience methods for creating different types of menu items.
 
@@ -331,6 +331,8 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::link('Cashier', '/cashier')
 ```
 
+### Resource Menu Items
+
 Since you will often be creating links to Nova resources, you may use the `resource` method to quickly create a link to the appropriate path for a given resource:
 
 ```php
@@ -339,6 +341,59 @@ use Laravel\Nova\Menu\MenuItem;
 
 MenuItem::resource(User::class)
 ```
+
+#### Filtered Resource Menu Items
+
+To create a link to a Nova resource with a predefined filter applied, you can use the `filter` method, passing in the filter. Since filters can be used with multiple resources, you must also pass a name for the menu item, since it cannot be automatically generated:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+
+MenuItem::filter('Filtered Users', User::class, [
+    'class' => \App\Nova\Filters\NameFilter::class,
+    'value' => 'Hemp'
+]);
+```
+
+#### Using Multiple Filters with Filtered Resource Menu Items
+
+You may also pass multiple filters to a resource menu item. For instance, let's pretend you wanted to create a menu item that linked to your User resource, with both users that had an email ending in `@laravel.com` with the status of `Active`. You could create your filter like this:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+
+MenuItem::filter('Active Laravel Users', User::class, [
+    [
+        'class' => \App\Nova\Filters\EmailFilter::class,
+        'value' => '@laravel.com'
+    ],
+    [
+        'class' => \App\Nova\Filters\StatusFilter::class,
+        'value' => 'active'
+    ]
+]);
+```
+
+#### Passing Constructor Parameters to Filtered Resource Menu Items
+
+Nova filters support passing constructor parameters to enable convenient re-use of your filters across resources. To pass the paramenters when creating a filtered resource menu item, add an `args` key to your filter configuration:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+
+MenuItem::filter('Active Laravel Users', User::class, [
+    [
+        'class' => \App\Nova\Filters\ColumnFilter::class,
+        'value' => 'Hemp'
+        'args' => ['name']
+    ],
+]);
+```
+
+### Lens Menu Items
 
 Similarly, you may create links to Nova lenses via the `lens` method:
 
@@ -350,7 +405,9 @@ use Laravel\Nova\Menu\MenuItem;
 MenuItem::lens(User::class, MostValuableUsers::class)
 ```
 
-Similarly, you may create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
+### Dashboard Menu Items
+
+You may also create a link to any of your [custom Nova dashboards](./dashboards.md) by calling the `dashboard` factory method:
 
 ```php
 use App\Nova\Dashboards\Main;
@@ -358,6 +415,8 @@ use Laravel\Nova\Menu\MenuItem;
 
 MenuItem::dashboard(Main::class)
 ```
+
+### External Link Menu Items
 
 To create a link that directs the user to a location that is totally outside of your Nova application, you may use the `externalLink` factory method:
 
@@ -386,7 +445,7 @@ MenuItem::externalLink('Logout', 'https://api.yoursite.com/logout')
     )
 ```
 
-#### Menu Item Badges
+### Menu Item Badges
 
 You may add visual badges to your menu item by calling the `withBadge` method on your `MenuItem` and specifying the options for the badge:
 
@@ -408,7 +467,7 @@ MenuItem::dashboard(Issue::class)
     ->withBadge(fn() => 13, 'danger')
 ```
 
-##### Conditional Badges
+### Conditional Badges
 
 You may also conditionally add badge only if the condition is met.
 
@@ -429,7 +488,7 @@ MenuItem::resource(Issue::class)
     ->withBadgeIf(fn() => 'New!', 'info', fn() => Issue::newModel()->count() > 0)
 ```
 
-#### Authorizing Menu Items
+### Authorizing Menu Items
 
 You may use the `canSee` method to determine if a menu item should be displayed for the currently authenticated user:
 
