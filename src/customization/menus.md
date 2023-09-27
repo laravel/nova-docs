@@ -356,7 +356,7 @@ MenuItem::filter('Filtered Users', User::class, NameFilter::make(), 'Hemp');
 
 #### Using Multiple Filters with Filtered Resource Menu Items
 
-You may also pass multiple filters to a resource menu item. For instance, let's pretend you wanted to create a menu item that linked to your User resource, with both users that had an email ending in `@laravel.com` with the status of `Active`. You could create your filter like this:
+You may also pass multiple filters to a resource menu item. For instance, let's pretend you wanted to create a menu item that linked to your User resource, with both users that had an email ending in `@laravel.com` with the status of `active`. You could create your filter like this:
 
 ```php
 use App\Nova\User;
