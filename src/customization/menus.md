@@ -362,7 +362,7 @@ use Laravel\Nova\Menu\MenuItem;
 use \App\Nova\Filters\NameFilter;
 use \App\Nova\Filters\EmailFilter;
 
-MenuItem::filter('Filtered Users', User::class), 'Hemp')
+MenuItem::filter('Filtered Users', User::class)
     ->applies(NameFilter::make(), 'Hemp')
     ->applies(EmailFilter::make(), 'david@laravel.com');
 ```
