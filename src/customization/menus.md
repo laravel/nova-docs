@@ -344,16 +344,27 @@ MenuItem::resource(User::class)
 
 #### Filtered Resource Menu Items
 
-To create a link to a Nova resource with a predefined filter applied, you can use the `filter` method, passing in the filter. Since filters can be used with multiple resources, you must also pass a name for the menu item, since it cannot be automatically generated:
+To create a link to a Nova resource with a predefined filter applied, you can use the `filter` method, passing in an instance of the filter and the value it should receive. Since filters can be used with multiple resources, you must also pass a name for the menu item, since it cannot be automatically generated:
 
 ```php
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
+use \App\Nova\Filters\NameFilter;
 
-MenuItem::filter('Filtered Users', User::class, [
-    'class' => \App\Nova\Filters\NameFilter::class,
-    'value' => 'Hemp'
-]);
+MenuItem::filter('Filtered Users', User::class, NameFilter::make(), 'Hemp');
+```
+
+If you wish to create a filtered menu item with multiple filters set, you may use the `applies` method:
+
+```php
+use App\Nova\User;
+use Laravel\Nova\Menu\MenuItem;
+use \App\Nova\Filters\NameFilter;
+use \App\Nova\Filters\EmailFilter;
+
+MenuItem::filter('Filtered Users', User::class), 'Hemp')
+    ->applies(NameFilter::make(), 'Hemp')
+    ->applies(EmailFilter::make(), 'david@laravel.com');
 ```
 
 #### Using Multiple Filters with Filtered Resource Menu Items
@@ -363,39 +374,30 @@ You may also pass multiple filters to a resource menu item. For instance, let's 
 ```php
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
+use \App\Nova\Filters\EmailFilter;
+use \App\Nova\Filters\StatusFilter;
 
-MenuItem::filter('Active Laravel Users', User::class, [
-    [
-        'class' => \App\Nova\Filters\EmailFilter::class,
-        'value' => '@laravel.com'
-    ],
-    [
-        'class' => \App\Nova\Filters\StatusFilter::class,
-        'value' => 'active'
-    ]
-]);
+MenuItem::filter('Filtered Users', User::class)
+    ->applies(EmailFilter::make(), '@laravel.com')
+    ->applies(StatusFilter::make(), 'active');
 ```
 
 #### Passing Constructor Parameters to Filtered Resource Menu Items
 
-Nova filters support passing constructor parameters to enable convenient re-use of your filters across resources. To pass the paramenters when creating a filtered resource menu item, add an `args` key to your filter configuration:
+Nova filters support passing constructor parameters to enable convenient re-use of your filters across resources. To pass the paramenters when creating a filtered resource menu item, just add them as constructor parameters to your filter directly:
 
 ```php
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
+use App\Nova\Filters\ColumnFilter;
 
-MenuItem::filter('Active Laravel Users', User::class, [
-    [
-        'class' => \App\Nova\Filters\ColumnFilter::class,
-        'value' => 'Hemp'
-        'args' => ['name']
-    ],
-]);
+MenuItem::filter('Active Laravel Users', User::class)
+    ->applies(ColumnFilter::make('name'), 'Hemp');
 ```
 
 ### Lens Menu Items
 
-Similarly, you may create links to Nova lenses via the `lens` method:
+Similar to resource items, you may create links to Nova lenses via the `lens` method:
 
 ```php
 use App\Nova\Lenses\MostValuableUsers;
