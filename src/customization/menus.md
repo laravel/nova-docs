@@ -354,19 +354,6 @@ use \App\Nova\Filters\NameFilter;
 MenuItem::filter('Filtered Users', User::class, NameFilter::make(), 'Hemp');
 ```
 
-If you wish to create a filtered menu item with multiple filters set, you may use the `applies` method:
-
-```php
-use App\Nova\User;
-use Laravel\Nova\Menu\MenuItem;
-use \App\Nova\Filters\NameFilter;
-use \App\Nova\Filters\EmailFilter;
-
-MenuItem::filter('Filtered Users', User::class)
-    ->applies(NameFilter::make(), 'Hemp')
-    ->applies(EmailFilter::make(), 'david@laravel.com');
-```
-
 #### Using Multiple Filters with Filtered Resource Menu Items
 
 You may also pass multiple filters to a resource menu item. For instance, let's pretend you wanted to create a menu item that linked to your User resource, with both users that had an email ending in `@laravel.com` with the status of `Active`. You could create your filter like this:
