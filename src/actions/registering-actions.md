@@ -67,8 +67,8 @@ You may also use a variety of request methods to get the currently selected reso
 | Method                 | Return Type              | Description
 |:-----------------------|:-------------------------|:----------------------
 | `allResourcesSelected` | `bool`                   | Returns `true` if "Select all" selected. 
-| `selectedResourceIds`  | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of selected resource IDs.
-| `selectedResources`    | `\Illuminate\Support\Collection|null` | Returns `null` if "Select all" selected or returns a collection of resource models.
+| `selectedResourceIds`  | `\Illuminate\Support\Collection\|null` | Returns `null` if "Select all" selected or returns a collection of selected resource IDs.
+| `selectedResources`    | `\Illuminate\Support\Collection\|null` | Returns `null` if "Select all" selected or returns a collection of resource models.
 
 ### Resource Specific Authorization
 
