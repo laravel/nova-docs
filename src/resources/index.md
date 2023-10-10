@@ -565,6 +565,16 @@ public static function perPageOptions()
 }
 ```
 
+If you would like to customize the number of resources to show per page via relationships, you can do so by adding:
+```php
+/**
+ * The number of resources to show per page via relationships.
+ *
+ * @var int
+ */
+public static $perPageViaRelationship = 20;
+```
+
 :::tip Customizing <code>perPageOptions</code> & Resource Fetching
 
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
