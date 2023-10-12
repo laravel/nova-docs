@@ -415,7 +415,7 @@ As you can see in the example above, the `types` method is used to instruct the 
 When a `MorphTo` field is shown on a resource creation / update page, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
 :::
 
-#### Nullable Relationships
+### Nullable `MorpTo` Relationships
 
 If you would like your `MorphTo` relationship to be `nullable`, chain the `nullable` method onto the field's definition:
 
@@ -452,6 +452,16 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 MorphTo::make('Author')->peekable(function (NovaRequest $request) {
     return $request->isResourceDetailRequest();
 })
+```
+
+### Setting a Default Value On a `MorphTo` Relationship
+
+When setting a default value for a `MorphTo` field, in addition to setting the fie'ds initial value using the `default` method, you also need to specify the class name of the resource to be used using the `defaultResource` method:
+
+```php
+MorphTo::make('Commentable')
+    ->default(1)
+    ->defaultResource(\App\Nova\Post::class)
 ```
 
 ## MorphToMany
