@@ -415,7 +415,7 @@ As you can see in the example above, the `types` method is used to instruct the 
 When a `MorphTo` field is shown on a resource creation / update page, the [title attributes](#title-attributes) of the available resources will automatically be displayed.
 :::
 
-### Nullable `MorpTo` Relationships
+### Nullable `MorphTo` Relationships
 
 If you would like your `MorphTo` relationship to be `nullable`, chain the `nullable` method onto the field's definition:
 
