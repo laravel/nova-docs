@@ -81,7 +81,6 @@ Alternatively, you may pass a callback to the following methods.
 - `hideWhenUpdating`
 - `showOnPreview`
 - `onlyOnPreview`
-- `showWhenPeeking`
 
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
