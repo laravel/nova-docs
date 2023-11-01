@@ -834,6 +834,30 @@ MetricTableRow::make()
 Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
 :::
 
+### Customizing Table Metric Empty Text
+
+If you're dynamically generating rows for your table metric, there may be times where there are no results to display. By default, Nova will show the user "No Results Found...".
+
+But sometimes you may wish to customize this text to give the user more context. For instance, say you created a table metric named "Recent Users" that did not have any users to display. You may customize the message shown using the `emptyText` method:
+
+```php
+use App\Nova\Metrics\RecentUsers;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the cards available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function cards(NovaRequest $request)
+{
+    return [
+        RecentUsers::make()->emptyText('There are no recent users.');
+    ];
+}
+```
+
 ## Caching
 
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
