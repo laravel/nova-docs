@@ -18,7 +18,7 @@ php artisan nova:translate es
 
 #### User Locale Overrides
 
-Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and other libraries will utilize the locale value available via `app()->getLocale()` by default. However, if your application is only using ISO 639-1 language codes (`en`), you may wish to consider migrating your langauges to IETF langauge tags (`en-US`, `en-GB`) for wider support across the various frontend libraries used by Nova. 
+Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and other libraries will utilize the locale value available via `app()->getLocale()` by default. However, if your application is only using ISO 639-1 language codes (`en`), you may wish to consider migrating your languages to IETF language tags (`en-US`, `en-GB`) for wider support across the various frontend libraries used by Nova. 
 
 To map your existing locales to IETF language tags, you may use the `Nova::userLocale` method. Typically, you should invoke this method in the `boot` method of your application's `NovaServiceProvider`:
 
