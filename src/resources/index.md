@@ -350,6 +350,7 @@ Nova also allows you to define the following static methods on a resource to ser
 - `afterUpdate`
 - `afterDelete`
 - `afterForceDelete`
+- `afterRestore`
 
 For example, you may want to send an email verification notification after a user has been created within Nova:
 
