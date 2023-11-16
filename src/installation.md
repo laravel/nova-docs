@@ -126,7 +126,7 @@ It's not recommended to store your Composer `auth.json` file inside your project
 To authenticate Nova in these situations, you can use Composer's `config` command to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
 
 ```bash
-composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
+composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_LICENSE_KEY}"
 ```
 
 ## Using Nova on Development & Staging Domains
