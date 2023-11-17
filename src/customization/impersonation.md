@@ -86,7 +86,7 @@ By default, you add additional customisation by using available events for Imper
 - `Laravel\Nova\Events\StartedImpersonating`
 - `Laravel\Nova\Events\StoppedImpersonating`
 
-For example, you may want to log impersonating events to logger add the following to the `EventServiceProvider`'s `boot()` method:
+For example, you may want to log impersonation events, which you can register listeners for in the `boot` method of your application's `EventServiceProvider`:
 
 ```php
 use Illuminate\Support\Facades\Event;
