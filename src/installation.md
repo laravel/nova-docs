@@ -184,6 +184,7 @@ To customize the logo used at the top left of the Nova interface, you may specif
 
 ```php
 'brand' => [
+    // must be an SVG and not a binary image file (png, jpg, etc.) in order to work
     'logo' => resource_path('/img/example-logo.svg'),
 
     // ...
