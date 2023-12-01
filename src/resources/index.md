@@ -571,7 +571,7 @@ public static function perPageOptions()
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
 
-You can also customize the number of related resources displayed per page on a detail view using `perPageViaRelationship` property:
+Using the `$perPageViaRelationship` property, you may also customize the number of resources displayed when a particular resource is displayed on another resource's detail view as a relationship:
 
 ```php
 /**
