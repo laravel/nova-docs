@@ -571,6 +571,17 @@ public static function perPageOptions()
 Changing the value of `perPageOptions` on your `Resource` will cause Nova to fetch the number of resources equal to the first value in the `perPageOptions` array.
 :::
 
+Using the `$perPageViaRelationship` property, you may also customize the number of resources displayed when a particular resource is displayed on another resource's detail view as a relationship:
+
+```php
+/**
+ * The number of resources to show per page via relationships.
+ *
+ * @var int
+ */
+public static $perPageViaRelationship = 10;
+```
+
 ## CSV Export
 
 Occasionally you may need to export a group of resource records as a CSV file so that you can interact with the data in a spreadsheet application or import the data into another system. Thankfully, Nova includes built-in support for exporting resource data.
