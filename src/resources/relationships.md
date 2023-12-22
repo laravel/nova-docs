@@ -456,7 +456,7 @@ MorphTo::make('Author')->peekable(function (NovaRequest $request) {
 
 ### Setting a Default Value On a `MorphTo` Relationship
 
-When setting a default value for a `MorphTo` field, in addition to setting the fie'ds initial value using the `default` method, you also need to specify the class name of the resource to be used using the `defaultResource` method:
+When setting a default value for a `MorphTo` field, in addition to setting the fields initial value using the `default` method, you also need to specify the class name of the resource to be used using the `defaultResource` method:
 
 ```php
 MorphTo::make('Commentable')
