@@ -324,7 +324,7 @@ When using queued actions, don't forget to configure and start [queue workers](h
 At this time, Nova does not support attaching `File` fields to a queued action. If you need to attach a `File` field to an action, the action must be run synchronously.
 :::
 
-### Customizing The Connection And Queue
+### Customizing the Connection and Queue
 
 You may customize the queue connection and queue name that the action is queued on by setting the `$connection` and `$queue` properties within the action's constructor:
 
@@ -418,7 +418,7 @@ Once the trait has been attached to the model, Nova will automatically begin dis
 
 ![Action Log](./img/action-log.png)
 
-### Disabling The Action Log
+### Disabling the Action Log
 
 If you do not want to record an action in the action log, you may disable this behavior by adding a `withoutActionEvents` property on your action class:
 

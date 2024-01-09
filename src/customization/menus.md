@@ -12,7 +12,7 @@ When rendering the main menu, Nova will order your dashboards according to the o
 
 Nova will also automatically group your resources under the default "Resources" menu section according to the [`group` property defined in the `Resource` class](./../resources/index.md#grouping-resources). In addition, any custom tools you have registered will be listed in the order they are defined within your application's `NovaServiceProvider`.
 
-### Customizing The Main Menu
+### Customizing the Main Menu
 
 While Nova's default main menu is sufficient for most applications, there are times you may wish to completely customize the menu based on your own preferences. For that reason, Nova allows you to define your own main menu via the `Nova::mainMenu` method. Typically, this method should be invoked within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
@@ -65,7 +65,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
 ![Custom Menu](./img/custom-main-menu.png)
 
-### Customizing The User Menu
+### Customizing the User Menu
 
 Nova also allows you to customize the "user" menu found in the top-right navigation area. You can customize Nova's user menu by calling the `Nova::userMenu` method. This method is typically invoked within the `boot` method of your application's `App\Providers\NovaServiceProvider`:
 
@@ -119,7 +119,7 @@ By default, Nova is configured to display a "logout" link in the user menu. This
 Nova's user menu only supports `MenuItem` objects. Using `MenuSection` or `MenuGroup` inside the user menu will throw an `Exception`.
 :::
 
-### Appending / Prepending To The Menu
+### Appending / Prepending to the Menu
 
 You may call the `append` and `prepend` methods on a `Menu` instance to prepend or append new items to the. These methods are typically most helpful when customizing the user menu, since you often do not want to completely replace the existing menu:
 
@@ -369,7 +369,7 @@ MenuItem::filter('Filtered Users', User::class)
     ->applies(StatusFilter::make(), 'active');
 ```
 
-#### Passing Constructor Parameters To Filtered Resource Menu Items
+#### Passing Constructor Parameters to Filtered Resource Menu Items
 
 Nova filters may also receive constructor parameters to enable convenient re-use of your filters across resources. To pass the parameters when creating a filtered resource menu item, just provide them to the filter's `make` method:
 

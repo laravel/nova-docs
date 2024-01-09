@@ -60,7 +60,7 @@ public function toNova()
 }
 ```
 
-#### Opening Remote Action URLs New Tabs
+#### Opening Remote Action URLs in New Tabs
 
 When defining a notification action, the `openInNewTab` method may be invoked to instruct Nova to open the given URL in a new browser tab:
 

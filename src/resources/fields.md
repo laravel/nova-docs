@@ -1139,7 +1139,7 @@ return $this->countByDays(
 When providing data to a `Sparkline` field via a trend metric, the `Sparkline` field will always use the first range defined in the `ranges` method of the metric.
 :::
 
-#### Customizing The Chart
+#### Customizing the Chart
 
 If a bar chart better suits your data, you may invoke the `asBarChart` method when defining the field:
 
@@ -1249,7 +1249,7 @@ Tag::make('Tags')->withPreview(),
 
 ![Previewing Tags](./img/previewing-tags.png)
 
-#### Displaying Tags As Lists
+#### Displaying Tags as Lists
 
 Instead of displaying your tags as an inline group, you may instead display your tags as a list:
 
@@ -1279,7 +1279,7 @@ use Laravel\Nova\Fields\Tag;
 Tag::make('Tags')->showCreateRelationButton(),
 ```
 
-#### Adjusting The Inline Creation Modal's Size
+#### Adjusting the Inline Creation Modal's Size
 
 You may adjust the size of the modal using the `modalSize` method:
 
@@ -1331,7 +1331,7 @@ Text::make('Name')->required()
 
 ![Field Suggestions](./img/field-suggestions.png)
 
-#### Formatting Text As Links
+#### Formatting Text as Links
 
 To format a `Text` field as a link, you may invoke the `asHtml` method when defining the field:
 
@@ -1877,7 +1877,7 @@ BelongsTo::make('User')
     }),
 ```
 
-#### Setting a Field's Value using `dependsOn`
+#### Setting a Field's Value Using `dependsOn`
 
 Another common use-case for dependent fields is to set the value of a field based on the value of another field. You can accomplish this using the `setValue` method:
 
@@ -1956,7 +1956,7 @@ Field::macro('showWhen', function ($condition) {
 });
 ```
 
-#### Macro On Specific Fields
+#### Macro on Specific Fields
 
 You can also add a macro only to a specific type of `Field`. For example, you might add a `withFriendlyDate` macro to the `DateTime` field class:
 

@@ -48,7 +48,7 @@ Date::make('Expired On')
 
 By default, Nova users will always see dates presented in your application's "server-side" timezone as defined by the `timezone` configuration option in your application's `config/app.php` configuration file.
 
-#### Customizing The Timezone
+#### Customizing the Timezone
 
 Sometimes you may wish to explicitly define the Nova user's timezone instead of using the application's timezone configuration. For example, perhaps your application allows users to select their own timezone so that they always see consistent date timezones even when traveling around the world.
 
