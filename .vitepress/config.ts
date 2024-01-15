@@ -82,7 +82,7 @@ export default defineConfigWithTheme<ThemeConfig>({
             {
                 text: "Getting Started",
                 items: [
-                    { text: 'Installation', link: '/installation' },
+                    { text: 'Installation', link: '/installation.html' },
                     { text: 'Release Notes', link: '/releases.html' },
                     { text: 'Upgrade Guide', link: '/upgrade.html' },
                     { text: 'Support & Bug Reports', link: '/support.html' },
