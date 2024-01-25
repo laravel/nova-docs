@@ -234,7 +234,7 @@ public function fields(NovaRequest $request)
     return [
         ID::make()->sortable(),
 
-        new Panel('Address Information', $this->addressFields()),
+        Panel::make('Address Information', $this->addressFields()),
     ];
 }
 
@@ -259,11 +259,11 @@ protected function addressFields()
 You may limit the amount of fields shown in a panel by using the `limit` method:
 
 ```php
-(new Panel('Profile', [
+Panel::make('Profile', [
     Text::make('Full Name'),
     Date::make('Date of Birth'),
     Text::make('Place of Birth'),
-]))->limit(1),
+])->limit(1),
 ```
 
 Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
