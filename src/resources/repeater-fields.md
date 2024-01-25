@@ -7,6 +7,12 @@
 This field is currently in beta. The API, while stable, is subject to change while in the beta period.
 :::
 
+::: info Info
+
+This field displays on Form only, it will not be displayed on the Details view.
+To display on the Details view, please use one of the relationship fields.
+:::
+
 ## Overview
 
 The `Repeater` field allows you to create and edit repeatable, structured data and store that data in a JSON column or `HasMany` relationship:
