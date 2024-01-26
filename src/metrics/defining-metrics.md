@@ -838,7 +838,7 @@ Nova utilizes the free icon set [Heroicons UI](https://v1.heroicons.com/) from d
 
 If you're dynamically generating rows for your table metric, there may be times where there are no results to display. By default, Nova will show the user "No Results Found...".
 
-But sometimes you may wish to customize this text to give the user more context. For instance, say you created a table metric named "Recent Users" that did not have any users to display. You may customize the message shown using the `emptyText` method:
+But, sometimes you may wish to customize this text to give the user more context. For example, a metric named "Recent Users" may not have any users to display because there are no recent users. In these situations, you may customize the "no results" message using the `emptyText` method:
 
 ```php
 use App\Nova\Metrics\RecentUsers;
