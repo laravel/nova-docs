@@ -291,7 +291,7 @@ public function actions()
 }
 ```
 
-You may also configura the URL to be unique for a resource by defining a Sole Action:
+You may also configure the URL to be unique for a resource by defining a Sole Action:
 
 ```php
 Action::openInNewTab('Visit User Profile', function ($user) {
