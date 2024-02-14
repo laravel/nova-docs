@@ -37,7 +37,7 @@ Http::baseUrl('https://nova.laravel.com/api')->withToken('{your-license-key}')
 
 ### Releases
 
-#### Fetching a list of Nova's releases
+#### Fetching a List of Nova's releases
 
 To fetch a list of Nova's releases, make a `GET` request to the `releases` endpoint:
 
@@ -56,7 +56,7 @@ The `releases` endpoint is a public endpoint and does not require authentication
 
 The Sites API allows for managing the sites associated with a Nova license. The license key passed using the `Authorization` header acts as the API token.
 
-#### Fetching a list of sites associated with a license
+#### Fetching a List of Sites Associated With a License
 
 To get a list of the site domains associated with a license, make a `GET` request to the `sites` endpoint:
 
@@ -74,7 +74,7 @@ The response you receive will contain a JSON array of the associated license dom
 }
 ```
 
-#### Adding a site to a license
+#### Adding a Site to a License
 
 To add a site to a license, make a `PATCH` request to the `sites` endpoint, including the URL you wish to associate with the license:
 
@@ -90,7 +90,7 @@ Http::baseUrl('https://nova.laravel.com/api')
     ]);
 ```
 
-#### Deleting a site from a license
+#### Deleting a Site From a License
 
 To remove a site from a license, make a `DELETE` request to the `sites` endpoint, including the URL you wish to remove from the license:
 

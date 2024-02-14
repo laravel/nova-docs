@@ -98,7 +98,7 @@ Next, ensure your application's `nova` configuration file contains a `storage_di
 
 Once your configuration has been updated, you should review the following list of changes and upgrade your application accordingly.
 
-### Registering a Nova license key and production URL
+### Registering a Nova License Key and Production URL
 
 Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account. You can learn more in the [installation docs](/installation.html#registering-a-nova-license-key-and-production-url).
 
@@ -323,7 +323,7 @@ Nova::router()
     });
 ```
 
-#### Removal Of `laravel-nova` NPM Dependency
+#### Removal of `laravel-nova` NPM Dependency
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
 
@@ -365,7 +365,7 @@ npm run nova:install
 npm --prefix='vendor/laravel/nova' ci
 ```
 
-### Event Cancellation On Save
+### Event Cancellation on Save
 
 Nova 3 ignores event cancellation when creating or updating a resource. For example, the following code will still persist the `User` resource to the database, even though the event listener returns `false`:
 
@@ -377,7 +377,7 @@ User::updating(function ($model) {
 
 However, this code will throw a `Laravel\Nova\Exceptions\ResourceSaveCancelledException` exception in Nova 4.
 
-### `Field::default` Method Only Applies To Create, Attach, & Action Requests
+### `Field::default` Method Only Applies to Create, Attach, & Action Requests
 
 Nova 4 will no longer resolve default values for "index" and "detail" requests. If you need to define a model's default attribute values, please utilize Eloquent's `$attributes` property:
 

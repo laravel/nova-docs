@@ -109,7 +109,7 @@ public function resolveThumbnailUrl()
 }
 ```
 
-## Disabling Global Search For A Resource
+## Disabling Global Search for a Resource
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
 

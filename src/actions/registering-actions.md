@@ -93,7 +93,7 @@ public function actions(NovaRequest $request)
 }
 ```
 
-### Authorization Via Resource Policy
+### Authorization via Resource Policy
 
 In addition to the `canSee` and `canRun` authorization methods, Nova will also determine if the resource's corresponding model policy has `runAction` and `runDestructiveAction` methods. Finally, Nova will determine if the user is authorized to `update` the model or, in the case of destructive actions, `delete` the model based on the model's policy methods.
 
@@ -278,7 +278,7 @@ public function actions()
 }
 ```
 
-### Open URLs In New Tabs
+### Open URLs in New Tabs
 
 The `openInNewTab` action opens a URL in a new browser tab. To create an `openInNewTab` action, pass the action name and the URL that should be opened in the new browser tab:
 
@@ -291,7 +291,7 @@ public function actions()
 }
 ```
 
-You may also configura the URL to be unique for a resource by defining a Sole Action:
+You may also configure the URL to be unique for a resource by defining a Sole Action:
 
 ```php
 Action::openInNewTab('Visit User Profile', function ($user) {

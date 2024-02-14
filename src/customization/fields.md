@@ -129,7 +129,7 @@ export default {
 </script>
 ```
 
-#### Setting The Form Value
+#### Setting the Form Value
 
 Before creating or updating a resource, Nova asks each field on the form to "fill" the outgoing [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object with key / value pairs. Each field may add as many elements to the `FormData` as needed. This may be done in your `FormField.vue` file's `fill` method:
 
@@ -213,7 +213,7 @@ class ColorPicker extends Field
 }
 ```
 
-#### Hydrating The Model
+#### Hydrating the Model
 
 By default, when saving a model, your field class will simply copy the incoming form field value into the field's associated model attribute. However, you may customize how your field hydrates the resource model. To accomplish this, override the `fillAttributeFromRequest` method on your field class:
 

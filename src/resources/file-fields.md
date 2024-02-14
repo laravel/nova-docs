@@ -8,7 +8,7 @@ Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`
 
 To illustrate the behavior of Nova file upload fields, let's assume our application's users can upload "profile photos" to their account. So, our `users` database table will have a `profile_photo` column. This column will contain the path to the profile photo on disk, or, when using a cloud storage provider such as Amazon S3, the profile photo's path within its "bucket".
 
-### Defining The Field
+### Defining the Field
 
 Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your application's `filesystems` configuration file:
 
@@ -184,7 +184,7 @@ Nova will only automatically prune files for model deletes that are initiated wi
 
 Previously we learned that, by default, Nova stores files using the `store` method of the `Illuminate\Http\UploadedFile` class. However, you may fully customize this behavior based on your application's needs.
 
-#### Customizing The Name / Path
+#### Customizing the Name / Path
 
 If you only need to customize the name or path of the stored file on disk, you may use the `path` and `storeAs` methods of the `File` field:
 
@@ -199,7 +199,7 @@ File::make('Attachment')
     }),
 ```
 
-#### Customizing The Entire Storage Process
+#### Customizing the Entire Storage Process
 
 However, if you would like to take **total** control over the file storage logic of a field, you may use the `store` method. The `store` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
 

@@ -94,13 +94,13 @@ BelongsTo::make('Author', 'author', 'App\Nova\User'),
 
 :::
 
-### Peeking At BelongsTo Relationships
+### Peeking at BelongsTo Relationships
 
 When hovering over a `BelongsTo` link when viewing the index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
 
 ![Relationship Peeking](./img/peeking.png)
 
-### Preventing Peeking At `BelongsTo` Relationships
+### Preventing Peeking at `BelongsTo` Relationships
 
 Relationship peeking is enabled by default; however, you can prevent the user from peeking at the relation using the `noPeeking` helper on your `BelongsTo` field:
 
@@ -154,7 +154,7 @@ public function title()
 }
 ```
 
-#### Disable Ordering By Title
+#### Disable Ordering by Title
 
 By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAssociatables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](./authorization.html#relatable-filtering):
 
@@ -325,7 +325,7 @@ public function title()
 }
 ```
 
-#### Disabling Ordering By Title
+#### Disabling Ordering by Title
 
 By default, associatable resources will be sorted by their title when listed in a select dropdown. Using the `dontReorderAttachables` method, you can disable this behavior so that the resources as sorted based on the ordering specified by the [relatable query](./authorization.html#relatable-filtering):
 
@@ -430,13 +430,13 @@ MorphTo::make('Commentable')->types([
 ])->nullable(),
 ```
 
-### Peeking At `MorphTo` Relationships
+### Peeking at `MorphTo` Relationships
 
 When hovering over a `MorphTo` link when viewing the index or detail views, Nova will show a small card allowing you to "take a peek" at the linked relation:
 
 ![Relationship Peeking](./img/peeking.png)
 
-### Preventing Peeking At `MorphTo` Relationships
+### Preventing Peeking at `MorphTo` Relationships
 
 Relationship peeking is enabled by default; however, you can prevent the user from peeking at the relation using the `noPeeking` helper on your `MorphTo` field:
 
@@ -454,14 +454,16 @@ MorphTo::make('Author')->peekable(function (NovaRequest $request) {
 })
 ```
 
-### Setting a Default Value On a `MorphTo` Relationship
+### Setting Default Values on `MorphTo` Relationships
 
-When setting a default value for a `MorphTo` field, in addition to setting the fie'ds initial value using the `default` method, you also need to specify the class name of the resource to be used using the `defaultResource` method:
+When setting the default value for a `MorphTo` field, in addition to setting the field's initial value using the `default` method, you also need to specify the class name of the resource to be used. You may accomplish this via the `defaultResource` method:
 
 ```php
+use App\Nova\Post;
+
 MorphTo::make('Commentable')
     ->default(1)
-    ->defaultResource(\App\Nova\Post::class)
+    ->defaultResource(Post::class)
 ```
 
 ## MorphToMany

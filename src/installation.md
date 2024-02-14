@@ -21,7 +21,7 @@ Nova supports modern versions of the following browsers:
 - Microsoft Edge
 - Mozilla Firefox
 
-## Installing Nova Via Composer
+## Installing Nova via Composer
 
 :::warning Zip Downloads
 
@@ -119,17 +119,17 @@ To verify everything has been configured correctly, you should run the `nova:che
 php artisan nova:check-license
 ```
 
-## Authenticating Nova In CI Environments
+## Authenticating Nova in CI Environments
 
 It's not recommended to store your Composer `auth.json` file inside your project's source control repository. However, there may be times you wish to download Nova inside a CI environment like [CodeShip](https://codeship.com/). For instance, you may wish to run tests for any custom tools you create.
 
 To authenticate Nova in these situations, you can use Composer's `config` command to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
 
 ```bash
-composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_LICENSE_KEY}
+composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_LICENSE_KEY}"
 ```
 
-## Using Nova on Development & Staging Domains
+## Using Nova on Development and Staging Domains
 
 Since Nova can be used in local and staging development environments, Nova will not check your license key when used on `localhost` or local TLDs like those specified in [IETF RFC 2606](https://datatracker.ietf.org/doc/html/rfc2606#page-2):
 
@@ -148,7 +148,7 @@ Nova will also not check the current license key when the subdomain is one of th
 - `dev.`
 - `development.`
 
-## Authorizing Access To Nova
+## Authorizing Access to Nova
 
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 

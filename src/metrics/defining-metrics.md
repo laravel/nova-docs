@@ -150,7 +150,7 @@ By default, Nova will handle results of `0` as a result containing no data. This
 return $this->result(0)->allowZeroResult();
 ```
 
-### Formatting The Value
+### Formatting the Value
 
 You can add a prefix and / or suffix to the Value metric's result by invoking the `prefix` and `suffix` methods when returning the `ValueResult` instance:
 
@@ -361,7 +361,7 @@ public function ranges()
 }
 ```
 
-### Displaying The Current Value
+### Displaying the Current Value
 
 Sometimes, you may wish to emphasize the value for the latest trend metric time interval. For example, in this screenshot, six users have been created during the last day:
 
@@ -395,7 +395,7 @@ public function calculate(NovaRequest $request)
 }
 ```
 
-#### Displaying The Trend Sum
+#### Displaying the Trend Sum
 
 By default, Nova only displays the last value of a trend metric as the emphasized, "current" value. However, sometimes you may wish to show the total count of the trend instead. You can accomplish this by invoking the `showSumValue` method when returning your values from a trend metric:
 
@@ -404,7 +404,7 @@ return $this->countByDays($request, User::class)
             ->showSumValue();
 ```
 
-### Formatting The Trend Value
+### Formatting the Trend Value
 
 Sometimes you may wish to add a prefix or suffix to the emphasized, "current" trend value. To accomplish this, you may use the `prefix` and `suffix` methods:
 
@@ -645,7 +645,7 @@ return $this->count($request, User::class, function ($query) {
 }, target: 200)->avoid();
 ```
 
-### Formatting The Progress Value
+### Formatting the Progress Value
 
 Sometimes you may wish to add a prefix or suffix to the current progress value. To accomplish this, you may use the `prefix` and `suffix` methods:
 
@@ -714,7 +714,7 @@ class NewReleases extends Table
 }
 ```
 
-### Adding Actions To Table Rows
+### Adding Actions to Table Rows
 
 While table metrics are great for showing progress, documentation links, or recent entries to your models, they become even more powerful by attaching actions to them.
 
@@ -770,7 +770,7 @@ class NewReleases extends Table
 You can learn more about menu customization by reading the [menu item customization documentation](/customization/menus.html#menu-items).
 :::
 
-### Displaying Icons On Table Rows
+### Displaying Icons on Table Rows
 
 Table metrics also support displaying an icon to the left of the title and subtitle for each row. You can use this information to visually delineate different table rows by type, or by using them to show progress on an internal process.
 
@@ -831,14 +831,14 @@ MetricTableRow::make()
 
 :::tip Heroicons
 
-Nova utilizes the free icon set [Heroicons UI](https://github.com/sschoger/heroicons-ui) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
+Nova utilizes the free icon set [Heroicons UI](https://v1.heroicons.com/) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
 :::
 
 ### Customizing Table Metric Empty Text
 
 If you're dynamically generating rows for your table metric, there may be times where there are no results to display. By default, Nova will show the user "No Results Found...".
 
-But sometimes you may wish to customize this text to give the user more context. For instance, say you created a table metric named "Recent Users" that did not have any users to display. You may customize the message shown using the `emptyText` method:
+But, sometimes you may wish to customize this text to give the user more context. For example, a metric named "Recent Users" may not have any users to display because there are no recent users. In these situations, you may customize the "no results" message using the `emptyText` method:
 
 ```php
 use App\Nova\Metrics\RecentUsers;
