@@ -10,7 +10,7 @@ Nova notifications allow you to notify Nova users of events within your applicat
 
 ## Sending Notifications
 
-To send a notification, you simple need to send a `NovaNotification` instance to a user's `notify` method. Of course, before getting started, you should ensure that your user model is [notifiable](https://laravel.com/docs/notifications).
+To send a notification, you simply need to send a `NovaNotification` instance to a user's `notify` method. Of course, before getting started, you should ensure that your user model is [notifiable](https://laravel.com/docs/notifications).
 
 Nova notifications may be generated via the `NovaNotification` class, which provides convenient methods like `message`, `action`, `icon`, and `type`. The currently supported notification types include `success`, `error`, `warning`, and `info`:
 
@@ -93,3 +93,25 @@ public function boot()
     Nova::withoutNotificationCenter();
 }
 ```
+
+## Enabling Unread Notifications Count
+
+By default, Nova shows a visual indicator when there are unread notifications inside the notification center. 
+If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountOnNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
+
+```php
+use Laravel\Nova\Nova;
+
+/**
+ * Boot any application services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    parent::boot();
+
+    Nova::showUnreadCountOnNotificationCenter();
+}
+```
+
