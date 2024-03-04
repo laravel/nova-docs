@@ -97,7 +97,7 @@ public function boot()
 ## Enabling Unread Notifications Count
 
 By default, Nova shows a visual indicator when there are unread notifications inside the notification center. 
-If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountOnNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
+If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountInNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
 
 ```php
 use Laravel\Nova\Nova;
@@ -111,7 +111,7 @@ public function boot()
 {
     parent::boot();
 
-    Nova::showUnreadCountOnNotificationCenter();
+    Nova::showUnreadCountInNotificationCenter();
 }
 ```
 
