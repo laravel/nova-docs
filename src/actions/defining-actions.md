@@ -195,9 +195,11 @@ Text::make('Subject')->default(function ($request) {
 
 ## Action Responses
 
-Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods available via the `Action` class. To display a custom "success" message, you may invoke the `Action::message` method from your `handle` method:
+Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods available via the `ActionResponse` class. To display a custom "success" message, you may invoke the `ActionResponse::message` method from your `handle` method:
 
 ```php
+use Laravel\Nova\Actions\ActionResponse;
+
 /**
  * Perform the action on the given models.
  *
@@ -209,46 +211,56 @@ public function handle(ActionFields $fields, Collection $models)
 {
     // ...
 
-    return Action::message('It worked!');
+    return ActionResponse::message('It worked!');
 }
 ```
 
-To return a red, "danger" message, you may invoke the `Action::danger` method:
+To return a red, "danger" message, you may invoke the `ActionResponse::danger` method:
 
 ```php
-return Action::danger('Something went wrong!');
+use Laravel\Nova\Actions\ActionResponse;
+
+return ActionResponse::danger('Something went wrong!');
 ```
 
 ### Redirect Responses
 
-To redirect the user to an entirely new location after the action is executed, you may use the `Action::redirect` method:
+To redirect the user to an entirely new location after the action is executed, you may use the `ActionResponse::redirect` method:
 
 ```php
-return Action::redirect('https://example.com');
+use Laravel\Nova\Actions\ActionResponse;
+
+return ActionResponse::redirect('https://example.com');
 ```
 
-To redirect the user to another location within Nova, you may use the `Action::visit` method:
+To redirect the user to another location within Nova, you may use the `ActionResponse::visit` method:
 
 ```php
-return Action::visit('/resources/posts/new', [
+use Laravel\Nova\Actions\ActionResponse;
+
+return ActionResponse::visit('/resources/posts/new', [
     'viaResource' => 'users',
     'viaResourceId' => 1,
     'viaRelationship' => 'posts'
 ]);
 ```
 
-To redirect the user to a new location in a new browser tab, you may use the `Action::openInNewTab` method:
+To redirect the user to a new location in a new browser tab, you may use the `ActionResponse::openInNewTab` method:
 
 ```php
-return Action::openInNewTab('https://example.com');
+use Laravel\Nova\Actions\ActionResponse;
+
+return ActionResponse::openInNewTab('https://example.com');
 ```
 
 ### Download Responses
 
-To initiate a file download after the action is executed, you may use the `Action::downloadUrl` method. The `downloadUrl` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
+To initiate a file download after the action is executed, you may use the `ActionResponse::download` method. The `download` method accepts the desired name of the file as its first argument, and the URL of the file to be downloaded as its second argument:
 
 ```php
-return Action::downloadUrl('https://example.com/invoice.pdf', 'Invoice.pdf');
+use Laravel\Nova\Actions\ActionResponse;
+
+return ActionResponse::download('Invoice.pdf', 'https://example.com/invoice.pdf');
 ```
 
 ### Custom Modal Responses
