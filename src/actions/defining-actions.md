@@ -245,10 +245,10 @@ return Action::openInNewTab('https://example.com');
 
 ### Download Responses
 
-To initiate a file download after the action is executed, you may use the `Action::download` method. The `download` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
+To initiate a file download after the action is executed, you may use the `Action::downloadURL` method. The `downloadURL` method accepts the URL of the file to be downloaded as its first argument, and the desired name of the file as its second argument:
 
 ```php
-return Action::download('https://example.com/invoice.pdf', 'Invoice.pdf');
+return Action::downloadURL('https://example.com/invoice.pdf', 'Invoice.pdf');
 ```
 
 ### Custom Modal Responses
