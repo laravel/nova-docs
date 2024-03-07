@@ -1456,7 +1456,7 @@ Trix::make('Biography')->withFiles('public'),
 
 In addition, Nova will define two database tables to store pending and persisted `Field` uploads. These two tables will be created automatically when you run Nova's migrations during installation: `nova_pending_field_attachments` and `nova_field_attachments`.
 
-Finally, in your `routes/console` file, you should register a [daily scheduled task](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
+Finally, in your `routes/console.php` file, you should register a [daily scheduled task](https://laravel.com/docs/scheduling) to prune any stale attachments from the pending attachments table and storage. For convenience, Laravel Nova provides the job implementation needed to accomplish this:
 
 ```php
 use Illuminate\Support\Facades\Schedule;
