@@ -7,7 +7,7 @@
 Laravel Nova has a few requirements you should be aware of before installing:
 
 - Composer
-- Laravel Framework 8.x, 9.x, 10.x, or 11.x
+- Laravel Framework 8.x, 9.x, or 10.x
 - Laravel Mix 6
 - Node.js (Version 14.x+)
 - NPM 9
@@ -49,8 +49,8 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 ```json
 "require": {
-    "php": "^8.2",
-    "laravel/framework": "^11.0",
+    "php": "^8.1",
+    "laravel/framework": "^10.0",
     "laravel/nova": "^4.0"
 },
 ```
@@ -76,6 +76,8 @@ php artisan nova:install
 
 php artisan migrate
 ```
+
+After running this command, verify that the `App\Providers\NovaServiceProvider` was added to the `providers` array in your `app` configuration file. If it wasn't, you should add it manually. Of course, if your application does not use the `App` namespace, you should update the provider class name as needed.
 
 The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
