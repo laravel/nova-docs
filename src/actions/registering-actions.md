@@ -235,7 +235,7 @@ public function actions()
 
 ### Visit Actions
 
-The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name and the path you want them to visit:
+The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name, the path and query strings you want them to visit:
 
 ```php
 use Laravel\Nova\Nova;
@@ -243,9 +243,15 @@ use Laravel\Nova\Nova;
 public function actions()
 {
     return [
-        Action::visit('View Logs', Nova::url('/logs'))->standalone(),
+        Action::visit('View Logs', Nova::url('/logs'), [])->standalone(),
     ];
 }
+```
+
+You need to pass an empty `[]` as 3rd parameter to skip assigning query string, otherwise you may assign query string using the following:
+
+```php
+Action::visit('View Logs', Nova::url('/logs'), ['page' => 2, 'search' => 'Laravel'])->standalone(),
 ```
 
 ### Danger Actions
