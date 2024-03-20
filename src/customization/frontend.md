@@ -26,7 +26,7 @@ Nova.visit(`/resources/users/${userId}`)
 Nova.visit({ url: 'https://nova.laravel.com', remote: true })
 ```
 
-The `visit` method accepts an array of navigation options as its second argument. As the `visit` method uses Inertia's own `visit` method behind the scenes, all of [Inertia's `visit` options](https://inertiajs.com/manual-visits) are supported by Nova's `visit` method:
+The `visit` method accepts an array of navigation options as its second argument. As the `visit` method uses Inertia's own `visit` method behind the scenes, all of [Inertia's `visit` options](https://legacy.inertiajs.com/manual-visits) are supported by Nova's `visit` method:
 
 ```js
 Nova.visit(`/resources/users/${userId}`, {
