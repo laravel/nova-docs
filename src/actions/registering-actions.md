@@ -233,9 +233,9 @@ public function actions()
 }
 ```
 
-### Visit Actions
+### Internal Redirect Actions
 
-The `visit` action will push the user to an internal page inside Nova. To create a `visit` action, pass the action's name, the path and query strings you want them to visit:
+The `internalRedirect` action will push the user to an internal page inside Nova. To create an `internalRedirect` action, simply provide the action's name and path to the method. If needed, query string values may be provided as the third argument to the `internalRedirect` method:
 
 ```php
 use Laravel\Nova\Nova;
@@ -243,15 +243,11 @@ use Laravel\Nova\Nova;
 public function actions()
 {
     return [
-        Action::visit('View Logs', Nova::url('/logs'), [])->standalone(),
+        Action::internalRedirect('View Logs', Nova::url('/logs'))->standalone(),
+
+        Action::internalRedirect('View Logs', Nova::url('/logs'), ['page' => 2])->standalone(),
     ];
 }
-```
-
-You need to pass an empty `[]` as 3rd parameter to skip assigning query string, otherwise you may assign query string using the following:
-
-```php
-Action::visit('View Logs', Nova::url('/logs'), ['page' => 2, 'search' => 'Laravel'])->standalone(),
 ```
 
 ### Danger Actions
