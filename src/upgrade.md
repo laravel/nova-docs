@@ -281,7 +281,7 @@ mix
 
 **This change primarily affects the installation of custom tools that utilize Vue routing.**
 
-Nova 4 has replaced Vue router with [Inertia.js](https://inertiajs.com). Therefore, custom tools should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
+Nova 4 has replaced Vue router with [Inertia.js](https://legacy.inertiajs.com). Therefore, custom tools should migrate from registering Vue routes to registering Inertia.js page components and backend routes. For example, given the following Nova 3 Vue router registration:
 
 ```js
 // Within tool.js...

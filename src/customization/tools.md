@@ -70,7 +70,7 @@ The tool's service provider is also located within the `src` directory of the to
 
 Often, you will need to define Laravel routes that are called by your tool. When Nova generates your tool, it creates `routes/inertia.php` and `routes/api.php` route files.
 
-The `routes/inertia.php` file is tasked with rendering your tool via [Inertia](https://inertiajs.com), while the `routes/api.php` file may be used to define any routes that your Inertia based tool will be making requests to in order to gather additional data or perform additional tasks.
+The `routes/inertia.php` file is tasked with rendering your tool via [Inertia](https://legacy.inertiajs.com), while the `routes/api.php` file may be used to define any routes that your Inertia based tool will be making requests to in order to gather additional data or perform additional tasks.
 
 All routes within the `routes/api.php` file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all "API routes", which will typically be invoked from the client via [Nova.request](./frontend.md#nova-requests), should receive a `/nova-vendor/tool-name` URL prefix, where `tool-name` is the "kebab-case" name of your tool.
 
