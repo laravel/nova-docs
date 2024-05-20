@@ -86,7 +86,7 @@ To learn more about making actions batchable, please consult the [action batchin
 
 ### New Fields
 
-Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect`, and `URL`. For more information on using these fields, please consult the [field documentation](/v4/resources/fields.html).
+Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect`, and `URL`. For more information on using these fields, please consult the [field documentation](/4.0/resources/fields.html).
 
 ![Color Field](./img/color.png)
 
@@ -121,7 +121,7 @@ Text::make('Recipient')
     ),
 ```
 
-To learn more, please consult the [Dependent Fields documentation](/v4/resources/fields.html#dependent-fields).
+To learn more, please consult the [Dependent Fields documentation](/4.0/resources/fields.html#dependent-fields).
 
 ### Filterable Fields
 
@@ -133,7 +133,7 @@ DateTime::make('Created At')->filterable(),
 
 ![Filterable fields](./resources/img/filterable-fields-date.png)
 
-To learn more, please consult the [Filterable Fields documentation](/v4/resources/fields.html#filterable-fields).
+To learn more, please consult the [Filterable Fields documentation](/4.0/resources/fields.html#filterable-fields).
 
 ### Notifications
 
@@ -204,7 +204,7 @@ The brand new resource preview modal gives you a sneak peek at the resource's da
 
 ![Resource Preview](./resources/img/resource-preview.png)
 
-To learn more about adding fields to the resource preview modal, check out the [field documentation](/v4/resources/fields.html#resource-preview-modal).
+To learn more about adding fields to the resource preview modal, check out the [field documentation](/4.0/resources/fields.html#resource-preview-modal).
 
 ### HasOne::ofMany Support
 

@@ -190,7 +190,7 @@ public function cards(NovaRequest $request)
 
 ## Metric Help Text / Tooltips
 
-Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to the metric's value. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/v5/resources/fields.html#field-help-text):
+Sometimes a metric needs to offer the user more context about how the value is calculated or other details related to the metric's value. To provide this context, Nova allows you to define a help text "tooltip", which can be registered similarly to [Field Help Text](/4.0/resources/fields.html#field-help-text):
 
 ![Metric Help Tooltip](./img/metric-tooltip-help.png)
 

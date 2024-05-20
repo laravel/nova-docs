@@ -2,7 +2,7 @@
   "name": "nova-docs",
   "type": "module",
   "dependencies": {
-    "@hempworks/pilgrim": "^0.2.0",
+    "@hempworks/pilgrim": "file:~/Projects/laravel/pilgrim-theme",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.14",
     "tailwindcss": "^3.3.3",

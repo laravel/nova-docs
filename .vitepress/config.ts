@@ -73,166 +73,166 @@ export default defineConfigWithTheme<ThemeConfig>({
             { text: 'Video Tutorials', link: 'https://laracasts.com/series/laravel-nova-mastery-2023-edition' },
         ],
         versions: [
-            { text: 'v5.0', link: '/docs/v5/', current: true },
-            { text: 'v4.0', link: '/docs/v4/' },
+            { text: 'v5.0', link: '/docs/5.0/', current: true },
+            { text: 'v4.0', link: '/docs/4.0/' },
             { text: 'v3.0', link: 'https://github.com/laravel/nova-docs/tree/3.x'},
             { text: 'v2.0', link: 'https://github.com/laravel/nova-docs/tree/2.x'},
             { text: 'v1.0', link: 'https://github.com/laravel/nova-docs/tree/1.x'},
         ],
         sidebar: {
-            '/v5/': [
+            '/5.0/': [
                 {
                     text: "Getting Started",
                     items: [
-                        { text: 'Installation', link: '/v5/installation.html' },
-                        { text: 'Release Notes', link: '/v5/releases.html' },
-                        { text: 'Upgrade Guide', link: '/v5/upgrade.html' },
-                        { text: 'Support & Bug Reports', link: '/v5/support.html' },
-                        { text: 'Code of Conduct', link: '/v5/code-of-conduct.html' },
+                        { text: 'Installation', link: '/5.0/installation.html' },
+                        { text: 'Release Notes', link: '/5.0/releases.html' },
+                        { text: 'Upgrade Guide', link: '/5.0/upgrade.html' },
+                        { text: 'Support & Bug Reports', link: '/5.0/support.html' },
+                        { text: 'Code of Conduct', link: '/5.0/code-of-conduct.html' },
                     ]
                 },
                 {
                     text: "Resources",
                     items: [
-                        { text: 'The Basics', link: '/v5/resources/' },
-                        { text: 'Fields', link: '/v5/resources/fields.html' },
-                        { text: 'Date Fields', link: '/v5/resources/date-fields.html' },
-                        { text: 'Repeater Fields', link: '/v5/resources/repeater-fields.html' },
-                        { text: 'Relationships', link: '/v5/resources/relationships.html' },
-                        { text: 'Validation', link: '/v5/resources/validation.html' },
-                        { text: 'Authorization', link: '/v5/resources/authorization.html' },
+                        { text: 'The Basics', link: '/5.0/resources/' },
+                        { text: 'Fields', link: '/5.0/resources/fields.html' },
+                        { text: 'Date Fields', link: '/5.0/resources/date-fields.html' },
+                        { text: 'Repeater Fields', link: '/5.0/resources/repeater-fields.html' },
+                        { text: 'Relationships', link: '/5.0/resources/relationships.html' },
+                        { text: 'Validation', link: '/5.0/resources/validation.html' },
+                        { text: 'Authorization', link: '/5.0/resources/authorization.html' },
                     ]
                 },
                 {
                     text: "Search",
                     items: [
-                        { text: 'The Basics', link: '/v5/search/' },
-                        { text: 'Global Search', link: '/v5/search/global-search.html' },
-                        { text: 'Scout Integration', link: '/v5/search/scout-integration.html' },
+                        { text: 'The Basics', link: '/5.0/search/' },
+                        { text: 'Global Search', link: '/5.0/search/global-search.html' },
+                        { text: 'Scout Integration', link: '/5.0/search/scout-integration.html' },
                     ]
                 },
                 {
                     text: "Filters",
                     items: [
-                        { text: 'Defining Filters', link: '/v5/filters/defining-filters.html' },
-                        { text: 'Registering Filters', link: '/v5/filters/registering-filters.html' },
+                        { text: 'Defining Filters', link: '/5.0/filters/defining-filters.html' },
+                        { text: 'Registering Filters', link: '/5.0/filters/registering-filters.html' },
                     ]
                 },
                 {
                     text: "Lenses",
                     items: [
-                        { text: 'Defining Lenses', link: '/v5/lenses/defining-lenses.html' },
-                        { text: 'Registering Lenses', link: '/v5/lenses/registering-lenses.html' },
+                        { text: 'Defining Lenses', link: '/5.0/lenses/defining-lenses.html' },
+                        { text: 'Registering Lenses', link: '/5.0/lenses/registering-lenses.html' },
                     ],
                 },
                 {
                     text: "Actions",
                     items: [
-                        { text: 'Defining Actions', link: '/v5/actions/defining-actions.html' },
-                        { text: 'Registering Actions', link: '/v5/actions/registering-actions.html' },
+                        { text: 'Defining Actions', link: '/5.0/actions/defining-actions.html' },
+                        { text: 'Registering Actions', link: '/5.0/actions/registering-actions.html' },
                     ],
                 },
                 {
                     text: "Metrics",
                     items: [
-                        { text: 'Defining Metrics', link: '/v5/metrics/defining-metrics.html' },
-                        { text: 'Registering Metrics', link: '/v5/metrics/registering-metrics.html' },
+                        { text: 'Defining Metrics', link: '/5.0/metrics/defining-metrics.html' },
+                        { text: 'Registering Metrics', link: '/5.0/metrics/registering-metrics.html' },
                     ],
                 },
                 {
                     text: "Digging Deeper",
                     items: [
-                        { text: 'Dashboards', link: '/v5/customization/dashboards.html' },
-                        { text: 'Menus', link: '/v5/customization/menus.html' },
-                        { text: 'Notifications', link: '/v5/customization/notifications.html' },
-                        { text: 'Impersonation', link: '/v5/customization/impersonation.html' },
-                        { text: 'Tools', link: '/v5/customization/tools.html' },
-                        { text: 'Resource Tools', link: '/v5/customization/resource-tools.html' },
-                        { text: 'Cards', link: '/v5/customization/cards.html' },
-                        { text: 'Fields', link: '/v5/customization/fields.html' },
-                        { text: 'Filters', link: '/v5/customization/filters.html' },
-                        { text: 'CSS & JavaScript', link: '/v5/customization/frontend.html' },
-                        { text: 'Assets', link: '/v5/customization/assets.html' },
-                        { text: 'Localization', link: '/v5/customization/localization.html' },
-                        { text: 'Stubs', link: '/v5/customization/stubs.html' },
+                        { text: 'Dashboards', link: '/5.0/customization/dashboards.html' },
+                        { text: 'Menus', link: '/5.0/customization/menus.html' },
+                        { text: 'Notifications', link: '/5.0/customization/notifications.html' },
+                        { text: 'Impersonation', link: '/5.0/customization/impersonation.html' },
+                        { text: 'Tools', link: '/5.0/customization/tools.html' },
+                        { text: 'Resource Tools', link: '/5.0/customization/resource-tools.html' },
+                        { text: 'Cards', link: '/5.0/customization/cards.html' },
+                        { text: 'Fields', link: '/5.0/customization/fields.html' },
+                        { text: 'Filters', link: '/5.0/customization/filters.html' },
+                        { text: 'CSS & JavaScript', link: '/5.0/customization/frontend.html' },
+                        { text: 'Assets', link: '/5.0/customization/assets.html' },
+                        { text: 'Localization', link: '/5.0/customization/localization.html' },
+                        { text: 'Stubs', link: '/5.0/customization/stubs.html' },
                     ],
                 }
             ],
-            '/v4/': [
+            '/4.0/': [
                 {
                     text: "Getting Started",
                     items: [
-                        { text: 'Installation', link: '/v4/installation.html' },
-                        { text: 'Release Notes', link: '/v4/releases.html' },
-                        { text: 'Upgrade Guide', link: '/v4/upgrade.html' },
-                        { text: 'Support & Bug Reports', link: '/v4/support.html' },
-                        { text: 'Code of Conduct', link: '/v4/code-of-conduct.html' },
+                        { text: 'Installation', link: '/4.0/installation.html' },
+                        { text: 'Release Notes', link: '/4.0/releases.html' },
+                        { text: 'Upgrade Guide', link: '/4.0/upgrade.html' },
+                        { text: 'Support & Bug Reports', link: '/4.0/support.html' },
+                        { text: 'Code of Conduct', link: '/4.0/code-of-conduct.html' },
                     ]
                 },
                 {
                     text: "Resources",
                     items: [
-                        { text: 'The Basics', link: '/v4/resources/' },
-                        { text: 'Fields', link: '/v4/resources/fields.html' },
-                        { text: 'Date Fields', link: '/v4/resources/date-fields.html' },
-                        { text: 'Repeater Fields', link: '/v4/resources/repeater-fields.html' },
-                        { text: 'Relationships', link: '/v4/resources/relationships.html' },
-                        { text: 'Validation', link: '/v4/resources/validation.html' },
-                        { text: 'Authorization', link: '/v4/resources/authorization.html' },
+                        { text: 'The Basics', link: '/4.0/resources/' },
+                        { text: 'Fields', link: '/4.0/resources/fields.html' },
+                        { text: 'Date Fields', link: '/4.0/resources/date-fields.html' },
+                        { text: 'Repeater Fields', link: '/4.0/resources/repeater-fields.html' },
+                        { text: 'Relationships', link: '/4.0/resources/relationships.html' },
+                        { text: 'Validation', link: '/4.0/resources/validation.html' },
+                        { text: 'Authorization', link: '/4.0/resources/authorization.html' },
                     ]
                 },
                 {
                     text: "Search",
                     items: [
-                        { text: 'The Basics', link: '/v4/search/' },
-                        { text: 'Global Search', link: '/v4/search/global-search.html' },
-                        { text: 'Scout Integration', link: '/v4/search/scout-integration.html' },
+                        { text: 'The Basics', link: '/4.0/search/' },
+                        { text: 'Global Search', link: '/4.0/search/global-search.html' },
+                        { text: 'Scout Integration', link: '/4.0/search/scout-integration.html' },
                     ]
                 },
                 {
                     text: "Filters",
                     items: [
-                        { text: 'Defining Filters', link: '/v4/filters/defining-filters.html' },
-                        { text: 'Registering Filters', link: '/v4/filters/registering-filters.html' },
+                        { text: 'Defining Filters', link: '/4.0/filters/defining-filters.html' },
+                        { text: 'Registering Filters', link: '/4.0/filters/registering-filters.html' },
                     ]
                 },
                 {
                     text: "Lenses",
                     items: [
-                        { text: 'Defining Lenses', link: '/v4/lenses/defining-lenses.html' },
-                        { text: 'Registering Lenses', link: '/v4/lenses/registering-lenses.html' },
+                        { text: 'Defining Lenses', link: '/4.0/lenses/defining-lenses.html' },
+                        { text: 'Registering Lenses', link: '/4.0/lenses/registering-lenses.html' },
                     ],
                 },
                 {
                     text: "Actions",
                     items: [
-                        { text: 'Defining Actions', link: '/v4/actions/defining-actions.html' },
-                        { text: 'Registering Actions', link: '/v4/actions/registering-actions.html' },
+                        { text: 'Defining Actions', link: '/4.0/actions/defining-actions.html' },
+                        { text: 'Registering Actions', link: '/4.0/actions/registering-actions.html' },
                     ],
                 },
                 {
                     text: "Metrics",
                     items: [
-                        { text: 'Defining Metrics', link: '/v4/metrics/defining-metrics.html' },
-                        { text: 'Registering Metrics', link: '/v4/metrics/registering-metrics.html' },
+                        { text: 'Defining Metrics', link: '/4.0/metrics/defining-metrics.html' },
+                        { text: 'Registering Metrics', link: '/4.0/metrics/registering-metrics.html' },
                     ],
                 },
                 {
                     text: "Digging Deeper",
                     items: [
-                        { text: 'Dashboards', link: '/v4/customization/dashboards.html' },
-                        { text: 'Menus', link: '/v4/customization/menus.html' },
-                        { text: 'Notifications', link: '/v4/customization/notifications.html' },
-                        { text: 'Impersonation', link: '/v4/customization/impersonation.html' },
-                        { text: 'Tools', link: '/v4/customization/tools.html' },
-                        { text: 'Resource Tools', link: '/v4/customization/resource-tools.html' },
-                        { text: 'Cards', link: '/v4/customization/cards.html' },
-                        { text: 'Fields', link: '/v4/customization/fields.html' },
-                        { text: 'Filters', link: '/v4/customization/filters.html' },
-                        { text: 'CSS & JavaScript', link: '/v4/customization/frontend.html' },
-                        { text: 'Assets', link: '/v4/customization/assets.html' },
-                        { text: 'Localization', link: '/v4/customization/localization.html' },
-                        { text: 'Stubs', link: '/v4/customization/stubs.html' },
+                        { text: 'Dashboards', link: '/4.0/customization/dashboards.html' },
+                        { text: 'Menus', link: '/4.0/customization/menus.html' },
+                        { text: 'Notifications', link: '/4.0/customization/notifications.html' },
+                        { text: 'Impersonation', link: '/4.0/customization/impersonation.html' },
+                        { text: 'Tools', link: '/4.0/customization/tools.html' },
+                        { text: 'Resource Tools', link: '/4.0/customization/resource-tools.html' },
+                        { text: 'Cards', link: '/4.0/customization/cards.html' },
+                        { text: 'Fields', link: '/4.0/customization/fields.html' },
+                        { text: 'Filters', link: '/4.0/customization/filters.html' },
+                        { text: 'CSS & JavaScript', link: '/4.0/customization/frontend.html' },
+                        { text: 'Assets', link: '/4.0/customization/assets.html' },
+                        { text: 'Localization', link: '/4.0/customization/localization.html' },
+                        { text: 'Stubs', link: '/4.0/customization/stubs.html' },
                     ],
                 }
             ],
@@ -241,7 +241,13 @@ export default defineConfigWithTheme<ThemeConfig>({
             provider: 'local',
             options: {
                 placeholder: 'Search Nova Docs...',
-            },
+                _render(src, env, md) {
+                    const html = md.render(src, env)
+                    if (env.frontmatter?.search === false) return ''
+                    if (env.relativePath.startsWith('4.0')) return ''
+                    return html
+                }
+            }
         }
     },
     vite: {

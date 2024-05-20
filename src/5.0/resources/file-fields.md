@@ -86,7 +86,7 @@ Image::make('Profile Photo')->indexWidth(60)->detailWidth(150),
 
 :::tip Max Width
 
-You may also use the `maxWidth`, `indexWidth`, and `detailWidth` methods on the [Avatar](#avatars) and [Gravatar](/v4/resources/fields.html#gravatar-field) fields.
+You may also use the `maxWidth`, `indexWidth`, and `detailWidth` methods on the [Avatar](#avatars) and [Gravatar](/5.0/resources/fields.html#gravatar-field) fields.
 :::
 
 ## Avatars

@@ -100,7 +100,7 @@ Once your configuration has been updated, you should review the following list o
 
 ### Registering a Nova License Key and Production URL
 
-Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account. You can learn more in the [installation docs](/v5/installation.html#registering-a-nova-license-key-and-production-url).
+Nova requires a license key a production URL to be used in production environments. Nova will check your license key and the current host against the values from the license details found in your Nova account. You can learn more in the [installation docs](/5.0/installation.html#registering-a-nova-license-key-and-production-url).
 
 ### Updating Third-Party Nova Packages
 
