@@ -6,10 +6,10 @@
 
 Laravel Nova has a few requirements you should be aware of before installing:
 
-- Composer
-- Laravel Framework 8.x, 9.x, 10.x, or 11.x
+- Composer 2
+- Laravel Framework 10.x, or 11.x
 - Laravel Mix 6
-- Node.js (Version 14.x+)
+- Node.js (Version 18.x+)
 - NPM 9
 
 ## Browser Support
@@ -25,7 +25,7 @@ Nova supports modern versions of the following browsers:
 
 :::warning Zip Downloads
 
-Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 4 installation is always performed via Composer.
+Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 5 installation is always performed via Composer.
 :::
 
 You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
@@ -51,7 +51,7 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 "require": {
     "php": "^8.2",
     "laravel/framework": "^11.0",
-    "laravel/nova": "^4.0"
+    "laravel/nova": "^5.0"
 },
 ```
 
@@ -103,10 +103,10 @@ You can generate license keys and register the production URL for your project i
 You can register a wildcard subdomain for your production URL for use in multi-tenant scenarios (e.g. `*.laravel.com`).
 :::
 
-You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
+You can register your license key by setting the `NOVA_LICENSE_KEY` option in your `.env` environment variables file:
 
-```php
-'license_key' => env('NOVA_LICENSE_KEY', ''),
+```ini
+NOVA_LICENSE_KEY=
 ```
 
 ### Verifying Your Nova License Key Configuration
@@ -160,11 +160,9 @@ Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` meth
  */
 protected function gate()
 {
-    Gate::define('viewNova', function ($user) {
-        return in_array($user->email, [
-            'taylor@laravel.com',
-        ]);
-    });
+    Gate::define('viewNova', fn ($user) => in_array($user->email, [
+        'taylor@laravel.com',
+    ]));
 }
 ```
 
@@ -219,10 +217,8 @@ use Illuminate\Support\Facades\Blade;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -269,12 +265,12 @@ use Laravel\Nova\Nova;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
-    Nova::initialPath('/resources/users');
+    parent::register();
+    
+    Nova::initialPath('/resources/users'); // [!code focus]
 
     // ...
 }
@@ -283,18 +279,19 @@ public function register()
 In addition to a string path, the `initialPath` method also accepts a closure that returns the path that should be loaded. This allows you to dynamically determine the initial path based on the incoming request:
 
 ```php
+use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
-    Nova::initialPath(function ($request) {
-        return $request->user()->initialPath();
-    });
+    parent::register();
+
+    Nova::initialPath(
+        fn (Request $request) => $request->user()->initialPath()
+    );
 
     // ...
 }
@@ -309,10 +306,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -326,9 +321,9 @@ The `withBreadcrumbs` method also accepts a closure that allows you to enable br
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 
-Nova::withBreadcrumbs(function (NovaRequest $request) {
-    return $request->user()->wantsBreadcrumbs();
-});
+Nova::withBreadcrumbs(
+    fn (NovaRequest $request) => $request->user()->wantsBreadcrumbs()
+);
 ```
 
 ### Enabling RTL Support
@@ -340,10 +335,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -357,7 +350,9 @@ The `enableRTL` method also accept a closure that allows you to enable RTL suppo
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 
-Nova::enableRTL(fn (Request $request) => $request->user()->wantsRTL());
+Nova::enableRTL(
+    fn (Request $request) => $request->user()->wantsRTL()
+);
 ```
 
 ### Disabling Nova's Theme Switcher
@@ -369,10 +364,8 @@ use Laravel\Nova\Nova;
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
