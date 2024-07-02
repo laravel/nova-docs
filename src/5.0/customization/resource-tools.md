@@ -23,7 +23,33 @@ Nova resource tools include all of the scaffolding necessary to build your tool.
 Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields and tools available to the resource. To register your resource tool, add your tool to the array of fields returned by this method:
 
 ```php
+use Acme\StripeInspector\StripeInspector; # [!code ++]
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array
+ */
+public function fields(NovaRequest $request) # [!code focus:7]
+{
+    return [
+        ID::make()->sortable(),
+        StripeInspector::make(), # [!code ++]
+    ];
+}
+```
+
+### Authorization
+
+If you would like to only expose a given tool to certain users, you may invoke the `canSee` method when registering your tool. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
+
+```php
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the fields displayed by the resource.
@@ -35,33 +61,10 @@ public function fields(NovaRequest $request)
 {
     return [
         ID::make()->sortable(),
-
-        StripeInspector::make(),
-    ];
-}
-```
-
-### Authorization
-
-If you would like to only expose a given tool to certain users, you may invoke the `canSee` method when registering your tool. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
-
-```php
-use Acme\StripeInspector\StripeInspector;
-
-/**
- * Get the fields displayed by the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function fields(NovaRequest $request)
-{
-    return [
-        ID::make('ID', 'id')->sortable(),
-
-        StripeInspector::make()->canSee(function ($request) {
-            return $request->user()->managesBilling();
-        }),
+        StripeInspector::make()  # [!code focus:4]
+            ->canSee(function ($request) { # [!code ++:3]
+                return $request->user()->managesBilling();
+            }),
     ];
 }
 ```
@@ -71,8 +74,6 @@ public function fields(NovaRequest $request)
 Often, you will need to allow the consumer's of your tool to customize run-time configuration options on the tool. You may do this by exposing methods on your tool class. These methods may call the tool's underlying `withMeta` method to add information to the tool's metadata, which will be available within your `Tool.vue` component. The `withMeta` method accepts an array of key / value options:
 
 ```php
-<?php
-
 namespace Acme\StripeInspector;
 
 use Laravel\Nova\ResourceTool;
@@ -94,7 +95,7 @@ class StripeInspector extends ResourceTool
      *
      * @return $this
      */
-    public function issuesRefunds()
+    public function issuesRefunds() # [!code ++:4] # [!code focus:4]
     {
         return $this->withMeta(['issuesRefunds' => true]);
     }
@@ -125,6 +126,8 @@ Resource tools also offer the ability to dynamically set options on the tool wit
 
 ```php
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the fields displayed by the resource.
@@ -135,9 +138,9 @@ use Acme\StripeInspector\StripeInspector;
 public function fields(NovaRequest $request)
 {
     return [
-        ID::make('ID', 'id')->sortable(),
-
-        StripeInspector::make()->issuesRefunds(),
+        ID::make()->sortable(),
+        StripeInspector::make()  # [!code focus:2]
+            ->issuesRefunds(), # [!code ++]
     ];
 }
 ```
@@ -184,7 +187,7 @@ public function boot()
         $this->routes();
     });
 
-    Nova::serving(function (ServingNova $event) {
+    Nova::serving(function (ServingNova $event) { # [!code focus:4]
         Nova::script('stripe-inspector', __DIR__.'/../dist/js/tool.js');
         Nova::style('stripe-inspector', __DIR__.'/../dist/css/tool.css');
     });

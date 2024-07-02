@@ -18,7 +18,7 @@ Nova notifications may be generated via the `NovaNotification` class, which prov
 use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\URL;
 
-$request->user()->notify(
+$request->user()->notify( # [!code focus:6]
     NovaNotification::make()
         ->message('Your report is ready to download.')
         ->action('Download', URL::remote('https://example.com/report.pdf'))
@@ -30,8 +30,8 @@ $request->user()->notify(
 You may also send a Nova notification by including the `NovaChannel` in the array of channels returned by a notification's `via` method:
 
 ```php
-use Laravel\Nova\Notifications\NovaNotification;
-use Laravel\Nova\Notifications\NovaChannel;
+use Laravel\Nova\Notifications\NovaNotification;  # [!code ++]
+use Laravel\Nova\Notifications\NovaChannel; # [!code ++]
 use Laravel\Nova\URL;
 
 /**
@@ -40,9 +40,9 @@ use Laravel\Nova\URL;
  * @param mixed $notifiable
  * @return array
  */
-public function via($notifiable)
+public function via($notifiable) # [!code focus:4]
 {
-    return [NovaChannel::class];
+    return [NovaChannel::class]; # [!code ++]
 }
 
 /**
@@ -50,9 +50,9 @@ public function via($notifiable)
  * 
  * @return array
  */
-public function toNova()
+public function toNova() # [!code ++:8]
 {
-    return (new NovaNotification)
+    return (new NovaNotification) 
         ->message('Your report is ready to download.')
         ->action('Download', URL::remote('https://example.com/report.pdf'))
         ->icon('download')
@@ -65,9 +65,15 @@ public function toNova()
 When defining a notification action, the `openInNewTab` method may be invoked to instruct Nova to open the given URL in a new browser tab:
 
 ```php
-->action(
-    'Download', URL::remote('https://example.com/report.pdf')
-)->openInNewTab()
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\URL;
+
+return (new NovaNotification) # [!code focus:6]
+    ->message('Your report is ready to download.')
+    ->action('Download', URL::remote('https://example.com/report.pdf'))
+    ->openInNewTab() # [!code ++]
+    ->icon('download')
+    ->type('info');
 ```
 
 #### Notification Icons
@@ -79,18 +85,26 @@ Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve
 If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider`: 
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- *
- * @return void
- */
-public function boot()
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
 
-    Nova::withoutNotificationCenter();
+        Nova::withoutNotificationCenter(); # [!code ++] # [!code focus]
+
+        //
+    }
 }
 ```
 
@@ -100,18 +114,26 @@ By default, Nova shows a visual indicator when there are unread notifications in
 If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountInNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- *
- * @return void
- */
-public function boot()
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
 
-    Nova::showUnreadCountInNotificationCenter();
+        Nova::showUnreadCountInNotificationCenter(); # [!code ++] # [!code focus]
+
+        //
+    }
 }
 ```
 

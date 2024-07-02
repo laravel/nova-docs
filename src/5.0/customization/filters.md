@@ -23,38 +23,52 @@ Nova filters include all of the scaffolding necessary to build your filter. Each
 Nova filters may be registered in your resource's `filters` method. This method returns an array of filters available to the resource. To register your filter, add your filter to the array of filters returned by this method:
 
 ```php
-use Acme\AgeRange\AgeRange;
+namespace App\Nova;
 
-/**
- * Get the filters available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function filters(NovaRequest $request)
+use Acme\AgeRange\AgeRange; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
 {
-    return [
-        new AgeRange,
-    ];
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function filters(NovaRequest $request) # [!code focus:7]
+    {
+        return []; # [!code --]
+        return [ # [!code ++:3]
+            new AgeRange,
+        ];
+    }
 }
 ```
 
 Alternatively, you may use the `make` method to instantiate your filter: 
 
 ```php
-use Acme\AgeRange\AgeRange;
+namespace App\Nova;
 
-/**
- * Get the filters available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function filters(NovaRequest $request)
+use Acme\AgeRange\AgeRange; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
 {
-    return [
-        AgeRange::make(),
-    ];
+    /**
+     * Get the filters available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function filters(NovaRequest $request) # [!code focus:7]
+    {
+        return []; # [!code --]
+        return [ # [!code ++:3]
+            AgeRange::make(), # [!code ++]
+        ];
+    }
 }
 ```
 
@@ -75,13 +89,19 @@ When Nova generates your filter, it creates a `resources/js/components/Filter.vu
 Custom Nova filters use Vuex to manage their state. By default, your filter's Vue component stub contains the basic logic necessary to update the filter's current state. When modifying your filter's component, you should make sure the changes are committed to the Vuex store when your filter's "selected" value changes:
 
 ```js
-handleChange(event) {
-    this.$store.commit('updateFilterState', {
-        filterClass: this.filterKey,
-        value: event.target.value,
-    })
+methods: {
 
-    this.$emit('change')
+    handleChange(e) {
+        this.value = e
+        this.debouncedEmit()
+    },
+
+    emitChange() { // [!code focus:6]
+        this.$emit('change', {
+            filterClass: this.filterKey,
+            value: this.value,
+        })
+    },
 }
 ```
 
@@ -99,12 +119,10 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
-    Nova::serving(function (ServingNova $event) {
+    Nova::serving(function (ServingNova $event) { # [!code ++:5] # [!code focus:5]
         Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
         Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
         Nova::translations(__DIR__.'/../resources/lang/en/age-range.json');

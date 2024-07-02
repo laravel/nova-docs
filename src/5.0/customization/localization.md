@@ -23,15 +23,17 @@ Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and ot
 To map your existing locales to IETF language tags, you may use the `Nova::userLocale` method. Typically, you should invoke this method in the `boot` method of your application's `NovaServiceProvider`:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
-class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
      * Boot any application services.
      */
-    public function boot(): void # [!code focus]
+    public function boot(): void
     {
         parent::boot();
 
@@ -53,7 +55,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+class Post extends Resource
 {
     /**
      * Get the displayable label of the resource.
@@ -81,7 +85,9 @@ class Post extends Resource # [!code focus]
 To customize labels for the resource's create and update buttons, you may override the `createButtonLabel` and `updateButtonLabel` methods on the resource:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+class Post extends Resource
 {
     /**
      * Get the text for the create resource button.
@@ -111,9 +117,25 @@ class Post extends Resource # [!code focus]
 Field names may be localized when you attach the field to your resource. The first argument to all fields is its display name, which you may customize. For example, you might localize the title of an email address field like so:
 
 ```php
+namespace App\Nova;
+
 use Laravel\Nova\Fields\Text;
 
-Text::make(__('Email Address'), 'email_address'); # [!code focus]
+class User extends Resource
+{
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request)
+    {
+        return [
+            Text::make(__('Email Address'), 'email_address'), # [!code focus]
+        ];
+    }
+}
 ```
 
 ### Relationships
@@ -121,16 +143,33 @@ Text::make(__('Email Address'), 'email_address'); # [!code focus]
 Relationship field names may be customized by localizing the first argument passed to their field definition. The second and third arguments to Nova relationship fields are the relationship method name and the related Nova resource, respectively:
 
 ```php
-use App\Nova\Post;
+namespace App\Nova;
+
 use Laravel\Nova\Fields\HasMany;
 
-HasMany::make(__('Posts'), 'posts', Post::class); # [!code focus]
+class User extends Resource
+{
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function fields(NovaRequest $request)
+    {
+        return [
+            HasMany::make(__('Posts'), 'posts', Post::class), # [!code focus]
+        ];
+    }
+}
 ```
 
 In addition, you should also override the `label` and `singularLabel` methods on the related resource:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+class Post extends Resource
 {
     /**
      * Get the displayable label of the resource.
@@ -220,55 +259,41 @@ public function name() # [!code focus:4]
 
 ### Frontend
 
-To propagate your localizations to the frontend, you should call the `Nova::translations` method within your `NovaServiceProvider`:
+To propagate your localizations to the frontend, you should call the `Nova::translations` method within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
-
-class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+/**
+ * Boot any application services.
+ */
+public function boot(): void
 {
-    /**
-     * Boot any application services.
-     */
-    public function boot(): void # [!code focus]
-    {
-        parent::boot();
+    parent::boot();
 
-        Nova::serving(function () { # [!code ++:3] # [!code focus:3]
-            Nova::translations($pathToFile);
-        });
+    Nova::serving(function () { # [!code ++:3] # [!code focus:3]
+        Nova::translations($pathToFile);
+    });
 
-        //
-    }
-
+    //
 }
 ```
 
 You may also pass an array of key / value pairs representing each localization:
 
 ```php
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
-
-class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+/**
+ * Boot any application services.
+ */
+public function boot(): void
 {
-    /**
-     * Boot any application services.
-     */
-    public function boot(): void # [!code focus]
-    {
-        parent::boot();
+    parent::boot();
 
-        Nova::serving(function () { # [!code ++:5] # [!code focus:5]
-            Nova::translations([
-                'Total Users' => 'Total Users'
-            ]);
-        });
+    Nova::serving(function () { # [!code ++:5] # [!code focus:5]
+        Nova::translations([
+            'Total Users' => 'Total Users'
+        ]);
+    });
 
-        //
-    }
-
+    //
 }
 ```
 

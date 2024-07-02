@@ -23,17 +23,26 @@ Nova cards include all of the scaffolding necessary to build your card. Each car
 Nova cards may be registered in your resource's `cards` method. This method returns an array of cards available to the resource. To register your card, add your card to the array of cards returned by this method:
 
 ```php
-use Acme\Analytics\Analytics;
+namespace App\Nova;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function cards(NovaRequest $request)
+use Acme\Analytics\Analytics;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
-    return [new Analytics];
+    /**
+     * Get the cards available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array<int, \Laravel\Nova\Card>
+     */
+    public function cards(NovaRequest $request) # [!code focus:7]
+    {
+        return []; # [!code --]
+        return [ # [!code ++:3]
+            new Analytics(),
+        ];
+    }
 }
 ```
 
@@ -42,21 +51,26 @@ public function cards(NovaRequest $request)
 If you would like to only expose a given card to certain users, you may invoke the `canSee` method when registering your card. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
-use Acme\Analytics\Analytics;
+namespace App\Nova;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function cards(NovaRequest $request)
+use Acme\Analytics\Analytics;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
-    return [
-        (new Analytics)->canSee(function ($request) {
-            return false;
-        }),
-    ];
+    /**
+     * Get the cards available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array<int, \Laravel\Nova\Card>
+     */
+    public function cards(NovaRequest $request)
+    {
+        return [
+            (new Analytics) # [!code focus:2]
+                ->canSee(fn ($request) => false), # [!code ++]
+        ];
+    }
 }
 ```
 
@@ -65,8 +79,6 @@ public function cards(NovaRequest $request)
 Often, you will need to allow the consumer's of your card to customize run-time configuration options on the card. You may do this by exposing methods on your card class. These methods may call the card's underlying `withMeta` method to add information to the card's metadata, which will be available within your `Card.vue` component. The `withMeta` method accepts an array of key / value options:
 
 ```php
-<?php
-
 namespace Acme\Analytics;
 
 use Laravel\Nova\Card;
@@ -92,7 +104,7 @@ class Analytics extends Card
      *
      * @return $this
      */
-    public function currentVisitors()
+    public function currentVisitors() # [!code ++:4] # [!code focus:4]
     {
         return $this->withMeta(['currentVisitors' => true]);
     }
@@ -112,7 +124,21 @@ class Analytics extends Card
 After registering your custom card, don't forget to actually call any custom option methods you defined:
 
 ```php
-(new Acme\Analytics\Analytics)->currentVisitors()
+use Acme\Analytics\Analytics;
+
+/**
+ * Get the cards available for the resource.
+ *
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+ * @return array<int, \Laravel\Nova\Card>
+ */
+public function cards(NovaRequest $request)
+{
+    return [
+        (new Analytics)  # [!code focus:2]
+            ->currentVisitors(), # [!code ++]
+    ];
+}
 ```
 
 #### Accessing Card Options
@@ -151,25 +177,29 @@ The `Card.vue` file is a single-file Vue component that contains your card's fro
 Your Nova card's service provider registers your card's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+namespace Acme\Analytics;
+
+use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
-/**
- * Bootstrap any application services.
- *
- * @return void
- */
-public function boot()
+class CardServiceProvider extends ServiceProvider
 {
-    $this->app->booted(function () {
-        $this->routes();
-    });
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        $this->app->booted(function () {
+            $this->routes();
+        });
 
-    Nova::serving(function (ServingNova $event) {
-        Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
-        Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
-        Nova::translations(__DIR__.'/../resources/lang/en/card.json');
-    });
+        Nova::serving(function (ServingNova $event) { # [!code focus:5]
+            Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
+            Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
+            Nova::translations(__DIR__.'/../resources/lang/en/card.json'); # [!code ++]
+        });
+    }
 }
 ```
 

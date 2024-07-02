@@ -23,18 +23,25 @@ Nova tools include all of the scaffolding necessary to build your tool. Each too
 Nova tools may be registered in your application's `App/Providers/NovaServiceProvider` class. Your service provider contains a `tools` method, which returns an array of tools. To register your tool, simply add it to the list of tools returned by this method. For example, if you created a Nova tool named `acme/price-tracker`, you may register the tool like so:
 
 ```php
-use Acme\PriceTracker\PriceTracker;
+namespace App\Providers;
 
-/**
- * Get the tools that should be listed in the Nova sidebar.
- *
- * @return array
- */
-public function tools()
+use Acme\PriceTracker\PriceTracker;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    return [
-        new PriceTracker,
-    ];
+    /**
+     * Get the tools that should be listed in the Nova sidebar.
+     *
+     * @return array<int, \Laravel\Nova\Tool>
+     */
+    public function tools(): array # [!code focus:7]
+    {
+        return []; # [!code --]
+        return [ # [!code ++:3]
+            new PriceTracker,
+        ];
+    }
 }
 ```
 
@@ -48,14 +55,13 @@ use Acme\PriceTracker\PriceTracker;
 /**
  * Get the tools that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Tool>
  */
-public function tools()
+public function tools(): array
 {
     return [
-        (new PriceTracker)->canSee(function ($request) {
-            return false;
-        }),
+        (new PriceTracker) # [!code focus:2]
+            ->canSee(fn ($request) => false), # [!code ++]
     ];
 }
 ```
@@ -87,20 +93,22 @@ Your Nova tool is generated with an `Authorize` middleware. You should not typic
 Your Nova tool class contains a `menu` method. This method should return a [custom menu](./menus.md) that renders your tool's left-side navigation links. You are free to customize this method as needed:
 
 ```php
+namespace Acme\PriceTracker;
+
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuSection;
 
-/**
- * Build the menu that renders the navigation links for the tool.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return mixed
- */
-public function menu(Request $request)
+class PriceTracker extends Tool
 {
-    return MenuSection::make('Price Tracker')
-        ->path('/price-tracker')
-        ->icon('server');
+    /**
+     * Build the menu that renders the navigation links for the tool.
+     */
+    public function menu(Request $request): MenuSection # [!code focus:6]
+    {
+        return MenuSection::make('Price Tracker')
+            ->path('/price-tracker')
+            ->icon('server');
+    }
 }
 ```
 
@@ -124,18 +132,20 @@ The `Tool.vue` file is a single-file Vue component that contains your tool's fro
 Your Nova tool class contains a `boot` method. This method is executed when the tool is registered and available. By default, this method registers your tool's compiled assets so that they will be available to the Nova front-end:
 
 ```php
-use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
+namespace Acme\PriceTracker;
 
-/**
- * Perform any tasks that need to happen on tool registration.
- *
- * @return void
- */
-public function boot()
+use Laravel\Nova\Nova;
+
+class PriceTracker extends Tool
 {
-    Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
-    Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+    /**
+     * Perform any tasks that need to happen when the tool is booted.
+     */
+    public function boot(): void # [!code focus:5]
+    {
+        Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
+        Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+    }
 }
 ```
 
@@ -145,7 +155,7 @@ Your component is bootstrapped and Inertia.js components are registered in the `
 
 ```js
 Nova.booting((Vue, store) => {
-  Vue.component("PriceTrackerHeader", require("./components/Header").default);
+  Vue.component("PriceTrackerHeader", require("./components/Header").default); // [!code ++]
 });
 ```
 
@@ -173,6 +183,6 @@ Vue page components contained by your tool have access to all of the components 
 
 ```vue
 <template>
-  <Head title="PriceTracker" />
+  <Head title="PriceTracker" /> // [!code ++]
 </template>
 ```
