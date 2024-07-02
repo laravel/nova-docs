@@ -93,21 +93,27 @@ const basePath = Nova.config('base');
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
 
 ```php
-use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Bootstrap any application services.
- *
- * @return void
- */
-public function boot()
+class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
 {
-    Nova::serving(function (ServingNova $event) {
-        Nova::provideToScript([
-            'mail_driver' => config('mail.default'),
-        ]);
-    });
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void # [!code focus]
+    {
+        parent::boot();
+            
+        Nova::serving(function (ServingNova $event) { # [!code ++:5] # [!code focus:5]
+            Nova::provideToScript([
+                'mail_driver' => config('mail.default'),
+            ]);
+        });
+
+        //
+    }
 }
 ```
 
@@ -124,6 +130,8 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 ### Using Nova Mixins
 
 Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to this file within the Nova installation that is located within your root application's `vendor` directory. This alias should be placed in your package's `nova.mix.js`:
+
+#@TODO
 
 ```js
 'laravel-nova': path.join(

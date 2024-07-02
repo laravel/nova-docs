@@ -57,22 +57,18 @@ Before resources are available within your Nova dashboard, they must first be re
 There are two approaches to manually registering resources. You may use the `resourcesIn` method to instruct Nova to register all Nova resources within a given directory. Alternatively, you may use the `resources` method to manually register individual resources:
 
 ```php
-<?php 
-
 namespace App\Providers;
 
 use App\Nova\User;
 use App\Nova\Post;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
-class NovaServiceProvider extends NovaApplicationServiceProvider
+class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
 {
     /**
      * Register the application's Nova resources.
-     *
-     * @return void
      */
-    protected function resources() # [!code focus:9]
+    protected function resources(): void # [!code focus:9]
     {
         Nova::resourcesIn(app_path('Nova'));
 
@@ -91,12 +87,12 @@ Once your resources are registered with Nova, they will be available in the Nova
 If you do not want a resource to appear in the sidebar, you may override the `displayInNavigation` property of your resource class:
 
 ```php
-/**
- * Indicates if the resource should be displayed in the sidebar.
- *
- * @var bool
- */
-public static $displayInNavigation = false;  # [!code focus]
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false; # [!code ++] # [!code focus]
 ```
 
 #### Customizing Resource Menus
@@ -104,19 +100,31 @@ public static $displayInNavigation = false;  # [!code focus]
 You can customize the resource's menu by defining a `menu` method on your resource class:
 
 ```php
+namespace App\Nova;
+
 use Illuminate\Http\Request;
 
-/**
- * Get the menu that should represent the resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return \Laravel\Nova\Menu\MenuItem
- */
-public function menu(Request $request) # [!code ++:6]  # [!code focus:6]
+class Post extends Resource # [!code focus]
 {
-    return parent::menu($request)->withBadge(function () {
-        return static::$model::count();
-    });
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string
+     */
+    public static $model = 'App\Models\Post'; # [!code focus]
+
+    /**
+     * Get the menu that should represent the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Laravel\Nova\Menu\MenuItem
+     */
+    public function menu(Request $request) # [!code ++:6]  # [!code focus:6]
+    {
+        return parent::menu($request)->withBadge(function () {
+            return static::$model::count();
+        });
+    }
 }
 ```
 
@@ -127,12 +135,16 @@ Please refer to the documentation on [menu customization](./../customization/men
 If you would like to separate resources into different sidebar groups, you may override the `group` property of your resource class:
 
 ```php
-/**
- * The logical group associated with the resource.
- *
- * @var string
- */
-public static $group = 'Admin';  # [!code focus]
+class Post extends Resource # [!code focus]
+{    
+    /**
+     * The logical group associated with the resource.
+     *
+     * @var string
+     */
+    public static $group = 'Admin'; # [!code ++] # [!code focus]
+
+}
 ```
 
 ## Resource Table Style Customization
@@ -144,12 +156,16 @@ Nova supports a few visual customization options for your resources.
 Sometimes it's convenient to show more data on your resource index tables. To accomplish this, you can use the "tight" table style option designed to increase the visual density of your table rows. To accomplish this, override the static `$tableStyle` property or the static `tableStyle` method on your resource class:
 
 ```php
-/**
- * The visual style used for the table. Available options are 'tight' and 'default'.
- *
- * @var string
- */
-public static $tableStyle = 'tight';  # [!code focus]
+class Post extends Resource # [!code focus]
+{
+    /**
+     * The visual style used for the table. Available options are 'tight' and 'default'.
+     *
+     * @var string
+     */
+    public static $tableStyle = 'tight'; # [!code ++] # [!code focus]
+
+}
 ```
 
 This will display your table rows with less visual height, enabling more data to be shown:
@@ -161,12 +177,16 @@ This will display your table rows with less visual height, enabling more data to
 You can instruct Nova to display column borders by overriding the static `$showColumnBorders` property or the static `showColumnBorders` method on your resource class:
 
 ```php
-/**
- * Whether to show borders for each column on the X-axis.
- *
- * @var bool
- */
-public static $showColumnBorders = true;  # [!code focus]
+class Post extends Resource # [!code focus]
+{
+    /**
+     * Whether to show borders for each column on the X-axis.
+     *
+     * @var bool
+     */
+    public static $showColumnBorders = true; # [!code ++] # [!code focus]
+
+}
 ```
 
 Setting this property to `true` will instruct Nova to display the table with borders on every table item:
@@ -178,14 +198,18 @@ Setting this property to `true` will instruct Nova to display the table with bor
 By default, when clicking on a resource table row, Nova will navigate to the detail view for the resource. However, you may want Nova to navigate to the edit form instead. You can customize this behavior by changing the `clickAction` property on the resource's class:
 
 ```php
-/**
- * The click action to use when clicking on the resource in the table.
- *
- * Can be one of: 'detail' (default), 'edit', 'select', 'preview', or 'ignore'.
- *
- * @var string
- */
-public static $clickAction = 'edit';  # [!code focus]
+class Post extends Resource # [!code focus]
+{
+    /**
+     * The click action to use when clicking on the resource in the table.
+     *
+     * Can be one of: 'detail' (default), 'edit', 'select', 'preview', or 'ignore'.
+     *
+     * @var string
+     */
+    public static $clickAction = 'edit'; # [!code ++] # [!code focus]
+
+}
 ```
 
 Choosing the `select` option will select the resource row's checkbox. The `ignore` option instructs Nova to ignore click events altogether.
@@ -197,12 +221,16 @@ If you routinely need to access a resource's relationships within your fields, [
 For example, if you access a `Post` resource's `user` relationship within the `Post` resource's `subtitle` method, you should add the `user` relationship to the `Post` resource's `with` property:
 
 ```php
-/**
- * The relationships that should be eager loaded on index queries.
- *
- * @var array
- */
-public static $with = ['user'];  # [!code focus]
+class Post extends Resource # [!code focus]
+{
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['user']; # [!code ++] # [!code focus]
+
+}
 ```
 
 ## Resource Replication
@@ -214,21 +242,25 @@ Sometimes, you may want to create a new resource while using all of the data fro
 To customize the replication model, you can override the `replicate` method on the resource class:
 
 ```php
-/**
- * Return a replicated resource.
- *
- * @return static
- *
- * @throws \InvalidArgumentException
- */
-public function replicate()  # [!code focus]
-{  # [!code focus]
-    return tap(parent::replicate(), function ($resource) {  # [!code focus]
-        $model = $resource->model();  # [!code focus]
+class Post extends Resource # [!code focus]
+{
+    /**
+     * Return a replicated resource.
+     *
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function replicate() # [!code ++:8] # [!code focus:2]
+    {
+        return tap(parent::replicate(), function ($resource) {
+            $model = $resource->model();
 
-        $model->name = 'Duplicate of '.$model->name;  # [!code focus]
-    });  # [!code focus]
-}  # [!code focus]
+            $model->name = 'Duplicate of '.$model->name;
+        });
+    } # [!code focus]
+
+}
 ```
 
 ::: warning Attachments May Not Be Replicated
@@ -242,8 +274,8 @@ If you need to store a reference to the original resource's ID, you may access t
 namespace App\Observers;
 
 use App\Models\Post;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++]
+use Laravel\Nova\Nova; # [!code ++]
 
 class PostObserver
 {
@@ -253,11 +285,11 @@ class PostObserver
      * @param  \App\Models\Post  $model
      * @return void
      */
-    public function creating(Post $model): void
+    public function creating(Post $model): void # [!code focus:6]
     {
-        Nova::whenServing(function (NovaRequest $request) use ($model) {  # [!code focus]
-            $model->parent_id = $request->input('fromResourceId');  # [!code focus]
-        });  # [!code focus]
+        Nova::whenServing(function (NovaRequest $request) use ($model) { # [!code ++:3]
+            $model->parent_id = $request->input('fromResourceId'); 
+        });
     }
 }
 ```
@@ -269,8 +301,8 @@ All Nova operations use the typical `save`, `delete`, `forceDelete`, `restore` E
 ```php
 namespace App\Providers;
 
-use App\Models\User;
-use App\Observers\UserObserver;
+use App\Models\User; # [!code ++]
+use App\Observers\UserObserver; # [!code ++]
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -284,19 +316,7 @@ class AppServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        User::observe(UserObserver::class);  # [!code focus]
-    }
-
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        parent::register();
-        
-        //
+        User::observe(UserObserver::class);  # [!code ++] # [!code focus]
     }
 }
 ```
@@ -304,20 +324,22 @@ class AppServiceProvider extends ServiceProvider
 If you would like to attach an observer whose methods are invoked **only during** Nova related HTTP requests, you may register observers using the `make` method provided by the `Laravel\Nova\Observable` class. Typically, this should be done within your application's `NovaServiceProvider`:
 
 ```php
-use App\Models\User;
-use Laravel\Nova\Observable;
-use App\Observers\UserObserver;
+use App\Models\User; # [!code ++]
+use Laravel\Nova\Observable; # [!code ++] # [!code focus]
+use App\Observers\UserObserver; # [!code ++]
+use Laravel\Nova\NovaApplicationServiceProvider;
 
+class NovaServiceProvider extends NovaApplicationServiceProvider
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
-    Observable::make(User::class, UserObserver::class);  # [!code focus]
+    Observable::make(User::class, UserObserver::class); # [!code ++] # [!code focus]
+
+    //
 }
 ```
 
@@ -327,9 +349,9 @@ Alternatively, you can determine if the current HTTP request is serving a Nova r
 namespace App\Observers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
+use Illuminate\Http\Request; # [!code focus]
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code focus]
+use Laravel\Nova\Nova; # [!code focus]
 
 class UserObserver
 {
@@ -341,11 +363,11 @@ class UserObserver
      */
     public function created(User $user)
     {
-        Nova::whenServing(function (NovaRequest $request) use ($user) {  # [!code focus]
-            // Only invoked during Nova requests...  # [!code focus]
-        }, function (Request $request) use ($user) {  # [!code focus]
-            // Invoked for non-Nova requests...  # [!code focus]
-        });  # [!code focus]
+        Nova::whenServing(function (NovaRequest $request) use ($user) { # [!code ++:5] # [!code focus]
+            // Only invoked during Nova requests...
+        }, function (Request $request) use ($user) { # [!code focus]
+            // Invoked for non-Nova requests...
+        }); # [!code focus]
 
         // Always invoked...
     }
@@ -365,12 +387,11 @@ Nova also allows you to define the following static methods on a resource to ser
 For example, you may want to send an email verification notification after a user has been created within Nova:
 
 ```php
-use App\Models\User;
 use App\Nova\Resource;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class User extends Resource # [!code focus]
 {
     /**
      * Register a callback to be called after the resource is created.
@@ -379,10 +400,10 @@ class User extends Resource
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
-    public static function afterCreate(NovaRequest $request, Model $model)  # [!code focus]
-    {  # [!code focus]
-        $model->sendEmailVerificationNotification();  # [!code focus]
-    }  # [!code focus]
+    public static function afterCreate(NovaRequest $request, Model $model) # [!code ++:4] # [!code focus:2]
+    {
+        $model->sendEmailVerificationNotification();
+    } # [!code focus]
 }
 ```
 
@@ -395,27 +416,35 @@ If a model has been updated since it was last retrieved by Nova, Nova will autom
 If you are not concerned with preventing conflicts, you can disable the Traffic Cop feature by setting the `trafficCop` property to `false` on a given resource class:
 
 ```php
-/**
- * Indicates whether Nova should check for modifications between viewing and updating a resource.
- *
- * @var bool
- */
-public static $trafficCop = false;  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Indicates whether Nova should check for modifications between viewing and updating a resource.
+     *
+     * @var bool
+     */
+    public static $trafficCop = false; # [!code ++] # [!code focus]
+
+}
 ```
 
 You may also override the `trafficCop` method on the resource if you have more intense customization needs in order to determine if this feature should be enabled:
 
 ```php
-/**
- * Indicates whether Nova should check for modifications between viewing and updating a resource.
- *
- * @param  \Illuminate\Http\Request  $request
- * @return  bool
-*/
-public static function trafficCop(Request $request)  # [!code focus]
-{  # [!code focus]
-    return static::$trafficCop;  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Indicates whether Nova should check for modifications between viewing and updating a resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return  bool
+    */
+    public static function trafficCop(Request $request) # [!code ++:4] # [!code focus:2]
+    {
+        return static::$trafficCop;
+    } # [!code focus]
+
+}
 ```
 
 :::tip Time Synchronization
@@ -428,23 +457,31 @@ If you are experiencing issues with traffic cop you should ensure that your syst
 Nova can automatically fetch the latest records for a resource at a specified interval. To enable polling, override the `polling` property of your Resource class:
 
 ```php
-/**
- * Indicates whether the resource should automatically poll for new resources.
- *
- * @var bool
- */
-public static $polling = true;  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Indicates whether the resource should automatically poll for new resources.
+     *
+     * @var bool
+     */
+    public static $polling = true; # [!code ++] # [!code focus]
+
+}
 ```
 
 To customize the polling interval, you may override the `pollingInterval` property on your resource class with the number of seconds Nova should wait before fetching new resource records:
 
 ```php
-/**
- * The interval at which Nova should poll for new resources.
- *
- * @var int
- */
-public static $pollingInterval = 5;  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * The interval at which Nova should poll for new resources.
+     *
+     * @var int
+     */
+    public static $pollingInterval = 5; # [!code ++] # [!code focus]
+
+}
 ```
 
 ## Toggling Resource Polling
@@ -452,12 +489,16 @@ public static $pollingInterval = 5;  # [!code focus]
 By default, when resource polling is enabled, there is no way to disable it once the page loads. You can instruct Nova to display a start / stop toggle button for resource polling by setting the `showPollingToggle` property on your resource class to `true`:
 
 ```php
-/**
- * Indicates whether to show the polling toggle button inside Nova.
- *
- * @var bool
- */
-public static $showPollingToggle = true;  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Indicates whether to show the polling toggle button inside Nova.
+     *
+     * @var bool
+     */
+    public static $showPollingToggle = true; # [!code ++] # [!code focus]
+
+}
 ```
 
 Nova will then display a clickable button that you may use to enable / disable polling for the resource:
@@ -477,7 +518,7 @@ Behind the scenes, Nova's redirect features use Inertia.js's `visit` method. Bec
 ```php
 use Laravel\Nova\URL;
 
-return URL::remote('https://nova.laravel.com');  # [!code focus]
+return URL::remote('https://nova.laravel.com');
 ```
 
 #### After Creating Redirection
@@ -485,17 +526,21 @@ return URL::remote('https://nova.laravel.com');  # [!code focus]
 You may customize where a user is redirected after creating a resource using by overriding your resource's `redirectAfterCreate` method:
 
 ```php
-/**
- * Return the location to redirect the user after creation.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @param  \Laravel\Nova\Resource  $resource
- * @return \Laravel\Nova\URL|string
- */
-public static function redirectAfterCreate(NovaRequest $request, $resource)  # [!code focus]
-{  # [!code focus]
-    return '/resources/'.static::uriKey().'/'.$resource->getKey();  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Return the location to redirect the user after creation.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterCreate(NovaRequest $request, $resource) # [!code ++:4] # [!code focus:2]
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    } # [!code focus]
+
+}
 ```
 
 #### After Updating Redirection
@@ -503,17 +548,21 @@ public static function redirectAfterCreate(NovaRequest $request, $resource)  # [
 You may customize where a user is redirected after updating a resource using by overriding your resource's `redirectAfterUpdate` method:
 
 ```php
-/**
- * Return the location to redirect the user after update.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @param  \Laravel\Nova\Resource  $resource
- * @return \Laravel\Nova\URL|string
- */
-public static function redirectAfterUpdate(NovaRequest $request, $resource)  # [!code focus]
-{  # [!code focus]
-    return '/resources/'.static::uriKey().'/'.$resource->getKey();  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Return the location to redirect the user after update.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Laravel\Nova\Resource  $resource
+     * @return \Laravel\Nova\URL|string
+     */
+    public static function redirectAfterUpdate(NovaRequest $request, $resource) # [!code ++:4] # [!code focus:2]
+    {
+        return '/resources/'.static::uriKey().'/'.$resource->getKey();
+    }  # [!code focus]
+
+}
 ```
 
 #### After Deletion Redirection
@@ -521,16 +570,20 @@ public static function redirectAfterUpdate(NovaRequest $request, $resource)  # [
 You may customize where a user is redirected after deleting a resource using by overriding your resource's `redirectAfterDelete` method:
 
 ```php
-/**
- * Return the location to redirect the user after deletion.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return \Laravel\Nova\URL|string|null
- */
-public static function redirectAfterDelete(NovaRequest $request)  # [!code focus]
-{  # [!code focus]
-    return null;  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Return the location to redirect the user after deletion.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return \Laravel\Nova\URL|string|null
+     */
+    public static function redirectAfterDelete(NovaRequest $request) # [!code ++:4] # [!code focus:2]
+    {
+        return null;
+    }  # [!code focus]
+
+}
 ```
 
 ## Pagination
@@ -546,7 +599,7 @@ Nova has the ability to show pagination links for your Resource listings. You ca
 By default, Nova Resources are displayed using the "simple" style. However, you may customize this to use either the `load-more` or `links` styles by changing the value of the `pagination` configuration option within your application's `config/nova.php` configuration file:
 
 ```php
-'pagination' => 'links',
+    'pagination' => 'links',
 ```
 
 ### Customizing Pagination
@@ -554,26 +607,34 @@ By default, Nova Resources are displayed using the "simple" style. However, you 
 If you would like to customize the selectable maximum result amounts shown on each resource's "per page" filter menu, you can do so by customizing the resource's `perPageOptions` property:
 
 ```php
-/**
- * The pagination per-page options configured for this resource.
- *
- * @return array
- */
-public static $perPageOptions = [50, 100, 150];  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * The pagination per-page options configured for this resource.
+     *
+     * @return array
+     */
+    public static $perPageOptions = [50, 100, 150]; # [!code ++] # [!code focus]
+
+}
 ```
 
 Alternatively, you can override the `perPageOptions` method on your application's base `Resource` class, which is created when you install Nova:
 
 ```php
-/**
- * The pagination per-page options configured for this resource.
- *
- * @return array
- */
-public static function perPageOptions()  # [!code focus]
-{  # [!code focus]
-    return [50, 100, 150];  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * The pagination per-page options configured for this resource.
+     *
+     * @return array
+     */
+    public static function perPageOptions() # [!code ++:4] # [!code focus:2]
+    {
+        return [50, 100, 150];
+    } # [!code focus]
+
+}
 ```
 
 :::tip Customizing <code>perPageOptions</code> & Resource Fetching
@@ -584,12 +645,16 @@ Changing the value of `perPageOptions` on your `Resource` will cause Nova to fet
 Using the `$perPageViaRelationship` property, you may also customize the number of resources displayed when a particular resource is displayed on another resource's detail view as a relationship:
 
 ```php
-/**
- * The number of resources to show per page via relationships.
- *
- * @var int
- */
-public static $perPageViaRelationship = 10;  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * The number of resources to show per page via relationships.
+     *
+     * @var int
+     */
+    public static $perPageViaRelationship = 10; # [!code ++] # [!code focus]
+
+}
 ```
 
 ## CSV Export
@@ -599,28 +664,31 @@ Occasionally you may need to export a group of resource records as a CSV file so
 To get started, add the `Laravel\Nova\Actions\ExportAsCsv` [action](./../actions/registering-actions.md) to your Nova resource:
 
 ```php
-use Laravel\Nova\Actions\ExportAsCsv;
+use Laravel\Nova\Actions\ExportAsCsv; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function actions(NovaRequest $request)  # [!code focus]
-{  # [!code focus]
-    return [  # [!code focus]
-        ExportAsCsv::make(),  # [!code focus]
-    ];  # [!code focus]
-}  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * Get the actions available for the resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @return array
+     */
+    public function actions(NovaRequest $request) # [!code focus:6]
+    {
+        return []; # [!code --]
+        return [ # [!code ++:3]
+            ExportAsCsv::make(),
+        ];
+    }
 ```
 
 If you would like to allow the user to name the CSV file that is downloaded, you may invoke the `nameable` method when registering the action:
 
 ```php
 return [
-    ExportAsCsv::make()->nameable(),
+    ExportAsCsv::make()->nameable(), # [!code focus]
 ];
 ```
 
@@ -628,13 +696,14 @@ If you would like to customize and format the fields that are included in the ge
 
 ```php
 return [
-    ExportAsCsv::make()->withFormat(function ($model) {
-        return [
-            'ID' => $model->getKey(),
-            'Name' => $model->name,
-            'Email Address' => $model->email,
-        ];
-    }),
+    ExportAsCsv::make()
+        ->withFormat(function ($model) { # [!code ++:7] # [!code focus:2]
+            return [
+                'ID' => $model->getKey(),
+                'Name' => $model->name,
+                'Email Address' => $model->email,
+            ]; # [!code focus]
+        }), # [!code focus]
 ];
 ```
 
@@ -643,12 +712,16 @@ return [
 You may wish to customize the search debounce timing of an individual resource's index listing. For example, the queries executed to retrieve some resources may take longer than others. You can customize an individual resource's search debounce by setting the `debounce` property on the resource class:
 
 ```php
-/**
- * The debounce amount (in seconds) to use when searching this resource.
- *
- * @var float
- */
-public static $debounce = 0.5; // 0.5 seconds  # [!code focus]
+class User extends Resource # [!code focus]
+{
+    /**
+     * The debounce amount (in seconds) to use when searching this resource.
+     *
+     * @var float
+     */
+    public static $debounce = 0.5; // 0.5 seconds # [!code ++] # [!code focus]
+
+}
 ```
 
 ## Keyboard Shortcuts

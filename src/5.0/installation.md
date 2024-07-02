@@ -212,7 +212,7 @@ To customize the color used as the "primary" color within the Nova interface, yo
 
     // 'logo' => resource_path('/img/example-logo.svg'),
 
-     // 'colors' => [ # [!code --:5]
+     // 'colors' => [ # [!code --:5] # [!code focus:5]
      //     "400" => "24, 182, 155, 0.5",
      //     "500" => "24, 182, 155",
      //     "600" => "24, 182, 155, 0.75",
@@ -259,7 +259,7 @@ public function boot(): void
 Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
 
 ```php
-'guard' => env('NOVA_GUARD', null),
+    'guard' => env('NOVA_GUARD', null),
 ```
 
 ### Customizing Nova's Password Reset Functionality
@@ -267,7 +267,7 @@ Nova uses the default authentication guard defined in your `auth` configuration 
 Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
 
 ```php
-'passwords' => env('NOVA_PASSWORDS', null),
+    'passwords' => env('NOVA_PASSWORDS', null),
 ```
 
 ### Customizing Nova's Storage Disk Driver
@@ -275,7 +275,7 @@ Nova uses the default password reset broker defined in your `auth` configuration
 Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `storage_disk` value within Nova's configuration file:
 
 ```php
-'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
+    'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 
 ### Customizing Nova's Initial Path

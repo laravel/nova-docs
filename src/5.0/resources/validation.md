@@ -12,8 +12,7 @@ When defining a field on a resource, you may use the `rules` method to attach [v
 
 ```php
 Text::make('Name')
-    ->sortable()
-    ->rules('required', 'max:255'),
+    ->rules('required', 'max:255'),  # [!code ++]
 ```
 
 Of course, if you are leveraging Laravel's support for [validation rule objects](https://laravel.com/docs/validation#using-rule-objects), you may attach those to resources as well:
@@ -22,8 +21,7 @@ Of course, if you are leveraging Laravel's support for [validation rule objects]
 use App\Rules\ValidState;
 
 Text::make('State')
-    ->sortable()
-    ->rules('required', new ValidState),
+    ->rules('required', new ValidState),  # [!code ++]
 ```
 
 You may also provide rules to the `rules` method via an array or Closure:
@@ -43,12 +41,14 @@ Additionally, you may use [custom closure rules](https://laravel.com/docs/valida
 
 ```php
 Text::make('State')
-    ->sortable()
-    ->rules('required', function($attribute, $value, $fail) {
-        if (strtoupper($value) !== $value) {
-            return $fail('The '.$attribute.' field must be uppercase.');
-        }
-    }),
+    ->rules(
+        'required', 
+        function ($attribute, $value, $fail) { # [!code ++:5]
+            if (strtoupper($value) !== $value) {
+                return $fail('The '.$attribute.' field must be uppercase.');
+            }
+        },
+    ),
 ```
 
 ### Creation Rules
@@ -57,10 +57,8 @@ If you would like to define rules that only apply when a resource is being creat
 
 ```php
 Text::make('Email')
-    ->sortable()
     ->rules('required', 'email', 'max:255')
-    ->creationRules('unique:users,email')
-    ->updateRules('unique:users,email,{{resourceId}}'),
+    ->creationRules('unique:users,email'), # [!code ++]
 ```
 
 ### Update Rules
@@ -69,10 +67,9 @@ Likewise, if you would like to define rules that only apply when a resource is b
 
 ```php
 Text::make('Email')
-    ->sortable()
     ->rules('required', 'email', 'max:255')
     ->creationRules('unique:users,email')
-    ->updateRules('unique:users,email,{{resourceId}}'),
+    ->updateRules('unique:users,email,{{resourceId}}'), # [!code ++]
 ```
 
 ## After Validation Hooks
@@ -95,7 +92,7 @@ The `afterValidation` method will always be called after a resource has been val
  * @param  \Illuminate\Validation\Validator  $validator
  * @return void
  */
-protected static function afterValidation(NovaRequest $request, $validator)
+protected static function afterValidation(NovaRequest $request, $validator) # [!code ++:6] # [!code focus:6]
 {
     if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -115,7 +112,7 @@ The `afterCreationValidation` method will be called after a resource that is bei
  * @param  \Illuminate\Validation\Validator  $validator
  * @return void
  */
-protected static function afterCreationValidation(NovaRequest $request, $validator)
+protected static function afterCreationValidation(NovaRequest $request, $validator) # [!code ++:6] # [!code focus:6]
 {
     if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');
@@ -135,7 +132,7 @@ The `afterUpdateValidation` method will be called after a resource that is being
  * @param  \Illuminate\Validation\Validator  $validator
  * @return void
  */
-protected static function afterUpdateValidation(NovaRequest $request, $validator)
+protected static function afterUpdateValidation(NovaRequest $request, $validator) # [!code ++:6] # [!code focus:6]
 {
     if (self::somethingElseIsInvalid()) {
         $validator->errors()->add('field', 'Something is wrong with this field!');

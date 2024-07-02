@@ -24,14 +24,28 @@ To map your existing locales to IETF language tags, you may use the `Nova::userL
 
 ```php
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-Nova::userLocale(function () {
-    return match (app()->getLocale()) {
-        'en' => 'en-US',
-        'de' => 'de-DE',
-        default => null,
-    };
-});
+class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+{
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void # [!code focus]
+    {
+        parent::boot();
+
+        Nova::userLocale(function () { # [!code ++:7] # [!code focus:7]
+            return match (app()->getLocale()) {
+                'en' => 'en-US',
+                'de' => 'de-DE',
+                default => null,
+            };
+        });
+
+        //
+    }
+}
 ```
 
 ### Resources
@@ -39,48 +53,56 @@ Nova::userLocale(function () {
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
 
 ```php
-/**
- * Get the displayable label of the resource.
- *
- * @return string
- */
-public static function label()
+class Post extends Resource # [!code focus]
 {
-    return __('Posts');
-}
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Posts');
+    }
 
-/**
- * Get the displayable singular label of the resource.
- *
- * @return string
- */
-public static function singularLabel()
-{
-    return __('Post');
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Post');
+    }
+
 }
 ```
 
 To customize labels for the resource's create and update buttons, you may override the `createButtonLabel` and `updateButtonLabel` methods on the resource:
 
 ```php
-/**
- * Get the text for the create resource button.
- *
- * @return string|null
- */
-public static function createButtonLabel()
+class Post extends Resource # [!code focus]
 {
-    return __('Publish Post');
-}
+    /**
+     * Get the text for the create resource button.
+     *
+     * @return string|null
+     */
+    public static function createButtonLabel() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Publish Post');
+    }
 
-/**
- * Get the text for the update resource button.
- *
- * @return string|null
- */
-public static function updateButtonLabel()
-{
-    return __('Save Changes');
+    /**
+     * Get the text for the update resource button.
+     *
+     * @return string|null
+     */
+    public static function updateButtonLabel() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Save Changes');
+    }
+
 }
 ```
 
@@ -91,7 +113,7 @@ Field names may be localized when you attach the field to your resource. The fir
 ```php
 use Laravel\Nova\Fields\Text;
 
-Text::make(__('Email Address'), 'email_address');
+Text::make(__('Email Address'), 'email_address'); # [!code focus]
 ```
 
 ### Relationships
@@ -102,30 +124,33 @@ Relationship field names may be customized by localizing the first argument pass
 use App\Nova\Post;
 use Laravel\Nova\Fields\HasMany;
 
-HasMany::make(__('Posts'), 'posts', Post::class);
+HasMany::make(__('Posts'), 'posts', Post::class); # [!code focus]
 ```
 
 In addition, you should also override the `label` and `singularLabel` methods on the related resource:
 
 ```php
-/**
- * Get the displayable label of the resource.
- *
- * @return string
- */
-public static function label()
+class Post extends Resource # [!code focus]
 {
-    return __('Posts');
-}
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Posts');
+    }
 
-/**
- * Get the displayable singular label of the resource.
- *
- * @return string
- */
-public static function singularLabel()
-{
-    return __('Post');
+    /**
+     * Get the displayable singular label of the resource.
+     *
+     * @return string
+     */
+    public static function singularLabel() # [!code ++:4] # [!code focus:4]
+    {
+        return __('Post');
+    }
 }
 ```
 
@@ -139,7 +164,7 @@ Filter names may be localized by overriding the `name` method on the filter clas
  *
  * @return string
  */
-public function name()
+public function name() # [!code focus:4]
 {
     return __('Admin Users');
 }
@@ -155,7 +180,7 @@ Lens names may be localized by overriding the `name` method on the lens class:
  *
  * @return string
  */
-public function name()
+public function name() # [!code focus:4]
 {
     return __('Most Valuable Users');
 }
@@ -171,7 +196,7 @@ Action names may be localized by overriding the `name` method on the action clas
  *
  * @return string
  */
-public function name()
+public function name() # [!code focus:4]
 {
     return __('Email Account Profile');
 }
@@ -187,7 +212,7 @@ Metric names may be localized by overriding the `name` method on the metric clas
  *
  * @return string
  */
-public function name()
+public function name() # [!code focus:4]
 {
     return __('Total Users');
 }
@@ -198,19 +223,53 @@ public function name()
 To propagate your localizations to the frontend, you should call the `Nova::translations` method within your `NovaServiceProvider`:
 
 ```php
-Nova::serving(function () {
-    Nova::translations($pathToFile);
-});
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+{
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void # [!code focus]
+    {
+        parent::boot();
+
+        Nova::serving(function () { # [!code ++:3] # [!code focus:3]
+            Nova::translations($pathToFile);
+        });
+
+        //
+    }
+
+}
 ```
 
 You may also pass an array of key / value pairs representing each localization:
 
 ```php
-Nova::serving(function () {
-    Nova::translations([
-        'Total Users' => 'Total Users'
-    ]);
-});
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider # [!code focus]
+{
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void # [!code focus]
+    {
+        parent::boot();
+
+        Nova::serving(function () { # [!code ++:5] # [!code focus:5]
+            Nova::translations([
+                'Total Users' => 'Total Users'
+            ]);
+        });
+
+        //
+    }
+
+}
 ```
 
 As in Laravel, you may use the `__` helper within your custom Vue components to access these translations. To accomplish this, add the following mixins to your Inertia page component or Vue component:
@@ -236,12 +295,11 @@ If your components use the Vue Composition API, you may use the `useLocalization
 ```vue
 <template>
   <h2>{{ __('Total Users') }}</h2>
-</template>
 
 <script setup>
 import { useLocalization } from 'laravel-nova'
 
-const { __ } = useLocalization()
+const { __ } = useLocalization() 
 
 // ...
 </script>
