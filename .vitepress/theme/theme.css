@@ -1,0 +1,7 @@
+:root.light {
+    --vp-c-bg: theme(colors.gray.50) !important;
+}
+
+:root.dark {
+    --vp-c-bg: theme(colors.gray.900) !important;
+}

@@ -65,7 +65,8 @@ The following methods may be used to show / hide fields based on the display con
 You may chain any of these methods onto your field's definition in order to instruct Nova where the field should be displayed:
 
 ```php
-Text::make('Name')->hideFromIndex(),
+Text::make('Name')
+    ->hideFromIndex(), # [!code focus]
 ```
 
 Alternatively, you may pass a callback to the following methods.
@@ -85,17 +86,19 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
-Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
-    return $this->name === 'Taylor Otwell';
-}),
+Text::make('Name')
+    ->showOnIndex(function (NovaRequest $request, $resource) { # [!code focus]
+        return $this->name === 'Taylor Otwell'; # [!code focus]
+    }), # [!code focus]
 ```
 
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
-Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
-    return $this->name === 'Taylor Otwell';
-}),
+Text::make('Name')
+    ->hideFromIndex(function (NovaRequest $request, $resource) { # [!code focus]
+        return $this->name === 'Taylor Otwell'; # [!code focus]
+    }), # [!code focus]
 ```
 
 ### Showing Fields When Peeking
@@ -103,7 +106,8 @@ Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
 You may allow a field to be visible [when peeking at the resource](/5.0/resources/relationships.html#peeking-at-belongsto-relationships) by invoking the `showWhenPeeking` method when defining the field:
 
 ```php
-Text::make('Name')->showWhenPeeking(),
+Text::make('Name')
+    ->showWhenPeeking(), # [!code focus]
 ```
 
 ### Resource Preview Modal
@@ -111,17 +115,20 @@ Text::make('Name')->showWhenPeeking(),
 You may also define which fields should be included in the resource's "preview" modal. This modal can be displayed for a given resource by the user when viewing the resource's index:
 
 ```php
-Text::make('Title')->showOnPreview(),
+Text::make('Title')
+    ->showOnPreview(), # [!code focus]
 
-Markdown::make('Content')->showOnPreview(),
+Markdown::make('Content')
+    ->showOnPreview(), # [!code focus]
 ```
 
 Alternatively, you may pass a callback to the `showOnPreview` method:
 
 ```php
-Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
-    return $request->user()->can('previewContent');
-}),
+Markdown::make('Content')
+    ->showOnPreview(function (NovaRequest $request, $resource) { # [!code focus]
+        return $request->user()->can('previewContent'); # [!code focus]
+    }), # [!code focus]  
 ```
 
 ![Resource Preview](./img/resource-preview.png)
@@ -137,14 +144,14 @@ If your application requires it, you may specify a separate list of fields for s
  * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fields(NovaRequest $request)
-{
+public function fields(NovaRequest $request)  # [!code focus]
+{  # [!code focus]
     return [
         Text::make('First Name'),
         Text::make('Last Name'),
         Text::make('Job Title'),
     ];
-}
+}  # [!code focus]
 ```
 
 On your detail page, you may wish to show a combined name via a computed field, followed by the job title. In order to do this, you could add a `fieldsForDetail` method to the resource class which returns a separate list of fields that should only be displayed on the resource's detail page:
@@ -156,16 +163,16 @@ On your detail page, you may wish to show a combined name via a computed field, 
  * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array
  */
-public function fieldsForDetail(NovaRequest $request)
-{
+public function fieldsForDetail(NovaRequest $request)  # [!code focus]
+{  # [!code focus]
     return [
         Text::make('Name', function () {
-            return sprintf('%s %s', $this->first_name, $this->last_name);
+            return implode(' ', [$this->first_name, $this->last_name]);
         }),
 
         Text::make('Job Title'),
     ];
-}
+}  # [!code focus]
 ```
 
 The available methods that may be defined for individual display contexts are:
@@ -186,11 +193,11 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForInlineCreate`, `fieldsForCrea
 There are times you may wish to provide a default value to your fields. Nova offers this functionality via the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource's creation view:
 
 ```php
-BelongsTo::make('Name')->default($request->user()->getKey()),
+BelongsTo::make('Name')
+    ->default($request->user()->getKey()), # [!code focus]
 
-Text::make('Uuid')->default(function ($request) {
-    return Str::orderedUuid();
-}),
+Text::make('Uuid')
+    ->default(fn ($request) => Str::orderedUuid()), # [!code focus]
 ```
 
 ## Field Placeholder Text
@@ -198,7 +205,8 @@ Text::make('Uuid')->default(function ($request) {
 By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports placeholders by using the `placeholder` method:
 
 ```php
-Text::make('Name')->placeholder('My New Post'),
+Text::make('Name')
+    ->placeholder('My New Post'),  # [!code focus]
 ```
 
 ## Field Hydration
@@ -207,9 +215,9 @@ On every create or update request that Nova receives for a given resource, each 
 
 ```php
 Text::make('Name', 'name')
-    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
-        $model->{$attribute} = Str::title($request->input($attribute));
-    }),
+    ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {  # [!code focus]
+        $model->{$attribute} = Str::title($request->input($attribute));  # [!code focus]
+    }),  # [!code focus]
 ```
 
 ## Field Panels
@@ -234,7 +242,7 @@ public function fields(NovaRequest $request)
     return [
         ID::make()->sortable(),
 
-        Panel::make('Address Information', $this->addressFields()),
+        Panel::make('Address Information', $this->addressFields()), # [!code focus]
     ];
 }
 
@@ -243,8 +251,8 @@ public function fields(NovaRequest $request)
  *
  * @return array
  */
-protected function addressFields()
-{
+protected function addressFields() # [!code focus]
+{ # [!code focus]
     return [
         Text::make('Address', 'address_line_1')->hideFromIndex(),
         Text::make('Address Line 2')->hideFromIndex(),
@@ -253,7 +261,7 @@ protected function addressFields()
         Text::make('Postal Code')->hideFromIndex(),
         Country::make('Country')->hideFromIndex(),
     ];
-}
+} # [!code focus]
 ```
 
 You may limit the amount of fields shown in a panel by using the `limit` method:
@@ -263,7 +271,7 @@ Panel::make('Profile', [
     Text::make('Full Name'),
     Date::make('Date of Birth'),
     Text::make('Place of Birth'),
-])->limit(1),
+])->limit(1), # [!code focus]
 ```
 
 Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
@@ -273,7 +281,8 @@ Panels with a defined field limit will display a **Show All Fields** button in o
 When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
 
 ```php
-Text::make('Name', 'name_column')->sortable(),
+Text::make('Name', 'name_column')
+    ->sortable(), # [!code focus]
 ```
 
 ## Field Types
@@ -339,7 +348,8 @@ Audio::make('Theme Song'),
 By default, the `Audio` field allows the user to download the linked file. To disable downloads, you may use the `disableDownload` method on the field definition:
 
 ```php
-Audio::make('Theme Song')->disableDownload(),
+Audio::make('Theme Song')
+    ->disableDownload(), # [!code focus]
 ```
 
 You can set the [preload attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio#attr-preload) of the field by using the `preload` method:
@@ -347,7 +357,8 @@ You can set the [preload attribute](https://developer.mozilla.org/en-US/docs/Web
 ```php
 Audio::make('Theme Song')->preload('auto'),
 
-Audio::make('Theme Song')->preload(Audio::PRELOAD_METADATA),
+Audio::make('Theme Song')
+    ->preload(Audio::PRELOAD_METADATA), # [!code focus]
 ```
 
 :::tip File Fields
@@ -372,7 +383,8 @@ If a resource contains an `Avatar` field, that field will be displayed next to t
 You may use the `squared` method to display the image's thumbnail with squared edges. Additionally, you may use the `rounded` method to display its thumbnails with fully-rounded edges:
 
 ```php
-Avatar::make('Avatar')->squared(),
+Avatar::make('Avatar')
+    ->squared(), # [!code focus]
 ```
 
 ### Badge Field
@@ -382,35 +394,36 @@ The `Badge` field can be used to display the status of a `Resource` in the index
 ```php
 use Laravel\Nova\Fields\Badge;
 
-Badge::make('Status', function () {
-    return User::statuses[$this->status];
-}),
+Badge::make('Status', fn () => User::statuses[$this->status]),
 ```
 
 By default, the `Badge` field supports four variations: `info`, `success`, `danger`, and `warning`. You may define your possible field values and their associated badge types using the `map` method:
 
 ```php
-Badge::make('Status')->map([
-    'draft' => 'danger',
-    'published' => 'success',
-]),
+Badge::make('Status')
+    ->map([ # [!code focus]
+        'draft' => 'danger', # [!code focus]
+        'published' => 'success', # [!code focus]
+    ]), # [!code focus]
 ```
 
 Alternatively, you may use the `types` method to completely replace the built-in badge types and their associated CSS classes. The CSS classes may be provided as a string or an array:
 
 ```php
-Badge::make('Status')->types([
-    'draft' => 'font-medium text-gray-600',
-    'published' => ['font-bold', 'text-green-600'],
-]),
+Badge::make('Status')
+    ->types([ # [!code focus]
+        'draft' => 'font-medium text-gray-600', # [!code focus]
+        'published' => ['font-bold', 'text-green-600'], # [!code focus]
+    ]), # [!code focus]
 ```
 
 If you only wish to supplement the built-in badge types instead of overwriting all of them, you may use the `addTypes` method:
 
 ```php
-Badge::make('Status')->addTypes([
-    'draft' => 'custom classes',
-]),
+Badge::make('Status')
+    ->addTypes([ # [!code focus]
+        'draft' => 'custom classes', # [!code focus]
+    ]), # [!code focus]
 ```
 
 :::tip Editing Badge Types
@@ -421,33 +434,40 @@ By default the `Badge` field is not shown on a resource's edit or update pages. 
 If you'd like to display your badge with an associated icon, you can use the `withIcons` method to direct Nova to display an icon:
 
 ```php
-Badge::make('Status')->map([
-    'draft' => 'danger',
-    'published' => 'success',
-])->withIcons(),
+Badge::make('Status')
+    ->map([
+        'draft' => 'danger',
+        'published' => 'success',
+    ])
+    ->withIcons(), # [!code focus]
 ```
 
 If you'd like to customize the icons used when display `Badge` fields you can use the `icons` method:
 
 ```php
-Badge::make('Status')->map([
-    'draft' => 'danger',
-    'published' => 'success',
-])->icons([
-    'danger' => 'exclamation-circle',
-    'success' => 'check-circle',
-]),
+Badge::make('Status')
+    ->map([
+        'draft' => 'danger',
+        'published' => 'success',
+    ])
+    ->icons([ # [!code focus]
+        'danger' => 'exclamation-circle', # [!code focus]
+        'success' => 'check-circle', # [!code focus]
+    ]), # [!code focus]
 ```
 
 If you'd like to customize the label that is displayed you can use the `label` method:
 
 ```php
-Badge::make('Status')->map([
-    'draft' => 'danger',
-    'published' => 'success',
-])->label(function ($value) {
-    return __($value);
-}),
+use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Nova;
+
+Badge::make('Status')
+    ->map([
+        'draft' => 'danger',
+        'published' => 'success',
+    ])
+    ->label(fn ($value) => Nova::__($value)), # [!code focus]
 ```
 
 You may provide a list of labels using the `labels` method:

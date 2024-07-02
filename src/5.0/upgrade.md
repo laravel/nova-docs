@@ -23,9 +23,9 @@ Nova's upstream dependencies have been upgraded. You will find a complete list o
 
 You should update your `laravel/nova` dependency to `^5.0` in your application's `composer.json` file:
 
-```diff
--   "laravel/nova": "^4.0",
-+   "laravel/nova": "^5.0",
+```json
+    "laravel/nova": "^4.0", // [!code --]
+    "laravel/nova": "^5.0", // [!code ++]
 ```
 
 Next, install your updated your Composer dependencies:
@@ -38,10 +38,13 @@ composer update
 
 Next, update `App\Providers\NovaServiceProvider` file to include call to `parent::register()` if the method exists:
 
-```diff
+```php
+/**
+ * Register any application services.
+ */
 public function register(): void
 {
-+   parent::register();
+    parent::register(); # [!code ++]
 
     //
 }

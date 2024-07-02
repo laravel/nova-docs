@@ -31,7 +31,7 @@ Previous releases of Laravel Nova allowed Nova to be installed by downloading Zi
 You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
-"repositories": [
+"repositories": [ // [!code ++:6]
     {
         "type": "composer",
         "url": "https://nova.laravel.com"
@@ -48,11 +48,12 @@ composer config repositories.nova '{"type": "composer", "url": "https://nova.lar
 Next, you may add `laravel/nova` to your list of required packages in your `composer.json` file:
 
 ```json
-"require": {
+"require": { // [!code focus]
     "php": "^8.2",
-    "laravel/framework": "^11.0",
-    "laravel/nova": "^5.0"
-},
+    "laravel/framework": "^11.9",
+    "laravel/nova": "^5.0", // [!code ++] // [!code focus]
+    "laravel/tinker": "^2.9"
+}, // [!code focus]
 ```
 
 After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
@@ -155,14 +156,15 @@ Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` meth
  * Register the Nova gate.
  *
  * This gate determines who can access Nova in non-local environments.
- *
- * @return void
  */
-protected function gate()
+protected function gate(): void # [!code focus:8]
 {
-    Gate::define('viewNova', fn ($user) => in_array($user->email, [
-        'taylor@laravel.com',
-    ]));
+    Gate::define('viewNova', function ($user) { 
+        return in_array($user->email, [ 
+            // # [!code --]
+            'taylor@laravel.com', # [!code ++]
+        ]);
+    }); 
 }
 ```
 
@@ -179,11 +181,20 @@ Although Nova's interface is intended to be an isolated part of your application
 To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:
 
 ```php
-'brand' => [
-    'logo' => resource_path('/img/example-logo.svg'),
+// 'brand' => [ # [!code --]  # [!code focus:2]
+'brand' => [ # [!code ++]
 
-    // ...
-],
+    // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus:2]
+    'logo' => resource_path('/assets/logo.svg'), # [!code ++]
+
+     // 'colors' => [
+     //     "400" => "24, 182, 155, 0.5",
+     //     "500" => "24, 182, 155",
+     //     "600" => "24, 182, 155, 0.75",
+     // ],
+
+// ], # [!code --] # [!code focus:2]
+], # [!code ++]
 ```
 
 :::tip SVG Sizing
@@ -196,15 +207,24 @@ You may need to adjust the size and width of your SVG logo by modifying its widt
 To customize the color used as the "primary" color within the Nova interface, you may specify a value for the `brand.colors` configuration item within your application's `config/nova.php` configuration file. This color will be used as the primary button color as well as the color of various emphasized items throughout the Nova interface. This configuration value should be a valid RGB, RGBA, or HSL string value:
 
 ```php
-'brand' => [
-    // ...
+// 'brand' => [ # [!code --] # [!code focus:2]
+'brand' => [ # [!code ++]
 
-    'colors' => [
-        "400" => "24, 182, 155, 0.5",
-        "500" => "24, 182, 155",
-        "600" => "24, 182, 155, 0.75",
-    ]
-],
+    // 'logo' => resource_path('/img/example-logo.svg'),
+
+     // 'colors' => [ # [!code --:5]
+     //     "400" => "24, 182, 155, 0.5",
+     //     "500" => "24, 182, 155",
+     //     "600" => "24, 182, 155, 0.75",
+     // ],
+    'colors' => [ # [!code ++:5] # [!code focus:5]
+        "400" => "24, 182, 155, 0.5", 
+        "500" => "24, 182, 155", 
+        "600" => "24, 182, 155, 0.75", 
+    ], 
+
+// ], # [!code --] # [!code focus:2]
+], # [!code ++]
 ```
 
 ### Customizing Nova's Footer
@@ -213,7 +233,7 @@ There are times you may wish to customize Nova's default footer text to include 
 
 ```php
 use Laravel\Nova\Nova;
-use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Blade; # [!code ++]
 
 /**
  * Boot any application services.
@@ -222,13 +242,15 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::footer(function ($request) {
+    Nova::footer(function ($request) { # [!code ++:7] # [!code focus:7]
         return Blade::render('
             @env(\'prod\')
                 This is production!
             @endenv
         ');
     });
+
+    //
 }
 ```
 
@@ -270,16 +292,16 @@ public function register(): void
 {
     parent::register();
     
-    Nova::initialPath('/resources/users'); // [!code focus]
+    Nova::initialPath('/resources/users'); # [!code ++] # [!code focus]
 
-    // ...
+    //
 }
 ```
 
 In addition to a string path, the `initialPath` method also accepts a closure that returns the path that should be loaded. This allows you to dynamically determine the initial path based on the incoming request:
 
 ```php
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # [!code ++]
 use Laravel\Nova\Nova;
 
 /**
@@ -289,11 +311,11 @@ public function register(): void
 {
     parent::register();
 
-    Nova::initialPath(
+    Nova::initialPath( # [!code ++:3] # [!code focus:3]
         fn (Request $request) => $request->user()->initialPath()
     );
 
-    // ...
+    //
 }
 ```
 
@@ -311,19 +333,31 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::withBreadcrumbs();
+    Nova::withBreadcrumbs(); # [!code ++] # [!code focus]
+
+    //
 }
 ```
 
 The `withBreadcrumbs` method also accepts a closure that allows you to enable breadcrumbs for specific users or other custom scenarios:
 
 ```php
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++]
 use Laravel\Nova\Nova;
 
-Nova::withBreadcrumbs(
-    fn (NovaRequest $request) => $request->user()->wantsBreadcrumbs()
-);
+/**
+ * Boot any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
+
+    Nova::withBreadcrumbs(  # [!code ++:3] # [!code focus:3]
+        fn (NovaRequest $request) => $request->user()->wantsBreadcrumbs()
+    );
+
+    //
+}
 ```
 
 ### Enabling RTL Support
@@ -340,19 +374,31 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::enableRTL();
+    Nova::enableRTL(); # [!code ++] # [!code focus]
+
+    //
 }
 ```
 
 The `enableRTL` method also accept a closure that allows you to enable RTL support for specific users or in other custom scenarios:
 
 ```php
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # [!code ++]
 use Laravel\Nova\Nova;
 
-Nova::enableRTL(
-    fn (Request $request) => $request->user()->wantsRTL()
-);
+/**
+ * Boot any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
+
+    Nova::enableRTL( # [!code ++:3] # [!code focus:3]
+        fn (Request $request) => $request->user()->wantsRTL() 
+    );
+
+    //
+}
 ```
 
 ### Disabling Nova's Theme Switcher
@@ -369,7 +415,9 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::withoutThemeSwitcher();
+    Nova::withoutThemeSwitcher(); # [!code ++] # [!code focus]
+
+    //
 }
 ```
 
@@ -380,11 +428,21 @@ Nova uses its own internal exception handler instead of using the default `App\E
 ```php
 use Laravel\Nova\Nova;
 
-Nova::report(function ($exception) {
-    if (app()->bound('sentry')) {
-        app('sentry')->captureException($exception);
-    }
-});
+/**
+ * Register any application services.
+ */
+public function register(): void
+{
+    parent::register();
+
+    Nova::report(function ($exception) { # [!code ++:5] # [!code focus:5]
+        if (app()->bound('sentry')) {
+            app('sentry')->captureException($exception);
+        }
+    });
+
+    //
+}
 ```
 
 ## Updating Nova
@@ -415,10 +473,11 @@ php artisan nova:publish --force
 To ensure Nova's assets are updated when a new version is downloaded, you may add a Composer hook inside your project's `composer.json` file to automatically publish Nova's latest assets:
 
 ```json
-"scripts": {
-    "post-update-cmd": [
-        "@php artisan nova:publish"
-    ]
+"scripts": { // [!code focus:2]
+    "post-update-cmd": [ 
+        "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+        "@php artisan nova:publish" // [!code ++] // [!code focus:3]
+    ] 
 }
 ```
 

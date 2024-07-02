@@ -1,0 +1,51 @@
+.vp-code {
+  padding: 1.5rem 1rem;  
+}
+
+[class*='language-'].vp-adaptive-theme code .diff {
+  transition: background-color 0.5s;
+  margin: 0 -24px 0 -33px;
+  padding: 0 24px;
+  width: calc(100% + 2 * 24px);
+  display: inline-block;
+}
+
+.vp-doc [class*='language-'] code .diff::before {
+  position: absolute;
+  left: 1rem;
+}
+
+[class*='language-'].vp-adaptive-theme .has-focused-lines .line:not(.has-focus) {
+  filter: blur(0.095rem);
+  opacity: 0.4;
+  transition: filter 0.35s, opacity 0.35s;
+}
+
+[class*='language-'].vp-adaptive-theme .has-focused-lines .line:not(.has-focus) {
+  opacity: 0.7;
+  transition: filter 0.35s, opacity 0.35s;
+}
+
+[class*='language-'].vp-adaptive-theme:hover .has-focused-lines .line:not(.has-focus) {
+  filter: blur(0);
+  opacity: 1;
+}
+
+[class*='language-'].vp-adaptive-theme code .diff.remove {
+  background-color: var(--vp-code-line-diff-remove-color);
+  opacity: 0.7;
+}
+
+[class*='language-'].vp-adaptive-theme code .diff.remove::before {
+  content: '-';
+  color: var(--vp-code-line-diff-remove-symbol-color);
+}
+
+[class*='language-'].vp-adaptive-theme code .diff.add {
+  background-color: var(--vp-code-line-diff-add-color);
+}
+
+[class*='language-'].vp-adaptive-theme code .diff.add::before {
+  content: '+';
+  color: var(--vp-code-line-diff-add-symbol-color);
+}
