@@ -515,6 +515,5 @@ class Post extends Resource
     ): ScoutBuilder {
         return $query->where('user_id', $request->user()->id);
     }
-
 }
 ```

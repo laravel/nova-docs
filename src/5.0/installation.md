@@ -31,7 +31,7 @@ Previous releases of Laravel Nova allowed Nova to be installed by downloading Zi
 You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
 ```json
-"repositories": [ // [!code ++:6]
+"repositories": [
     {
         "type": "composer",
         "url": "https://nova.laravel.com"
@@ -81,7 +81,17 @@ php artisan migrate
 The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
 ```php
-public static $model = 'App\\Models\\User';
+namespace App\Nova;
+
+class User extends Resource # [!code focus]
+{
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string<\App\Models\User>
+     */
+    public static $model = \App\Models\User::class; # [!code focus]
+}
 ```
 
 If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
@@ -152,19 +162,28 @@ Nova will also not check the current license key when the subdomain is one of th
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
 ```php
-/**
- * Register the Nova gate.
- *
- * This gate determines who can access Nova in non-local environments.
- */
-protected function gate(): void # [!code focus:8]
+namespace App\Providers;
+
+use App\Models\User; # [!code focus]
+use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    Gate::define('viewNova', function ($user) { 
-        return in_array($user->email, [ 
-            // # [!code --]
-            'taylor@laravel.com', # [!code ++]
-        ]);
-    }); 
+    /**
+     * Register the Nova gate.
+     *
+     * This gate determines who can access Nova in non-local environments.
+     */
+    protected function gate(): void # [!code focus:8]
+    {
+        Gate::define('viewNova', function (User $user) { 
+            return in_array($user->email, [ 
+                // # [!code --]
+                'taylor@laravel.com', # [!code ++]
+            ]);
+        }); 
+    }
 }
 ```
 
@@ -181,20 +200,24 @@ Although Nova's interface is intended to be an isolated part of your application
 To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:
 
 ```php
-// 'brand' => [ # [!code --]  # [!code focus:2]
-'brand' => [ # [!code ++]
+return [
 
-    // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus:2]
-    'logo' => resource_path('/assets/logo.svg'), # [!code ++]
+    // 'brand' => [ # [!code --]  # [!code focus:2]
+    'brand' => [ # [!code ++]
 
-     // 'colors' => [
-     //     "400" => "24, 182, 155, 0.5",
-     //     "500" => "24, 182, 155",
-     //     "600" => "24, 182, 155, 0.75",
-     // ],
+        // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus:2]
+        'logo' => resource_path('/assets/logo.svg'), # [!code ++]
 
-// ], # [!code --] # [!code focus:2]
-], # [!code ++]
+        // 'colors' => [
+        //     "400" => "24, 182, 155, 0.5",
+        //     "500" => "24, 182, 155",
+        //     "600" => "24, 182, 155, 0.75",
+        // ],
+
+    // ], # [!code --] # [!code focus:2]
+    ], # [!code ++]
+
+];
 ```
 
 :::tip SVG Sizing
@@ -207,24 +230,30 @@ You may need to adjust the size and width of your SVG logo by modifying its widt
 To customize the color used as the "primary" color within the Nova interface, you may specify a value for the `brand.colors` configuration item within your application's `config/nova.php` configuration file. This color will be used as the primary button color as well as the color of various emphasized items throughout the Nova interface. This configuration value should be a valid RGB, RGBA, or HSL string value:
 
 ```php
-// 'brand' => [ # [!code --] # [!code focus:2]
-'brand' => [ # [!code ++]
+return [
 
-    // 'logo' => resource_path('/img/example-logo.svg'),
+    // ...
 
-     // 'colors' => [ # [!code --:5] # [!code focus:5]
-     //     "400" => "24, 182, 155, 0.5",
-     //     "500" => "24, 182, 155",
-     //     "600" => "24, 182, 155, 0.75",
-     // ],
-    'colors' => [ # [!code ++:5] # [!code focus:5]
-        "400" => "24, 182, 155, 0.5", 
-        "500" => "24, 182, 155", 
-        "600" => "24, 182, 155, 0.75", 
-    ], 
+    // 'brand' => [ # [!code --] # [!code focus:2]
+    'brand' => [ # [!code ++]
 
-// ], # [!code --] # [!code focus:2]
-], # [!code ++]
+        // 'logo' => resource_path('/img/example-logo.svg'),
+
+        // 'colors' => [ # [!code --:5] # [!code focus:5]
+        //     "400" => "24, 182, 155, 0.5",
+        //     "500" => "24, 182, 155",
+        //     "600" => "24, 182, 155, 0.75",
+        // ],
+        'colors' => [ # [!code ++:5] # [!code focus:5]
+            "400" => "24, 182, 155, 0.5", 
+            "500" => "24, 182, 155", 
+            "600" => "24, 182, 155, 0.75", 
+        ], 
+
+    // ], # [!code --] # [!code focus:2]
+    ], # [!code ++]
+
+];
 ```
 
 ### Customizing Nova's Footer
@@ -232,25 +261,31 @@ To customize the color used as the "primary" color within the Nova interface, yo
 There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. Using the `Nova::footer` method, you may customize the footer text of your Nova installation. Typically, the `footer` method should be called within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
-use Laravel\Nova\Nova;
+namespace App\Providers;
+
 use Illuminate\Support\Facades\Blade; # [!code ++]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- */
-public function boot(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::footer(function ($request) { # [!code ++:7] # [!code focus:7]
-        return Blade::render('
-            @env(\'prod\')
-                This is production!
-            @endenv
-        ');
-    });
+        Nova::footer(function ($request) { # [!code ++:7] # [!code focus:7]
+            return Blade::render('
+                @env(\'prod\')
+                    This is production!
+                @endenv
+            ');
+        });
 
-    //
+        //
+    }
 }
 ```
 
@@ -259,7 +294,13 @@ public function boot(): void
 Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
 
 ```php
-    'guard' => env('NOVA_GUARD', null),
+return [
+
+    // ...
+
+    'guard' => env('NOVA_GUARD', null), # [!code focus]
+
+];
 ```
 
 ### Customizing Nova's Password Reset Functionality
@@ -267,7 +308,13 @@ Nova uses the default authentication guard defined in your `auth` configuration 
 Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
 
 ```php
-    'passwords' => env('NOVA_PASSWORDS', null),
+return [
+
+    // ...
+
+    'passwords' => env('NOVA_PASSWORDS', null), # [!code focus]
+
+];
 ```
 
 ### Customizing Nova's Storage Disk Driver
@@ -275,7 +322,13 @@ Nova uses the default password reset broker defined in your `auth` configuration
 Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `storage_disk` value within Nova's configuration file:
 
 ```php
-    'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
+return [
+
+    // ...
+
+    'storage_disk' => env('NOVA_STORAGE_DISK', 'public'), # [!code focus]
+
+];
 ```
 
 ### Customizing Nova's Initial Path
@@ -283,18 +336,24 @@ Nova uses the default storage disk driver defined in your `filesystems` configur
 When visiting Nova, the `Main` dashboard is typically loaded by default. However, you are free to define a different initial path that should be loaded using Nova's `initialPath` method. Typically, this method may be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` service provider:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Register any application services.
- */
-public function register(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::register();
-    
-    Nova::initialPath('/resources/users'); # [!code ++] # [!code focus]
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        parent::register();
+        
+        Nova::initialPath('/resources/users'); # [!code ++] # [!code focus]
 
-    //
+        //
+    }
 }
 ```
 
@@ -311,7 +370,8 @@ public function register(): void
 {
     parent::register();
 
-    Nova::initialPath( # [!code ++:3] # [!code focus:3]
+    Nova::initialPath('/resources/users'); # [!code --] # [!code focus:4]
+    Nova::initialPath( # [!code ++:3]
         fn (Request $request) => $request->user()->initialPath()
     );
 
@@ -324,18 +384,24 @@ public function register(): void
 If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- */
-public function boot(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::withBreadcrumbs(); # [!code ++] # [!code focus]
+        Nova::withBreadcrumbs(); # [!code ++] # [!code focus]
 
-    //
+        //
+    }
 }
 ```
 
@@ -352,7 +418,8 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::withBreadcrumbs(  # [!code ++:3] # [!code focus:3]
+    Nova::withBreadcrumbs(); # [!code --] # [!code focus:4]
+    Nova::withBreadcrumbs(  # [!code ++:3]
         fn (NovaRequest $request) => $request->user()->wantsBreadcrumbs()
     );
 
@@ -365,18 +432,24 @@ public function boot(): void
 If you wish to display Nova's content "right-to-left" (RTL), you can enable this behavior by calling the `enableRTL` method from your `App\Providers\NovaServiceProvider` service provider:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- */
-public function boot(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::enableRTL(); # [!code ++] # [!code focus]
+        Nova::enableRTL(); # [!code ++] # [!code focus]
 
-    //
+        //
+    }
 }
 ```
 
@@ -393,7 +466,8 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::enableRTL( # [!code ++:3] # [!code focus:3]
+    Nova::enableRTL(); # [!code --] # [!code focus:4]
+    Nova::enableRTL( # [!code ++:3]
         fn (Request $request) => $request->user()->wantsRTL() 
     );
 
@@ -406,18 +480,24 @@ public function boot(): void
 If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider`:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Boot any application services.
- */
-public function boot(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::withoutThemeSwitcher(); # [!code ++] # [!code focus]
+        Nova::withoutThemeSwitcher(); # [!code ++] # [!code focus]
 
-    //
+        //
+    }
 }
 ```
 
@@ -426,22 +506,28 @@ public function boot(): void
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
+namespace App\Providers;
+
 use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
 
-/**
- * Register any application services.
- */
-public function register(): void
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::register();
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        parent::register();
 
-    Nova::report(function ($exception) { # [!code ++:5] # [!code focus:5]
-        if (app()->bound('sentry')) {
-            app('sentry')->captureException($exception);
-        }
-    });
+        Nova::report(function ($exception) { # [!code ++:5] # [!code focus:5]
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($exception);
+            }
+        });
 
-    //
+        //
+    }
 }
 ```
 

@@ -39,14 +39,22 @@ composer update
 Next, update `App\Providers\NovaServiceProvider` file to include call to `parent::register()` if the method exists:
 
 ```php
-/**
- * Register any application services.
- */
-public function register(): void
-{
-    parent::register(); # [!code ++]
 
-    //
+namespace App\Providers;
+
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void # [!code focus:6]
+    {
+        parent::register(); # [!code ++]
+
+        //
+    }
 }
 ```
 
@@ -72,19 +80,18 @@ Next, let's update the Nova configuration file. First, ensure that the `api_midd
 ```php
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
-use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++]
+use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++] # [!code focus]
 
 return [
 
     // ...
 
-    'api_middleware' => [
+    'api_middleware' => [ # [!code focus:6]
         'nova',
         Authenticate::class,
         // EnsureEmailIsVerified::class, # [!code ++]
         Authorize::class,
     ],
 
-    // ...
 ];
 ```
