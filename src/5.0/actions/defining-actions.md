@@ -31,7 +31,7 @@ To learn how to define Nova actions, let's look at an example. In this example, 
 ```php
 namespace App\Nova\Actions;
 
-use App\Models\AccountData;
+use App\Models\AccountData; # [!code ++]
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -42,7 +42,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action # [!code focus:29]
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
      * Perform the action on the given models.
@@ -86,7 +87,7 @@ class EmailAccountProfile extends Action
     /**
      * The displayable name of the action.
      *
-     * @var string
+     * @var \Stringable|string
      */
     public $name = 'Send Account Profile via E-mail'; # [!code ++] # [!code focus]
 }
@@ -128,11 +129,11 @@ use Laravel\Nova\Fields\ActionFields;
  */
 public function handle(ActionFields $fields, Collection $models) # [!code focus:8]
 {
-    foreach ($models as $model) { # [!code ++:3]
+    foreach ($models as $model) { # [!code ++:5]
         (new AccountData($model))->send();
     }
 
-    return $models; # [!code ++]
+    return $models;
 }
 ```
 
@@ -415,10 +416,11 @@ use Illuminate\Contracts\Queue\ShouldQueue; # [!code ++]
 use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Nova\Actions\Action;
 
-class EmailAccountProfile extends Action # [!code --] # [!code focus:4]
+class EmailAccountProfile extends Action # [!code --] # [!code focus:5]
 class EmailAccountProfile extends Action implements ShouldQueue # [!code ++]
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     // ...
 }
@@ -450,12 +452,13 @@ use Laravel\Nova\Actions\Action;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
      * Create a new action instance.
      */
-    public function __construct() # [!code focus:4]
+    public function __construct() # [!code focus:5]
     {
         $this->connection = 'redis'; # [!code ++:2]
         $this->queue = 'emails';
@@ -483,20 +486,17 @@ use Laravel\Nova\Contacts\BatchableAction; # [!code ++]
 use Laravel\Nova\Fields\ActionFields;
 use Throwable;
 
-class EmailAccountProfile extends Action implements ShouldQueue # [!code --] # [!code focus:5]
+class EmailAccountProfile extends Action implements ShouldQueue # [!code --] # [!code focus:6]
 class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue # [!code ++]
 {
-    use InteractsWithQueue, Queueable; # [!code --]
-    use Batchable, InteractsWithQueue, Queueable; # [!code ++]
+    use Batchable; # [!code ++]
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
-     * Prepare the given batch for execution.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return void
+     * Register `then`, `catch` and `finally` event on batchable job.
      */
-    public function withBatch(ActionFields $fields, PendingBatch $batch) # [!code ++:12] # [!code focus:12]
+    public function withBatch(ActionFields $fields, PendingBatch $batch): void # [!code ++:12] # [!code focus:12]
     {
         $batch->then(function (Batch $batch) {
             // All jobs completed successfully...
@@ -526,8 +526,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable # [!code focus:5]
 {
-    use Notifiable; # [!code --]
-    use Actionable, Notifiable; # [!code ++]
+    use Actionable; # [!code ++]
+    use Notifiable;
 
     // ...
 }

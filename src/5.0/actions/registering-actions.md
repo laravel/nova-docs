@@ -62,12 +62,10 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 public function actions(NovaRequest $request): array
 {
     return [
-        EmailAccountProfile::make() # [!code focus:6]
-            ->canSee(function ($request) { # [!code ++:5]
-                return $request->user()->can(
-                    'emailAnyAccountProfile', User::class
-                );
-            }),
+        EmailAccountProfile::make() # [!code focus:4]
+            ->canSee(fn ($request) => $request->user() # [!code ++:3]
+                ->can('emailAnyAccountProfile', User::class)
+            ),
     ];
 }
 ```
@@ -380,8 +378,8 @@ public function actions(NovaRequest $request): array # [!code focus:10]
     return [
         Action::modal( # [!code ++:5]
             'Download User Summary', 
-            'UserSummary', 
-            fn ($user) => ['user_id' => $user->getKey()]
+            modal: 'UserSummary', 
+            data: fn ($user) => ['user_id' => $user->getKey()]
         )->sole(),
     ];
 }

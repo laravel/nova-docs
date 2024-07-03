@@ -70,8 +70,18 @@ The `average` method may be used to calculate the average of a given column comp
 
 ```php
 use App\Models\Post;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ValueResult;
 
-return $this->average($request, Post::class, 'word_count'); # [!code focus]
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ValueResult
+{
+    return $this->average( # [!code focus:3]
+        $request, Post::class, column: 'word_count',
+    );
+}
 ```
 
 #### Sum
@@ -80,8 +90,18 @@ The `sum` method may be used to calculate the sum of a given column compared to 
 
 ```php
 use App\Models\Order;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ValueResult;
 
-return $this->sum($request, Order::class, 'price'); # [!code focus]
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ValueResult
+{ 
+    return $this->sum( # [!code focus:3]
+        $request, Order::class, column: 'price',
+    );
+}
 ```
 
 #### Max
@@ -90,8 +110,18 @@ The `max` method may be used to calculate the maximum value of a given column co
 
 ```php
 use App\Models\Order;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ValueResult;
 
-return $this->max($request, Order::class, 'total'); # [!code focus]
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ValueResult
+{ 
+    return $this->max( # [!code focus:3]
+        $request, Order::class, column: 'total',
+    );
+}
 ```
 
 #### Min
@@ -100,8 +130,18 @@ The `min` method may be used to calculate the minimum value of a given column co
 
 ```php
 use App\Models\Order;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ValueResult;
 
-return $this->min($request, Order::class, 'total'); # [!code focus]
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ValueResult
+{ 
+    return $this->min( # [!code focus:3]
+        $request, Order::class, column: 'total',
+    );
+}
 ```
 
 ### Value Ranges
@@ -167,9 +207,10 @@ use Laravel\Nova\Metrics\ValueResult;
  */
 public function calculate(NovaRequest $request): ValueResult
 {
-    return $this->max($request, Order::class, 'total') # [!code focus:3]
-        ->prefix('$') # [!code ++:2]
-        ->suffix('per unit');
+    return $this->max( # [!code focus:4]
+        $request, Order::class, column: 'total',
+    )->prefix('$') # [!code ++:2]
+    ->suffix('per unit');
 }
 ```
 
@@ -185,8 +226,9 @@ use Laravel\Nova\Metrics\ValueResult;
  */
 public function calculate(NovaRequest $request): ValueResult
 {
-    return $this->max($request, Order::class, 'total') # [!code focus:2]
-        ->currency(); # [!code ++]
+    return $this->max( # [!code focus:3]
+        $request, Order::class, column: 'total',
+    )->currency(); # [!code ++]
 }
 ```
 
@@ -202,8 +244,10 @@ use Laravel\Nova\Metrics\ValueResult;
  */
 public function calculate(NovaRequest $request): ValueResult
 {
-    return $this->max($request, Order::class, 'total') # [!code focus:2]
-        ->currency('£'); # [!code ++]
+    return $this->max( # [!code focus:4]
+        $request, Order::class, column: 'total',
+    )->currency(); # [!code --]
+    )->currency('£'); # [!code ++]
 }
 ```
 
@@ -245,8 +289,9 @@ use Laravel\Nova\Metrics\ValueResult;
  */
 public function calculate(NovaRequest $request): ValueResult
 {
-    return $this->sum($request, Invoice::class, 'amount') # [!code focus:2]
-        ->transform(fn($value) => $value / 100); # [!code ++]
+    return $this->sum( # [!code focus:3]
+        $request, Invoice::class, column: 'amount'
+    )->transform(fn($value) => $value / 100); # [!code ++]
 }
 ```
 
@@ -343,11 +388,11 @@ The `average` methods may be used to calculate the average of a given column ove
 ```php
 use App\Models\Post;
 
-return $this->averageByMonths($request, Post::class, 'word_count'); # [!code focus:5]
-return $this->averageByWeeks($request, Post::class, 'word_count');
-return $this->averageByDays($request, Post::class, 'word_count');
-return $this->averageByHours($request, Post::class, 'word_count');
-return $this->averageByMinutes($request, Post::class, 'word_count');
+return $this->averageByMonths($request, Post::class, column: 'word_count'); # [!code focus:5]
+return $this->averageByWeeks($request, Post::class, column: 'word_count');
+return $this->averageByDays($request, Post::class, column: 'word_count');
+return $this->averageByHours($request, Post::class, column: 'word_count');
+return $this->averageByMinutes($request, Post::class, column: 'word_count');
 ```
 
 #### Sum
@@ -357,11 +402,11 @@ The `sum` methods may be used to calculate the sum of a given column over time:
 ```php
 use App\Models\Order;
 
-return $this->sumByMonths($request, Order::class, 'price'); # [!code focus:5]
-return $this->sumByWeeks($request, Order::class, 'price');
-return $this->sumByDays($request, Order::class, 'price');
-return $this->sumByHours($request, Order::class, 'price');
-return $this->sumByMinutes($request, Order::class, 'price');
+return $this->sumByMonths($request, Order::class, column: 'price'); # [!code focus:5]
+return $this->sumByWeeks($request, Order::class, column: 'price');
+return $this->sumByDays($request, Order::class, column: 'price');
+return $this->sumByHours($request, Order::class, column: 'price');
+return $this->sumByMinutes($request, Order::class, column: 'price');
 ```
 
 #### Max
@@ -371,11 +416,11 @@ The `max` methods may be used to calculate the maximum value of a given column o
 ```php
 use App\Models\Order;
 
-return $this->maxByMonths($request, Order::class, 'total'); # [!code focus:5]
-return $this->maxByWeeks($request, Order::class, 'total');
-return $this->maxByDays($request, Order::class, 'total');
-return $this->maxByHours($request, Order::class, 'total');
-return $this->maxByMinutes($request, Order::class, 'total');
+return $this->maxByMonths($request, Order::class, column: 'total'); # [!code focus:5]
+return $this->maxByWeeks($request, Order::class, column: 'total');
+return $this->maxByDays($request, Order::class, column: 'total');
+return $this->maxByHours($request, Order::class, column: 'total');
+return $this->maxByMinutes($request, Order::class, column: 'total');
 ```
 
 #### Min
@@ -385,11 +430,11 @@ The `min` methods may be used to calculate the minimum value of a given column o
 ```php
 use App\Models\Order;
 
-return $this->minByMonths($request, Order::class, 'total'); # [!code focus:5]
-return $this->minByWeeks($request, Order::class, 'total');
-return $this->minByDays($request, Order::class, 'total');
-return $this->minByHours($request, Order::class, 'total');
-return $this->minByMinutes($request, Order::class, 'total');
+return $this->minByMonths($request, Order::class, column: 'total'); # [!code focus:5]
+return $this->minByWeeks($request, Order::class, column: 'total');
+return $this->minByDays($request, Order::class, column: 'total');
+return $this->minByHours($request, Order::class, column: 'total');
+return $this->minByMinutes($request, Order::class, column: 'total');
 ```
 
 ### Trend Ranges
@@ -493,8 +538,9 @@ use Laravel\Nova\Metrics\TrendResult;
  */
 public function calculate(NovaRequest $request): TrendResult
 {
-    return $this->sumByDays($request, Order::class, 'price') # [!code focus:2]
-        ->prefix('$'); # [!code ++]
+    return $this->sumByDays( # [!code focus:3]
+        $request, Order::class, column: 'price'
+    )->prefix('$'); # [!code ++]
 }
 ```
 
@@ -510,8 +556,9 @@ use Laravel\Nova\Metrics\TrendResult;
  */
 public function calculate(NovaRequest $request): TrendResult
 {
-    return $this->sumByDays($request, Order::class, 'price') # [!code focus:2]
-        ->dollars(); # [!code ++]
+    return $this->sumByDays( # [!code focus:3]
+        $request, Order::class, column: 'price'
+    )->dollars(); # [!code ++]
 }
 ```
 
@@ -556,6 +603,7 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
+use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -565,9 +613,21 @@ class UsersPerPlan extends Partition
     /**
      * Calculate the value of the metric.
      */
-    public function calculate(NovaRequest $request): PartitionResult # [!code focus:4]
+    public function calculate(NovaRequest $request): PartitionResult # [!code focus:6]
     {
-        return $this->count($request, User::class, 'stripe_plan');
+        return $this->count(
+            $request, User::class, groupBy: 'stripe_plan',
+        );
+    }
+
+    /**
+     * Determine the amount of time the results of the metric should be cached.
+     */
+    public function cacheFor(): DateTimeInterface|null
+    {
+        // return now()->addMinutes(5);
+
+        return null;
     }
 
     /**
@@ -598,7 +658,9 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    return $this->average($request, Order::class, 'price', 'department'); # [!code focus]
+    return $this->average( # [!code focus:3]
+        $request, Order::class, column: 'price', groupBy: 'department'
+    );
 }
 ```
 
@@ -616,7 +678,9 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    return $this->sum($request, Order::class, 'price', 'department'); # [!code focus]
+    return $this->sum( # [!code focus:3]
+        $request, Order::class, column: 'price', groupBy: 'department'
+    );
 }
 ```
 
@@ -634,7 +698,9 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    return $this->max($request, Order::class, 'price', 'department'); # [!code focus]
+    return $this->max( # [!code focus:3]
+        $request, Order::class, column: 'price', groupBy: 'department'
+    );
 }
 ```
 
@@ -652,7 +718,9 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    return $this->min($request, Order::class, 'price', 'department'); # [!code focus]
+    return $this->min( # [!code focus:3]
+        $request, Order::class, column: 'price', groupBy: 'department'
+    );
 }
 ```
 
@@ -670,11 +738,12 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    return $this->count($request, User::class, 'stripe_plan') # [!code focus:5]
-        ->label(fn ($value) => match ($value) { # [!code ++:4]
-            null => 'None',
-            default => ucfirst($value)
-        });
+    return $this->count( # [!code focus:7]
+        $request, User::class, groupBy: 'stripe_plan'
+    )->label(fn ($value) => match ($value) { # [!code ++:4]
+        null => 'None',
+        default => ucfirst($value),
+    });
 }
 ```
 
@@ -692,13 +761,14 @@ use Laravel\Nova\Metrics\PartitionResult;
  */
 public function calculate(NovaRequest $request): PartitionResult
 {
-    // This metric has `audio`, `video`, and `photo` types...
-    return $this->count($request, Post::class, 'type') # [!code focus:6]
-        ->colors([ # [!code ++:5]
-            'audio' => '#6ab04c',
-            'video' => 'rgb(72,52,212)',
-            // Since it is unspecified, "photo" will use a default color from Nova...
-        ]);
+    // This metric has `audio`, `video`, and `photo` types...  # [!code focus:9]
+    return $this->count(
+        $request, Post::class, groupBy: 'type',
+    )->colors([ # [!code ++:5]
+        'audio' => '#6ab04c',
+        'video' => 'rgb(72,52,212)',
+        // Since it is unspecified, "photo" will use a default color from Nova...
+    ]);
 }
 ```
 
@@ -752,15 +822,14 @@ class NewUsers extends Progress
     /**
      * Calculate the value of the metric.
      */
-    public function calculate(NovaRequest $request): ProgressResult # [!code focus:12]
+    public function calculate(NovaRequest $request): ProgressResult # [!code focus:11]
     {
         return $this->count(
             $request, 
-            model: User::class, 
-            progress: function ($query) {
-                return $query; # [!code --]
-                return $query->where('created_at', '>=', now()->startOfMonth()); # [!code ++]
-            }, 
+            User::class, 
+            progress: fn ($query) => $query, # [!code --]
+            progress: fn ($query) => $query # [!code ++:2]
+                ->where('created_at', '>=', now()->startOfMonth()),
             target: 100,
         );
     }
@@ -791,7 +860,7 @@ public function calculate(NovaRequest $request): ProgressResult
 {
     return $this->sum( # [!code focus:7]
         $request, 
-        model: Transaction::class, 
+        Transaction::class, 
         progress: fn ($query) => $query->where('completed', '=', 1), 
         column: 'amount', 
         target: 2000,
@@ -815,13 +884,12 @@ use Laravel\Nova\Metrics\ProgressResult;
  */
 public function calculate(NovaRequest $request): ProgressResult
 {
-    return $this->count(  # [!code focus:8]
+    return $this->count(  # [!code focus:7]
         $request, 
-        model: User::class, 
-        progress: fn ($query) => $query->where(
-            'cancelled_at', '>=', now()->startOfMonth()
-        ), 
-        target: 200
+        User::class, 
+        progress: fn ($query) => $query
+            ->where('cancelled_at', '>=', now()->startOfMonth()), 
+        target: 200,
     )->avoid(); # [!code ++]
 }
 ```
@@ -842,7 +910,7 @@ public function calculate(NovaRequest $request): ProgressResult
 {
     return $this->count(  # [!code focus:7]
         $request, 
-        model: Transaction::class, 
+        Transaction::class, 
         progress: fn ($query) => $query->where('completed', '=', 1),
         column: 'amount', 
         target: 2000,
@@ -864,7 +932,7 @@ public function calculate(NovaRequest $request): ProgressResult
 {
     return $this->sum( # [!code focus:7]
         $request, 
-        model: Transaction::class, 
+        Transaction::class, 
         progress: fn ($query) => $query->where('completed', '=', 1),
         column: 'amount', 
         target: 2000,
