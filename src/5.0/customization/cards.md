@@ -33,10 +33,9 @@ class Post extends Resource
     /**
      * Get the cards available for the resource.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @return array<int, \Laravel\Nova\Card>
      */
-    public function cards(NovaRequest $request) # [!code focus:7]
+    public function cards(NovaRequest $request): array # [!code focus:7]
     {
         return []; # [!code --]
         return [ # [!code ++:3]
@@ -51,26 +50,20 @@ class Post extends Resource
 If you would like to only expose a given card to certain users, you may invoke the `canSee` method when registering your card. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
 ```php
-namespace App\Nova;
-
 use Acme\Analytics\Analytics;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Post extends Resource
+/**
+ * Get the cards available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Card>
+ */
+public function cards(NovaRequest $request): array
 {
-    /**
-     * Get the cards available for the resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return array<int, \Laravel\Nova\Card>
-     */
-    public function cards(NovaRequest $request)
-    {
-        return [
-            (new Analytics) # [!code focus:2]
-                ->canSee(fn ($request) => false), # [!code ++]
-        ];
-    }
+    return [
+        (new Analytics) # [!code focus:2]
+            ->canSee(fn ($request) => false), # [!code ++]
+    ];
 }
 ```
 
@@ -125,14 +118,14 @@ After registering your custom card, don't forget to actually call any custom opt
 
 ```php
 use Acme\Analytics\Analytics;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
         (new Analytics)  # [!code focus:2]

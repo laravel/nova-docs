@@ -250,18 +250,24 @@ When Nova generates your field, `resources/js` and `resources/css` directories a
 Your Nova field's service provider registers your field's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+namespace Acme\ColorPicker;
+
+use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
-/**
- * Bootstrap any application services.
- */
-public function boot(): void # [!code focus:7]
+class FieldServiceProvider extends ServiceProvider
 {
-    Nova::serving(function (ServingNova $event) {
-        Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');
-        Nova::style('stripe-inspector', __DIR__.'/../dist/css/field.css');
-    });
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void # [!code focus:7]
+    {
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');
+            Nova::style('stripe-inspector', __DIR__.'/../dist/css/field.css');
+        });
+    }
 }
 ```
 

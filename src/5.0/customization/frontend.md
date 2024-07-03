@@ -101,6 +101,8 @@ use Laravel\Nova\Nova;
  */
 public function boot(): void
 {
+    //
+
     Nova::serving(function (ServingNova $event) { # [!code ++:5] # [!code focus:5]
         Nova::provideToScript([
             'mail_driver' => config('mail.default'),
@@ -124,8 +126,6 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 ### Using Nova Mixins
 
 Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilise `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
-
-#@TODO
 
 ```js
 mix.extend('nova', new require('./vendor/laravel/nova/nova.mix')) // [!code --] // [!code focus]

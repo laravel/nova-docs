@@ -40,7 +40,7 @@ class User extends Resource
     {
         return []; # [!code --]
         return [ # [!code ++:3]
-            new AgeRange,
+            new AgeRange(),
         ];
     }
 }
@@ -64,8 +64,8 @@ class User extends Resource
      */
     public function filters(NovaRequest $request) # [!code focus:7]
     {
-        return []; # [!code --]
-        return [ # [!code ++:3]
+        return [
+            new AgeRange(), # [!code --]
             AgeRange::make(), # [!code ++]
         ];
     }
@@ -91,7 +91,7 @@ Custom Nova filters use Vuex to manage their state. By default, your filter's Vu
 ```js
 methods: {
 
-    handleChange(e) {
+    handleChange(e) { // [!code focus:4]
         this.value = e
         this.debouncedEmit()
     },
@@ -114,19 +114,25 @@ When Nova generates your filter, `resources/js` and `resources/css` directories 
 Your Nova filter's service provider registers your filter's compiled assets so that they will be available to the Nova front-end:
 
 ```php
+namespace Acme\AgeRange;
+
+use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
-/**
- * Bootstrap any application services.
- */
-public function boot(): void
+class FilterServiceProvider extends ServiceProvider
 {
-    Nova::serving(function (ServingNova $event) { # [!code ++:5] # [!code focus:5]
-        Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
-        Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
-        Nova::translations(__DIR__.'/../resources/lang/en/age-range.json');
-    });
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void # [!code focus:8]
+    {
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
+            Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
+            Nova::translations(__DIR__.'/../resources/lang/en/age-range.json'); # [!code ++]
+        });
+    }
 }
 ```
 

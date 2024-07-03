@@ -37,9 +37,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  */
 public function actions(NovaRequest $request): array # [!code focus:7]
 {
-    return []; # [!code --]
-    return [ # [!code ++:3]
-        EmailAccountProfile::make(),
+    return [
+        new EmailAccountProfile(), # [!code --]
+        EmailAccountProfile::make(), # [!code ++]
     ];
 }
 ```
