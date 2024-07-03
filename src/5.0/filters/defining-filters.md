@@ -173,25 +173,41 @@ As you can see in the example above, you may leverage the incoming `$value` to m
 If you would like to change the filter title that is displayed in Nova's filter selection menu, you may define a `name` property on the filter class:
 
 ```php
-/**
- * The displayable name of the filter.
- *
- * @var string
- */
-public $name = 'Filter Title';
+namespace App\Nova\Filters;
+
+use Laravel\Nova\Filters\Filter;
+
+class UserType extends Filter
+{
+    /**
+     * The displayable name of the filter.
+     *
+     * @var \Stringable|string
+     */
+    public $name = 'Filter by User Type'; # [!code ++] # [!code focus]
+}
 ```
 
 If the name of your filter needs to be dynamic, you should create a `name` method on the filter class:
 
 ```php
-/**
- * Get the displayable name of the filter.
- *
- * @return string
- */
-public function name()
+namespace App\Nova\Filters;
+
+use Laravel\Nova\Filters\Filter;
+
+class UserType extends Filter
 {
-    return 'Filter By '.$this->customProperty;
+    protected string $customProperty = 'User Type'; # [!code ++]
+
+    /**
+     * Get the displayable name of the filter.
+     *
+     * @return \Stringable|string
+     */
+    public function name() # [!code ++:4] # [!code focus:4]
+    {
+        return 'Filter By '.$this->customProperty;
+    }
 }
 ```
 
@@ -200,14 +216,27 @@ public function name()
 If you would like to set the default value of a filter, you may define a `default` method on the filter class:
 
 ```php
-/**
- * The default value of the filter.
- *
- * @var string
- */
-public function default()
+
+namespace App\Nova\Filters;
+
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Laravel\Nova\Filters\BooleanFilter;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class UserType extends BooleanFilter
 {
-    return true;
+    /**
+     * The default value of the filter.
+     *
+     * @return array|mixed
+     */
+    public function default() # [!code ++:7] # [!code focus:7]
+    {
+        return [
+            'admin' => true,
+            'editor' => false,
+        ];
+    }
 }
 ```
 
@@ -218,53 +247,34 @@ There may be times when you want to create a dynamic filter which filters on col
 To accomplish this, you could pass the name of the filterable column into the filter's constructor. In addition to passing the column name that we want to filter on in the constructor, we'll also need to override the `key` method of the filter so that Nova can uniquely identify this instance of the filter if multiple instances of this filter exist on the page. Let's take a look at an example `TimestampFilter` filter:
 
 ```php
-<?php
-
 namespace App\Nova\Filters;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Laravel\Nova\Filters\DateFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class TimestampFilter extends DateFilter
+class TimestampFilter extends DateFilter # [!code focus:24]
 {
     /**
-     * The column that should be filtered on.
-     *
-     * @var string
-     */
-    protected $column;
-
-    /**
      * Create a new filter instance.
-     *
-     * @param  string  $column
-     * @return void
      */
-    public function __construct($column)
-    {
-        $this->column = $column;
-    }
+    public function __construct( # [!code ++:3]
+        protected string $column
+    ) { }
 
     /**
      * Apply the filter to the given query.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  mixed  $value
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function apply(NovaRequest $request, $query, $value)
+    public function apply(NovaRequest $request, Builder $query, mixed $value): Builder
     {
         return $query->where($this->column, '<=', Carbon::parse($value));
     }
 
     /**
      * Get the key for the filter.
-     *
-     * @return string
      */
-    public function key()
+    public function key(): string # [!code ++:4]
     {
         return 'timestamp_'.$this->column;
     }
@@ -274,17 +284,20 @@ class TimestampFilter extends DateFilter
 Then, as discussed, you should pass the name of the column you wish to filter on:
 
 ```php
+use App\Nova\Filters\TimestampFilter;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
 /**
  * Get the filters available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Filters\Filter>
  */
-public function filters(NovaRequest $request)
+public function filters(NovaRequest $request): array # [!code focus:8]
 {
-    return [
-        new Filters\TimestampFilter('created_at'),
-        new Filters\TimestampFilter('deleted_at'),
+    return []; # [!code --]
+    return [ # [!code ++:4]
+        new TimestampFilter('created_at'),
+        new TimestampFilter('deleted_at'),
     ];
 }
 ```

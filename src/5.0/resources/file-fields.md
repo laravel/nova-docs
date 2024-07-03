@@ -13,9 +13,21 @@ To illustrate the behavior of Nova file upload fields, let's assume our applicat
 Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your application's `filesystems` configuration file:
 
 ```php
-use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\File; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Profile Photo')->disk('public'), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array # [!code focus:7]
+{
+    return [
+        File::make('Profile Photo') # [!code ++:2]
+            ->disk('public'),
+    ];
+}
 ```
 
 ### Disabling File Downloads
@@ -24,8 +36,21 @@ By default, the `File` field allows the user to download the corresponding file.
 
 ```php
 use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Profile Photo')->disableDownload(), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        File::make('Profile Photo') # [!code focus:3]
+            ->disk('public')
+            ->disableDownload(), # [!code ++]
+    ];
+}
 ```
 
 ### How Files Are Stored
@@ -69,25 +94,64 @@ If you are using the `public` disk in conjunction with the `local` driver, you s
 The `Image` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Image` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Image` field mirror that of the `File` field:
 
 ```php
-use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\File; # [!code --]
+use Laravel\Nova\Fields\Image; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')->disk('public'), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        File::make('Profile Photo') # [!code --] # [!code focus:3]
+        Image::make('Profile Photo') # [!code ++]
+            ->disk('public'),
+    ];
+}
 ```
 
 To set the width of the `Image` field when being displayed, you can use the `maxWidth` method:
 
 ```php
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')->maxWidth(100), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        Image::make('Profile Photo') # [!code focus:2]
+            ->maxWidth(100),  # [!code ++]
+    ];
+}
 ```
 
 Alternatively, you can set separate widths for the index and detail views using the `indexWidth` and `detailWidth` methods:
 
 ```php
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')->indexWidth(60)->detailWidth(150), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        Image::make('Profile Photo') # [!code focus:3]
+            ->indexWidth(60) # [!code ++:2]
+            ->detailWidth(150),
+    ];
+}
 ```
 
 :::tip Max Width
@@ -100,9 +164,20 @@ You may also use the `maxWidth`, `indexWidth`, and `detailWidth` methods on the 
 The `Avatar` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Avatar` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Avatar` field mirror that of the `File` field:
 
 ```php
-use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\Avatar; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Avatar::make('Poster')->disk('public'), # [!code focus]
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array # [!code focus:6]
+{
+    return [
+        Avatar::make('Poster')->disk('public'), # [!code ++]
+    ];
+}
 ```
 
 In addition to displaying a thumbnail preview of the underlying file, an `Avatar` field will also be automatically displayed in Nova search results. An `Avatar` field is not limited to "user" resources - you may attach `Avatar` fields to any resource within your Nova application:
@@ -117,30 +192,31 @@ In addition to storing the path to the file within the storage system, you may a
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array 
 {
     return [
         // ...
 
-        File::make('Attachment') # [!code focus:12]
+        File::make('Attachment') # [!code focus:4]
                 ->disk('s3')
-                ->storeOriginalName('attachment_name')
+                ->storeOriginalName('attachment_name') # [!code ++:2]
                 ->storeSize('attachment_size'),
 
-        Text::make('Attachment Name')->exceptOnForms(),
+        Text::make('Attachment Name')
+            ->exceptOnForms(),
 
         Text::make('Attachment Size')
-                ->exceptOnForms()
-                ->displayUsing(function ($value) {
-                    return number_format($value / 1024, 2).'kb';
-                }),
+            ->exceptOnForms()
+            ->displayUsing(function ($value) {
+                return number_format($value / 1024, 2).'kb';
+            }),
     ];
 }
 ```
@@ -170,19 +246,42 @@ When using the `storeOriginalName` method, the file field's "Download" link with
 File fields are deletable by default, but you can override this behavior by using the `deletable` method:
 
 ```php
-File::make('Photo')
-    ->disk('public'), # [!code --] # [!code focus:3]
-    ->disk('public') # [!code ++:2]
-    ->deletable(false),
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Photo') # [!code focus:3]
+            ->disk('public')
+            ->deletable(false), # [!code ++]
+    ];
+}
 ```
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
 
 ```php
-File::make('Profile Photo')
-    ->disk('public'), # [!code --] # [!code focus:3]
-    ->disk('public') # [!code ++:2]
-    ->prunable(),
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Profile Photo') # [!code focus:3]
+            ->prunable(), # [!code ++]
+    ];
+}
 ```
 
 :::warning Non-Nova Deletes
@@ -201,15 +300,26 @@ Previously we learned that, by default, Nova stores files using the `store` meth
 If you only need to customize the name or path of the stored file on disk, you may use the `path` and `storeAs` methods of the `File` field:
 
 ```php
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # [!code ++]
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Attachment')
-    ->disk('s3'), # [!code --] # [!code focus:6]
-    ->disk('s3') # [!code ++:5]
-    ->path($request->user()->id.'-attachments')
-    ->storeAs(function (Request $request) {
-        return sha1($request->attachment->getClientOriginalName());
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:6]
+            ->disk('s3')
+            ->path($request->user()->id.'-attachments') # [!code ++:4]
+            ->storeAs(function (Request $request) {
+                return sha1($request->attachment->getClientOriginalName());
+            }),
+    ];
+}
 ```
 
 #### Customizing the Entire Storage Process
@@ -217,18 +327,27 @@ File::make('Attachment')
 However, if you would like to take **total** control over the file storage logic of a field, you may use the `store` method. The `store` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
 
 ```php
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # [!code ++]
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Attachment')
-    ->disk('s3'), # [!code --] # [!code focus:9]
-    ->disk('s3') # [!code ++:8]
-    ->store(function (Request $request, $model) {
-        return [
-            'attachment' => $request->attachment->store('/', 's3'),
-            'attachment_name' => $request->attachment->getClientOriginalName(),
-            'attachment_size' => $request->attachment->getSize(),
-        ];
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:7]
+            ->disk('s3')
+            ->store(fn (Request $request, $model) => [ # [!code ++:5]
+                'attachment' => $request->attachment->store('/', 's3'),
+                'attachment_name' => $request->attachment->getClientOriginalName(),
+                'attachment_size' => $request->attachment->getSize(),
+            ]),
+    ];
+}
 ```
 
 As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
@@ -236,20 +355,31 @@ As you can see in the example above, the `store` callback is returning an array 
 Here's another example of customizing the storage process. In this example, we're using the `store` method to store the original file in public storage, create thumbnails using Laravel's queue system, and finally populating values in the resource's `media` relationship:
 
 ```php
+use App\Jobs\OptimizeMedia; # [!code ++]
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Attachment')
-    ->disk('s3'), # [!code --] # [!code focus:11]
-    ->disk('s3') # [!code ++:10]
-    ->store(function (NovaRequest $request, $model) {
-        return function () use ($model, $request) {
-            $media = $model->media()->updateOrCreate([], [
-                'path'=> $request->file('attachment')->store('/path', 'public')
-            ]);
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:12]
+            ->disk('s3') 
+            ->store(function (NovaRequest $request, $model) { # [!code ++:9]
+                return function () use ($model, $request) {
+                    $media = $model->media()->updateOrCreate([], [
+                        'path'=> $request->file('attachment')->store('/path', 'public')
+                    ]);
 
-            OptimizeMedia::dispatch($media);
-        };
-    }),
+                    OptimizeMedia::dispatch($media);
+                };
+            }),
+    ];
+}
 ```
 
 #### Invokables
@@ -257,7 +387,23 @@ File::make('Attachment')
 Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
 ```php
-File::make('Attachment')->store(new StoreAttachment),
+use App\Nova\StoreAttachment; # [!code ++]
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:3]
+            ->disk('s3') 
+            ->store(new StoreAttachment()), # [!code ++]
+    ];
+}
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -265,30 +411,29 @@ The invokable object should be a simple PHP class with a single `__invoke` metho
 ```php
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Model;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class StoreAttachment # [!code focus:2]
+class StoreAttachment # [!code focus:20]
 {
     /**
      * Store the incoming file upload.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string  $attribute
-     * @param  string  $requestAttribute
-     * @param  string|null  $disk
-     * @param  string|null  $storagePath
-     * @return array
      */
-    public function __invoke(NovaRequest $request, $model, $attribute, $requestAttribute, $disk, $storagePath) # [!code focus:8]
-    {
+    public function __invoke(
+        NovaRequest $request, 
+        Model $model, 
+        string $attribute, 
+        string $requestAttribute, 
+        ?string $disk, 
+        ?string $storagePath
+    ): array {
         return [
             'attachment' => $request->attachment->store('/', 's3'),
             'attachment_name' => $request->attachment->getClientOriginalName(),
             'attachment_size' => $request->attachment->getSize(),
         ];
     }
-} # [!code focus]
+}
 ```
 
 ### Customizing File Deletion
@@ -299,24 +444,34 @@ If you would like to override this behavior and provide your own file deletion i
 
 ```php
 use Illuminate\Support\Facades\Storage; # [!code ++]
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-File::make('Attachment')
-    ->disk('s3'), # [!code --] # [!code focus:15]
-    ->disk('s3') # [!code ++:14]
-    ->delete(function (NovaRequest $request, $model, $disk, $path) {
-        if (! $path) {
-            return;
-        }
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:15]
+            ->disk('s3')
+            ->delete(function (NovaRequest $request, $model, $disk, $path) {  # [!code ++:13]
+                if (! $path) {
+                    return;
+                }
 
-        Storage::disk($disk)->delete($path);
+                Storage::disk($disk)->delete($path);
 
-        return [
-            'attachment' => null,
-            'attachment_name' => null,
-            'attachment_size' => null,
-        ];
-    }),
+                return [
+                    'attachment' => null,
+                    'attachment_name' => null,
+                    'attachment_size' => null,
+                ];
+            }),
+    ];
+}
 ```
 
 As you can see in the example above, the `delete` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored. Typically, when deleting a field, you will insert `NULL` into the relevant database columns.
@@ -326,7 +481,22 @@ As you can see in the example above, the `delete` callback is returning an array
 Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
 
 ```php
-File::make('Attachment')->delete(new DeleteAttachment);
+use App\Nova\DeleteAttachment;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Attachment') # [!code focus:2]
+            ->delete(new DeleteAttachment()), # [!code ++]
+    ];
+}
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -334,22 +504,21 @@ The invokable object should be a simple PHP class with a single `__invoke` metho
 ```php
 namespace App\Nova;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class DeleteAttachment # [!code focus:2]
+class DeleteAttachment # [!code focus:24]
 {
     /**
      * Delete the field's underlying file.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @param  string|null  $disk
-     * @param  string|null  $path
-     * @return array
      */
-    public function __invoke(NovaRequest $request, $model, $disk, $path) # [!code focus:14]
-    {
+    public function __invoke(
+        NovaRequest $request, 
+        Model $model, 
+        ?string $disk, 
+        ?string $path
+    ): array {
         if (! $path) {
             return;
         }
@@ -362,7 +531,7 @@ class DeleteAttachment # [!code focus:2]
             'attachment_size' => null,
         ];
     }
-} # [!code focus]
+}
 ```
 
 ### Customizing Previews
@@ -374,15 +543,25 @@ The `preview` method accepts a callable which should return the preview URL. The
 ```php
 use Illuminate\Support\Facades\Storage; # [!code ++]
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')
-    ->disk('public'), # [!code --] # [!code focus:7]
-    ->disk('public') # [!code ++:6]
-    ->preview(function ($value, $disk) {
-        return $value
-            ? Storage::disk($disk)->url($value)
-            : null;
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        Image::make('Profile Photo') # [!code focus:7]
+            ->disk('public')
+            ->preview(function ($value, $disk) {  # [!code ++:5]
+                return $value
+                    ? Storage::disk($disk)->url($value)
+                    : null;
+            }),
+    ];
+}
 ```
 
 :::tip Preview Size
@@ -399,15 +578,25 @@ The `thumbnail` method accepts a callable which should return the thumbnail URL.
 ```php
 use Illuminate\Support\Facades\Storage; # [!code ++]
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')
-    ->disk('public'), # [!code --] # [!code focus:7]
-    ->disk('public') # [!code ++:6]
-    ->thumbnail(function ($value, $disk) {
-        return $value
-            ? Storage::disk($disk)->url($value)
-            : null;
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        Image::make('Profile Photo') # [!code focus:7]
+            ->disk('public')
+            ->thumbnail(function ($value, $disk) {  # [!code ++:5]
+                return $value
+                    ? Storage::disk($disk)->url($value)
+                    : null;
+            }),
+    ];
+}
 ```
 
 :::tip Thumbnail Size
@@ -420,15 +609,25 @@ By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for 
 By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method. The `download` method accepts a callable which should return the result of your own invocation of the  `Storage::download` method:
 
 ```php
-use Illuminate\Support\Facades\Storage;  # [!code ++]
+use Illuminate\Support\Facades\Storage; # [!code ++]
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Profile Photo')
-    ->disk('public'), # [!code --] # [!code focus:5]
-    ->disk('public') # [!code ++:4]
-    ->download(function ($request, $model, $disk, $value) {
-        return Storage::disk($disk)->download($value, 'avatar');
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        Image::make('Profile Photo') # [!code focus:5]
+            ->disk('public')
+            ->download(function ($request, $model, $disk, $value) { # [!code ++:3]
+                return Storage::disk($disk)->download($value, 'avatar');
+            }),
+    ];
+}
 ```
 
 #### Downloading Large Files With Temporary URLs
@@ -436,17 +635,28 @@ Image::make('Profile Photo')
 When downloading files in environments such as Laravel Vapor where request execution time is limited, you may find it necessary to redirect download requests to a temporary URL generated by Laravel's `Storage` facade:
 
 ```php
-use Illuminate\Support\Facades\Storage; # [!code ++]
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-Image::make('Photo')
-    ->disk('public'), # [!code --] # [!code focus:7]
-    ->disk('public') # [!code ++:6]
-    ->download(function ($request, $model, $disk, $value) {
-        return redirect(
-            Storage::disk($disk)->temporaryUrl($value, now()->addMinutes(5))
-        );
-    }),
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        Image::make('Photo') # [!code focus:8]
+            ->disk('public')
+            ->download(function ($request, $model, $disk, $value) {
+                return Storage::disk($disk)->download($value, 'avatar'); # [!code --]
+                return redirect( # [!code ++:3]
+                    Storage::disk($disk)->temporaryUrl($value, now()->addMinutes(5))
+                );
+            }),
+    ];
+}
 ```
 
 ### Customizing Accepted File Types
@@ -454,7 +664,21 @@ Image::make('Photo')
 By default, the `File` field will allow any type of file to be uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
 
 ```php
-File::make('Disk Image')->acceptedTypes('.dmg,.exe')
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array 
+{
+    return [
+        File::make('Disk Image')# [!code focus:2]
+            ->acceptedTypes('.dmg,.exe'), # [!code ++]
+    ];
+}
 ```
 
 When using the `acceptedTypes` method, Nova adds the `accept` attribute to the file input element; therefore, all of the following media types may be provided to the `acceptedTypes` method:

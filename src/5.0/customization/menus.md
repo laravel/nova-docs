@@ -35,10 +35,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -84,10 +82,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 

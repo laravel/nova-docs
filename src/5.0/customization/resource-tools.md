@@ -178,10 +178,8 @@ use Laravel\Nova\Events\ServingNova;
 
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     $this->app->booted(function () {
         $this->routes();

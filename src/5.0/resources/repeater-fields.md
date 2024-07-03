@@ -12,13 +12,10 @@ This field is currently in beta. The API, while stable, is subject to change whi
 The `Repeater` field allows you to create and edit repeatable, structured data and store that data in a JSON column or `HasMany` relationship:
 
 ```php
-<?php
-
 namespace App\Nova;
 
-use App\Nova\Repeater\LineItem;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Fields\Repeater; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
  
 class Invoice extends Resource
@@ -26,16 +23,15 @@ class Invoice extends Resource
 	/**  
 	 * Get the fields displayed by the resource. 
 	 * 
-	 * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
-	 * @return array  
+	 * @return array<int, \Laravel\Nova\Fields\Field>
 	 */
-	public function fields(NovaRequest $request)
+	public function fields(NovaRequest $request): array # [!code focus:10]
 	{
 		return [
 			ID::make(),
-			Repeater::make('Line Items')
+			Repeater::make('Line Items') # [!code ++:4]
 				->repeatables([
-					LineItem::make(),
+					\App\Nova\Repeater\LineItem::make(),
 				]),
 		];
 	}
@@ -63,28 +59,25 @@ php artisan nova:repeatable LineItem
 After invoking the command above, Nova generates a new file at `app/Nova/Repeater/LineItem.php`. This file contains a `fields` method in which you may list any supported Nova field. For example, below we will define a `Repeatable` representing a line item for an invoice:
 
 ```php
-<?php
-
 namespace App\Nova\Repeater;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Currency; # [!code ++]
+use Laravel\Nova\Fields\Number; # [!code ++]
 use Laravel\Nova\Fields\Repeater\Repeatable;
-use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Textarea; # [!code ++]
 
 class LineItem extends Repeatable
 {
 	/**
 	 * Get the fields displayed by the repeatable.
 	 *
-	 * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-	 * @return array
+	 * @return array<int, \Laravel\Nova\Fields\Field>
 	 */
-	public function fields(NovaRequest $request)
+	public function fields(NovaRequest $request): array # [!code focus:8]
 	{
 		return [
-			Number::make('Quantity')->rules('required', 'numeric'),
+			Number::make('Quantity')->rules('required', 'numeric'), # [!code ++:3]
 			Textarea::make('Description')->rules('required', 'max:255'),
 			Currency::make('Price')->rules('required', 'numeric'),
 		];
@@ -97,11 +90,26 @@ class LineItem extends Repeatable
 You may instruct Nova to present a confirmation modal before removing a repeatable by invoking the `confirmRemoval` method when defining the repeatable:
 
 ```php
-Repeater::make('Attachments')->repeatables([
-	\App\Nova\Repeater\File::make()->confirmRemoval(),
-	\App\Nova\Repeater\Note::make(),
-	\App\Nova\Repeater\Video::make()->confirmRemoval(),
-]),
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Http\Requests\NovaRequest;
+ 
+/**  
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Attachments')->repeatables([ # [!code focus:7]
+			\App\Nova\Repeater\File::make()
+				->confirmRemoval(), # [!code ++]
+			\App\Nova\Repeater\Note::make(),
+			\App\Nova\Repeater\Video::make()
+				->confirmRemoval(), # [!code ++]
+		]),
+	];
+}
 ```
 
 ## Repeater Presets
@@ -117,19 +125,44 @@ The `JSON` preset stores repeatables in a `JSON` column in your database. For ex
 To use the `JSON` preset, simply invoke the `asJson` method on your `Repeater` field definition:
 
 ```php
-Repeater::make('Line Items', 'line_items')
-	->repeatables([
-		\App\Nova\Repeater\LineItem::make(),
-	])
-	->asJson()
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Http\Requests\NovaRequest;
+ 
+/**  
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Line Items', 'line_items') # [!code focus:5]
+			->repeatables([
+				\App\Nova\Repeater\LineItem::make(),
+			])
+			->asJson(), # [!code ++]
+	];
+}
 ```
 
 Before using this preset, you should ensure that the underlying Eloquent attribute for the resource's repeater column is configured to cast to an `array` (or equivalent) within your Eloquent model class:
 
 ```php
-protected $casts = [
-    'line_items' => 'array'
-];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+ 
+class Invoice extends Model
+{
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, mixed>
+     */
+	protected $casts = [ # [!code focus:3]
+		'line_items' => 'array', # [!code ++]
+	];
+}
 ```
 
 ### HasMany Preset
@@ -139,24 +172,41 @@ The `HasMany` preset stores repeatables via Eloquent using a `HasMany` relations
 To use the `HasMany` preset, simply invoke the `asHasMany` method on your `Repeater` field definition:
 
 ```php
-Repeater::make('Line Items', 'lineItems')
-	->repeatables([
-		\App\Nova\Repeater\LineItem::make(),
-	])
-	->asHasMany()
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Http\Requests\NovaRequest;
+ 
+/**  
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Line Items', 'lineItems') # [!code focus:5]
+			->repeatables([
+				\App\Nova\Repeater\LineItem::make(),
+			])
+			->asHasMany(), # [!code ++]
+	];
+}
 ```
 
 The `HasMany` preset requires each repeatable to specify the underlying model it represents by setting the `model` property on the `Repeatable`. For example, a `LineItem` repeatable would need to specify the underlying `\App\Models\LineItem` model it represents:
 
 ```php
-class LineItem extends Repeatable
+namespace App\Nova\Repeater;
+
+use Laravel\Nova\Fields\Repeater\Repeatable;
+
+class LineItem extends Repeatable # [!code focus:9]
 {
 	/**  
 	 * The underlying model the repeatable represents. 
 	 * 
 	 * @var class-string
 	 */
-	public static $model = \App\Models\LineItem::class;
+	public static $model = \App\Models\LineItem::class; # [!code ++]
 }
 ```
 
@@ -165,23 +215,26 @@ class LineItem extends Repeatable
 By default, when editing your repeatables configured with the `HasMany` preset, Nova will delete all of the related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
 
 ```php
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Http\Requests\NovaRequest;
+ 
 /**  
  * Get the fields displayed by the resource. 
  * 
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
- * @return array  
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
 	return [
 		ID::make(),
 		
-		Repeater::make('Line Items')
+		Repeater::make('Line Items') # [!code focus:6]
 			->asHasMany()
-			->uniqueField('uuid')
+			->uniqueField('uuid') # [!code ++]
 			->repeatables([
 				\App\Nova\Repeater\LineItem::make()
-			])
+			]),
 	];
 }
 ```
@@ -189,21 +242,28 @@ public function fields(NovaRequest $request)
 In addition, the `fields` method for the `Repeatable` must contain a field matching the `uniqueField`:
 
 ```php
+
+namespace App\Nova\Repeater;
+
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Repeater\Repeatable;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**  
- * Get the fields displayed by the repeatable. 
- * 
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
- * @return array  
- */
-public function fields()
+class LineItem extends Repeatable
 {
-	return [
-		ID::hidden('uuid'), // The unique ID field
+	/**
+	 * Get the fields displayed by the repeatable.
+	 *
+	 * @return array<int, \Laravel\Nova\Fields\Field>
+	 */
+	public function fields(NovaRequest $request): array # [!code focus:8]
+	{
+		return [
+			ID::hidden('uuid'), // The unique ID field # [!code ++]
 
-		// Other fields...
-	];
+			// Other fields...
+		];
+	}
 }
 ```
 

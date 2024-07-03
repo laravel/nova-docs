@@ -28,21 +28,19 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PostPolicy # [!code focus]
+class PostPolicy # [!code focus:14]
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can update the post.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
      * @return mixed
      */
-    public function update(User $user, Post $post) # [!code ++:4] # [!code focus:2]
+    public function update(User $user, Post $post) # [!code ++:4] 
     {
         return $user->type == 'editor';
-    } # [!code focus]
+    }
 }
 ```
 
@@ -80,20 +78,19 @@ use App\Models\User;
 use App\Models\Post;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PostPolicy # [!code focus]
+class PostPolicy # [!code focus:13]
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any posts.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user) # [!code ++:4] # [!code focus:2]
+    public function viewAny(User $user) # [!code ++:4]
     {
         return in_array('view-posts', $user->permissions);
-    } # [!code focus]
+    }
 }
 ```
 
@@ -104,31 +101,30 @@ If you need to authorize actions differently when a request is initiated from wi
 ```php
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
+use Illuminate\Http\Request; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++]
+use Laravel\Nova\Nova; # [!code ++]
 
-class PostPolicy # [!code focus]
+class PostPolicy # [!code focus:18]
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can view any posts.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user) # [!code ++:8] # [!code focus:3]
+    public function viewAny(User $user) # [!code ++:8]
     {
         return Nova::whenServing(function (NovaRequest $request) use ($user) {
             return in_array('nova:view-posts', $user->permissions);
-        }, function (Request $request) use ($user) { # [!code focus]
+        }, function (Request $request) use ($user) {
             return in_array('view-posts', $user->permissions);
-        }); # [!code focus]
-    } # [!code focus]
+        });
+    }
 }
 ```
 
@@ -145,21 +141,19 @@ use App\Models\User;
 use App\Models\Podcast;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PodcastPolicy # [!code focus]
+class PodcastPolicy # [!code focus:14]
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can add a comment to the podcast.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
      * @return mixed
      */
-    public function addComment(User $user, Podcast $podcast) # [!code ++:4] # [!code focus:2]
+    public function addComment(User $user, Podcast $podcast) # [!code ++:4]
     {
         return true;
-    } # [!code focus]
+    }
 }
 ```
 
@@ -172,40 +166,34 @@ For many-to-many relationships, Nova uses a similar naming convention. However, 
 ```php
 namespace App\Policies;
 
-use App\Models\Tag;
+use App\Models\Podcast; # [!code ++]
 use App\Models\User;
-use App\Models\Podcast;
+use App\Models\Tag;  # [!code ++]
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PodcastPolicy # [!code focus]
+class PodcastPolicy # [!code focus:24]
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can attach a tag to a podcast.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
      * @return mixed
      */
-    public function attachTag(User $user, Podcast $podcast, Tag $tag) # [!code ++:4] # [!code focus:2]
+    public function attachTag(User $user, Podcast $podcast, Tag $tag) # [!code ++:4]
     {
         return true;
-    } # [!code focus]
+    }
 
     /**
      * Determine whether the user can detach a tag from a podcast.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
      * @return mixed
      */
-    public function detachTag(User $user, Podcast $podcast, Tag $tag)) # [!code ++:4] # [!code focus:2]
+    public function detachTag(User $user, Podcast $podcast, Tag $tag)) # [!code ++:4]
     {
         return true;
-    } # [!code focus]
+    }
 }
 ```
 
@@ -215,24 +203,22 @@ In the previous examples, we are determining if a user is authorized to attach o
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Podcast;
+use App\Models\Podcast; # [!code ++]
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PodcastPolicy # [!code focus]
+class PodcastPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Determine whether the user can attach any tags to the podcast.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
      * @return mixed
      */
-    public function attachAnyTag(User $user, Podcast $podcast) # [!code ++:4] # [!code focus:2]
+    public function attachAnyTag(User $user, Podcast $podcast) # [!code ++:4] # [!code focus:4]
     {
         return false;
-    } # [!code focus]
+    }
 }
 ```
 
@@ -246,7 +232,9 @@ When working with many-to-many relationships, make sure you define the proper au
 If one of your Nova resources' models has a corresponding policy, but you want to disable Nova authorization for that resource (thus allowing all actions), you may override the `authorizable` method on the Nova resource:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+class Post extends Resource
 {
     /**
      * Determine if the given resource is authorizable.
@@ -267,23 +255,23 @@ Sometimes you may want to hide certain fields from a group of users. You may eas
 ```php
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array # [!code focus:12]
 {
     return [
         ID::make()->sortable(),
 
         Text::make('Name')
             ->sortable()
-            ->canSee(function ($request) { # [!code ++:3] # [!code focus]
+            ->canSee(function ($request) { # [!code ++:3]
                 return $request->user()->can('viewProfile', $this);
-            }), # [!code focus]
+            }),
     ];
 }
 ```
@@ -291,9 +279,25 @@ public function fields(NovaRequest $request)
 In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewProfile` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
 
 ```php
-Text::make('Name')
-    ->sortable()
-    ->canSeeWhen('viewProfile', $this), # [!code ++]
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array # [!code focus:10]
+{
+    return [
+        ID::make()->sortable(),
+
+        Text::make('Name')
+            ->sortable()
+            ->canSeeWhen('viewProfile', $this), # [!code ++]
+    ];
+}
 ```
 
 :::tip Authorization & The "Can" Method
@@ -308,20 +312,20 @@ You may notice that returning `false` from a policy's `view` method does not sto
 This method is already defined in your application's `App\Nova\Resource` base class; therefore, you may simply copy and paste the method into a specific resource and then modify the query based on how you would like to filter the resource's index results:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+use Illuminate\Contracts\Database\Eloquent\Builder; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
     /**
      * Build an "index" query for the given resource.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function indexQuery(NovaRequest $request, $query) # [!code ++:4] # [!code focus:2]
+    public static function indexQuery(NovaRequest $request, Builder $query): Builder # [!code ++:4] # [!code focus:4]
     {
         return $query->where('user_id', $request->user()->id);
-    } # [!code focus]
-
+    }
 }
 ```
 
@@ -332,26 +336,25 @@ If you would like to filter the queries that are used to populate relationship m
 For example, if your application has a `Comment` resource that belongs to a `Podcast` resource, Nova will allow you to select the parent `Podcast` when creating a `Comment`. To limit the podcasts that are available in that selection menu, you should override the `relatableQuery` method on your `Podcast` resource:
 
 ```php
-class Podcast extends Resource # [!code focus]
+namespace App\Nova;
+
+use Illuminate\Contracts\Database\Eloquent\Builder; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Podcast extends Resource
 {
     /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Laravel\Nova\Fields\Field  $field
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function relatableQuery(NovaRequest $request, $query)  # [!code ++:7] # [!code focus:7]
+    public static function relatableQuery(NovaRequest $request, Builder $query): Builder # [!code ++:7] # [!code focus:7]
     {
         return $query->where(
             'comment_id', 
             Comment::query()->where('active', true)->pluck('id')
         );
-    } # [!code focus]
-
+    }
 }
 ```
 
@@ -360,42 +363,41 @@ class Podcast extends Resource # [!code focus]
 You can customize the "relatable" query for individual relationships by using a dynamic, convention based method name that is suffixed with the pluralized name of the model. For example, if your application has a `Post` resource, in which posts can be tagged, but the `Tag` resource is associated with different types of models, you may define a `relatableTags` method to customize the relatable query for this relationship:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+use Illuminate\Contracts\Database\Eloquent\Builder; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
     /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Laravel\Nova\Fields\Field  $field
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function relatableTags(NovaRequest $request, $query) # [!code ++:4] # [!code focus:4]
+    public static function relatableTags(NovaRequest $request, Builder $query): Builder # [!code ++:4] # [!code focus:4]
     {
         return $query->where('type', 'posts');
     }
-
 }
 ```
 
 If necessary, you may access the `resource` and `resourceId` for the request via the `NovaRequest` instance that is passed to your method:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
     /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Laravel\Nova\Fields\Field  $field
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function relatableTags(NovaRequest $request, $query) # [!code focus:8]
+    public static function relatableTags(NovaRequest $request, Builder $query): Builder # [!code focus:8]
     {
         return $query->where('type', 'posts'); # [!code --]
         $resource = $request->route('resource'); // The resource type... # [!code ++:4]
@@ -412,31 +414,71 @@ class Post extends Resource # [!code focus]
 When a Nova resource depends on another resource via multiple fields, you will often assign the fields different names such as:
 
 ```php
-BelongsTo::make('Current Team', 'currentTeam', Team::class),
-HasMany::make('Owned Teams', 'ownedTeams', Team::class),
-BelongsToMany::make('Teams', 'teams', Team::class),
+namespace App\Nova;
+
+use Laravel\Nova\Fields\BelongsTo; 
+use Laravel\Nova\Fields\BelongsToMany; 
+use Laravel\Nova\Fields\HasMany; 
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
+{
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @return array<int, \Laravel\Nova\Fields\Field>
+     */
+    public function fields(NovaRequest $request): array
+    {
+        return [
+            // ...
+            BelongsTo::make('Current Team', 'currentTeam', Team::class), # [!code focus:3]
+            HasMany::make('Owned Teams', 'ownedTeams', Team::class),
+            BelongsToMany::make('Teams', 'teams', Team::class),
+        ];
+    }
+}
 ```
 
 In these situations, you should supply a third argument when defining the relationship to specify which Nova resource the relationship should utilize, since Nova may not be able to determine this via convention:
 
 ```php
-use Laravel\Nova\Fields\BelongsTo; # [!code ++]
-use Laravel\Nova\Fields\BelongsToMany; # [!code ++]
+namespace App\Nova;
 
-class User extends Resource # [!code focus]
+use Illuminate\Contracts\Database\Eloquent\Builder; # [!code ++]
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Field; # [!code ++]
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class User extends Resource
 {
+    /**
+     * Get the fields displayed by the resource.
+     *
+     * @return array<int, \Laravel\Nova\Fields\Field>
+     */
+    public function fields(NovaRequest $request): array
+    {
+        return [
+            // ...
+            BelongsTo::make('Current Team', 'currentTeam', Team::class), # [!code focus:3]
+            HasMany::make('Owned Teams', 'ownedTeams', Team::class),
+            BelongsToMany::make('Teams', 'teams', Team::class),
+        ];
+    }
+
     /**
      * Build a "relatable" query for the given resource.
      *
      * This query determines which instances of the model may be attached to other resources.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  \Laravel\Nova\Fields\Field  $field
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public static function relatableTeams(NovaRequest $request, $query, Field $field) # [!code ++:10] # [!code focus:10]
-    {
+    public static function relatableTeams( # [!code ++:13] # [!code focus:13]
+        NovaRequest $request, 
+        Builder $query, 
+        Field $field
+    ): Builder {
         if ($field instanceof BelongsToMany && $field->attribute === 'teams') {
             // ... 
         } elseif ($field instanceof BelongsTo && $field->attribute === 'currentTeam') {
@@ -453,7 +495,12 @@ class User extends Resource # [!code focus]
 If your application is leveraging the power of Laravel Scout for [search](./../search/scout-integration.md), you may also customize the `Laravel\Scout\Builder` query instance before it is sent to your search provider. To accomplish this, override the `scoutQuery` method on your resource class:
 
 ```php
-class Post extends Resource # [!code focus]
+namespace App\Nova;
+
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Scout\Builder as ScoutBuilder;
+
+class Post extends Resource
 {
     /**
      * Build a Scout search query for the given resource.
@@ -462,10 +509,12 @@ class Post extends Resource # [!code focus]
      * @param  \Laravel\Scout\Builder  $query
      * @return \Laravel\Scout\Builder
      */
-    public static function scoutQuery(NovaRequest $request, $query) # [!code ++:4] # [!code focus:2]
-    {
+    public static function scoutQuery( # [!code ++:6] # [!code focus:6]
+        NovaRequest $request, 
+        ScoutBuilder $query
+    ): ScoutBuilder {
         return $query->where('user_id', $request->user()->id);
-    } # [!code focus]
+    }
 
 }
 ```
