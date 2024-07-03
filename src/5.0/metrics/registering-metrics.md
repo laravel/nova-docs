@@ -37,9 +37,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  */
 public function cards(NovaRequest $request): array # [!code focus:7]
 {
-    return []; # [!code --]
-    return [ # [!code ++:3]
-        UsersPerDay::make(),
+    return [
+        new UsersPerDay(), # [!code --]
+        UsersPerDay::make(), # [!code ++]
     ];
 }
 ```
