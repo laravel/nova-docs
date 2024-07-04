@@ -161,11 +161,54 @@ Nova will also not check the current license key when the subdomain is one of th
 
 Nova utilises [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two Factor Authentication, E-mail Verification and Password Confirmation. By default this feature is not enabled by default but can be enabled with just few changes within your `app/Providers/NovaServiceProvider.php` file.
 
+### Using Nova as Secondary Login
+
+It is common to have a separate frontend login for normal users and backend login specifically for admin and Nova will internally determine if Fortify's routes should be loaded by checking if the application is loaded with either `App\Providers\FortifyServiceProvider` or `App\Providers\JetstreamServiceProvider`. 
+
+In order to skip the additional checks and force enabled Fortify's routes you can update `routes()` method in `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:8]
+    {
+        Nova::routes()
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register() # [!code --]
+            ->register(fortify: true); # [!code ++]
+    }
+}
+```
+
+Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `fortify: false` insteads:
+
+```php
+use Laravel\Nova\Nova;
+
+// ...
+
+protected function routes(): void
+{
+    Nova::routes() # [!code focus:5]
+        ->withAuthenticationRoutes()
+        ->withPasswordResetRoutes()
+        ->register() # [!code --]
+        ->register(fortify: false); # [!code ++]
+}
+```
+
 ### Using Nova as Application Default Login
 
-It is common to have a separate frontend login for normal users and backend login specifically for admins. But. there are scenario where Nova is used as the default authentication UI for the application. 
-
-You can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
+Alternative, there are scenario where Nova is used as the default authentication UI for the application for normal users and admins. To utilise Nova as the default authentication UI you can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;

@@ -192,4 +192,12 @@ import { router as Inertia, usePage } from '@inertiajs/vue3' // [!code ++] // [!
 // ...
 
 </script>
+```
 
+### Vendor Managed `nova.mix.js` File
+
+> @TODO document how to use `vendor/laravel/nova/nova.mix.js` within `webpack.mix.js`
+
+### Replacing `form-backend-validation`
+
+> @TODO document how to use `laravel-nova` mixin as replacement
