@@ -63,9 +63,13 @@ If your application relies on Nova tools or packages developed by third-parties,
 Let's update the Nova configuration file. First, ensure that the `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
 
 ```php
+use Laravel\Nova\Actions\ActionResource;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
-use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++] # [!code focus]
+use Laravel\Nova\Http\Middleware\BootTools;
+use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
+// use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++] # [!code focus]
+use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
 
 return [
 
