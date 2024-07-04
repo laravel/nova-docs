@@ -116,7 +116,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-Once completed, you may look into customizing the authentication featured powered by **Laravel Fortify** on the [Authentication & Security](./installation.md#authentication--security) documentation.
+Once completed, you may look into customizing the authentication featured powered by **Laravel Fortify** on the [Authentication & Security](./installation.md#authentication-security) documentation.
 
 ### Without Authentication Features
 
