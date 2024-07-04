@@ -1013,7 +1013,7 @@ use Laravel\Nova\Fields\MorphToMany;
 // ...
 
 return [
-    MorphToMany::make('Tags')
+    MorphToMany::make('Tags') # [!code focus:3]
         ->collapsable(), # [!code --]
         ->collapsedByDefault(), # [!code ++]
 ];
@@ -1099,7 +1099,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 return [
     BelongsTo::make('User') # [!code focus:8]
-        ->dependsOn('topic', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
+        ->dependsOn('topic', function (BelongsTo $field, NovaRequest $request, FormData $formData) { # [!code ++:7]
             if ($formData->topic === 'laravel-nova') {
                 $field->relatableQueryUsing(function (NovaRequest $request, Builder $query) { 
                     $query->whereIn('email', ['taylor@laravel.com', 'david@laravel.com']);

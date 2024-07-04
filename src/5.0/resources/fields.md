@@ -37,8 +37,8 @@ use Laravel\Nova\Fields\Text;
 // ...
 
 return [
-    Text::make('Name'), # [!code --]  # [!code focus:2]
-    Text::make('Name', 'name_column'), # [!code ++] 
+    Text::make('Name'), # [!code --]  # [!code focus]
+    Text::make('Name', 'name_column'), # [!code ++] # [!code focus]
 ];
 ```
 
@@ -50,8 +50,8 @@ use Laravel\Nova\Fields\Timezone;
 // ...
 
 return [
-    Timezone::make('User Timezone'), # [!code --] # [!code focus:2]
-    Timezone::make('User Timezone', 'settings->timezone'), # [!code ++]
+    Timezone::make('User Timezone'), # [!code --] # [!code focus]
+    Timezone::make('User Timezone', 'settings->timezone'), # [!code ++] # [!code focus]
 ];
 ```
 
@@ -1095,8 +1095,8 @@ use Laravel\Nova\Fields\Email;
 // ...
 
 return [
-    Email::make(), # [!code --] # [!code focus:2]
-    Email::make('Customer Email', 'customer_email'), # [!code ++]
+    Email::make(), # [!code --] # [!code focus]
+    Email::make('Customer Email', 'customer_email'), # [!code ++] # [!code focus]
 ];
 ```
 
@@ -1281,8 +1281,8 @@ use Laravel\Nova\Fields\ID;
 // ...
 
 return [
-    ID::make(), # [!code --] # [!code focus:2]
-    ID::make(attribute: 'id_column'), # [!code ++]
+    ID::make(), # [!code --] # [!code focus]
+    ID::make(attribute: 'id_column'), # [!code ++] # [!code focus]
 ];
 ```
 
@@ -2719,8 +2719,8 @@ use Laravel\Nova\Fields\Text;
 // ...
 
 return [
-    Text::make('Name', fn () => $this->first_name.' '.$this->last_name), # [!code --] # [!code focus:2]
-    Text::make('Name', fn ($model) => $model->first_name.' '.$model->last_name), # [!code ++]
+    Text::make('Name', fn () => $this->first_name.' '.$this->last_name), # [!code --] # [!code focus]
+    Text::make('Name', fn ($model) => $model->first_name.' '.$model->last_name), # [!code ++] # [!code focus]
 ];
 ```
 

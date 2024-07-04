@@ -106,8 +106,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 public function fields(NovaRequest $request): array
 {
     return [
-        File::make('Profile Photo') # [!code --] # [!code focus:3]
-        Image::make('Profile Photo') # [!code ++]
+        File::make('Profile Photo') # [!code --] # [!code focus]
+        Image::make('Profile Photo') # [!code ++] # [!code focus:2]
             ->disk('public'),
     ];
 }

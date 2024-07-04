@@ -202,11 +202,11 @@ To customize the logo used at the top left of the Nova interface, you may specif
 ```php
 return [
 
-    // 'brand' => [ # [!code --]  # [!code focus:2]
-    'brand' => [ # [!code ++]
+    // 'brand' => [ # [!code --] # [!code focus]
+    'brand' => [ # [!code ++] # [!code focus]
 
-        // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus:2]
-        'logo' => resource_path('/assets/logo.svg'), # [!code ++]
+        // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus]
+        'logo' => resource_path('/assets/logo.svg'), # [!code ++] # [!code focus]
 
         // 'colors' => [
         //     "400" => "24, 182, 155, 0.5",
@@ -214,8 +214,8 @@ return [
         //     "600" => "24, 182, 155, 0.75",
         // ],
 
-    // ], # [!code --] # [!code focus:2]
-    ], # [!code ++]
+    // ], # [!code --] # [!code focus]
+    ], # [!code ++] # [!code focus]
 
 ];
 ```
@@ -234,8 +234,8 @@ return [
 
     // ...
 
-    // 'brand' => [ # [!code --] # [!code focus:2]
-    'brand' => [ # [!code ++]
+    // 'brand' => [ # [!code --] # [!code focus]
+    'brand' => [ # [!code ++] # [!code focus]
 
         // 'logo' => resource_path('/img/example-logo.svg'),
 
@@ -250,8 +250,8 @@ return [
             "600" => "24, 182, 155, 0.75", 
         ], 
 
-    // ], # [!code --] # [!code focus:2]
-    ], # [!code ++]
+    // ], # [!code --] # [!code focus]
+    ], # [!code ++] # [!code focus]
 
 ];
 ```
@@ -370,8 +370,8 @@ public function register(): void
 {
     parent::register();
 
-    Nova::initialPath('/resources/users'); # [!code --] # [!code focus:4]
-    Nova::initialPath( # [!code ++:3]
+    Nova::initialPath('/resources/users'); # [!code --] # [!code focus]
+    Nova::initialPath( # [!code ++:3] # [!code focus:3]
         fn (Request $request) => $request->user()->initialPath()
     );
 
@@ -418,8 +418,8 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::withBreadcrumbs(); # [!code --] # [!code focus:4]
-    Nova::withBreadcrumbs(  # [!code ++:3]
+    Nova::withBreadcrumbs(); # [!code --] # [!code focus]
+    Nova::withBreadcrumbs(  # [!code ++:3] # [!code focus:3]
         fn (NovaRequest $request) => $request->user()->wantsBreadcrumbs()
     );
 
@@ -466,8 +466,8 @@ public function boot(): void
 {
     parent::boot();
 
-    Nova::enableRTL(); # [!code --] # [!code focus:4]
-    Nova::enableRTL( # [!code ++:3]
+    Nova::enableRTL(); # [!code --] # [!code focus]
+    Nova::enableRTL( # [!code ++:3] # [!code focus:3]
         fn (Request $request) => $request->user()->wantsRTL() 
     );
 

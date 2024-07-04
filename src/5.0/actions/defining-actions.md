@@ -416,8 +416,8 @@ use Illuminate\Contracts\Queue\ShouldQueue; # [!code ++]
 use Illuminate\Queue\InteractsWithQueue;
 use Laravel\Nova\Actions\Action;
 
-class EmailAccountProfile extends Action # [!code --] # [!code focus:5]
-class EmailAccountProfile extends Action implements ShouldQueue # [!code ++]
+class EmailAccountProfile extends Action # [!code --] # [!code focus]
+class EmailAccountProfile extends Action implements ShouldQueue # [!code ++] # [!code focus:4]
 {
     use InteractsWithQueue;
     use Queueable;
@@ -486,8 +486,8 @@ use Laravel\Nova\Contacts\BatchableAction; # [!code ++]
 use Laravel\Nova\Fields\ActionFields;
 use Throwable;
 
-class EmailAccountProfile extends Action implements ShouldQueue # [!code --] # [!code focus:6]
-class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue # [!code ++]
+class EmailAccountProfile extends Action implements ShouldQueue # [!code --] # [!code focus]
+class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue # [!code ++] # [!code focus:5]
 {
     use Batchable; # [!code ++]
     use InteractsWithQueue;

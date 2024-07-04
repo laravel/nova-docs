@@ -151,13 +151,13 @@ fill(formData) {
 By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/fields.html#dependent-fields), you should replace `FormField` with `DependentFormField`:
 
 ```js
-import { FormField, HandlesValidationErrors } from 'laravel-nova' // [!code --] // [!code focus:2]
-import { DependentFormField, HandlesValidationErrors } from 'laravel-nova' // [!code ++]
+import { FormField, HandlesValidationErrors } from 'laravel-nova' // [!code --] // [!code focus]
+import { DependentFormField, HandlesValidationErrors } from 'laravel-nova' // [!code ++] // [!code focus]
 
 export default {
 
-  mixins: [FormField, HandlesValidationErrors], // [!code --] // [!code focus:2]
-  mixins: [DependentFormField, HandlesValidationErrors], // [!code ++]
+  mixins: [FormField, HandlesValidationErrors], // [!code --] // [!code focus]
+  mixins: [DependentFormField, HandlesValidationErrors], // [!code ++] // [!code focus]
 
   //
 }
