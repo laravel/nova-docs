@@ -244,11 +244,17 @@ import { Errors } from 'laravel-nova' // [!code ++] // [!code focus]
 </script>
 ```
 
-Next, just remove `form-backend-validation` from `package.json`:
+Next, remove `form-backend-validation` from `package.json`:
 
 ```bash
 npm remove form-backend-validation
 ```
+
+## Medium Impact Changes ​
+
+### Algolia Place Field ​Removed
+
+Algolia [retired their "Places" API](https://www.algolia.com/blog/product/sunsetting-our-places-feature/) on May 31, 2022; therefore, the Place field was deprecated on Nova 4 and now removed in Nova 5.
 
 ## Low Impact Changes
 
