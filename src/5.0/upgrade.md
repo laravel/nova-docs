@@ -35,7 +35,7 @@ You should update your `laravel/nova` dependency to `^5.0` in your application's
     }
 ```
 
-Next, install your updated your Composer dependencies:
+Next, install your updated Composer dependencies:
 
 ```shell
 composer update mirrors
@@ -85,10 +85,10 @@ return [
 ### With Authentication Routes
 
 ::: warning
-Skip this section if your Nova's installation configured with custom authentication routes.
+Skip this section if your Nova's installation is configured with custom authentication routes.
 :::
 
-Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI. The changes allows Nova 5 to enable 2-Factor Authentication, E-mail Verification and Password Confirmation. 
+Nova 5 now leverages [Laravel Fortify](https://laravel.com/docs/fortify) instead of Laravel UI. The changes allow Nova 5 to enable Two Factor Authentication, E-mail Verification, and Password Confirmation. 
 
 First, you need to update `register()` method in `App\Providers\NovaServiceProvider` class:
 
@@ -117,10 +117,10 @@ Once completed, you may look into customizing the authentication featured powere
 ### Without Authentication Features
 
 ::: warning
-Skip this section if your Nova's installation configured without custom authentication routes.
+Skip this section if your Nova's installation is configured without custom authentication routes.
 :::
 
-In application where the default login interface doesn't mean your use case it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `routes()` method in `App\Providers\NovaServiceProvider` class:
+In an application where the default login interface doesn't mean your use case, it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `routes()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -158,7 +158,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-With above changes you can now remove the configuration override in `config/nova.php`:
+With the above changes, you can now remove the configuration override in `config/nova.php`:
 
 ```php
 return [
@@ -181,7 +181,7 @@ return [
 
 ### Inertia 1 Compatibility
 
-With Nova 5, the frontend JavaScript now utilise Inertia.js v1 and will affect any projects what redirectly imports from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all reference has been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
+With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all references have been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
 
 ```vue
 <script>
