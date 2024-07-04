@@ -204,4 +204,20 @@ import { router as Inertia, usePage } from '@inertiajs/vue3' // [!code ++] // [!
 
 ### Replacing `form-backend-validation`
 
-> @TODO document how to use `laravel-nova` mixin as replacement
+`form-backend-validation` repository has been archived and should no longer be used by third-party packages or components. As a replacement developers are adviced to change any references to `form-backend-validation` such as:
+
+```vue
+<script>
+import { Errors } from 'form-backend-validation' // [!code --] // [!code focus]
+import { Errors } from 'laravel-nova' // [!code ++] // [!code focus]
+
+// ...
+
+</script>
+```
+
+Next, just remove `form-backend-validation` from `package.json`:
+
+```bash
+npm remove form-backend-validation
+```
