@@ -83,8 +83,8 @@ export default defineConfigWithTheme<ThemeConfig>({
                 {
                     text: "Getting Started",
                     items: [
-                        { text: 'Installation', link: '/5.0/installation.html' },
-                        { text: 'Release Notes', link: '/5.0/releases.html' },
+                        { text: 'Installation', link: '/5.0/installation.html', activeMatch: 'installation.html' },
+                        { text: 'Release Notes', link: '/5.0/releases.html', activeMatch: 'releases.html' },
                         { text: 'Upgrade Guide', link: '/5.0/upgrade.html' },
                         { text: 'Support & Bug Reports', link: '/5.0/support.html' },
                         { text: 'Code of Conduct', link: '/5.0/code-of-conduct.html' },

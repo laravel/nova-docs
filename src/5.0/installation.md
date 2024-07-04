@@ -358,7 +358,74 @@ Please refer to Fortify's [Two Factor Authentication](https://laravel.com/docs/f
 
 ### Enables E-mail Verifications
 
-> @TODO update NovaServiceProvider and `config/nova.php`
+Nova includes support for requiring that a newly registered user verify their email address. However, support for this feature is disabled by default. To enable this feature, you should uncomment the relevant entry in the features configuration item in the `routes()` method in `App\Provider\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Fortify\Features; # [!code focus]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:13]
+    {
+        Nova::routes()
+            ->withFortifyFeatures([
+                Features::updatePasswords(),
+                // Features::emailVerification(), # [!code --]
+                Features::emailVerification(), # [!code ++]
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+            ])
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+}
+```
+
+Next, you should ensure that your `User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` interface. This interface is already imported into this model for you:
+
+```php
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail; # [!code --] # [!code focus]
+use Illuminate\Contracts\Auth\MustVerifyEmail; # [!code ++] # [!code focus]
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable # [!code --] # [!code focus]
+class User extends Authenticatable implements MustVerifyEmail # [!code ++] # [!code focus]
+{
+    use Notifiable;
+
+    // ...
+}
+```
+
+Finally, to secure Nova page from being used by unverified user, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
+
+```php
+use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code focus]
+
+return [
+
+    // ...
+
+    'api_middleware' => [ # [!code focus:7]
+        'nova',
+        Authenticate::class,
+        // EnsureEmailIsVerified::class, # [!code --]
+        EnsureEmailIsVerified::class, # [!code ++]
+        Authorize::class,
+    ],
+
+];
+```
 
 ### Customizing Nova's Authentication Guard
 
