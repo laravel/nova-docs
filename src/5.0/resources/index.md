@@ -752,9 +752,9 @@ use Laravel\Nova\Actions\ExportAsCsv;
 return [
     ExportAsCsv::make() # [!code focus:6]
         ->withFormat(fn ($model) => [ # [!code ++:5]
-                'ID' => $model->getKey(),
-                'Name' => $model->name,
-                'Email Address' => $model->email,
+            'ID' => $model->getKey(),
+            'Name' => $model->name,
+            'Email Address' => $model->email,
         ]),
 ];
 ```
