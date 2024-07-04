@@ -98,6 +98,7 @@ export default defineConfigWithTheme<ThemeConfig>({
                         { text: 'Date Fields', link: '/5.0/resources/date-fields.html' },
                         { text: 'File Fields', link: '/5.0/resources/file-fields.html' },
                         { text: 'Repeater Fields', link: '/5.0/resources/repeater-fields.html' },
+                        { text: 'Tabs', link: '/5.0/resources/tabs.html' },
                         { text: 'Relationships', link: '/5.0/resources/relationships.html' },
                         { text: 'Validation', link: '/5.0/resources/validation.html' },
                         { text: 'Authorization', link: '/5.0/resources/authorization.html' },
