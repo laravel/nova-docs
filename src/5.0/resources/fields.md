@@ -233,7 +233,7 @@ public function fields(NovaRequest $request): array # [!code focus:8]
  *
  * @return array
  */
-public function fieldsForDetail(NovaRequest $request) # [!code ++:9] # [!code focus:9]
+public function fieldsForDetail(NovaRequest $request) # [!code ++:10] # [!code focus:10]
 {
     return [
         Text::make('Name', function () {
