@@ -159,13 +159,13 @@ Nova will also not check the current license key when the subdomain is one of th
 
 ## Authentication & Security
 
-Nova utilises [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two Factor Authentication, E-mail Verification and Password Confirmation. By default this feature is not enabled by default but can be enabled with just few changes within your `app/Providers/NovaServiceProvider.php` file.
+Nova utilizes [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two Factor Authentication, E-mail Verification and Password Confirmation. By default, this feature is not enabled but can be enabled with just a few changes within your `app/Providers/NovaServiceProvider.php` file.
 
-### Using Nova as Secondary Login
+### Using Nova as a Secondary Login
 
-It is common to have a separate frontend login for normal users and backend login specifically for admin and Nova will internally determine if Fortify's routes should be loaded by checking if the application is loaded with either `App\Providers\FortifyServiceProvider` or `App\Providers\JetstreamServiceProvider`. 
+It is common to have a separate frontend login for normal users and a backend login specifically for admin and Nova will internally determine if Fortify's routes should be loaded by checking if the application is loaded with either `App\Providers\FortifyServiceProvider` or `App\Providers\JetstreamServiceProvider`. 
 
-In order to skip the additional checks and force enabled Fortify's routes you can update `routes()` method in `App\Providers\NovaServiceProvider` class:
+To skip the additional checks and force enabled Fortify's routes you can update `routes()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -189,7 +189,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `fortify: false` insteads:
+Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `fortify: false` instead:
 
 ```php
 use Laravel\Nova\Nova;
@@ -208,7 +208,7 @@ protected function routes(): void
 
 ### Using Nova as Application Default Login
 
-Alternative, there are scenario where Nova is used as the default authentication UI for the application for normal users and admins. To utilise Nova as the default authentication UI you can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
+Alternatively, there are scenarios where Nova is used as the default authentication UI for the application for normal users and admins. To utilize Nova as the default authentication UI you can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -234,7 +234,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
 ### Using Custom Authentication Routes
 
-Alternatively, you can also disable Nova's authentication and password reset routes and instead uses [Laravel Jetstream](https://jetstream.laravel.com/) or [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze) by updating `routes()` method within `App\Providers\NovaServiceProvider` class:
+Alternatively, you can also disable Nova's authentication and password reset routes and instead use [Laravel Jetstream](https://jetstream.laravel.com/) or [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze) by updating `routes()` method within `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -268,7 +268,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
 ### Authorizing Access to Nova
 
-Within your `App\Providers\NovaServiceProvider` class, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
+Within your `App\Providers\NovaServiceProvider` class, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. Users can access the Nova dashboard by default when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
 ```php
 namespace App\Providers;
@@ -298,7 +298,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
 ### Enables Two Factor Authentication
 
-In order to allows your user to authenticate with Two Factor Authentication you need to update your `User` model and `App\Providers\NovaServiceProvider` class. 
+To allow your users to authenticate with Two Factor Authentication you need to update your `User` model and `App\Providers\NovaServiceProvider` class. 
 
 First, we need to add `Laravel\Fortify\TwoFactorAuthenticatable` trait to the application's `User` model, here we will use `App\Models\User` as an example:
 
@@ -348,7 +348,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-Once `User` model and `NovaServiceProvider` class has been updated users of Nova should be able to access a new **User Security** page from User Menu:
+Once `User` model and `NovaServiceProvider` class have been updated users of Nova should be able to access a new **User Security** page from the User Menu:
 
 ![User Security Menu](./img/user-security-menu.png)
 
@@ -407,10 +407,11 @@ class User extends Authenticatable implements MustVerifyEmail # [!code ++] # [!c
 }
 ```
 
-Finally, to secure Nova page from being used by unverified user, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
+Finally, to secure the Nova page from being used by an unverified users, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
 
 ```php
-use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code focus]
+// use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code --] # [!code focus]
+use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++] # [!code focus]
 
 return [
 
