@@ -140,7 +140,6 @@ In application where the default login interface doesn't mean your use case it w
 ```php
 namespace App\Providers;
 
-use Laravel\Fortify\Features; # [!code ++] # [!code focus]
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -193,4 +192,20 @@ return [
 
 ];
 ```
+
+## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
+
+### Inertia 1 Compatibility
+
+With Nova 5, the frontend JavaScript now utilise Inertia.js v1 and will affect any projects what redirectly imports from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all reference has been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
+
+```vue
+<script>
+import { usePage } from '@inertiajs/inertia-vue3' // [!code --] // [!code focus]
+import { Inertia } from '@inertiajs/inertia' // [!code --] // [!code focus]
+import { router as Inertia, usePage } from '@inertiajs/vue3' // [!code ++] // [!code focus]
+
+// ...
+
+</script>
 
