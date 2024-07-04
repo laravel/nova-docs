@@ -43,16 +43,35 @@ composer update mirrors
 composer update
 ```
 
-Next, update `App\Providers\NovaServiceProvider` file to include call to `parent::register()` if the method exists:
+### Upgrading Authentication Features
+
+Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI. The changes allows Nova 5 to enable 2-Factor Authentication, E-mail Verification and Password Confirmation. First, you need to update `routes()` and `register()` methods in `App\Providers\NovaServiceProvider` file:
 
 ```php
-
 namespace App\Providers;
 
+use Laravel\Fortify\Features; # [!code ++] # [!code focus]
+use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:12]
+    {
+        Nova::routes()
+            ->withFortifyFeatures([ # [!code ++:5]
+                Features::resetPasswords(),
+                // Features::emailVerification(),
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+            ])
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+
     /**
      * Register any application services.
      */
@@ -63,21 +82,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         //
     }
 }
-```
-
-### Updating Authentication
-
-Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI and
-
-### Updating Configuration, Assets, and Translations
-
-Next, you should update your application's Nova configuration, assets, and translation files. To get started, you may run the following commands to update your assets and translations.
-
-**You may wish to store a copy of your current translation file before running this command so you can easily port any custom translations back into the new file after running these commands.**:
-
-```bash
-php artisan vendor:publish --tag=nova-assets --force
-php artisan vendor:publish --tag=nova-lang --force
 ```
 
 Next, let's update the Nova configuration file. First, ensure that the `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
@@ -99,6 +103,18 @@ return [
     ],
 
 ];
+```
+
+
+### Updating Assets and Translations
+
+Next, you should update your application's Nova assets and translation files. To get started, you may run the following commands to update your assets and translations.
+
+**You may wish to store a copy of your current translation file before running this command so you can easily port any custom translations back into the new file after running these commands.**:
+
+```bash
+php artisan vendor:publish --tag=nova-assets --force
+php artisan vendor:publish --tag=nova-lang --force
 ```
 
 ### Updating Third-Party Nova Packages ​
