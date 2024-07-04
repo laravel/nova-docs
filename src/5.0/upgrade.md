@@ -43,48 +43,24 @@ composer update mirrors
 composer update
 ```
 
-### Upgrading Authentication Features
+### Updating Assets and Translations
 
-Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI. The changes allows Nova 5 to enable 2-Factor Authentication, E-mail Verification and Password Confirmation. First, you need to update `routes()` and `register()` methods in `App\Providers\NovaServiceProvider` file:
+Next, you should update your application's Nova assets and translation files. To get started, you may run the following commands to update your assets and translations.
 
-```php
-namespace App\Providers;
+**You may wish to store a copy of your current translation file before running this command so you can easily port any custom translations back into the new file after running these commands.**:
 
-use Laravel\Fortify\Features; # [!code ++] # [!code focus]
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
-
-class NovaServiceProvider extends NovaApplicationServiceProvider
-{
-    /**
-     * Register the Nova routes.
-     */
-    protected function routes(): void # [!code focus:12]
-    {
-        Nova::routes()
-            ->withFortifyFeatures([ # [!code ++:5]
-                Features::updatePasswords(),
-                // Features::emailVerification(),
-                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
-            ])
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
-            ->register();
-    }
-
-    /**
-     * Register any application services.
-     */
-    public function register(): void # [!code focus:6]
-    {
-        parent::register(); # [!code ++]
-
-        //
-    }
-}
+```bash
+php artisan vendor:publish --tag=nova-assets --force
+php artisan vendor:publish --tag=nova-lang --force
 ```
 
-Next, let's update the Nova configuration file. First, ensure that the `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
+### Updating Third-Party Nova Packages ​
+
+If your application relies on Nova tools or packages developed by third-parties, it is possible that these packages are not yet compatible with Nova 5.0 and will require an update from their maintainers.
+
+## Upgrading Authentication Features
+
+Let's update the Nova configuration file. First, ensure that the `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
 
 ```php
 use Laravel\Nova\Http\Middleware\Authenticate;
@@ -106,25 +82,115 @@ return [
 ```
 
 
-### Updating Assets and Translations
+### With Authentication Routes
 
-Next, you should update your application's Nova assets and translation files. To get started, you may run the following commands to update your assets and translations.
+::: warning
+Skip this section if your Nova's installation configured with custom authentication routes.
+:::
 
-**You may wish to store a copy of your current translation file before running this command so you can easily port any custom translations back into the new file after running these commands.**:
+Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI. The changes allows Nova 5 to enable 2-Factor Authentication, E-mail Verification and Password Confirmation. 
 
-```bash
-php artisan vendor:publish --tag=nova-assets --force
-php artisan vendor:publish --tag=nova-lang --force
+First, you need to update `routes()` and `register()` methods in `App\Providers\NovaServiceProvider` file:
+
+```php
+namespace App\Providers;
+
+use Laravel\Fortify\Features; # [!code ++] # [!code focus]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:12]
+    {
+        Nova::routes()
+            ->withFortifyFeatures([ # [!code ++:5]
+                // Features::updatePasswords(),
+                // Features::emailVerification(),
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+            ])
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+
+    /**
+     * Register any application services.
+     */
+    public function register(): void # [!code focus:6]
+    {
+        parent::register(); # [!code ++]
+
+        //
+    }
+}
 ```
 
-### Updating Third-Party Nova Packages ​
+### Without Authentication Features
 
-If your application relies on Nova tools or packages developed by third-parties, it is possible that these packages are not yet compatible with Nova 5.0 and will require an update from their maintainers.
+::: warning
+Skip this section if your Nova's installation configured without custom authentication routes.
+:::
 
-### Run Database Migrations
+In application where the default login interface doesn't mean your use case it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `App\Providers\NovaServiceProvider::routes()` as shown below:
 
-After updating your application's Composer dependencies, you should migrate your database:
+```php
+namespace App\Providers;
 
-```shell
-php artisan migrate
+use Laravel\Fortify\Features; # [!code ++] # [!code focus]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:12]
+    {
+        Nova::routes()
+            ->withoutAuthenticationRoutes( # [!code ++:4]
+                login: '/login',
+                logout: '/logout',
+            )
+            ->withoutPasswordResetRoutes( # [!code ++:4]
+                forgotPassword: '/forgot-password',
+                resetPassword: '/reset-password',
+            )
+            ->register();
+    }
+
+    /**
+     * Register any application services.
+     */
+    public function register(): void # [!code focus:6]
+    {
+        parent::register(); # [!code ++]
+
+        //
+    }
+}
 ```
+
+With above changes you can now remove the configuration override in `config/nova.php`:
+
+```php
+return [
+
+    // ...
+
+    'routes' => [ # [!code --:6] # [!code focus:6]
+        'login' => '/login',
+        'logout' => '/logout',
+        'forgot_password' => '/forgot-password',
+        'reset_password' => '/reset-password',
+    ],
+
+    // ...
+
+];
+```
+
