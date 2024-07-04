@@ -407,7 +407,7 @@ class User extends Authenticatable implements MustVerifyEmail # [!code ++] # [!c
 }
 ```
 
-Finally, to secure the Nova page from being used by an unverified users, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
+Finally, to secure the Nova page from being used by unverified users, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
 
 ```php
 // use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code --] # [!code focus]
