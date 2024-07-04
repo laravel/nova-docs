@@ -249,3 +249,13 @@ Next, just remove `form-backend-validation` from `package.json`:
 ```bash
 npm remove form-backend-validation
 ```
+
+## Low Impact Changes
+
+### Update Published Stubs
+
+Due to various changes in Nova 4.0, you should re-publish the Nova "stubs" if you have previously published them. You can accomplish this by executing the `nova:stubs` Artisan command with the `--force` option:
+
+```bash
+php artisan nova:stubs --force
+```

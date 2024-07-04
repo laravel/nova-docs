@@ -15,10 +15,6 @@
     margin-top: 3rem;
 }
 
-.PilgrimDoc h4 {
-    margin-top: 2rem;
-}
-
-.PilgrimDoc h5 {
-    margin-top: 1rem;
+.PilgrimDoc h4, .PilgrimDoc h5 {
+    margin-top: 1.5rem;
 }
