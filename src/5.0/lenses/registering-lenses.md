@@ -26,20 +26,13 @@ Alternatively, you may use the `make` method to instantiate your lens. Any argum
 
 ```php
 use App\Nova\Lenses\MostValuableUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the lenses available for the resource.
- *
- * @return array<int, \Laravel\Nova\Lenses\Lens>
- */
-public function lenses(NovaRequest $request): array # [!code focus:7]
-{
-    return [
-        new MostValuableUsers(), # [!code --]
-        Lenses\MostValuableUsers::make(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    new MostValuableUsers(), # [!code --] # [!code focus]
+    Lenses\MostValuableUsers::make(), # [!code ++] # [!code focus]
+];
 ```
 
 ## Authorization
@@ -49,22 +42,15 @@ If you would like to only expose a given lens to certain users, you may invoke t
 ```php
 use App\Models\User;
 use App\Nova\Lenses\MostValuableUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the lenses available for the resource.
- *
- * @return array<int, \Laravel\Nova\Lenses\Lens>
- */
-public function lenses(NovaRequest $request): array
-{
-    return [
-        MostValuableUsers::make() # [!code focus:4]
-            ->canSee(function ($request) { # [!code ++:3]
-                return $request->user()->can('viewValuableUsers', User::class);
-            }),
-    ];
-}
+// ...
+
+return [
+    MostValuableUsers::make() # [!code focus:4]
+        ->canSee(function ($request) { # [!code ++:3]
+            return $request->user()->can('viewValuableUsers', User::class);
+        }),
+];
 ```
 
 In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewValuableUsers` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
@@ -72,18 +58,11 @@ In the example above, we are using Laravel's `Authorizable` trait's `can` method
 ```php
 use App\Models\User;
 use App\Nova\Lenses\MostValuableUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the lenses available for the resource.
- *
- * @return array<int, \Laravel\Nova\Lenses\Lens>
- */
-public function lenses(NovaRequest $request): array
-{
-    return [
-        MostValuableUsers::make() # [!code focus:2]
-            ->canSeeWhen('viewValuableUsers', User::class), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    MostValuableUsers::make() # [!code focus:2]
+        ->canSeeWhen('viewValuableUsers', User::class), # [!code ++]
+];
 ```

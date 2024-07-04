@@ -25,19 +25,12 @@ public function filters(NovaRequest $request): array # [!code focus:7]
 Alternatively, you may use the **make** method to instantiate your filter:
 
 ```php
-use App\Nova\Filters\UserType; # [!code ++]
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Filters\UserType;
 
-/**
- * Get the filters available for the resource.
- *
- * @return array<int, \Laravel\Nova\Filters\Filter>
- */
-public function filters(NovaRequest $request): array # [!code focus:7]
-{
-    return [
-        new UserType(), # [!code --]
-        UserType::make(), # [!code ++]
-    ];
-}
+// ... 
+
+return [
+    new UserType(), # [!code --] # [!code focus]
+    UserType::make(), # [!code ++] # [!code focus]
+];
 ```

@@ -27,21 +27,14 @@ public function cards(NovaRequest $request): array # [!code focus:7]
 Alternatively, you may use the `make` method to instantiate your metric:
 
 ```php
-use App\Nova\Metrics\UsersPerDay; # [!code ++]
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Metrics\UsersPerDay;
 
-/**
- * Get the cards available for the resource.
- *
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array # [!code focus:7]
-{
-    return [
-        new UsersPerDay(), # [!code --]
-        UsersPerDay::make(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    new UsersPerDay(), # [!code --] # [!code focus]
+    UsersPerDay::make(), # [!code ++] # [!code focus]
+];
 ```
 
 Any arguments passed to the `make` method will be passed to the constructor of your metric.
@@ -52,21 +45,13 @@ In addition to placing metrics on the resource index page, you may also attach a
 
 ```php
 use App\Nova\Metrics\PodcastCount;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the request.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function cards(NovaRequest $request)
-{
-    return [
-        PodcastCount::make() # [!code focus:2]
-            ->onlyOnDetail(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    PodcastCount::make() # [!code focus:2]
+        ->onlyOnDetail(), # [!code ++]
+];
 ```
 
 Of course, you will need to modify your metric's query to only gather metric data on the resource for which it is currently being displayed. To accomplish this, your metric's `calculate` method may access the `resourceId` property on the incoming `$request`:
@@ -120,23 +105,15 @@ If you would like to only expose a given metric to certain users, you may invoke
 ```php
 use App\Models\User;
 use App\Nova\Metrics\UsersPerDay;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        UsersPerDay::make() # [!code focus:4]
-            ->canSee(function ($request) { # [!code ++:3]
-                return $request->user()->can('viewUsersPerDay', User::class);
-            }),
-    ];
-}
+// ...
+
+return [
+    UsersPerDay::make() # [!code focus:4]
+        ->canSee(function ($request) { # [!code ++:3]
+            return $request->user()->can('viewUsersPerDay', User::class);
+        }),
+];
 ```
 
 In the example above, we are using Laravel's `Authorizable` trait's `can` method on our `User` model to determine if the authorized user is authorized for the `viewUsersPerDay` action. However, since proxying to authorization policy methods is a common use-case for `canSee`, you may use the `canSeeWhen` method to achieve the same behavior. The `canSeeWhen` method has the same method signature as the `Illuminate\Foundation\Auth\Access\Authorizable` trait's `can` method:
@@ -144,23 +121,13 @@ In the example above, we are using Laravel's `Authorizable` trait's `can` method
 ```php
 use App\Models\User;
 use App\Nova\Metrics\UsersPerDay;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        UsersPerDay::make() # [!code focus:4]
-            ->canSeeWhen( # [!code ++:3]
-                'viewUsersPerDay', User::class
-            ),
-    ];
-}
+return [
+    UsersPerDay::make() # [!code focus:4]
+        ->canSeeWhen( # [!code ++:3]
+            'viewUsersPerDay', User::class
+        ),
+];
 ```
 
 ## Default Metric Range
@@ -169,21 +136,13 @@ You may wish to initially load a certain metric range by default. You can pass t
 
 ```php
 use App\Nova\Metrics\NewUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        NewUsers::make() # [!code focus:2]
-            ->defaultRange('YTD'), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    NewUsers::make() # [!code focus:2]
+        ->defaultRange('YTD'), # [!code ++]
+];
 ```
 
 ## Metric Sizes
@@ -192,52 +151,36 @@ By default, metrics take up one-third of the Nova content area. However, you are
 
 ```php
 use App\Nova\Metrics\UsersPerDay;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        // Two-thirds of the content area... # [!code focus:3]
-        UsersPerDay::make()
-            ->width('2/3'), # [!code ++]
+// ...
 
-        // Full width... # [!code focus:3]
-        UsersPerDay::make()
-            ->width('full'), # [!code ++]
-    ];
-}
+return [
+    // Two-thirds of the content area... # [!code focus:3]
+    UsersPerDay::make()
+        ->width('2/3'), # [!code ++]
+
+    // Full width... # [!code focus:3]
+    UsersPerDay::make()
+        ->width('full'), # [!code ++]
+];
 ```
 
 When the metric width is set to `full`, the height of the card will become dynamic. You may explicitly define this behaviour by calling the `fixedHeight` or `dynamicHeight` methods:
 
 ```php
 use App\Nova\Metrics\UsersPerDay;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        UsersPerDay::make() # [!code focus:3]
-            ->width('full')
-            ->fixedHeight(), # [!code ++]
-            
-        UsersPerDay::make() # [!code focus:3]
-            ->width('full')
-            ->dynamicHeight(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    UsersPerDay::make() # [!code focus:3]
+        ->width('full')
+        ->fixedHeight(), # [!code ++]
+        
+    UsersPerDay::make() # [!code focus:3]
+        ->width('full')
+        ->dynamicHeight(), # [!code ++]
+];
 ```
 
 ## Metric Help Text / Tooltips
@@ -250,46 +193,30 @@ To enable the tooltip, invoke the `help` method while registering your metric. T
 
 ```php
 use App\Nova\Metrics\TotalUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        TotalUsers::make() # [!code focus:4]
-            ->help( # [!code ++:3]
-                'This is calculated using all users that are active and not banned.'
-            ),
-    ];
-}
+// ...
+
+return [
+    TotalUsers::make() # [!code focus:4]
+        ->help( # [!code ++:3]
+            'This is calculated using all users that are active and not banned.'
+        ),
+];
 ```
 
 You may also use HTML when defining your help text. For example, you may pass a rendered Blade template to the `help` method:
 
 ```php
 use App\Nova\Metrics\TotalUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        TotalUsers::make() # [!code focus:4]
-            ->help( # [!code ++:3]
-                view('nova.metrics.total-users.tooltip')->render()
-            ),
-    ];
-}
+// ...
+
+return [
+    TotalUsers::make() # [!code focus:4]
+        ->help( # [!code ++:3]
+            view('nova.metrics.total-users.tooltip')->render()
+        ),
+];
 ```
 
 ## Refreshing Metrics
@@ -309,21 +236,13 @@ By default, Nova does not automatically update metric results after an action is
 
 ```php
 use App\Nova\Metrics\TotalUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        TotalUsers::make() # [!code focus:2]
-            ->refreshWhenActionsRun(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    TotalUsers::make() # [!code focus:2]
+        ->refreshWhenActionsRun(), # [!code ++]
+];
 ```
 
 ### Refresh After Filter Changes
@@ -332,19 +251,11 @@ Likewise, Laravel Nova will only automatically update a metric's value when a pa
 
 ```php
 use App\Nova\Metrics\TotalUsers;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Card>
- */
-public function cards(NovaRequest $request): array
-{
-    return [
-        TotalUsers::make() # [!code focus:2]
-            ->refreshWhenFiltersChange(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    TotalUsers::make() # [!code focus:2]
+        ->refreshWhenFiltersChange(), # [!code ++]
+];
 ```
