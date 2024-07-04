@@ -125,7 +125,7 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 
 ### Using Nova Mixins
 
-Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilise `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
+Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilize `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
 
 ```js
 mix.extend('nova', new require('./vendor/laravel/nova/nova.mix')) // [!code --] // [!code focus]
@@ -139,7 +139,7 @@ mix // [!code focus]
   .nova('acme/analytics') // [!code focus]
 ```
 
-Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency. Then, make sure to import `nova.mix.js` Mix extension from the Nova installation that is location within your custom package's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
+Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency. Then, make sure to import `nova.mix.js` Mix extension from the Nova installation that is located within your custom package's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
 
 ```js
 mix.extend('nova', new require('./vendor/laravel/nova/nova.mix')) // [!code focus]
@@ -152,7 +152,7 @@ mix // [!code focus]
   .nova('acme/analytics') // [!code focus]
 ```
 
-In order to compile custom packages assets with `laravel-nova` mixins you are required to prepare `laravel/nova`'s `node_modules` by running the following command:
+To compile custom packages assets with `laravel-nova` mixins you are required to prepare `laravel/nova`'s `node_modules` by running the following command:
 
 ```bash
 npm run nova:install
