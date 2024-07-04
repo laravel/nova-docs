@@ -157,9 +157,75 @@ Nova will also not check the current license key when the subdomain is one of th
 - `dev.`
 - `development.`
 
-## Authorizing Access to Nova
+## Authentication & Security
 
-Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
+Nova utilises [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two Factor Authentication, E-mail Verification and Password Confirmation. By default this feature is not enabled by default but can be enabled with just few changes within your `app/Providers/NovaServiceProvider.php` file.
+
+### Using Nova as Application Default Login
+
+It is common to have a separate frontend login for normal users and backend login specifically for admins. But. there are scenario where Nova is used as the default authentication UI for the application. 
+
+You can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:8]
+    {
+        Nova::routes()
+            ->withAuthenticationRoutes() # [!code --]
+            ->withAuthenticationRoutes(default: true) # [!code ++]
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+}
+```
+
+### Using Custom Authentication Routes
+
+Alternatively, you can also disable Nova's authentication and password reset routes and instead uses [Laravel Jetstream](https://jetstream.laravel.com/) or [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze) by updating `routes()` method within `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:15]
+    {
+        Nova::routes()
+            ->withAuthenticationRoutes() # [!code --]
+            ->withoutAuthenticationRoutes( # [!code ++:4]
+                login: '/login', 
+                logout: '/logout',
+            )
+            ->withPasswordResetRoutes() # [!code --]
+            ->withoutPasswordResetRoutes( # [!code ++:4]
+                forgotPassword: '/forgot-password', 
+                resetPassword: '/reset-password',
+            )
+            ->register();
+    }
+}
+```
+
+
+### Authorizing Access to Nova
+
+Within your `App\Providers\NovaServiceProvider` class, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
 ```php
 namespace App\Providers;
@@ -187,6 +253,98 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
+### Enables Two Factor Authentication
+
+In order to allows your user to authenticate with Two Factor Authentication you need to update your `User` model and `App\Providers\NovaServiceProvider` class. 
+
+First, we need to add `Laravel\Fortify\TwoFactorAuthenticatable` trait to the application's `User` model, here we will use `App\Models\User` as an example:
+
+```php
+namespace App\Models;
+ 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable; # [!code ++] # [!code focus]
+ 
+class User extends Authenticatable # [!code focus:5]
+{
+    use Notifiable; # [!code --]
+    use Notifiable, TwoFactorAuthenticatable; # [!code ++]
+
+    // ...
+}
+```
+
+Next, we need to update `routes()` method in `App\Providers\NovaServiceProvider` class to enable Two Factor Authentication:
+
+```php
+namespace App\Providers;
+
+use Laravel\Fortify\Features; # [!code focus]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:13]
+    {
+        Nova::routes()
+            ->withFortifyFeatures([
+                Features::updatePasswords(),
+                // Features::emailVerification(),
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code --]
+                Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code ++]
+            ])
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+}
+```
+
+Once `User` model and `NovaServiceProvider` class has been updated users of Nova should be able to access a new **User Security** page from User Menu:
+
+![User Security Menu](./img/user-security-menu.png)
+
+![User Security Page](./img/user-security-page.png)
+
+Please refer to Fortify's [Two Factor Authentication](https://laravel.com/docs/fortify#two-factor-authentication) documentation for additional reading.
+
+### Enables E-mail Verifications
+
+> @TODO update NovaServiceProvider and `config/nova.php`
+
+### Customizing Nova's Authentication Guard
+
+Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
+
+```php
+return [
+
+    // ...
+
+    'guard' => env('NOVA_GUARD', null), # [!code focus]
+
+];
+```
+
+### Customizing Nova's Password Reset Functionality
+
+Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
+
+```php
+return [
+
+    // ...
+
+    'passwords' => env('NOVA_PASSWORDS', null), # [!code focus]
+
+];
+```
+
 ## Customization
 
 ### Branding
@@ -202,8 +360,7 @@ To customize the logo used at the top left of the Nova interface, you may specif
 ```php
 return [
 
-    // 'brand' => [ # [!code --] # [!code focus]
-    'brand' => [ # [!code ++] # [!code focus]
+    'brand' => [ # [!code focus]
 
         // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus]
         'logo' => resource_path('/assets/logo.svg'), # [!code ++] # [!code focus]
@@ -214,8 +371,7 @@ return [
         //     "600" => "24, 182, 155, 0.75",
         // ],
 
-    // ], # [!code --] # [!code focus]
-    ], # [!code ++] # [!code focus]
+    ], # [!code focus]
 
 ];
 ```
@@ -234,8 +390,7 @@ return [
 
     // ...
 
-    // 'brand' => [ # [!code --] # [!code focus]
-    'brand' => [ # [!code ++] # [!code focus]
+    'brand' => # [!code focus]
 
         // 'logo' => resource_path('/img/example-logo.svg'),
 
@@ -250,8 +405,7 @@ return [
             "600" => "24, 182, 155, 0.75", 
         ], 
 
-    // ], # [!code --] # [!code focus]
-    ], # [!code ++] # [!code focus]
+    ], # [!code focus]
 
 ];
 ```
@@ -287,34 +441,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         //
     }
 }
-```
-
-### Customizing Nova's Authentication Guard
-
-Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
-
-```php
-return [
-
-    // ...
-
-    'guard' => env('NOVA_GUARD', null), # [!code focus]
-
-];
-```
-
-### Customizing Nova's Password Reset Functionality
-
-Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
-
-```php
-return [
-
-    // ...
-
-    'passwords' => env('NOVA_PASSWORDS', null), # [!code focus]
-
-];
 ```
 
 ### Customizing Nova's Storage Disk Driver

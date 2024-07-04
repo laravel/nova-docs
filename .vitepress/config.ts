@@ -12,7 +12,6 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     markdown: {
         lineNumbers: false,
-        // theme: 'css-variables',
     },
 
     head: [

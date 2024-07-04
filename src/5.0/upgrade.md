@@ -90,33 +90,16 @@ Skip this section if your Nova's installation configured with custom authenticat
 
 Nova 5 now leverage [Laravel Fortify](https://laravel.com/docs/fortify) insteads of Laravel UI. The changes allows Nova 5 to enable 2-Factor Authentication, E-mail Verification and Password Confirmation. 
 
-First, you need to update `routes()` and `register()` methods in `App\Providers\NovaServiceProvider` file:
+First, you need to update `register()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
 
-use Laravel\Fortify\Features; # [!code ++] # [!code focus]
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    /**
-     * Register the Nova routes.
-     */
-    protected function routes(): void # [!code focus:12]
-    {
-        Nova::routes()
-            ->withFortifyFeatures([ # [!code ++:5]
-                // Features::updatePasswords(),
-                // Features::emailVerification(),
-                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
-            ])
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
-            ->register();
-    }
-
     /**
      * Register any application services.
      */
@@ -129,13 +112,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
+> @TODO Link to authentication docs.
+
 ### Without Authentication Features
 
 ::: warning
 Skip this section if your Nova's installation configured without custom authentication routes.
 :::
 
-In application where the default login interface doesn't mean your use case it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `App\Providers\NovaServiceProvider::routes()` as shown below:
+In application where the default login interface doesn't mean your use case it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `routes()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -151,12 +136,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes(): void # [!code focus:12]
     {
         Nova::routes()
-            ->withoutAuthenticationRoutes( # [!code ++:4]
-                login: '/login',
+            ->withoutAuthenticationRoutes( # [!code ++:7]
+                login: '/login', 
                 logout: '/logout',
-            )
-            ->withoutPasswordResetRoutes( # [!code ++:4]
-                forgotPassword: '/forgot-password',
+            )->withoutPasswordResetRoutes(
+                forgotPassword: '/forgot-password', 
                 resetPassword: '/reset-password',
             )
             ->register();
