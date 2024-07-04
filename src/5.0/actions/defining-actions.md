@@ -124,10 +124,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:8]
+public function handle(ActionFields $fields, Collection $models): Collection # [!code focus:8]
 {
     foreach ($models as $model) { # [!code ++:5]
         (new AccountData($model))->send();
@@ -240,10 +238,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:6]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:6]
 {
     // ...
 
@@ -260,10 +256,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:6]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:6]
 {
     // ...
 
@@ -285,7 +279,7 @@ use Laravel\Nova\Fields\ActionFields;
  *
  * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:6]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:6]
 {
     // ...
 
@@ -302,10 +296,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:10]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:10]
 {
     // ...
 
@@ -326,10 +318,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:6]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:6]
 {
     // ...
 
@@ -348,10 +338,8 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models) # [!code focus:9]
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:9]
 {
     // ...
 
@@ -381,17 +369,15 @@ Next, you may use the `modal` method within your action's `handle` method, which
 
 ```php
 use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\ActionResponse; # [!code ++]
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): ActionResponse # [!code focus:13]
 {
-    if ($models->count() > 1) { # [!code focus:10]
+    if ($models->count() > 1) {
         return Action::danger('Please run this on only one user resource.');
     }
 
@@ -587,12 +573,10 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void # [!code focus:8]
 {
-    foreach ($models as $model) { # [!code focus:5]
+    foreach ($models as $model) {
         (new AccountData($model))->send($fields->subject);
 
         $this->markAsFinished($model); # [!code ++]
@@ -608,12 +592,10 @@ use Laravel\Nova\Fields\ActionFields;
 
 /**
  * Perform the action on the given models.
- *
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void # [!code focus:10]
 {
-    foreach ($models as $model) { # [!code focus:7]
+    foreach ($models as $model) {
         try {
             (new AccountData($model))->send($fields->subject);
         } catch (Exception $e) {

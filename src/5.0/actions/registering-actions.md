@@ -26,22 +26,14 @@ public function actions(NovaRequest $request): array # [!code focus:7]
 Alternatively, you may use the `make` method to instantiate your action. Any arguments passed to the `make` method will be passed to the constructor of your action:
 
 ```php
-use App\Nova\Actions\EmailAccountProfile; # [!code ++]
-use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Actions\EmailAccountProfile;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array # [!code focus:7]
-{
-    return [
-        new EmailAccountProfile(), # [!code --]
-        EmailAccountProfile::make(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    new EmailAccountProfile(), # [!code --] # [!code focus]
+    EmailAccountProfile::make(), # [!code ++] # [!code focus]
+];
 ```
 
 ## Authorization
@@ -51,23 +43,15 @@ If you would like to only expose a given action to certain users, you may invoke
 ```php
 use App\Models\User;
 use App\Nova\Actions\EmailAccountProfile;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array
-{
-    return [
-        EmailAccountProfile::make() # [!code focus:4]
-            ->canSee(fn ($request) => $request->user() # [!code ++:3]
-                ->can('emailAnyAccountProfile', User::class)
-            ),
-    ];
-}
+// ...
+
+return [
+    EmailAccountProfile::make() # [!code focus:4]
+        ->canSee(function ($request) { # [!code ++:3]
+            return $request->user()->can('emailAnyAccountProfile', User::class);
+        }),
+];
 ```
 
 You may also use a variety of request methods to get the currently selected resources:
@@ -83,25 +67,20 @@ You may also use a variety of request methods to get the currently selected reso
 Sometimes a user may be able to "see" that an action exists but only "run" that action against certain resources. You may use the `canRun` method in conjunction with the `canSee` method to have full control over authorization in this scenario. The callback passed to the `canRun` method receives the incoming HTTP request as well as the model the user would like to run the action against:
 
 ```php
+use App\Models\User;
 use App\Nova\Actions\EmailAccountProfile;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array
-{
-    return [
-        EmailAccountProfile::make() # [!code focus:5]
-            ->canSee(fn ($request) => true) # [!code ++:4]
-            ->canRun(fn ($request, $user) => $request->user()
-                ->can('emailAccountProfile', $user)
-            ),
-    ];
-}
+// ...
+
+return [
+    EmailAccountProfile::make() # [!code focus:8]
+        ->canSee(function ($request) {
+            return $request->user()->can('emailAnyAccountProfile', User::class);
+        }),
+        ->canRun(function ($request, $user) { # [!code ++:3]
+            return $request->user()->can('emailAccountProfile', $user);
+        }),
+];
 ```
 
 ### Authorization via Resource Policy
@@ -135,21 +114,13 @@ Inline actions are actions that are displayed directly on the index table row of
 
 ```php
 use App\Nova\Actions\ConsolidateTransaction;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array
-{
-    return [
-        ConsolidateTransaction::make() # [!code focus:2]
-            ->showInline(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    ConsolidateTransaction::make() # [!code focus:2]
+        ->showInline(), # [!code ++]
+];
 ```
 
 ## Standalone Actions
@@ -158,21 +129,13 @@ Typically, actions are executed against resources selected on a resource index o
 
 ```php
 use App\Nova\Actions\InviteUser;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array
-{
-    return [
-        InviteUser::make() # [!code focus:2]
-            ->standalone(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    InviteUser::make() # [!code focus:2]
+        ->standalone(), # [!code ++]
+];
 ```
 
 ## Sole Actions
@@ -181,21 +144,11 @@ Sometimes you may have actions that should only ever be run on a single resource
 
 ```php
 use App\Nova\Actions\BansUser;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array
-{
-    return [
-        BansUser::make() # [!code focus:2]
-            ->sole(), # [!code ++]
-    ];
-}
+return [
+    BansUser::make() # [!code focus:2]
+        ->sole(), # [!code ++]
+];
 ```
 
 ## Pivot Actions
@@ -233,23 +186,16 @@ By default, the pivot actions within the action dropdown menu will be grouped as
 ```php
 use App\Nova\Actions\MarkAsActive;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the fields displayed by the resource.
- *
- * @return array<int, \Laravel\Nova\Fields\Field>
- */
-public function fields(NovaRequest $request): array
-{
-    return [
-        BelongsToMany::make('Roles') # [!code focus:5]
-            ->actions(fn () => [
-                new MarkAsActive(),
-            ])
-            ->referToPivotAs('Role Assignment'), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    BelongsToMany::make('Roles') # [!code focus:5]
+        ->actions(fn () => [
+            new MarkAsActive(),
+        ])
+        ->referToPivotAs('Role Assignment'), # [!code ++]
+];
 ```
 
 ## Closure Actions
@@ -266,14 +212,16 @@ use Laravel\Nova\Http\Requests\NovaRequest;
  * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
  * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request): array # [!code focus:11]
+public function actions(NovaRequest $request): array # [!code focus:13]
 {
     return [
-        Action::using( # [!code ++:6]
+        Action::using( # [!code ++:8]
             'Deactivate User', 
-            fn (ActionFields $fields, Collection $models) => $models->each->update([
-                'active' => false,
-            ]),
+            function (ActionFields $fields, Collection $models) {
+                $models->each->update([
+                    'active' => false,
+                ]);
+            },
         ),
     ];
 }
@@ -464,43 +412,27 @@ When running an action, a confirmation modal is typically displayed to the user,
 
 ```php
 use App\Nova\Actions\EmailAccountProfile;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array 
-{
-    return [
-        EmailAccountProfile::make() # [!code focus:2]
-            ->fullscreen(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    EmailAccountProfile::make() # [!code focus:2]
+        ->fullscreen(), # [!code ++]
+];
 ```
 
 Alternatively, you may further customize the maximum width of the customization modal using the `size` method:
 
 ```php
 use App\Nova\Actions\EmailAccountProfile;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array 
-{
-    return [
-        // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", or "7xl"... # [!code focus:3]
-        EmailAccountProfile::make()
-            ->size('7xl'), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    // "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", or "7xl"... # [!code focus:3]
+    EmailAccountProfile::make()
+        ->size('7xl'), # [!code ++]
+];
 ```
 
 ### Disabling Action Confirmation
@@ -509,19 +441,11 @@ To disable the action confirmation modal and therefore run actions immediately, 
 
 ```php
 use App\Nova\Actions\EmailAccountProfile;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
-/**
- * Get the actions available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array<int, \Laravel\Nova\Actions\Action>
- */
-public function actions(NovaRequest $request): array 
-{
-    return [
-        EmailAccountProfile::make() # [!code focus:2]
-            ->withoutConfirmation(), # [!code ++]
-    ];
-}
+// ...
+
+return [
+    EmailAccountProfile::make() # [!code focus:2]
+        ->withoutConfirmation(), # [!code ++]
+];
 ```
