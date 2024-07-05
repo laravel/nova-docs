@@ -348,7 +348,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-Once `User` model and `NovaServiceProvider` class have been updated users of Nova should be able to access a new **User Security** page from the User Menu:
+Finally, you can run `nova:publish` to publish the required Fortify migrations if it's not available yet:
+
+```bash
+php artisan nova:publish
+```
+
+Once completed, users of Nova should be able to access a new **User Security** page from the User Menu:
 
 ![User Security Menu](./img/user-security-menu.png)
 
