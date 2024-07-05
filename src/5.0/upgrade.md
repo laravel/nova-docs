@@ -250,6 +250,37 @@ Next, remove `form-backend-validation` from `package.json`:
 npm remove form-backend-validation
 ```
 
+## High Impact Changes 
+
+### Partition Metric `average()` usage
+
+In order to standardise the method usage Nova 5 has made the following changes:
+
+```php
+/**
+ * @method PartitionResult average($request, $model, $column, $groupBy)
+ * @method PartitionResult average($request, $model, $groupBy, $column = null)
+ */
+```
+
+To minimize the affect needed to make such changes, you should be able to instead do this:
+
+```php
+use App\Models\Order;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\PartitionResult;
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): PartitionResult
+{
+    return $this->average( # [!code focus:4]
+        $request, Order::class, 'price', 'department' # [!code --]
+        $request, Order::class, column: 'price', groupBy: 'department' # [!code ++]
+    );
+}
+```
 ## Medium Impact Changes ​
 
 ### Algolia Place Field ​Removed
