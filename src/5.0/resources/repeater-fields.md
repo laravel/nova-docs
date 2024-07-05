@@ -14,7 +14,7 @@ The `Repeater` field allows you to create and edit repeatable, structured data a
 ```php
 namespace App\Nova;
 
-use App\Nova\Repeaters;
+use App\Nova\Repeaters; # [!code ++]
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Repeater; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -247,7 +247,6 @@ public function fields(NovaRequest $request): array
 In addition, the `fields` method for the `Repeatable` must contain a field matching the `uniqueField`:
 
 ```php
-
 namespace App\Nova\Repeaters;
 
 use Laravel\Nova\Fields\ID;
