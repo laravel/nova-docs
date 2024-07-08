@@ -165,7 +165,7 @@ Nova utilizes [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two
 
 It is common to have a separate frontend login for normal users and a backend login specifically for admin and Nova will internally determine if Fortify's routes should be loaded by checking if the application is loaded with either `App\Providers\FortifyServiceProvider` or `App\Providers\JetstreamServiceProvider`. 
 
-To skip the additional checks and force enabled Fortify's routes you can update `routes()` method in `App\Providers\NovaServiceProvider` class:
+To skip the additional checks and force enabled Fortify's routes you can update `fortify()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -176,33 +176,29 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Register the Nova routes.
+     * Register the configurations for Laravel Fortify.
      */
-    protected function routes(): void # [!code focus:8]
+    protected function fortify(): void # [!code focus:8]
     {
-        Nova::routes()
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
+        Nova::fortify()
             ->register() # [!code --]
-            ->register(fortify: true); # [!code ++]
+            ->register(routes: true); # [!code ++]
     }
 }
 ```
 
-Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `fortify: false` instead:
+Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `routes: false` instead:
 
 ```php
 use Laravel\Nova\Nova;
 
 // ...
 
-protected function routes(): void
+protected function fortify(): void
 {
-    Nova::routes() # [!code focus:5]
-        ->withAuthenticationRoutes()
-        ->withPasswordResetRoutes()
+    Nova::fortify() # [!code focus:3]
         ->register() # [!code --]
-        ->register(fortify: false); # [!code ++]
+        ->register(routes: false); # [!code ++]
 }
 ```
 
@@ -330,19 +326,17 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Register the Nova routes.
+     * Register the configurations for Laravel Fortify.
      */
-    protected function routes(): void # [!code focus:13]
+    protected function fortify(): void # [!code focus:11]
     {
-        Nova::routes()
-            ->withFortifyFeatures([
+        Nova::fortify()
+            ->features([
                 Features::updatePasswords(),
                 // Features::emailVerification(),
                 // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code --]
                 Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code ++]
             ])
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
             ->register();
     }
 }
@@ -364,7 +358,7 @@ Please refer to Fortify's [Two Factor Authentication](https://laravel.com/docs/f
 
 ### Enables E-mail Verifications
 
-Nova includes support for requiring that a newly registered user verify their email address. However, support for this feature is disabled by default. To enable this feature, you should uncomment the relevant entry in the features configuration item in the `routes()` method in `App\Provider\NovaServiceProvider` class:
+Nova includes support for requiring that a newly registered user verify their email address. However, support for this feature is disabled by default. To enable this feature, you should uncomment the relevant entry in the features configuration item in the `fortify()` method in `App\Provider\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -376,19 +370,17 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Register the Nova routes.
+     * Register the configurations for Laravel Fortify.
      */
-    protected function routes(): void # [!code focus:13]
+    protected function fortify(): void # [!code focus:11]
     {
-        Nova::routes()
-            ->withFortifyFeatures([
+        Nova::fortify()
+            ->features([
                 Features::updatePasswords(),
                 // Features::emailVerification(), # [!code --]
                 Features::emailVerification(), # [!code ++]
                 // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
             ])
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
             ->register();
     }
 }

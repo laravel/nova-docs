@@ -94,7 +94,7 @@ Skip this section if your Nova's installation is configured with custom authenti
 
 Nova 5 now leverages [Laravel Fortify](https://laravel.com/docs/fortify) instead of Laravel UI. The changes allow Nova 5 to enable Two Factor Authentication, E-mail Verification, and Password Confirmation. 
 
-First, you need to update `register()` method in `App\Providers\NovaServiceProvider` class:
+First, you need to update `register()` method and add new `fortify()` method in `App\Providers\NovaServiceProvider` class:
 
 ```php
 namespace App\Providers;
@@ -104,6 +104,15 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
+    /**
+     * Register the configurations for Laravel Fortify.
+     */
+    protected function fortify(): void  # [!code ++:5] # [!code focus:5]
+    {
+        Nova::fortify()
+            ->register();
+    }
+
     /**
      * Register any application services.
      */
