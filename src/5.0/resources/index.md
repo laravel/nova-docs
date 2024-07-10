@@ -112,7 +112,7 @@ You can customize the resource's menu by defining a `menu` method on your resour
 ```php
 namespace App\Nova;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; # [!code ++]
 
 class Post extends Resource
 {
@@ -244,7 +244,6 @@ class Post extends Resource
      * @var array
      */
     public static $with = ['user']; # [!code ++] # [!code focus]
-
 }
 ```
 
@@ -275,8 +274,7 @@ class Post extends Resource
 
             $model->name = 'Duplicate of '.$model->name;
         });
-    } # [!code focus]
-
+    }
 }
 ```
 
@@ -291,8 +289,8 @@ If you need to store a reference to the original resource's ID, you may access t
 namespace App\Observers;
 
 use App\Models\Post;
-use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++]
-use Laravel\Nova\Nova; # [!code ++]
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++] # [!code focus]
+use Laravel\Nova\Nova; # [!code ++] # [!code focus]
 
 class PostObserver
 {
@@ -342,7 +340,7 @@ If you would like to attach an observer whose methods are invoked **only during*
 namespace App\Providers;
 
 use App\Models\User; # [!code ++]
-use Laravel\Nova\Observable; # [!code ++]
+use Laravel\Nova\Observable; # [!code ++] # [!code focus]
 use App\Observers\UserObserver; # [!code ++]
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -368,9 +366,9 @@ Alternatively, you can determine if the current HTTP request is serving a Nova r
 namespace App\Observers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
+use Illuminate\Http\Request; # [!code ++] # [!code focus]
+use Laravel\Nova\Http\Requests\NovaRequest; # [!code ++] # [!code focus]
+use Laravel\Nova\Nova; # [!code ++] # [!code focus]
 
 class UserObserver
 {
@@ -409,7 +407,7 @@ For example, you may want to send an email verification notification after a use
 namespace App\Nova;
 
 use App\Nova\Resource;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
@@ -467,7 +465,6 @@ class User extends Resource
     {
         return false;
     }
-
 }
 ```
 
@@ -642,7 +639,8 @@ return [
 
     // ...
 
-    'pagination' => 'links', # [!code focus]
+    'pagination' => 'simple', # [!code --] # [!code focus]
+    'pagination' => 'links', # [!code ++] # [!code focus]
 
 ],
 ```
@@ -714,7 +712,7 @@ To get started, add the `Laravel\Nova\Actions\ExportAsCsv` [action](./../actions
 ```php
 namespace App\Nova;
 
-use Laravel\Nova\Actions\ExportAsCsv; # [!code ++]
+use Laravel\Nova\Actions\ExportAsCsv; # [!code ++] # [!code focus]
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource

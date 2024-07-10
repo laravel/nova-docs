@@ -526,6 +526,7 @@ There are times you may wish to customize Nova's default footer text to include 
 ```php
 namespace App\Providers;
 
+use Illuminate\Http\Request; # [!code ++]
 use Illuminate\Support\Facades\Blade; # [!code ++]
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
@@ -539,7 +540,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
-        Nova::footer(function ($request) { # [!code ++:7] # [!code focus:7]
+        Nova::footer(function (Request $request) { # [!code ++:7] # [!code focus:7]
             return Blade::render('
                 @env(\'prod\')
                     This is production!
@@ -797,7 +798,7 @@ To ensure Nova's assets are updated when a new version is downloaded, you may ad
 "scripts": { // [!code focus:2]
     "post-update-cmd": [ 
         "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-        "@php artisan nova:publish" // [!code ++] // [!code focus:3]
+        "@php artisan nova:publish --ansi" // [!code ++] // [!code focus:3]
     ] 
 }
 ```

@@ -10,7 +10,7 @@ To add a field to a resource, you may simply add it to the resource's `fields` m
 
 ```php
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Text; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -22,7 +22,7 @@ public function fields(NovaRequest $request): array # [!code focus:7]
 {
     return [
         ID::make()->sortable(),
-        Text::make('Name')->sortable(),
+        Text::make('Name')->sortable(), # [!code ++]
     ];
 }
 ```
@@ -321,7 +321,7 @@ If your resource contains many fields, your resource "detail" page can become cr
 You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
 
 ```php
-use Laravel\Nova\Panel; # [!code ++]
+use Laravel\Nova\Panel; # [!code ++] # [!code focus]
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
