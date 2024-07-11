@@ -261,7 +261,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-
 ### Authorizing Access to Nova
 
 Within your `App\Providers\NovaServiceProvider` class, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. Users can access the Nova dashboard by default when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
