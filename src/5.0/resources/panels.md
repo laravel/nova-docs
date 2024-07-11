@@ -56,7 +56,7 @@ Panels with a defined field limit will display a **Show All Fields** button in o
 
 ### Collapsable Panels 
 
-Alternatively, you can also set panel to be collapsable by adding `collapsable()` method:
+You can also set panel to be collapsable using by adding `collapsable()` method. This method utilise JavaScript's `localStorage` feature to remember the current state:
 
 ```php
 use Laravel\Nova\Panel;
@@ -78,6 +78,27 @@ return [
 ];
 ```
 
+You may also indicate a panel should always be collapsed by default via the `collapsedByDefault` method:
+
+```php
+use Laravel\Nova\Panel;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    ID::make()->sortable(),
+
+    Panel::make('Profile', [ # [!code focus:6]
+        Text::make('Full Name'),
+        Date::make('Date of Birth'),
+        Text::make('Place of Birth'),
+    ])->collapsable() # [!code --]
+    ])->collapsedByDefault(), # [!code ++]
+];
+```
 
 ## Tabs
 
