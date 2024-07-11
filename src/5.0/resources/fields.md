@@ -312,56 +312,6 @@ return [
 ];
 ```
 
-## Field Panels
-
-If your resource contains many fields, your resource "detail" page can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
-
-![Field Panel Example](./img/panels.png)
-
-You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
-
-```php
-use Laravel\Nova\Panel; # [!code ++] # [!code focus]
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-
-// ...
-
-return [
-    ID::make()->sortable(), # [!code focus:7]
-
-    Panel::make('Profile', [ # [!code ++:5]
-        Text::make('Full Name'),
-        Date::make('Date of Birth'),
-        Text::make('Place of Birth'),
-    ]),
-];
-```
-
-You may limit the amount of fields shown in a panel by using the `limit` method:
-
-```php
-use Laravel\Nova\Panel;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-
-// ...
-
-return [
-    ID::make()->sortable(),
-
-    Panel::make('Profile', [ # [!code focus:5]
-        Text::make('Full Name'),
-        Date::make('Date of Birth'),
-        Text::make('Place of Birth'),
-    ])->limit(1), # [!code ++]
-];
-```
-
-Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
-
 ## Sortable Fields
 
 When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
