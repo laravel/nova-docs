@@ -93,7 +93,7 @@ const basePath = Nova.config('base');
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
 
 ```php
-use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Events\ServingNova; # [!code ++]
 use Laravel\Nova\Nova;
 
 /**
