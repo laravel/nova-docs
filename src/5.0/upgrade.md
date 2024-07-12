@@ -16,6 +16,7 @@ Nova's upstream dependencies have been upgraded. You will find a complete list o
 #### Client
 
 * Update to `@inertiajs/vue3` v1
+* Update to Heroicons v2
 * Update `trix` to v2
 * Remove deprecated `form-backend-validation`
 * Remove deprecated `places.js`
@@ -259,7 +260,7 @@ Next, remove `form-backend-validation` from `package.json`:
 npm remove form-backend-validation
 ```
 
-## High Impact Changes 
+## High Impact Changes
 
 ### Partition Metric `average()` usage
 
