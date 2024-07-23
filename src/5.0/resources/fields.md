@@ -2190,7 +2190,7 @@ use Laravel\Nova\Fields\Text;
 return [
     Text::make('Name') # [!code focus:6]
         ->withMeta([ # [!code ++:5]
-            'extraAttributes' => ['placeholder' => 'David Hemphill'],
+            'extraAttributes' => ['aria-label' => 'Name'],
         ]),
 ];
 ```
@@ -2329,7 +2329,7 @@ use Laravel\Nova\Fields\Textarea;
 return [
     Textarea::make('Excerpt') # [!code focus:4]
         ->withMeta([ # [!code ++:3]
-            'extraAttributes' => ['placeholder' => 'Make it less than 50 characters']
+            'extraAttributes' => ['aria-label' => 'Excerpt']
         ]),
 ];
 ```
@@ -2827,6 +2827,21 @@ return [
         ->nullValues(function ($value) { # [!code ++:3]
             return $value == '' || $value == 'null' || (int)$value === 0;
         }),
+];
+```
+
+### Field Placeholder Text
+
+If you would like to place "placeholder" text within a field, you may invoke the `placeholder` method when defining your field:
+
+```php
+use Laravel\Nova\Fields\Textarea;
+
+// ...
+
+return [
+    Textarea::make('Excerpt') # [!code focus:2]
+        ->placeholder('Make it less than 50 characters'), # [!code ++]
 ];
 ```
 
