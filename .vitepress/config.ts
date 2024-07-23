@@ -95,6 +95,7 @@ export default defineConfigWithTheme<ThemeConfig>({
                     items: [
                         { text: 'The Basics', link: '/5.0/resources/' },
                         { text: 'Fields', link: '/5.0/resources/fields.html' },
+                        { text: 'Dependent Fields', link: '/5.0/resources/dependent-fields.html' },
                         { text: 'Date Fields', link: '/5.0/resources/date-fields.html' },
                         { text: 'File Fields', link: '/5.0/resources/file-fields.html' },
                         { text: 'Repeater Fields', link: '/5.0/resources/repeater-fields.html' },

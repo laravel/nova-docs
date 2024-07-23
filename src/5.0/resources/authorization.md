@@ -128,6 +128,30 @@ class PostPolicy # [!code focus:18]
 }
 ```
 
+#### Using Separate Policy Class for Nova Resource
+
+You can also opt to create a policy specifically for Resource insteads of relying on Eloquent Model's policy. To get started you can run the following command:
+
+```bash
+php artisan nova:policy PostPolicy --resource=Post
+```
+
+Above command will create a new policy class as `App\Nova\Policies\PostPolicy` and it will authorize againsts `App\Nova\Post` instead of `App\Models\Post`. Finally, you can add the following code to use the new policy class under `Post` resource class:
+
+```php
+namespace App\Nova;
+
+class Post extends Resource # [!code focus]
+{
+    /**
+     * The policy the resource corresponds to.
+     *
+     * @var class-string
+     */
+    public static $policy = Policies\PostPolicy::class; # [!code focus]
+}
+```
+
 ### Relationships
 
 We have already learned how to authorize the typical view, create, update, and delete actions, but what about relationship interactions? For example, if you are building a podcasting application, perhaps you would like to specify that only certain Nova users may add comments to podcasts. Again, Nova makes this simple by leveraging Laravel's policies.

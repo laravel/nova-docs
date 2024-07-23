@@ -1,3 +1,3 @@
 # Release Notes
 
-[[toc]]
+## Main Features
