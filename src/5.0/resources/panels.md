@@ -11,10 +11,10 @@ If your resource contains many fields, your resource "detail" page can become cr
 You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
 
 ```php
-use Laravel\Nova\Panel; # [!code ++] # [!code focus]
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel; # [!code ++] # [!code focus]
 
 // ...
 
@@ -34,10 +34,10 @@ return [
 You may limit the amount of fields shown in a panel by default using the `limit` method:
 
 ```php
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 // ...
 
@@ -56,13 +56,13 @@ Panels with a defined field limit will display a **Show All Fields** button in o
 
 ### Collapsable Panels 
 
-You can also set panel to be collapsable using by adding `collapsable()` method. This method utilise JavaScript's `localStorage` feature to remember the current state:
+You can also set panel to be collapsable using by adding `collapsable` method. This method utilise JavaScript's `localStorage` feature to remember the current state:
 
 ```php
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 // ...
 
@@ -81,10 +81,10 @@ return [
 You may also indicate a panel should always be collapsed by default via the `collapsedByDefault` method:
 
 ```php
-use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
 // ...
 
@@ -97,6 +97,28 @@ return [
         Text::make('Place of Birth'),
     ])->collapsable() # [!code --]
     ])->collapsedByDefault(), # [!code ++]
+];
+```
+
+### Iterates Fields within Panel
+
+You can iterate and add definitions to all fields within the panel using the `each` method:
+
+```php
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
+
+// ...
+
+return [
+    Panel::make('Profile', [ # [!code focus:7]
+        Text::make('Full Name'),
+        Date::make('Date of Birth'),
+        Text::make('Place of Birth'),
+    ])->each( # [!code ++:3]
+        fn ($field) => $field-> $field->hideFromIndex()
+    );
 ];
 ```
 
@@ -113,10 +135,10 @@ The `Tab` panel allows you to organise fields and relationships within a Resourc
 namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Tabs\Tab; # [!code ++]
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Tabs\Tab; # [!code ++]
 
 
 class Event extends Resource
@@ -126,32 +148,53 @@ class Event extends Resource
      *
      * @return array<int, \Laravel\Nova\Fields\Field>
      */
-    public function fields(NovaRequest $request): array # [!code focus:28]
+    public function fields(NovaRequest $request): array # [!code focus:29]
     {
-        ID::make()->sortable(),
+        return [
+            ID::make()->sortable(),
 
-        // ...
+            // ...
 
-        Tab::group('Details', [ # [!code ++:16]
-            Tab::make('Purchases', [
-                Currency::make('Price')->asMinorUnits(),
-                Number::make('Tickets Available'),
-                Number::make('Tickets Sold'),
+            Tab::group('Details', [ # [!code ++:15]
+                Tab::make('Purchases', [
+                    Currency::make('Price')->asMinorUnits(),
+                    Number::make('Tickets Available'),
+                    Number::make('Tickets Sold'),
+                ]),
+
+                Tab::make('Registrations', [
+                    // ...
+                ]),
+
+                Tab::make('Event & Venue', [
+                    // ...
+                ]),
             ]),
 
-            Tab::make('Registrations', [
-                // ...
+            Tab::group('Relations', [ # [!code ++:4]
+                HasMany::make('Orders'),
+                HasManyThrough::make('Tickets'),
             ]),
-
-            Tab::make('Event & Venue', [
-                // ...
-            ]),
-        ])->showTitle(),
-
-        Tab::group('Relations', [ # [!code ++:4]
-            HasMany::make('Orders'),
-            HasManyThrough::make('Tickets'),
-        ]),
+        ]
     }
 }
 ```
+
+### Hiding Tabs Title
+
+Tab's Group title can be excluding by skipping `$name` parameter and instead just define `$attribute`:
+
+```php
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Tabs\Tab;
+
+// ...
+
+return [
+    Tab::group('Relations', [ # [!code --] # [!code focus] 
+    Tab::group(attribute: 'Relations', fields: [ # [!code ++] # [!code focus:4] 
+        HasMany::make('Orders'),
+        HasManyThrough::make('Tickets'),
+    ]),
+]

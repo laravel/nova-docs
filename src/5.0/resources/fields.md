@@ -3068,7 +3068,9 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 // ...
 
 return [
-    Boolean::make('Anonymous Comment', 'anonymous') # [!code focus:11]
+    Boolean::make('Anonymous Comment', 'anonymous') # [!code focus:13]
+        ->onlyOnForms()
+        ->fillUsing(fn () => null)
         ->default(true),
 
     BelongsTo::make('User')
@@ -3079,6 +3081,22 @@ return [
                 $field->show()->rules('required');
             }
         }),
+];
+```
+
+#### Dependable Computed Fields
+
+As shown on the above example, you can only simplify `anonymous` field using the `computed` method:
+
+```php
+use Laravel\Nova\Fields\Boolean;
+
+return [
+    Boolean::make('Anonymous Comment', 'anonymous') # [!code focus:5]
+        ->onlyOnForms() # [!code --:2]
+        ->fillUsing(fn () => null)
+        ->computed() # [!code ++]
+        ->default(true),
 ];
 ```
 
