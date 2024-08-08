@@ -128,8 +128,7 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilize `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
 
 ```js
-mix.extend('nova', new require('./vendor/laravel/nova/nova.mix')) // [!code --] // [!code focus]
-mix.extend('nova', new require('../../vendor/laravel/nova/nova.mix')) // [!code ++] // [!code focus]
+mix.extend('nova', new require('./vendor/laravel/nova-devtool/nova.mix'))  [!code focus]
 
 mix // [!code focus]
   .setPublicPath('dist')

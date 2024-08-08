@@ -78,7 +78,6 @@ class Post extends Resource
     {
         return __('Post');
     }
-
 }
 ```
 
@@ -108,7 +107,6 @@ class Post extends Resource
     {
         return __('Save Changes');
     }
-
 }
 ```
 
