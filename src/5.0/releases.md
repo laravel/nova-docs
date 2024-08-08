@@ -11,3 +11,4 @@
 * Run deleate, force-delete, and restore resources using dispatch after response (Performance improvements except for Laravel Vapor)
 * Drop `form-backend-validation` NPM package
 * Drop `doctrine/dbal` requirements
+* Frontend and Backend code improvements
