@@ -2704,7 +2704,7 @@ return [
 
 ### Readonly Fields
 
-There are times where you may want to allow the user to only create and update certain fields on a resource. You can mark fields as "read only" by invoking the `readonly` method on the field, which will disable the field's corresponding input. You may pass a boolean argument to the `readonly` method to dynamically control whether a field should be "read only":
+There are times where you may want to allow the user to only create and update certain fields on a resource. You can mark fields as "read only" by invoking the `readonly` method on the field, which will **disable** the field's corresponding input. You may pass a boolean argument to the `readonly` method to dynamically control whether a field should be "read only":
 
 ```php
 use Laravel\Nova\Fields\Text;
@@ -2741,7 +2741,48 @@ return [
     Text::make('Email') # [!code focus:2]
         ->readonly(fn ($request) => $request->isUpdateOrUpdateAttachedRequest()), # [!code ++]
 ];
+```
 
+### Immutable Fields
+
+While [Readonly Fields](#readonly-fields) disable the field's corresponding input you may wish to still allows the field value to be submitted with the form. To allows this without using `readonly()` you can mark fields as "immutable" by invoking the `immutable` method on the field. You may pass a boolean argument to the `immutable` method to dynamically control whether a field should be "immutable":
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:3]
+        ->readonly(optional($this->resource)->trashed()), # [!code --]
+        ->immutable(optional($this->resource)->trashed()), # [!code ++]
+];
+```
+
+You may also pass a closure to the `immutable` method, and the result of the closure will be used to determine if the field should be "immutable". The closure will receive the current `NovaRequest` as its first argument:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:3]
+        ->immutable(optional($this->resource)->trashed()) # [!code --]
+        ->immutable(fn ($request) => ! $request->user()->isAdmin()), # [!code ++]
+```
+
+If you only want to mark a field as "immutable" when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods available via the `NovaRequest` instance, respectively:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:2]
+        ->immutable(fn ($request) => $request->isUpdateOrUpdateAttachedRequest()), # [!code ++]
+];
 ```
 
 ### Required Fields

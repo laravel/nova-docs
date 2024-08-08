@@ -208,29 +208,23 @@ import { router as Inertia, usePage } from '@inertiajs/vue3' // [!code ++] // [!
 </script>
 ```
 
-### Vendor Managed `nova.mix.js` File
+### Nova Devtool
 
-Nova 5 now ship with a generic `nova.mix.js` instead of publishing the file on each 3rd-party components. For external 3rd-party component you just need to change the following code in `webpack.mix.js`:
+Nova 5 also introduces a new helper package for Nova Packages development to assist in asset compilation and preview the application while building the package. Please run the following command to install the package:
 
-```js
-let mix = require('laravel-mix')
-
-require('./nova.mix') // [!code --] // [!code focus]
-mix.extend('nova', new require('./vendor/laravel/nova/nova.mix')) // [!code ++] // [!code focus]
-
-mix
-  .setPublicPath('dist')
-
-  // ...
+```bash
+composer install --dev "laravel/nova-devtool"
 ```
 
-For Nova application components under `nova-components` you can use the application `laravel/nova` vendor directory in `webpack.mix.js`:
+#### Vendor Managed `nova.mix.js` File
+
+Nova Devtool ships with a generic `nova.mix.js` instead of publishing the file on each 3rd-party components. For external 3rd-party component you just need to change the following code in `webpack.mix.js`:
 
 ```js
 let mix = require('laravel-mix')
 
 require('./nova.mix') // [!code --] // [!code focus]
-mix.extend('nova', new require('../../vendor/laravel/nova/nova.mix')) // [!code ++] // [!code focus]
+mix.extend('nova', new require('./vendor/laravel/nova-devtool/nova.mix')) // [!code ++] // [!code focus]
 
 mix
   .setPublicPath('dist')
