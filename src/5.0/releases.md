@@ -6,6 +6,7 @@
 * Tabs Panel
 * JSON Repeater on Detail page
 * Searchable Select Filter
+* Allow to disable cascading Dependent Field sync
 * New `Field::computed()` and `Field::immutable()` methods
 * Run deleate, force-delete, and restore resources using dispatch after response (Performance improvements except for Laravel Vapor)
 * Drop `form-backend-validation` NPM package
