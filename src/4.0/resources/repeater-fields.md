@@ -209,6 +209,50 @@ public function fields()
 
 In this example, we utilized the `ID::hidden` method, which prevents Nova from showing the `ID` field to the user, but still passes its value to Nova when saving or updating the resource.
 
+## Validation rules
+
+For rules depending on other fields such as `gt` or `lt`, a dedicated placeholder `{{repeatabl}}` is available. At runtime, this will be replaced so each rule points toward right repeatable item iteration.
+
+```php
+use Laravel\Nova\Fields\ID;
+
+/**  
+ * Get the fields displayed by the repeatable. 
+ * 
+ * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
+ * @return array  
+ */
+public function fields()
+{
+	return [
+		Currency::make('Cost')->rules('required', 'lt:{{repeatable}}.price'),
+		Currency::make('Price')->rules('required', 'gt:{{repeatable}}.cost'),
+	];
+}
+
+```
+
+In this example, we use `{{repeatable}}` to imply the rule should be matched against each iteration of said repeatable.
+
+```php
+// Input
+[
+    // Other fields
+    'repeatables' =>[
+        [
+        // Valids input
+            'cost' => 15,
+            'price' => 20
+        ],
+        [
+        // Invalid input
+            'cost' => 5,
+            'price' => 20
+        ],
+    ]
+]
+```
+
 ## Repeater Field Capabilities
 
 While a `Repeatable` can use many of the same fields as typical Nova resources and actions, they do not behave in the same way. For instance, methods like `creationRules`, and `updateRules` are not supported because the validation rules are the same for both creation and edit modes. Also, fields inside a `Repeatable` do not support dependent field (`dependsOn`) functionality.
