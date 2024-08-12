@@ -162,7 +162,7 @@ class LineItem extends Repeatable
 
 ## Upserting Repeatables Using Unique Fields
 
-By default, when editing your repeatables configured with the `HasMany` preset, Nova will delete all of the related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
+By default, when editing your repeatables configured with the `HasMany` preset, Nova will delete all related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
 
 ```php
 /**  
@@ -211,7 +211,7 @@ In this example, we utilized the `ID::hidden` method, which prevents Nova from s
 
 ## Validation rules
 
-For rules depending on other fields such as `gt` or `lt`, a dedicated placeholder `{{repeatabl}}` is available. At runtime, this will be replaced so each rule points toward right repeatable item iteration.
+For rules depending on other fields such as `gt` or `lt`, a dedicated placeholder `{{repeatable}}` is available. This will be replaced at runtime so each rule points toward the right repeatable item iteration.
 
 ```php
 use Laravel\Nova\Fields\ID;
@@ -255,7 +255,7 @@ In this example, we use `{{repeatable}}` to imply the rule should be matched aga
 
 ## Repeater Field Capabilities
 
-While a `Repeatable` can use many of the same fields as typical Nova resources and actions, they do not behave in the same way. For instance, methods like `creationRules`, and `updateRules` are not supported because the validation rules are the same for both creation and edit modes. Also, fields inside a `Repeatable` do not support dependent field (`dependsOn`) functionality.
+While a `Repeatable` can use many of the same fields as typical Nova resources and actions, they do not behave similarly. For instance, methods like `creationRules`, and `updateRules` are not supported because the validation rules are the same for both creation and edit modes. Also, fields inside a `Repeatable` do not support dependent field (`dependsOn`) functionality.
 
 ### Supported Fields
 
