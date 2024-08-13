@@ -168,6 +168,10 @@ public function fieldsForDetail(NovaRequest $request)
 }
 ```
 
+:::warning Caution
+Using any Dynamic Field Methods still requires you to define the `fields` method and list all the resource's fields there.
+:::
+
 The available methods that may be defined for individual display contexts are:
 
 - `fieldsForIndex`
@@ -177,7 +181,9 @@ The available methods that may be defined for individual display contexts are:
 - `fieldsForUpdate`
 - `fieldsForPreview`
 
-:::tip Dynamic Field Methods Precedence ::
+
+
+:::tip Dynamic Field Methods Precedence
 The `fieldsForIndex`, `fieldsForDetail`, `fieldsForInlineCreate`, `fieldsForCreate`,`fieldsForUpdate`, and `fieldsForPreview` methods always take precedence over the `fields` method.
 :::
 
