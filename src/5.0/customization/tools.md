@@ -141,10 +141,9 @@ class PriceTracker extends Tool
     /**
      * Perform any tasks that need to happen when the tool is booted.
      */
-    public function boot(): void # [!code focus:5]
+    public function boot(): void # [!code focus:4]
     {
-        Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
-        Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+        Nova::mix('price-tracker', __DIR__.'/../dist/mix-manifest.json');
     }
 }
 ```

@@ -276,11 +276,10 @@ class FieldServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void # [!code focus:7]
+    public function boot(): void # [!code focus:6]
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');
-            Nova::style('stripe-inspector', __DIR__.'/../dist/css/field.css');
+            Nova::mix('stripe-inspector', __DIR__.'/../dist/mix-manifest.json');
         });
     }
 }
