@@ -297,6 +297,7 @@ The `Repeater` field allows for every field supported by Nova, except for the fo
 
 The following fields are partially supported:
 
+- Vapor File Field
 - Markdown Field
 - Trix Field
 
