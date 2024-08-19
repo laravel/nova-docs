@@ -273,6 +273,8 @@ class LineItem extends Repeatable
 
 In this example, we utilized the `ID::hidden` method, which prevents Nova from showing the `ID` field to the user, but still passes its value to Nova when saving or updating the resource.
 
+When used alongside JSON preset, Nova will generate the unique identifier by default (UUID) for each item. You may customize this using [field hydration](./fields.md#field-hydration) for the related field.
+
 ## Repeater Field Capabilities
 
 While a `Repeatable` can use many of the same fields as typical Nova resources and actions, they do not behave in the same way. For instance, methods like `creationRules`, and `updateRules` are not supported because the validation rules are the same for both creation and edit modes. Also, fields inside a `Repeatable` do not support dependent field (`dependsOn`) functionality.
@@ -289,13 +291,12 @@ The `Repeater` field allows for every field supported by Nova, except for the fo
 - MorphTo
 - BelongsToMany
 - MorphToMany
+- File - Requires usage of uniqueField 
 
 ### Partially-Supported Fields
 
 The following fields are partially supported:
 
-- File Field
-- Vapor File Field
 - Markdown Field
 - Trix Field
 
