@@ -216,15 +216,22 @@ Nova 5 also introduces a new helper package for Nova Packages development to ass
 composer install --dev "laravel/nova-devtool"
 ```
 
+Next, you should include the NPM dependencies for `laravel/nova-devtool` using the following command:
+
+```bash
+npm install --save-dev "vendor/laravel/nova-devtool"
+```
+
 #### Vendor Managed `nova.mix.js` File
 
-Nova Devtool ships with a generic `nova.mix.js` instead of publishing the file on each 3rd-party components. For external 3rd-party component you just need to change the following code in `webpack.mix.js`:
+Nova Devtool ships with a generic `nova.mix.js` instead of publishing the file on each 3rd-party components. For external 3rd-party component you just need to include change the following code in `webpack.mix.js`:
 
 ```js
 let mix = require('laravel-mix')
+let NovaExtension = require('laravel-nova-devtool') // [!code ++]
 
-require('./nova.mix') // [!code --] // [!code focus]
-mix.extend('nova', new require('./vendor/laravel/nova-devtool/nova.mix')) // [!code ++] // [!code focus]
+require('./nova.mix') // [!code --]
+mix.extend('nova', new NovaExtension) // [!code ++]
 
 mix
   .setPublicPath('dist')
