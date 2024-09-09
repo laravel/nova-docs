@@ -133,6 +133,21 @@ export default {
 </script>
 ```
 
+
+### Preview Fields
+
+When creating fields, Nova also creates a `resources/js/components/PreviewField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource detail page. By default, this template extends [Detail Field](#detail-fields) Vue component but you are free to adjust this template as required by your application.
+
+To enable using `PreviewField` Vue component instead of `DetailField`, you need to enable it via `resources/js/field.js`:
+
+```js
+import PreviewField from './components/PreviewField'
+
+// ..
+
+// app.component('preview-color-picker', PreviewField) // [!code --] // [!code focus]
+app.component('preview-color-picker', PreviewField) // [!code ++] // [!code focus]
+```
 #### Setting the Form Value
 
 Before creating or updating a resource, Nova asks each field on the form to "fill" the outgoing [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object with key / value pairs. Each field may add as many elements to the `FormData` as needed. This may be done in your `FormField.vue` file's `fill` method:
@@ -261,11 +276,10 @@ class FieldServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void # [!code focus:7]
+    public function boot(): void # [!code focus:6]
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');
-            Nova::style('stripe-inspector', __DIR__.'/../dist/css/field.css');
+            Nova::mix('stripe-inspector', __DIR__.'/../dist/mix-manifest.json');
         });
     }
 }

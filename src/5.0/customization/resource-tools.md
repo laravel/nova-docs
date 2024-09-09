@@ -185,9 +185,8 @@ public function boot(): void
         $this->routes();
     });
 
-    Nova::serving(function (ServingNova $event) { # [!code focus:4]
-        Nova::script('stripe-inspector', __DIR__.'/../dist/js/tool.js');
-        Nova::style('stripe-inspector', __DIR__.'/../dist/css/tool.css');
+    Nova::serving(function (ServingNova $event) { # [!code focus:3]
+        Nova::mix('stripe-inspector', __DIR__.'/../dist/mix-manifest.json');
     });
 }
 ```

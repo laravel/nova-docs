@@ -13,16 +13,15 @@ To enable user impersonation, add the `Laravel\Nova\Auth\Impersonatable` trait t
 ```php
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Nova\Auth\Impersonatable; # [!code ++]
+use Laravel\Nova\Auth\Impersonatable; # [!code ++] # [!code focus]
 
 class User extends Authenticatable # [!code focus:4]
 {
-    use HasFactory, Notifiable; # [!code --]
-    use HasFactory, Impersonatable, Notifiable; # [!code ++]
+    use HasFactory; # [!code --]
+    use HasFactory, Impersonatable; # [!code ++]
 
     // ...
 }

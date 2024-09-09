@@ -315,12 +315,13 @@ public function fields(NovaRequest $request): array
         File::make('Attachment') # [!code focus:6]
             ->disk('s3')
             ->path($request->user()->id.'-attachments') # [!code ++:4]
-            ->storeAs(function (Request $request) {
+            ->storeAs(function (Request $request, $model, string $attribute, string $requestAttribute) {
                 return sha1($request->attachment->getClientOriginalName());
             }),
     ];
 }
 ```
+Second argument `$requestAttribute` contains the exact payload path to the File field in the request. Most convenient for use within [Repeater](repeater-fields.md#overview).
 
 #### Customizing the Entire Storage Process
 

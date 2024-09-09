@@ -10,7 +10,7 @@ To add a field to a resource, you may simply add it to the resource's `fields` m
 
 ```php
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Text; # [!code ++]
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 /**
@@ -22,7 +22,7 @@ public function fields(NovaRequest $request): array # [!code focus:7]
 {
     return [
         ID::make()->sortable(),
-        Text::make('Name')->sortable(),
+        Text::make('Name')->sortable(), # [!code ++]
     ];
 }
 ```
@@ -311,56 +311,6 @@ return [
         }),
 ];
 ```
-
-## Field Panels
-
-If your resource contains many fields, your resource "detail" page can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
-
-![Field Panel Example](./img/panels.png)
-
-You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
-
-```php
-use Laravel\Nova\Panel; # [!code ++]
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-
-// ...
-
-return [
-    ID::make()->sortable(), # [!code focus:7]
-
-    Panel::make('Profile', [ # [!code ++:5]
-        Text::make('Full Name'),
-        Date::make('Date of Birth'),
-        Text::make('Place of Birth'),
-    ]),
-];
-```
-
-You may limit the amount of fields shown in a panel by using the `limit` method:
-
-```php
-use Laravel\Nova\Panel;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
-
-// ...
-
-return [
-    ID::make()->sortable(),
-
-    Panel::make('Profile', [ # [!code focus:5]
-        Text::make('Full Name'),
-        Date::make('Date of Birth'),
-        Text::make('Place of Birth'),
-    ])->limit(1), # [!code ++]
-];
-```
-
-Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
 
 ## Sortable Fields
 
@@ -2240,7 +2190,7 @@ use Laravel\Nova\Fields\Text;
 return [
     Text::make('Name') # [!code focus:6]
         ->withMeta([ # [!code ++:5]
-            'extraAttributes' => ['placeholder' => 'David Hemphill'],
+            'extraAttributes' => ['aria-label' => 'Name'],
         ]),
 ];
 ```
@@ -2379,7 +2329,7 @@ use Laravel\Nova\Fields\Textarea;
 return [
     Textarea::make('Excerpt') # [!code focus:4]
         ->withMeta([ # [!code ++:3]
-            'extraAttributes' => ['placeholder' => 'Make it less than 50 characters']
+            'extraAttributes' => ['aria-label' => 'Excerpt']
         ]),
 ];
 ```
@@ -2707,7 +2657,9 @@ use Laravel\Nova\Fields\Text;
 // ...
 
 return [
-    Text::make('Name', fn () => $this->first_name.' '.$this->last_name), # [!code focus]
+    Text::make('Name', function () {  # [!code focus:3]
+        return $this->first_name.' '.$this->last_name;
+    }),
 ];
 ```
 
@@ -2719,8 +2671,11 @@ use Laravel\Nova\Fields\Text;
 // ...
 
 return [
-    Text::make('Name', fn () => $this->first_name.' '.$this->last_name), # [!code --] # [!code focus]
-    Text::make('Name', fn ($model) => $model->first_name.' '.$model->last_name), # [!code ++] # [!code focus]
+    Text::make('Name', function () { # [!code --] # [!code focus:5]
+    Text::make('Name', function ($model) { # [!code ++]
+        return $this->first_name.' '.$this->last_name; # [!code --]
+        return $model->first_name.' '.$model->last_name; # [!code ++]
+    }),
 ];
 ```
 
@@ -2749,7 +2704,7 @@ return [
 
 ### Readonly Fields
 
-There are times where you may want to allow the user to only create and update certain fields on a resource. You can mark fields as "read only" by invoking the `readonly` method on the field, which will disable the field's corresponding input. You may pass a boolean argument to the `readonly` method to dynamically control whether a field should be "read only":
+There are times where you may want to allow the user to only create and update certain fields on a resource. You can mark fields as "read only" by invoking the `readonly` method on the field, which will **disable** the field's corresponding input. You may pass a boolean argument to the `readonly` method to dynamically control whether a field should be "read only":
 
 ```php
 use Laravel\Nova\Fields\Text;
@@ -2786,7 +2741,48 @@ return [
     Text::make('Email') # [!code focus:2]
         ->readonly(fn ($request) => $request->isUpdateOrUpdateAttachedRequest()), # [!code ++]
 ];
+```
 
+### Immutable Fields
+
+While [Readonly Fields](#readonly-fields) disable the field's corresponding input you may wish to still allows the field value to be submitted with the form. To allows this without using `readonly()` you can mark fields as "immutable" by invoking the `immutable` method on the field. You may pass a boolean argument to the `immutable` method to dynamically control whether a field should be "immutable":
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:3]
+        ->readonly(optional($this->resource)->trashed()), # [!code --]
+        ->immutable(optional($this->resource)->trashed()), # [!code ++]
+];
+```
+
+You may also pass a closure to the `immutable` method, and the result of the closure will be used to determine if the field should be "immutable". The closure will receive the current `NovaRequest` as its first argument:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:3]
+        ->immutable(optional($this->resource)->trashed()) # [!code --]
+        ->immutable(fn ($request) => ! $request->user()->isAdmin()), # [!code ++]
+```
+
+If you only want to mark a field as "immutable" when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods available via the `NovaRequest` instance, respectively:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+return [
+    Text::make('Email') # [!code focus:2]
+        ->immutable(fn ($request) => $request->isUpdateOrUpdateAttachedRequest()), # [!code ++]
+];
 ```
 
 ### Required Fields
@@ -2872,6 +2868,21 @@ return [
         ->nullValues(function ($value) { # [!code ++:3]
             return $value == '' || $value == 'null' || (int)$value === 0;
         }),
+];
+```
+
+### Field Placeholder Text
+
+If you would like to place "placeholder" text within a field, you may invoke the `placeholder` method when defining your field:
+
+```php
+use Laravel\Nova\Fields\Textarea;
+
+// ...
+
+return [
+    Textarea::make('Excerpt') # [!code focus:2]
+        ->placeholder('Make it less than 50 characters'), # [!code ++]
 ];
 ```
 
@@ -3019,173 +3030,6 @@ return [
 
 The generated filter will be a text filter, select filter, number range filter, or date range filter depending on the underlying field type that was marked as filterable.
 
-## Dependent Fields
-
-The `dependsOn` method allows you to specify that a field's configuration depends on one or more other field's values. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
-
-Dependent fields allow advanced customization, such as toggling read-only mode, validation rules, and more based on the state of another field:
-
-```php
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
-// ...
-
-return [
-    Select::make('Purchase Type', 'type') # [!code focus:17]
-        ->options([
-            'personal' => 'Personal',
-            'gift' => 'Gift',
-        ]),
-
-    // Recipient field configuration is customized based on purchase type...
-    Text::make('Recipient')
-        ->readonly()
-        ->dependsOn( # [!code ++:8]
-            ['type'],
-            function (Text $field, NovaRequest $request, FormData $formData) {
-                if ($formData->type === 'gift') {
-                    $field->readonly(false)->rules(['required', 'email']);
-                }
-            }
-        ),
-];
-```
-
-To define dependent fields separately for creating and updating resources, you may use the `dependsOnCreating` and `dependsOnUpdating` methods.
-
-#### Supported Dependent Fields
-
-The following field types may depend on other fields:
-
-- Audio
-- BelongsTo
-- Boolean
-- BooleanGroup
-- Color
-- Code
-- Country
-- Currency
-- Date
-- DateTime
-- File
-- Heading
-- Hidden
-- Image
-- KeyValue
-- Markdown
-- MorphTo
-- Number
-- Password
-- PasswordConfirmation
-- Select
-- Status
-- Textarea
-- Text
-- Timezone
-- Trix
-- URL
-- VaporAudio
-- VaporFile
-- VaporImage
-
-The following field types may not be depended upon by other fields since they do not live-report their changes to Nova:
-
-- Audio
-- Code
-- File
-- Image
-- KeyValue
-- Status
-- Tag
-- Trix
-- VaporAudio
-- VaporFile
-- VaporImage
-
-#### Toggling Field Visibility using `dependsOn`
-
-One common use-case for dependent fields is toggling field visibility based on the value of another field. You can accomplish this using the `hide` and `show` methods:
-
-```php
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
-// ...
-
-return [
-    Boolean::make('Anonymous Comment', 'anonymous') # [!code focus:11]
-        ->default(true),
-
-    BelongsTo::make('User')
-        ->hide() # [!code ++]
-        ->rules('sometimes')
-        ->dependsOn('anonymous', function (BelongsTo $field, NovaRequest $request, FormData $formData) {
-            if ($formData->boolean('anonymous') === false) { # [!code ++:3]
-                $field->show()->rules('required');
-            }
-        }),
-];
-```
-
-#### Setting a Field's Value Using `dependsOn`
-
-Another common use-case for dependent fields is to set the value of a field based on the value of another field. You can accomplish this using the `setValue` method:
-
-```php
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
-// ...
-
-return [
-    DateTime::make('Created At'), # [!code focus:6]
-
-    DateTime::make('Updated At')
-        ->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
-            $field->setValue(Carbon::parse($form->created_at)->addDays(7)); # [!code ++]
-        }),
-];
-```
-
-#### Accessing Request Resource IDs
-
-When interacting with dependent fields, you may retrieve the current resource and related resource IDs via the `resource` method:
-
-```php
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
-// ...
-
-return [
-    BelongsTo::make(__('Books'), 'books', Book::class), # [!code focus:18]
-
-    Currency::make('Price')
-        ->dependsOn('books', function (Currency $field, NovaRequest $request, FormData $formData) {
-            $bookId = (int) $formData->resource(Book::uriKey(), $formData->books); # [!code ++]
-
-            if ($bookId == 1) {
-                $field->rules([
-                    'required', 'numeric', 'min:10', 'max:199'
-                ])->help('Price starts from $10-$199');
-
-                return;
-            }
-
-            $field->rules([
-                'required', 'numeric', 'min:0', 'max:99'
-            ])->help('Price starts from $0-$99');
-        }),
-];
-```
 
 ## Extending Fields
 

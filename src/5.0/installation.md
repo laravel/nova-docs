@@ -157,9 +157,113 @@ Nova will also not check the current license key when the subdomain is one of th
 - `dev.`
 - `development.`
 
-## Authorizing Access to Nova
+## Authentication & Security
 
-Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
+Nova utilizes [Laravel Fortify](https://laravel.com/docs/fortify) and offers Two Factor Authentication, E-mail Verification and Password Confirmation. By default, this feature is not enabled but can be enabled with just a few changes within your `app/Providers/NovaServiceProvider.php` file.
+
+### Using Nova as a Secondary Login
+
+It is common to have a separate frontend login for normal users and a backend login specifically for admin and Nova will internally determine if Fortify's routes should be loaded by checking if the application is loaded with either `App\Providers\FortifyServiceProvider` or `App\Providers\JetstreamServiceProvider`. 
+
+To skip the additional checks and force enabled Fortify's routes you can update `fortify()` method in `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the configurations for Laravel Fortify.
+     */
+    protected function fortify(): void # [!code focus:8]
+    {
+        Nova::fortify()
+            ->register() # [!code --]
+            ->register(routes: true); # [!code ++]
+    }
+}
+```
+
+Alternatively, if for example you're using **Laravel Breeze** for frontend authentication and would like to skip the additional checks you can also set `routes: false` instead:
+
+```php
+use Laravel\Nova\Nova;
+
+// ...
+
+protected function fortify(): void
+{
+    Nova::fortify() # [!code focus:3]
+        ->register() # [!code --]
+        ->register(routes: false); # [!code ++]
+}
+```
+
+### Using Nova as Application Default Login
+
+Alternatively, there are scenarios where Nova is used as the default authentication UI for the application for normal users and admins. To utilize Nova as the default authentication UI you can configure this within `routes()` method in `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:8]
+    {
+        Nova::routes()
+            ->withAuthenticationRoutes() # [!code --]
+            ->withAuthenticationRoutes(default: true) # [!code ++]
+            ->withPasswordResetRoutes()
+            ->register();
+    }
+}
+```
+
+### Using Custom Authentication Routes
+
+Alternatively, you can also disable Nova's authentication and password reset routes and instead use [Laravel Jetstream](https://jetstream.laravel.com/) or [Laravel Breeze](https://laravel.com/docs/starter-kits#laravel-breeze) by updating `routes()` method within `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the Nova routes.
+     */
+    protected function routes(): void # [!code focus:15]
+    {
+        Nova::routes()
+            ->withAuthenticationRoutes() # [!code --]
+            ->withoutAuthenticationRoutes( # [!code ++:4]
+                login: '/login', 
+                logout: '/logout',
+            )
+            ->withPasswordResetRoutes() # [!code --]
+            ->withoutPasswordResetRoutes( # [!code ++:4]
+                forgotPassword: '/forgot-password', 
+                resetPassword: '/reset-password',
+            )
+            ->register();
+    }
+}
+```
+
+### Authorizing Access to Nova
+
+Within your `App\Providers\NovaServiceProvider` class, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. Users can access the Nova dashboard by default when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
 ```php
 namespace App\Providers;
@@ -187,106 +291,138 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 }
 ```
 
-## Customization
+### Enables Two Factor Authentication
 
-### Branding
+To allow your users to authenticate with Two Factor Authentication you need to update your `User` model and `App\Providers\NovaServiceProvider` class. 
 
-Although Nova's interface is intended to be an isolated part of your application that is managed by Nova, you can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
-
-![Branding](./img/branding.png)
-
-#### Brand Logo
-
-To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:
+First, we need to add `Laravel\Fortify\TwoFactorAuthenticatable` trait to the application's `User` model, here we will use `App\Models\User` as an example:
 
 ```php
-return [
-
-    // 'brand' => [ # [!code --] # [!code focus]
-    'brand' => [ # [!code ++] # [!code focus]
-
-        // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus]
-        'logo' => resource_path('/assets/logo.svg'), # [!code ++] # [!code focus]
-
-        // 'colors' => [
-        //     "400" => "24, 182, 155, 0.5",
-        //     "500" => "24, 182, 155",
-        //     "600" => "24, 182, 155, 0.75",
-        // ],
-
-    // ], # [!code --] # [!code focus]
-    ], # [!code ++] # [!code focus]
-
-];
-```
-
-:::tip SVG Sizing
-
-You may need to adjust the size and width of your SVG logo by modifying its width in the SVG file itself.
-:::
-
-#### Brand Color
-
-To customize the color used as the "primary" color within the Nova interface, you may specify a value for the `brand.colors` configuration item within your application's `config/nova.php` configuration file. This color will be used as the primary button color as well as the color of various emphasized items throughout the Nova interface. This configuration value should be a valid RGB, RGBA, or HSL string value:
-
-```php
-return [
+namespace App\Models;
+ 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable; # [!code ++] # [!code focus]
+ 
+class User extends Authenticatable # [!code focus:5]
+{
+    use Notifiable; # [!code --]
+    use Notifiable, TwoFactorAuthenticatable; # [!code ++]
 
     // ...
-
-    // 'brand' => [ # [!code --] # [!code focus]
-    'brand' => [ # [!code ++] # [!code focus]
-
-        // 'logo' => resource_path('/img/example-logo.svg'),
-
-        // 'colors' => [ # [!code --:5] # [!code focus:5]
-        //     "400" => "24, 182, 155, 0.5",
-        //     "500" => "24, 182, 155",
-        //     "600" => "24, 182, 155, 0.75",
-        // ],
-        'colors' => [ # [!code ++:5] # [!code focus:5]
-            "400" => "24, 182, 155, 0.5", 
-            "500" => "24, 182, 155", 
-            "600" => "24, 182, 155, 0.75", 
-        ], 
-
-    // ], # [!code --] # [!code focus]
-    ], # [!code ++] # [!code focus]
-
-];
+}
 ```
 
-### Customizing Nova's Footer
-
-There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. Using the `Nova::footer` method, you may customize the footer text of your Nova installation. Typically, the `footer` method should be called within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
+Next, we need to update `routes()` method in `App\Providers\NovaServiceProvider` class to enable Two Factor Authentication:
 
 ```php
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Blade; # [!code ++]
+use Laravel\Fortify\Features; # [!code focus]
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
-     * Boot any application services.
+     * Register the configurations for Laravel Fortify.
      */
-    public function boot(): void
+    protected function fortify(): void # [!code focus:11]
     {
-        parent::boot();
-
-        Nova::footer(function ($request) { # [!code ++:7] # [!code focus:7]
-            return Blade::render('
-                @env(\'prod\')
-                    This is production!
-                @endenv
-            ');
-        });
-
-        //
+        Nova::fortify()
+            ->features([
+                Features::updatePasswords(),
+                // Features::emailVerification(),
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code --]
+                Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]), # [!code ++]
+            ])
+            ->register();
     }
 }
+```
+
+Finally, you can run `nova:publish` to publish the required Fortify migrations if it's not available yet:
+
+```bash
+php artisan nova:publish
+```
+
+Once completed, users of Nova should be able to access a new **User Security** page from the User Menu:
+
+![User Security Menu](./img/user-security-menu.png)
+
+![User Security Page](./img/user-security-page.png)
+
+Please refer to Fortify's [Two Factor Authentication](https://laravel.com/docs/fortify#two-factor-authentication) documentation for additional reading.
+
+### Enables E-mail Verifications
+
+Nova includes support for requiring that a newly registered user verify their email address. However, support for this feature is disabled by default. To enable this feature, you should uncomment the relevant entry in the features configuration item in the `fortify()` method in `App\Provider\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Laravel\Fortify\Features; # [!code focus]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Register the configurations for Laravel Fortify.
+     */
+    protected function fortify(): void # [!code focus:11]
+    {
+        Nova::fortify()
+            ->features([
+                Features::updatePasswords(),
+                // Features::emailVerification(), # [!code --]
+                Features::emailVerification(), # [!code ++]
+                // Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+            ])
+            ->register();
+    }
+}
+```
+
+Next, you should ensure that your `User` model implements the `Illuminate\Contracts\Auth\MustVerifyEmail` interface. This interface is already imported into this model for you:
+
+```php
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail; # [!code --] # [!code focus]
+use Illuminate\Contracts\Auth\MustVerifyEmail; # [!code ++] # [!code focus]
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable # [!code --] # [!code focus]
+class User extends Authenticatable implements MustVerifyEmail # [!code ++] # [!code focus]
+{
+    use Notifiable;
+
+    // ...
+}
+```
+
+Finally, to secure the Nova page from being used by unverified users, you can add `Laravel\Nova\Http\Middleware\EnsureEmailIsVerified` middleware to `api_middleware` configuration key in `config/nova.php`:
+
+```php
+// use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code --] # [!code focus]
+use Laravel\Nova\Http\Middleware\EnsureEmailIsVerified; # [!code ++] # [!code focus]
+
+return [
+
+    // ...
+
+    'api_middleware' => [ # [!code focus:7]
+        'nova',
+        Authenticate::class,
+        // EnsureEmailIsVerified::class, # [!code --]
+        EnsureEmailIsVerified::class, # [!code ++]
+        Authorize::class,
+    ],
+
+];
 ```
 
 ### Customizing Nova's Authentication Guard
@@ -315,6 +451,105 @@ return [
     'passwords' => env('NOVA_PASSWORDS', null), # [!code focus]
 
 ];
+```
+
+## Customization
+
+### Branding
+
+Although Nova's interface is intended to be an isolated part of your application that is managed by Nova, you can make some small customizations to the branding logo and color used by Nova to make the interface more cohesive with the rest of your application.
+
+![Branding](./img/branding.png)
+
+#### Brand Logo
+
+To customize the logo used at the top left of the Nova interface, you may specify a configuration value for the `brand.logo` configuration item within your application's `config/nova.php` configuration file. This configuration value should contain an absolute path to the SVG file of the logo you would like to use:
+
+```php
+return [
+
+    'brand' => [ # [!code focus]
+
+        // 'logo' => resource_path('/img/example-logo.svg'), # [!code --] # [!code focus]
+        'logo' => resource_path('/assets/logo.svg'), # [!code ++] # [!code focus]
+
+        // 'colors' => [
+        //     "400" => "24, 182, 155, 0.5",
+        //     "500" => "24, 182, 155",
+        //     "600" => "24, 182, 155, 0.75",
+        // ],
+
+    ], # [!code focus]
+
+];
+```
+
+:::tip SVG Sizing
+
+You may need to adjust the size and width of your SVG logo by modifying its width in the SVG file itself.
+:::
+
+#### Brand Color
+
+To customize the color used as the "primary" color within the Nova interface, you may specify a value for the `brand.colors` configuration item within your application's `config/nova.php` configuration file. This color will be used as the primary button color as well as the color of various emphasized items throughout the Nova interface. This configuration value should be a valid RGB, RGBA, or HSL string value:
+
+```php
+return [
+
+    // ...
+
+    'brand' => # [!code focus]
+
+        // 'logo' => resource_path('/img/example-logo.svg'),
+
+        // 'colors' => [ # [!code --:5] # [!code focus:5]
+        //     "400" => "24, 182, 155, 0.5",
+        //     "500" => "24, 182, 155",
+        //     "600" => "24, 182, 155, 0.75",
+        // ],
+        'colors' => [ # [!code ++:5] # [!code focus:5]
+            "400" => "24, 182, 155, 0.5", 
+            "500" => "24, 182, 155", 
+            "600" => "24, 182, 155, 0.75", 
+        ], 
+
+    ], # [!code focus]
+
+];
+```
+
+### Customizing Nova's Footer
+
+There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. Using the `Nova::footer` method, you may customize the footer text of your Nova installation. Typically, the `footer` method should be called within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
+
+```php
+namespace App\Providers;
+
+use Illuminate\Http\Request; # [!code ++]
+use Illuminate\Support\Facades\Blade; # [!code ++]
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
+
+        Nova::footer(function (Request $request) { # [!code ++:7] # [!code focus:7]
+            return Blade::render('
+                @env(\'prod\')
+                    This is production!
+                @endenv
+            ');
+        });
+
+        //
+    }
+}
 ```
 
 ### Customizing Nova's Storage Disk Driver
@@ -562,7 +797,7 @@ To ensure Nova's assets are updated when a new version is downloaded, you may ad
 "scripts": { // [!code focus:2]
     "post-update-cmd": [ 
         "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-        "@php artisan nova:publish" // [!code ++] // [!code focus:3]
+        "@php artisan nova:publish --ansi" // [!code ++] // [!code focus:3]
     ] 
 }
 ```

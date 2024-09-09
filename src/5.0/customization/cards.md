@@ -187,9 +187,8 @@ class CardServiceProvider extends ServiceProvider
             $this->routes();
         });
 
-        Nova::serving(function (ServingNova $event) { # [!code focus:5]
-            Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
-            Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
+        Nova::serving(function (ServingNova $event) { # [!code focus:4]
+            Nova::mix('acme-analytic', __DIR__.'/../dist/mix-manifest.json');
             Nova::translations(__DIR__.'/../resources/lang/en/card.json'); # [!code ++]
         });
     }
