@@ -315,7 +315,7 @@ public function fields(NovaRequest $request): array
         File::make('Attachment') # [!code focus:6]
             ->disk('s3')
             ->path($request->user()->id.'-attachments') # [!code ++:4]
-            ->storeAs(function (Request $request, string $requestAttribute) {
+            ->storeAs(function (Request $request, $model, string $attribute, string $requestAttribute) {
                 return sha1($request->attachment->getClientOriginalName());
             }),
     ];
