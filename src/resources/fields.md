@@ -745,7 +745,7 @@ Heading::make('Meta'),
 If you need to render HTML content within the `Heading` field, you may invoke the `asHtml` method when defining the field:
 
 ```php
-Heading::make('<p class="text-danger">* All fields are required.</p>')->asHtml(),
+Heading::make('<p class="text-red-500">* All fields are required.</p>')->asHtml(),
 ```
 
 ::: tip Headings & The Index Page

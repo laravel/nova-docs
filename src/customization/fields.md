@@ -111,7 +111,7 @@ Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. T
                 v-model="value"
             />
 
-            <p v-if="hasError" class="my-2 text-danger">
+            <p v-if="hasError" class="my-2 text-red-500">
                 {{ firstError }}
             </p>
         </template>
@@ -181,7 +181,7 @@ Next, within your Vue template, you should typically refer to your field using `
         v-model="value"
       />
 
-      <p v-if="hasError" class="my-2 text-danger">
+      <p v-if="hasError" class="my-2 text-red-500">
         {{ firstError }}
       </p>
     </template>
