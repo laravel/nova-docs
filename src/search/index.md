@@ -42,6 +42,24 @@ public static function searchableColumns()
 }
 ```
 
+## Raw SQL
+
+The array returned by the `searchableColumns` method can also include raw SQL expressions, which allow you to search through derived columns:
+
+```php
+use Illuminate\Support\Facades\DB;
+
+/**
+ * Get the searchable columns for the resource.
+ *
+ * @return array
+ */
+public static function searchableColumns()
+{
+    return ['id', DB::raw("CONCAT(name, ' ', last_name)")];
+}
+```
+
 ## Searching Relationships
 
 Laravel Nova also allows you to search against a resource's related models. For example, imagine a `Post` model that is related to a `User` model via an `author` relatonship. You may indicate that this relationship data should be considered when searching for users by returning an instance of `Laravel\Nova\Query\Search\SearchableRelation` from your resource's `searchableColumns` method.
