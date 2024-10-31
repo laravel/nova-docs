@@ -42,8 +42,6 @@ public static function searchableColumns()
 }
 ```
 
-## Raw SQL
-
 The array returned by the `searchableColumns` method can also include raw SQL expressions, which allow you to search through derived columns:
 
 ```php
@@ -56,7 +54,7 @@ use Illuminate\Support\Facades\DB;
  */
 public static function searchableColumns()
 {
-    return ['id', DB::raw("CONCAT(name, ' ', last_name)")];
+    return ['id', DB::raw("CONCAT(first_name, ' ', last_name)")];
 }
 ```
 
