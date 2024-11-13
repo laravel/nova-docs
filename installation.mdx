@@ -3,6 +3,16 @@ title: 'Installation'
 description: 'Learn how to install Laravel Nova into your Laravel application.'
 ---
 
+<CardGroup cols={2}>
+  <Card title="Purchase Nova" icon="credit-card" href="https://nova.laravel.com">
+    Purchase a license for Laravel Nova
+  </Card>
+
+  <Card title="Watch More" icon="circle-play" href="https://laracasts.com/series/laravel-nova-mastery-2023-edition">
+    Watch the free Nova series on Laracasts
+  </Card>
+</CardGroup>
+
 ## Requirements
 
 Laravel Nova has a few requirements you should be aware of before installing:
@@ -261,7 +271,7 @@ Nova uses the default password reset broker defined in your `auth` configuration
 
 Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `storage_disk` value within Nova's configuration file:
 
-```php config/nova.php
+```php config/nova.php`
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 

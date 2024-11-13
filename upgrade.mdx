@@ -63,7 +63,7 @@ php artisan view:clear
 
 Next, let's update the Nova configuration file. First, ensure that the `middleware` and `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
 
-```php
+```php config/nova.php
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
@@ -93,7 +93,7 @@ return [
 
 Next, ensure your application's `nova` configuration file contains a `storage_disk` configuration option:
 
-```php
+```php config/nova.php
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
 
