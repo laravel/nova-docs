@@ -1,0 +1,11 @@
+h1, h2, h3, h4 {
+    font-weight: 600 !important;
+}
+
+.codeblock-dark div:not(:last-child) {
+    color: #fafafa;
+}
+
+#footer div:nth-of-type(2) {
+    display: none;
+}

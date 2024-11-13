@@ -1,0 +1,135 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Laravel Nova",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "background": {
+    "style": "windows"
+  },
+  "colors": {
+    "primary": "#009F85",
+    "light": "#009F85",
+    "dark": "#009F85",
+    "anchors": {
+      "from": "#009F85",
+      "to": "#009F85"
+    }
+  },
+  "font": {
+    "headings": {
+      "family": "Figtree"
+    },
+    "body": {
+      "family": "Figtree"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:vapor@laravel.com"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://nova.laravel.com"
+  },
+  "anchors": [
+    {
+      "name": "Community",
+      "icon": "discord",
+      "url": "https://discord.com/invite/laravel"
+    },
+    {
+      "name": "Blog",
+      "icon": "newspaper",
+      "url": "https://blog.laravel.com/vapor"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Get Started",
+      "pages": [
+        "installation",
+        "releases",
+        "upgrade",
+        "support",
+        "code-of-conduct"
+      ]
+    },
+    {
+      "group": "Resources",
+      "pages": [
+        "resources/the-basics",
+        "resources/fields",
+        "resources/date-fields",
+        "resources/repeater-fields",
+        "resources/relationships",
+        "resources/validation",
+        "resources/authorization"
+      ]
+    },
+    {
+      "group": "Search",
+      "pages": [
+        "search/the-basics",
+        "search/global-search",
+        "search/scout-integration"
+      ]
+    },
+    {
+      "group": "Filters",
+      "pages": [
+        "filters/defining-filters",
+        "filters/registering-filters"
+      ]
+    },
+    {
+      "group": "Lenses",
+      "pages": [
+        "lenses/defining-lenses",
+        "lenses/registering-lenses"
+      ]
+    },
+    {
+      "group": "Actions",
+      "pages": [
+        "actions/defining-actions",
+        "actions/registering-actions"
+      ]
+    },
+    {
+      "group": "Metrics",
+      "pages": [
+        "metrics/defining-metrics",
+        "metrics/registering-metrics"
+      ]
+    },
+    {
+      "group": "Digging Deeper",
+      "pages": [
+        "customization/dashboards",
+        "customization/menus",
+        "customization/notifications",
+        "customization/impersonation",
+        "customization/tools",
+        "customization/resource-tools",
+        "customization/cards",
+        "customization/fields",
+        "customization/filters",
+        "customization/frontend",
+        "customization/assets",
+        "customization/localization",
+        "customization/stubs"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/laravelphp",
+    "github": "https://github.com/laravel",
+    "discord": "https://discord.com/invite/laravel",
+    "linkedin": "https://linkedin.com/company/laravel"
+  }
+}
