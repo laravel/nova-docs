@@ -1,6 +1,8 @@
-# File Fields
-
-[[toc]]
+---
+title: 'File Fields'
+description: 'Learn how to work with file fields in Nova.'
+icon: 'input-text'
+---
 
 Nova offers several types of file fields: `File`, `Image`, `Avatar`, `VaporFile`, and `VaporImage`. The `File` field is the most basic form of file upload field, and is the base class for both the `Image` and `Avatar` fields. In the following documentation, we will explore each of these fields and discuss their similarities and differences.
 
@@ -101,7 +103,9 @@ Avatar::make('Poster')->disk('public'),
 
 In addition to displaying a thumbnail preview of the underlying file, an `Avatar` field will also be automatically displayed in Nova search results. An `Avatar` field is not limited to "user" resources - you may attach `Avatar` fields to any resource within your Nova application:
 
+<Frame>
 ![Avatar Example](/images/avatar-poster.png)
+</Frame>
 
 ## Storing Metadata
 
