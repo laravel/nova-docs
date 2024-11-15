@@ -3,7 +3,8 @@
   "name": "Laravel Nova",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.svg",
+    "href": "https://nova.laravel.com"
   },
   "favicon": "/favicon.png",
   "background": {
