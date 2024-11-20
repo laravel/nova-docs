@@ -11,12 +11,12 @@
     "style": "windows"
   },
   "colors": {
-    "primary": "#009F85",
-    "light": "#009F85",
-    "dark": "#009F85",
+    "primary": "#4BA2E3",
+    "light": "#4BA2E3",
+    "dark": "#4BA2E3",
     "anchors": {
-      "from": "#009F85",
-      "to": "#009F85"
+      "from": "#4BA2E3",
+      "to": "#4BA2E3"
     }
   },
   "font": {
