@@ -49,6 +49,16 @@
       "url": "https://blog.laravel.com/nova"
     }
   ],
+  "tabs": [
+    {
+      "name": "Documentation",
+      "url": "/"
+    },
+    {
+      "name": "Knowledge Base",
+      "url": "kb"
+    }
+  ],
   "navigation": [
     {
       "group": "Get Started",
@@ -124,6 +134,12 @@
         "customization/assets",
         "customization/localization",
         "customization/stubs"
+      ]
+    }, {
+      "group": "Knowledge Base",
+      "pages": [
+          "kb/faq",
+          "kb/invoices"
       ]
     }
   ],
