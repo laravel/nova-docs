@@ -115,7 +115,7 @@ When a destructive action is added to a resource that has an associated authoriz
 The `Action::then` method should not be utilized if your action is queued. To achieve similar functionality when using queued actions, you should leverage Nova's [action batching callbacks](#job-batching).
 </Note>
 
-When running an action against multiple resources, you may wish to execute some code after the action has completed executing against all of the resources. For example, you may wish to generate a report detailing all of the changes for the selected resources. To accomplish this, you may invoke the `then` method when [registering your action](./registering-actions.md).
+When running an action against multiple resources, you may wish to execute some code after the action has completed executing against all of the resources. For example, you may wish to generate a report detailing all of the changes for the selected resources. To accomplish this, you may invoke the `then` method when [registering your action](./registering-actions).
 
 The `then` methods accepts a closure which will be invoked when the action has finished executing against all of the selected resources. The closure will receive a flattened Laravel [collection](https://laravel.com/docs/collections) containing the values that were returned by the action.
 
@@ -149,7 +149,7 @@ public function actions(NovaRequest $request)
 
 ## Action Fields
 
-Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields.md) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
+Sometimes you may wish to gather additional information from the user before dispatching an action. For this reason, Nova allows you to attach most of Nova's supported [fields](./../resources/fields) directly to an action. When the action is initiated, Nova will prompt the user to provide input for the fields:
 
 <Frame>
 ![Action Field](/images/action-field.png)
@@ -278,7 +278,7 @@ In addition to the customization options provided before and during an action's 
 
 For example, let's imagine you have defined an action named `GenerateApiToken`, which creates unique tokens for use with a REST API. Using a custom action response modal, you could show the user running the action a modal allowing them to copy the newly-generated API token to their clipboard.
 
-Using the `nova:asset` Artisan command, you may [generate a custom asset](./../customization/assets.md) and register the custom modal with Nova's Vue instance:
+Using the `nova:asset` Artisan command, you may [generate a custom asset](./../customization/assets) and register the custom modal with Nova's Vue instance:
 
 ```js
 import ApiTokenCopier from "./components/ApiTokenCopier";

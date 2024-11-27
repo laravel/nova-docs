@@ -359,7 +359,7 @@ Audio::make('Theme Song')->preload(Audio::PRELOAD_METADATA),
 
 <Note>
 
-To learn more about defining file fields and handling uploads, check out the comprehensive [file field documentation](./file-fields.md).
+To learn more about defining file fields and handling uploads, check out the comprehensive [file field documentation](./file-fields).
 </Note>
 
 ### Avatar Field
@@ -677,7 +677,7 @@ Currency::make('Price')->locale('fr'),
 
 ### Date Field
 
-The `Date` field may be used to store a date value (without time). For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
+The `Date` field may be used to store a date value (without time). For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields):
 
 ```php
 use Laravel\Nova\Fields\Date;
@@ -687,7 +687,7 @@ Date::make('Birthday'),
 
 ### DateTime Field
 
-The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields.md):
+The `DateTime` field may be used to store a date-time value. For more information about dates and timezones within Nova, check out the additional [date / timezone documentation](./date-fields):
 
 ```php
 use Laravel\Nova\Fields\DateTime;
@@ -709,7 +709,7 @@ Email::make('Customer Email', 'customer_email'),
 
 ### File Field
 
-To learn more about defining file fields and handling uploads, please refer to the comprehensive [file field documentation](./file-fields.md).
+To learn more about defining file fields and handling uploads, please refer to the comprehensive [file field documentation](./file-fields).
 
 ```php
 use Laravel\Nova\Fields\File;
@@ -824,7 +824,7 @@ You may use the `squared` method to display the image's thumbnail with squared e
 
 <Note>
 
-To learn more about defining file fields and handling uploads, check out the comprehensive [file field documentation](./file-fields.md).
+To learn more about defining file fields and handling uploads, check out the comprehensive [file field documentation](./file-fields).
 </Note>
 
 ### KeyValue Field
@@ -1135,7 +1135,7 @@ Sparkline::make('Post Views')->data(function () {
 
 #### Using Trend Metrics
 
-If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a [trend metric](./../metrics/defining-metrics.md) which can then be provided to the `Sparkline` field:
+If the data needed by your `Sparkline` field requires complicated database queries to compute, you may wish to encapsulate the data retrieval within a [trend metric](./../metrics/defining-metrics) which can then be provided to the `Sparkline` field:
 
 ```php
 Sparkline::make('Post Views')->data(new PostViewsOverTime($this->id)),
@@ -1591,7 +1591,7 @@ Vapor image files support many of the same methods available to [`Image`](#image
 
 <Note>
 
-To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields.md).
+To learn more about defining file fields and handling uploads, check out the additional [file field documentation](./file-fields).
 </Note>
 
 #### Validating Vapor Image / File Fields
@@ -1793,7 +1793,7 @@ Text::make('Name')->displayUsing(function ($name) {
 
 ## Filterable Fields
 
-The `filterable` method allows you to enable convenient, automatic [filtering](./../filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
+The `filterable` method allows you to enable convenient, automatic [filtering](./../filters/defining-filters) functionality for a given field on resources, relationships, and lenses. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
 ```php
 DateTime::make('Created At')->filterable(),

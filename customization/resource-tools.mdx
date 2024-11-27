@@ -4,7 +4,7 @@ description: 'Learn how to build custom tools for your Nova resources.'
 ---
 ## Overview
 
-Resource tools are very similar to [custom tools](./tools.md); however, instead of being listed in the Nova sidebar, resource tools are displayed on a particular resource's detail page. Like Nova tools, resource tools are incredibly customizable, and primarily consist of a single-file Vue component that is totally under your control.
+Resource tools are very similar to [custom tools](./tools); however, instead of being listed in the Nova sidebar, resource tools are displayed on a particular resource's detail page. Like Nova tools, resource tools are incredibly customizable, and primarily consist of a single-file Vue component that is totally under your control.
 
 ## Defining Tools
 
@@ -14,7 +14,7 @@ Resource tools may be generated using the `nova:resource-tool` Artisan command. 
 php artisan nova:resource-tool acme/stripe-inspector
 ```
 
-When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories.md#path).
+When generating a tool, Nova will prompt you to install the tool's NPM dependencies, compile its assets, and update your application's `composer.json` file. All custom tools are registered with your application as a Composer ["path" repository](https://getcomposer.org/doc/05-repositories#path).
 
 Nova resource tools include all of the scaffolding necessary to build your tool. Each tool even contains its own `composer.json` file and is ready to be shared with the world on GitHub or the source control provider of your choice.
 
@@ -163,7 +163,7 @@ When building routes for your tool, you should **always** add authorization to t
 
 When Nova generates your tool, `resources/js` and `resources/css` directories are generated for you. These directories contain your tool's JavaScript and CSS. The primary files of interest in these directories are: `resources/js/components/Tool.vue` and `resources/css/tool.css`.
 
-The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via [Nova.request](./frontend.md#nova-requests).
+The `Tool.vue` file is a single-file Vue component that contains your tool's front-end. From this file, you are free to build your tool however you want. Your tool can make HTTP requests using Axios via [Nova.request](./frontend#nova-requests).
 
 ### Registering Assets
 

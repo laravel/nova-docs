@@ -288,7 +288,7 @@ BelongsToMany::make('Users')
 
 #### Pivot Actions
 
-Typically, [Nova actions](./../actions/defining-actions.md) operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
+Typically, [Nova actions](./../actions/defining-actions) operate on a resource. However, you may also attach actions to `belongsToMany` fields so that they can operate on pivot / intermediate table records. To accomplish this, you may chain the `actions` method onto your field's definition:
 
 ```php
 BelongsToMany::make('Roles')
@@ -303,7 +303,7 @@ Once the action has been attached to the field, you will be able to select the a
 
 <Note>
 
-To learn more about Nova actions, check out the complete [action documentation](./../actions/defining-actions.md).
+To learn more about Nova actions, check out the complete [action documentation](./../actions/defining-actions).
 </Note>
 
 #### Title Attributes
@@ -704,7 +704,7 @@ To hide the inline creation button, invoke the `hideCreateRelationButton` method
 BelongsTo::make('User')->hideCreateRelationButton(),
 ```
 
-The inline relation creation process will respect any [authorization policies](./authorization.md) you have defined.
+The inline relation creation process will respect any [authorization policies](./authorization) you have defined.
 
 ### Inline Creation Modal Size
 

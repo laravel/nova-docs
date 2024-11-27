@@ -192,7 +192,7 @@ public static $showPollingToggle = true;
 
 ## Lens Filters
 
-Each Nova lens also contains a `filters` method. This method allows you to attach any of your existing [filters](./../filters/defining-filters.md) to the lens:
+Each Nova lens also contains a `filters` method. This method allows you to attach any of your existing [filters](./../filters/defining-filters) to the lens:
 
 ```php
 use App\Nova\Filters\UserType;
@@ -211,7 +211,7 @@ public function filters(NovaRequest $request)
 
 ## Lens Actions
 
-Each Nova lens also contains an `actions` method. This method allows you to attach any of your existing [actions](./../actions/defining-actions.md) to the lens:
+Each Nova lens also contains an `actions` method. This method allows you to attach any of your existing [actions](./../actions/defining-actions) to the lens:
 
 ```php
 use App\Nova\Actions\Export;
@@ -235,7 +235,7 @@ By default, lenses will inherit the actions of their associated resource. Howeve
 
 ## Lens Metrics
 
-Each Nova lens also contains a `cards` method. This method allows you to attach any of your existing [metrics](./../metrics/defining-metrics.md) to the lens:
+Each Nova lens also contains a `cards` method. This method allows you to attach any of your existing [metrics](./../metrics/defining-metrics) to the lens:
 
 ```php
 use App\Nova\Metrics\NewUsers;
