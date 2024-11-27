@@ -30,7 +30,7 @@
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:vapor@laravel.com"
+      "url": "mailto:nova@laravel.com"
     }
   ],
   "topbarCtaButton": {
