@@ -100,7 +100,7 @@ Nova::globalSearchDebounce(1); // 1 second
 
 ### Custom Avatars / Covers
 
-If you are building a [custom field](./../customization/fields.md) that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This interface requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
+If you are building a [custom field](./../customization/fields) that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This interface requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
 
 ```php
 /**

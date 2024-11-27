@@ -95,7 +95,7 @@ To learn more about making actions batchable, please consult the [action batchin
 
 ### New Fields
 
-Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect`, and `URL`. For more information on using these fields, please consult the [field documentation](./resources/fields.md).
+Nova 4 introduces several new field types, including `Color`, `UiAvatar`, `MultiSelect`, and `URL`. For more information on using these fields, please consult the [field documentation](./resources/fields).
 
 <Frame>
 ![Color Field](/images/color.png)
@@ -136,7 +136,7 @@ To learn more, please consult the [Dependent Fields documentation](./resources/f
 
 ### Filterable Fields
 
-Nova 4 introduces a new `filterable` method that allows you to enable convenient, automatic [filtering](./filters/defining-filters.md) functionality for a given field on resources, relationships, and lenses without creating a custom filter. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
+Nova 4 introduces a new `filterable` method that allows you to enable convenient, automatic [filtering](./filters/defining-filters) functionality for a given field on resources, relationships, and lenses without creating a custom filter. The Nova generated filter will automatically be made available via the resource filter menu on the resource's index:
 
 ```php
 DateTime::make('Created At')->filterable(),
@@ -170,7 +170,7 @@ $request->user()->notify(
 );
 ```
 
-To learn more about Nova notifications, please consult the comprehensive [notification documentation](./customization/notifications.md).
+To learn more about Nova notifications, please consult the comprehensive [notification documentation](./customization/notifications).
 
 ### Impersonation
 
@@ -201,7 +201,7 @@ In addition, Nova now supports totally custom side-bar and user menus. In fact, 
 ![Custom Menu](./customization/img/custom-main-menu.png)
 </Frame>
 
-To learn more about building your own custom menus, please consult the [custom menu documentation](./customization/menus.md).
+To learn more about building your own custom menus, please consult the [custom menu documentation](./customization/menus).
 
 ### Progress Metric
 
@@ -211,7 +211,7 @@ The new "progress" metric allows you to track your progress towards a given goal
 ![Progress Metric](./metrics/img/progress.png)
 </Frame>
 
-To learn more about building and defining metrics, please consult the [metric documentation](./metrics/defining-metrics.md).
+To learn more about building and defining metrics, please consult the [metric documentation](./metrics/defining-metrics).
 
 ### Resource Replication
 
@@ -293,4 +293,4 @@ public static function searchableColumns()
 }
 ```
 
-To learn more about Nova's search features, please consult the [comprehensive search documentation](./search/index.md).
+To learn more about Nova's search features, please consult the [comprehensive search documentation](./search/the-basics).
