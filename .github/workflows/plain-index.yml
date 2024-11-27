@@ -1,0 +1,22 @@
+name: Plain index
+on:
+  push:
+    branches:
+      - mintlify
+  schedule:
+    - cron: "0 */3 * * *"
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install CLI
+        run: npm install -g @team-plain/cli@latest
+      - name: Plain index
+        run: plain index-sitemap https://nova.laravel.com/docs/sitemap.xml --labelTypeIds lt_01JAZTMNYM3EQVS854CK6JKAA9
+        env:
+          PLAIN_API_KEY: ${{ secrets.PLAIN_API_KEY }}
