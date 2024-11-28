@@ -1,10 +1,7 @@
 name: Mintlify Broken Links
 on:
   push:
-    branches:
-      - main
-    
-    pull_request:
+    branches: [ '**' ]
 jobs:
   broken-links:
     runs-on: ubuntu-latest
