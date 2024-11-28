@@ -1,0 +1,21 @@
+name: Mintlify Broken Links
+on:
+  push:
+    branches:
+      - main
+jobs:
+  broken-links:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+        
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Mintlify
+        run: npm i -g mintlify@latest
+        
+      - name: Check Broken Links
+        run: mintlify broken-links
