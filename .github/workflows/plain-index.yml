@@ -2,7 +2,7 @@ name: Plain index
 on:
   push:
     branches:
-      - mintlify
+      - main
   schedule:
     - cron: "0 */3 * * *"
 jobs:
