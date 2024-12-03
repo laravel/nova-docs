@@ -197,10 +197,12 @@ use Illuminate\Http\Request;
 File::make('Attachment')
     ->disk('s3')
     ->path($request->user()->id.'-attachments')
-    ->storeAs(function (Request $request) {
+    ->storeAs(function (Request $request, $model, string $attribute, string $requestAttribute) {
         return sha1($request->attachment->getClientOriginalName());
     }),
 ```
+
+Second argument `$requestAttribute` contains the exact payload path to the File field in the request. Most convenient for use within [Repeater](/v5/resources/repeater-fields#overview).
 
 #### Customizing the Entire Storage Process
 
