@@ -9,6 +9,8 @@ Nova offers two types of date fields: `Date` and `DateTime`. As you may have gue
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\DateTime;
 
+// ...
+
 Date::make('Birthday'),
 DateTime::make('Created At'),
 ```
@@ -21,6 +23,10 @@ By default, Nova will set a minimum "step" of 1 day for `Date` fields and 1 seco
 
 ```php
 use Carbon\CarbonInterval;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\DateTime;
+
+// ...
 
 Date::make('Expired On')->step(7),
 Date::make('Expired On')->step(CarbonInterval::weeks(1)),
@@ -35,6 +41,9 @@ Sometimes you may wish to explicitly define minimum and maximum values for `Date
 
 ```php
 use Carbon\Carbon;
+use Laravel\Nova\Fields\Date;
+
+// ...
 
 Date::make('Expired On')
     ->min('tomorrow')
@@ -55,16 +64,16 @@ Sometimes you may wish to explicitly define the Nova user's timezone instead of 
 
 To accomplish this, you may use the `Nova::userTimezone` method. Typically you should call this method in the `boot` method of your application's `NovaServiceProvider`:
 
-```php
+```php app/Nova/NovaServiceProvider.php {13-15}
 use Laravel\Nova\Nova;
 use Illuminate\Http\Request;
 
+// ... 
+
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
