@@ -23,7 +23,7 @@ Nova fields include all of the scaffolding necessary to build your field. Each f
 
 Nova fields may be registered in your resource's `fields` method. This method returns an array of fields available to the resource. To register your field, add your field to the array of fields returned by this method:
 
-```php
+```php {14}
 use Acme\ColorPicker\ColorPicker;
 
 /**
@@ -46,9 +46,7 @@ public function fields(NovaRequest $request)
 
 Often, you will need to allow the consumers of your field to customize run-time configuration options on the field. You may do this by exposing methods on your field class. These methods may call the field's underlying `withMeta` method to add information to the field's metadata, which will be available within your field's Vue components. The `withMeta` method accepts an array of key / value options:
 
-```php
-<?php
-
+```php {20-23}
 namespace Acme\ColorPicker;
 
 use Laravel\Nova\Fields\Field;
@@ -101,7 +99,7 @@ When creating fields, Nova also creates a `resources/js/components/DetailField.v
 
 Finally, Nova creates a `resources/js/components/FormField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a creation or update form. By default, this template contains a simple `input` control to modify your field's underlying value; however, you are free to customize this template. For example, we may update the template to display a color-picker control:
 
-```vue
+```jsx
 <template>
     <DefaultField :field="field">
         <template #field>
@@ -130,6 +128,21 @@ export default {
 </script>
 ```
 
+### Preview Fields
+
+When creating fields, Nova also creates a `resources/js/components/PreviewField.vue` Vue component. This component contains the template and logic for your field when it is displayed on a resource detail page. By default, this template extends [Detail Field](#detail-fields) Vue component but you are free to adjust this template as required by your application.
+
+To enable using `PreviewField` Vue component instead of `DetailField`, you need to enable it via `resources/js/field.js`:
+
+```diff
+import PreviewField from './components/PreviewField'
+
+// ..
+
+-// app.component('preview-color-picker', PreviewField)
++app.component('preview-color-picker', PreviewField)
+```
+
 #### Setting the Form Value
 
 Before creating or updating a resource, Nova asks each field on the form to "fill" the outgoing [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object with key / value pairs. Each field may add as many elements to the `FormData` as needed. This may be done in your `FormField.vue` file's `fill` method:
@@ -147,21 +160,13 @@ fill(formData) {
 
 By default, all custom fields will be created such that they use the `FormField` mixin. However, if you are building a [dependent field](./../resources/fields#dependent-fields), you should replace `FormField` with `DependentFormField`:
 
-```js
-// Before ...
-import { FormField, HandlesValidationErrors } from 'laravel-nova'
+```diff
+-import { FormField, HandlesValidationErrors } from 'laravel-nova'
++import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
 
 export default {
-  mixins: [FormField, HandlesValidationErrors],
-
-  //
-}
-
-// After...
-import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
-
-export default {
-  mixins: [DependentFormField, HandlesValidationErrors],
+- mixins: [FormField, HandlesValidationErrors],
++ mixins: [DependentFormField, HandlesValidationErrors],
 
   //
 }
@@ -169,16 +174,19 @@ export default {
 
 Next, within your Vue template, you should typically refer to your field using `this.currentField` instead of `this.field`:
 
-```vue
+```diff
 <template>
-  <DefaultField :field="currentField" :errors="errors">
+- <DefaultField :field="field" :errors="errors">
++ <DefaultField :field="currentField" :errors="errors">
     <template #field>
       <input
-        :id="currentField.uniqueKey"
+-       :id="field.uniqueKey"
++       :id="currentField.uniqueKey"
         type="text"
         class="w-full form-control form-input form-input-bordered"
         :class="errorClasses"
-        :placeholder="currentField.placeholder"
+-       :placeholder="field.placeholder"
++       :placeholder="currentField.placeholder"
         v-model="value"
       />
 
@@ -188,27 +196,17 @@ Next, within your Vue template, you should typically refer to your field using `
     </template>
   </DefaultField>
 </template>
-
-<script>
-import { DependentFormField, HandlesValidationErrors } from 'laravel-nova'
-
-export default {
-  mixins: [DependentFormField, HandlesValidationErrors],
-
-  //
-}
-</script>
 ```
 
 Next, don't forget to use the `Laravel\Nova\Fields\SupportsDependentFields` trait on your `Field` class:
 
-```php
+```diff
 use Laravel\Nova\Fields\Field;
-use Laravel\Nova\Fields\SupportsDependentFields;
++use Laravel\Nova\Fields\SupportsDependentFields;
 
 class ColorPicker extends Field
 {
-    use SupportsDependentFields;
++   use SupportsDependentFields;
 
     // ...
 }
@@ -218,9 +216,7 @@ class ColorPicker extends Field
 
 By default, when saving a model, your field class will simply copy the incoming form field value into the field's associated model attribute. However, you may customize how your field hydrates the resource model. To accomplish this, override the `fillAttributeFromRequest` method on your field class:
 
-```php
-<?php
-
+```php {24-29}
 namespace Acme\ColorPicker;
 
 use Illuminate\Support\Str;
@@ -246,9 +242,9 @@ class ColorPicker extends Field
      */
     public function fillModelWithData(mixed $model, mixed $value, string $attribute)
     {
-        $attributes = [Str::replace('.', '->', $attribute) => $value];
-
-        $model->forceFill($attributes);
+        $model->forceFill([
+          Str::replace('.', '->', $attribute) => $value
+        ]);
     }
 }
 ```
@@ -263,7 +259,7 @@ When Nova generates your field, `resources/js` and `resources/css` directories a
 
 Your Nova field's service provider registers your field's compiled assets so that they will be available to the Nova front-end:
 
-```php
+```php {12}
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
@@ -275,8 +271,7 @@ use Laravel\Nova\Events\ServingNova;
 public function boot()
 {
     Nova::serving(function (ServingNova $event) {
-        Nova::script('stripe-inspector', __DIR__.'/../dist/js/field.js');
-        Nova::style('stripe-inspector', __DIR__.'/../dist/css/field.css');
+        Nova::mix('stripe-inspector', __DIR__.'/../dist/mix-manifest.json');');
     });
 }
 ```
