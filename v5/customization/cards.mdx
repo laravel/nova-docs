@@ -11,7 +11,7 @@ Cards are similar to resource tools, but are small, miniature tools that are typ
 
 Cards may be generated using the `nova:card` Artisan command. By default, all new cards will be placed in the `nova-components` directory of your application. When generating a card using the `nova:card` command, the card name you pass to the command should follow the Composer `vendor/package` format. So, if we were building a traffic analytics card, we might run the following command:
 
-```bash
+```shell
 php artisan nova:card acme/analytics
 ```
 
@@ -23,18 +23,25 @@ Nova cards include all of the scaffolding necessary to build your card. Each car
 
 Nova cards may be registered in your resource's `cards` method. This method returns an array of cards available to the resource. To register your card, add your card to the array of cards returned by this method:
 
-```php
-use Acme\Analytics\Analytics;
+```php app/Nova/Post.php {13-18}
+namespace App\Nova;
 
-/**
- * Get the cards available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
-public function cards(NovaRequest $request)
+use Acme\Analytics\Analytics;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class Post extends Resource
 {
-    return [new Analytics];
+    /**
+     * Get the cards available for the resource.
+     *
+     * @return array<int, \Laravel\Nova\Card>
+     */
+    public function cards(NovaRequest $request)
+    {
+        return [
+            new Analytics,
+        ];
+    }
 }
 ```
 
@@ -42,14 +49,11 @@ public function cards(NovaRequest $request)
 
 If you would like to only expose a given card to certain users, you may invoke the `canSee` method when registering your card. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
-```php
-use Acme\Analytics\Analytics;
-
+```php app/Nova/Post.php {9-11}
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
 public function cards(NovaRequest $request)
 {
@@ -65,28 +69,14 @@ public function cards(NovaRequest $request)
 
 Often, you will need to allow the consumer's of your card to customize run-time configuration options on the card. You may do this by exposing methods on your card class. These methods may call the card's underlying `withMeta` method to add information to the card's metadata, which will be available within your `Card.vue` component. The `withMeta` method accepts an array of key / value options:
 
-```php
-<?php
-
+```php {14-17}
 namespace Acme\Analytics;
 
 use Laravel\Nova\Card;
 
 class Analytics extends Card
 {
-    /**
-     * The width of the card (1/3, 2/3, 1/2, 1/4, 3/4, or full).
-     *
-     * @var string
-     */
-    public $width = '1/3';
-    
-    /**
-     * The height strategy of the card (fixed or dynamic).
-     *
-     * @var string
-     */
-    public $height = 'fixed';
+    // ...
 
     /**
      * Indicates that the analytics should show current visitors.
@@ -97,23 +87,13 @@ class Analytics extends Card
     {
         return $this->withMeta(['currentVisitors' => true]);
     }
-
-    /**
-     * Get the component name for the card.
-     *
-     * @return string
-     */
-    public function component()
-    {
-        return 'analytics';
-    }
 }
 ```
 
 After registering your custom card, don't forget to actually call any custom option methods you defined:
 
 ```php
-(new Acme\Analytics\Analytics)->currentVisitors()
+(new Acme\Analytics\Analytics)->currentVisitors(),
 ```
 
 #### Accessing Card Options
@@ -137,7 +117,6 @@ Often, you will need to define Laravel routes that are called by your card via [
 All routes within this file are automatically defined inside a route group by your card's `CardServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/card-name` prefix, where `card-name` is the "kebab-case" name of your card. So, for example, `/nova-vendor/analytics`. You are free to modify this route group definition, but take care to make sure your Nova card will co-exist with other Nova packages.
 
 <Warning>
-
 When building routes for your card, you should **always** add authorization to these routes using Laravel gates or policies.
 </Warning>
 
@@ -152,15 +131,10 @@ The `Card.vue` file is a single-file Vue component that contains your card's fro
 Your Nova card's service provider registers your card's compiled assets so that they will be available to the Nova front-end:
 
 ```php
-use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
-
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     $this->app->booted(function () {
         $this->routes();
@@ -193,7 +167,7 @@ Your component is bootstrapped and registered in the `resources/js/card.js` file
 
 Your Nova resource card contains a `webpack.mix.js` file, which is generated when Nova creates your card. You may build your card using the NPM `dev` and `prod` commands:
 
-```bash
+```shell
 # Compile your assets for local development...
 npm run dev
 
@@ -203,6 +177,6 @@ npm run prod
 
 In addition, you may run the NPM `watch` command to auto-compile your assets when they are changed:
 
-```bash
+```shell
 npm run watch
 ```

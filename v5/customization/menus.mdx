@@ -20,16 +20,9 @@ Nova will also automatically group your resources under the default "Resources" 
 While Nova's default main menu is sufficient for most applications, there are times you may wish to completely customize the menu based on your own preferences. For that reason, Nova allows you to define your own main menu via the `Nova::mainMenu` method. Typically, this method should be invoked within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php app/Providers/NovaServiceProvider.php
-<?php
-
 namespace App\Providers;
 
-use App\Nova\License;
-use App\Nova\Release;
-use App\Nova\Series;
-use App\Nova\User;
 use Illuminate\Http\Request;
-use Laravel\Nova\Dashboards\Main;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
@@ -40,10 +33,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 
@@ -75,43 +66,28 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 Nova also allows you to customize the "user" menu found in the top-right navigation area. You can customize Nova's user menu by calling the `Nova::userMenu` method. This method is typically invoked within the `boot` method of your application's `App\Providers\NovaServiceProvider`:
 
 ```php app/Providers/NovaServiceProvider.php
-<?php
-
-namespace App\Providers;
-
-use Illuminate\Http\Request;
-use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Nova;
-use Laravel\Nova\NovaApplicationServiceProvider;
-
-class NovaServiceProvider extends NovaApplicationServiceProvider
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Nova::userMenu(function (Request $request, Menu $menu) {
-            if ($request->user()->subscribed()) {
-                $menu->append(
-                    MenuItem::make('Subscriber Dashboard')
-                        ->path('/subscribers/dashboard')
-                );
-            }
-
-            $menu->prepend(
-                MenuItem::make(
-                    'My Profile',
-                    "/resources/users/{$request->user()->getKey()}"
-                )
+    Nova::userMenu(function (Request $request, Menu $menu) {
+        if ($request->user()->subscribed()) {
+            $menu->append(
+                MenuItem::make('Subscriber Dashboard')
+                    ->path('/subscribers/dashboard')
             );
+        }
 
-            return $menu;
-        });
-    }
+        $menu->prepend(
+            MenuItem::make(
+                'My Profile',
+                "/resources/users/{$request->user()->getKey()}"
+            )
+        );
+
+        return $menu;
+    });
 }
 ```
 
@@ -128,30 +104,24 @@ Nova's user menu only supports `MenuItem` objects. Using `MenuSection` or `MenuG
 
 You may call the `append` and `prepend` methods on a `Menu` instance to prepend or append new items to the. These methods are typically most helpful when customizing the user menu, since you often do not want to completely replace the existing menu:
 
-```php
+```php app/Providers/NovaServiceProvider.php
 Nova::userMenu(function (Request $request, Menu $menu) {
     return $menu
         ->append(MenuItem::externalLink('API Docs', 'http://example.com'))
         ->prepend(MenuItem::link('My Profile', '/resources/users/'.$request->user()->getKey()));
-    });
+});
 ```
 
 ## Menu Sections
 
 Menu sections represent a top-level navigation item and are typically displayed with an corresponding icon representing the types of items in the menu. You can create a new menu section by calling the `MenuSection::make` method. This method accepts the name of the menu section and array of menu groups / items that should be placed within the section:
 
-```php
+```php app/Providers/NovaServiceProvider.php
 use App\Nova\Dashboards\Sales;
 use App\Nova\Lenses\MostValuableUsers;
 use App\Nova\License;
 use App\Nova\Refund;
 use App\Nova\User;
-use Illuminate\Http\Request;
-use Laravel\Nova\Menu\Menu;
-use Laravel\Nova\Menu\MenuGroup;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Menu\MenuSection;
-use Laravel\Nova\Nova;
 
 Nova::mainMenu(function (Request $request, Menu $menu) {
     return [
@@ -176,7 +146,9 @@ Instead of displaying a list of links, you may indicate that a menu section shou
 ```php
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::make('Dashboard')->path('/dashboards/main')
+// ...
+
+MenuSection::make('Dashboard')->path('/dashboards/main');
 ```
 
 For convenience, if you are only creating a menu section to serve as a large, emphasized link to a Nova dashboard, you may invoke the `MenuSection::dashboard` method:
@@ -185,7 +157,9 @@ For convenience, if you are only creating a menu section to serve as a large, em
 use App\Nova\Dashboards\Sales;
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::dashboard(Sales::class),
+// ...
+
+MenuSection::dashboard(Sales::class);
 ```
 
 Since you will often be creating links to Nova resources, you may use the `resource` method to quickly create a link to the appropriate path for a given resource:
@@ -194,7 +168,9 @@ Since you will often be creating links to Nova resources, you may use the `resou
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::resource(User::class)
+// ...
+
+MenuSection::resource(User::class);
 ```
 
 Similarly, you may create links to Nova lenses via the `lens` method:
@@ -204,7 +180,9 @@ use App\Nova\Lenses\MostValuableUsers;
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuSection;
 
-MenuSection::lens(User::class, MostValuableUsers::class)
+// ...
+
+MenuSection::lens(User::class, MostValuableUsers::class);
 ```
 
 <Note>
@@ -219,9 +197,11 @@ You can customize the icon displayed for your menu section by invoking the `icon
 ```php
 use Laravel\Nova\Menu\MenuSection;
 
+// ...
+
 MenuSection::make('Resources', [
     // items
-])->icon('briefcase')
+])->icon('briefcase');
 ```
 
 Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
@@ -239,19 +219,19 @@ use Laravel\Nova\Badge;
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
     ->withBadge('New!', 'success')
-    ->icon('document-text')
+    ->icon('document-text');
 
 // Passing a Laravel\Nova\Badge instance directly
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
     ->withBadge(Badge::make('New!', 'info'))
-    ->icon('document-text')
+    ->icon('document-text');
 
 // Using a closure to resolve the value
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
     ->withBadge(fn () => Issue::count(), 'warning')
-    ->icon('document-text')
+    ->icon('document-text');
 ```
 
 ### Conditional Badges
@@ -266,17 +246,17 @@ use Laravel\Nova\Badge;
 // Passing a string directly...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf('New!', 'info', fn () => Issue::count() > 0)
+    ->withBadgeIf('New!', 'info', fn () => Issue::count() > 0);
 
 // Passing a Laravel\Nova\Badge instance...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(Badge::make('New!', 'info'), fn () => Issue::count() > 0)
+    ->withBadgeIf(Badge::make('New!', 'info'), fn () => Issue::count() > 0);
 
 // Using a closure to resolve the value...
 MenuSection::make('New Issues')
     ->path('/resources/issues/lens/new-issues')
-    ->withBadgeIf(fn() => 'New!', 'info', fn () => Issue::count() > 0)
+    ->withBadgeIf(fn() => 'New!', 'info', fn () => Issue::count() > 0);
 ```
 
 ### Collapsable Menu Sections
@@ -288,7 +268,7 @@ use Laravel\Nova\Menu\MenuSection;
 
 MenuSection::make('Resources', [
     //
-])->collapsable()
+])->collapsable();
 ```
 
 ## Menu Groups
@@ -299,10 +279,8 @@ Sometimes you may need another logical level between your menu sections and menu
 use App\Nova\Dashboards\Sales;
 use App\Nova\License;
 use App\Nova\Refund;
-use Illuminate\Http\Request;
-use Laravel\Nova\Menu\MenuGroup;
-use Laravel\Nova\Menu\MenuItem;
-use Laravel\Nova\Menu\MenuSection;
+
+// ...
 
 MenuSection::make('Business', [
     MenuGroup::make('Licensing', [
@@ -311,7 +289,7 @@ MenuSection::make('Business', [
         MenuItem::resource(License::class),
         MenuItem::externalLink('Stripe Payments', 'https://dashboard.stripe.com/payments?status%5B%5D=successful'),
     ]),
-]),
+]);
 ```
 
 ### Collapsable Menu Groups
@@ -321,7 +299,7 @@ You may make your menu groups collapsable by invoking the `collapsable` method o
 ```php
 MenuGroup::make('Resources', [
     //
-])->collapsable()
+])->collapsable();
 ```
 
 ## Menu Items
@@ -333,7 +311,9 @@ First, to create a link to an internal area of Nova, you may call the `link` fac
 ```php
 use Laravel\Nova\Menu\MenuItem;
 
-MenuItem::link('Cashier', '/cashier')
+// ...
+
+MenuItem::link('Cashier', '/cashier');
 ```
 
 ### Resource Menu Items
@@ -344,7 +324,9 @@ Since you will often be creating links to Nova resources, you may use the `resou
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
 
-MenuItem::resource(User::class)
+// ...
+
+MenuItem::resource(User::class);
 ```
 
 #### Filtered Resource Menu Items
@@ -355,6 +337,8 @@ To create a link to a Nova resource with a predefined filter applied, you can us
 use App\Nova\User;
 use Laravel\Nova\Menu\MenuItem;
 use \App\Nova\Filters\NameFilter;
+
+// ...
 
 MenuItem::filter('Filtered Users', User::class, NameFilter::make(), 'Hemp');
 ```

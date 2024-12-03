@@ -22,9 +22,7 @@ When manipulating a resource within Nova, Nova will automatically attempt to fin
 
 No additional configuration is required! So, for example, to determine which users are allowed to update a `Post` model, you simply need to define an `update` method on the model's corresponding policy class:
 
-```php
-<?php
-
+```php app/Policies/PostPolicy.php
 namespace App\Policies;
 
 use App\Models\User;
@@ -38,8 +36,6 @@ class PostPolicy
     /**
      * Determine whether the user can update the post.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
      * @return mixed
      */
     public function update(User $user, Post $post)
@@ -76,9 +72,7 @@ So, if you have defined a policy, don't forget to define all of its relevant aut
 
 If you would like to hide an entire Nova resource from a subset of your dashboard's users, you may define a `viewAny` method on the model's policy class. If no `viewAny` method is defined for a given policy, Nova will assume that the user can view the resource:
 
-```php
-<?php
-
+```php app/Policies/PostPolicy.php
 namespace App\Policies;
 
 use App\Models\User;
@@ -92,7 +86,6 @@ class PostPolicy
     /**
      * Determine whether the user can view any posts.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -106,36 +99,43 @@ class PostPolicy
 
 If you need to authorize actions differently when a request is initiated from within Nova versus your primary application, you may utilize Nova's `whenServing` method within your policy. This method allows you to only execute the given callback if the request is a Nova request. An additional callback may be provided that will be executed for non-Nova requests:
 
-```php
-<?php
-
-namespace App\Policies;
-
-use App\Models\User;
-use App\Models\Post;
-use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Http\Request;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Nova;
-
-class PostPolicy
+```php app/Policies/PostPolicy.php
+/**
+ * Determine whether the user can view any posts.
+ *
+ * @return mixed
+ */
+public function viewAny(User $user)
 {
-    use HandlesAuthorization;
+    return Nova::whenServing(function (NovaRequest $request) use ($user) {
+        return in_array('nova:view-posts', $user->permissions);
+    }, function (Request $request) use ($user) {
+        return in_array('view-posts', $user->permissions);
+    });
+}
+```
 
+#### Using Separate Policy Class for Nova Resource
+
+You can also opt to create a policy specifically for Resource insteads of relying on Eloquent Model's policy. To get started you can run the following command:
+
+```shell
+php artisan nova:policy PostPolicy --resource=Post
+```
+
+Above command will create a new policy class as `App\Nova\Policies\PostPolicy` and it will authorize againsts `App\Nova\Post` instead of `App\Models\Post`. Finally, you can add the following code to use the new policy class under `Post` resource class:
+
+```php app/Nova/Post.php {10}
+namespace App\Nova;
+
+class Post extends Resource
+{
     /**
-     * Determine whether the user can view any posts.
+     * The policy the resource corresponds to.
      *
-     * @param  \App\Models\User  $user
-     * @return mixed
+     * @var class-string
      */
-    public function viewAny(User $user)
-    {
-        return Nova::whenServing(function (NovaRequest $request) use ($user) {
-            return in_array('nova:view-posts', $user->permissions);
-        }, function (Request $request) use ($user) {
-            return in_array('view-posts', $user->permissions);
-        });
-    }
+    public static $policy = Policies\PostPolicy::class;
 }
 ```
 
@@ -145,9 +145,7 @@ We have already learned how to authorize the typical view, create, update, and d
 
 When working with relationships, Nova uses a simple policy method naming convention. To illustrate this convention, lets assume your application has `Podcast` resources and `Comment` resources. If you would like to authorize which users can add comments to a podcast, you should define an `addComment` method on your podcast model's policy class:
 
-```php
-<?php
-
+```php app/Policies/PodcastPolicy.php
 namespace App\Policies;
 
 use App\Models\User;
@@ -161,8 +159,6 @@ class PodcastPolicy
     /**
      * Determine whether the user can add a comment to the podcast.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
      * @return mixed
      */
     public function addComment(User $user, Podcast $podcast)
@@ -178,45 +174,29 @@ As you can see, Nova uses a simple `add{Model}` policy method naming convention 
 
 For many-to-many relationships, Nova uses a similar naming convention. However, instead of `add{Model}`, you should use an `attach{Model}` / `detach{Model}` naming convention. For example, imagine a `Podcast` model has a many-to-many relationship with the `Tag` model. If you would like to authorize which users can attach "tags" to a podcast, you may add an `attachTag` method to your podcast policy. In addition, you will likely want to define the inverse `attachPodcast` on the tag policy:
 
-```php
-<?php
-
-namespace App\Policies;
-
-use App\Models\Tag;
-use App\Models\User;
-use App\Models\Podcast;
-use Illuminate\Auth\Access\HandlesAuthorization;
-
-class PodcastPolicy
+```php app/Policies/PodcastPolicy.php
+/**
+ * Determine whether the user can attach a tag to a podcast.
+ *
+ * @return mixed
+ */
+public function attachTag(User $user, Podcast $podcast, Tag $tag)
 {
-    use HandlesAuthorization;
+    return true;
+}
 
-    /**
-     * Determine whether the user can attach a tag to a podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
-     * @return mixed
-     */
-    public function attachTag(User $user, Podcast $podcast, Tag $tag)
-    {
-        return true;
-    }
 
-    /**
-     * Determine whether the user can detach a tag from a podcast.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Podcast  $podcast
-     * @param  \App\Models\Tag  $tag
-     * @return mixed
-     */
-    public function detachTag(User $user, Podcast $podcast, Tag $tag)
-    {
-        return true;
-    }
+/**
+ * Determine whether the user can detach a tag from a podcast.
+ *
+ * @param  \App\Models\User  $user
+ * @param  \App\Models\Podcast  $podcast
+ * @param  \App\Models\Tag  $tag
+ * @return mixed
+ */
+public function detachTag(User $user, Podcast $podcast, Tag $tag)
+{
+    return true;
 }
 ```
 
