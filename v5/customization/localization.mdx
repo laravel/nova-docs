@@ -23,7 +23,7 @@ Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and ot
 
 To map your existing locales to IETF language tags, you may use the `Nova::userLocale` method. Typically, you should invoke this method in the `boot` method of your application's `NovaServiceProvider`:
 
-```php
+```php NovaServiceProvider.php
 use Laravel\Nova\Nova;
 
 Nova::userLocale(function () {
@@ -92,7 +92,7 @@ Field names may be localized when you attach the field to your resource. The fir
 ```php
 use Laravel\Nova\Fields\Text;
 
-Text::make(__('Email Address'), 'email_address');
+Text::make(__('Email Address'), 'email_address'),
 ```
 
 ### Relationships
@@ -103,7 +103,7 @@ Relationship field names may be customized by localizing the first argument pass
 use App\Nova\Post;
 use Laravel\Nova\Fields\HasMany;
 
-HasMany::make(__('Posts'), 'posts', Post::class);
+HasMany::make(__('Posts'), 'posts', Post::class),
 ```
 
 In addition, you should also override the `label` and `singularLabel` methods on the related resource:
@@ -216,7 +216,9 @@ Nova::serving(function () {
 
 As in Laravel, you may use the `__` helper within your custom Vue components to access these translations. To accomplish this, add the following mixins to your Inertia page component or Vue component:
 
-```jsx
+<CodeGroup>
+
+```jsx Option API {6,9}
 <template>
   <h2>{{ __('Total Users') }}</h2>
 </template>
@@ -232,9 +234,7 @@ export default {
 </script>
 ```
 
-If your components use the Vue Composition API, you may use the `useLocalization` composable to localize your component:
-
-```jsx
+```jsx Composition API {6,8}
 <template>
   <h2>{{ __('Total Users') }}</h2>
 </template>
@@ -247,4 +247,5 @@ const { __ } = useLocalization()
 // ...
 </script>
 ```
+</CodeGroup>
 

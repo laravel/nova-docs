@@ -23,7 +23,7 @@ Nova filters include all of the scaffolding necessary to build your filter. Each
 
 Nova filters may be registered in your resource's `filters` method. This method returns an array of filters available to the resource. To register your filter, add your filter to the array of filters returned by this method:
 
-```php
+```php {1,12}
 use Acme\AgeRange\AgeRange;
 
 /**
@@ -42,19 +42,12 @@ public function filters(NovaRequest $request)
 
 Alternatively, you may use the `make` method to instantiate your filter: 
 
-```php
-use Acme\AgeRange\AgeRange;
-
-/**
- * Get the filters available for the resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
- */
+```diff
 public function filters(NovaRequest $request)
 {
     return [
-        AgeRange::make(),
+-      new AgeRange,
++      AgeRange::make(),
     ];
 }
 ```
@@ -94,7 +87,7 @@ When Nova generates your filter, `resources/js` and `resources/css` directories 
 
 Your Nova filter's service provider registers your filter's compiled assets so that they will be available to the Nova front-end:
 
-```php
+```php NovaServiceProvider.php
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
@@ -106,8 +99,7 @@ use Laravel\Nova\Events\ServingNova;
 public function boot()
 {
     Nova::serving(function (ServingNova $event) {
-        Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
-        Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
+        Nova::mix('age-range', __DIR__.'/../dist/mix-manifest.json');
         Nova::translations(__DIR__.'/../resources/lang/en/age-range.json');
     });
 }
