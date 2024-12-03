@@ -134,6 +134,8 @@ You can customize the dashboard's menu by defining a `menu` method on your dashb
 ```php app/Nova/Dashboards/UserInsights.php
 use Illuminate\Http\Request;
 
+// ...
+
 /**
  * Get the menu that should represent the dashboard.
  *
@@ -156,6 +158,8 @@ Occasionally, you may wish to refresh all the metrics' values inside your dashbo
 ```php app/Providers/NovaServiceProvider.php {13}
 use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\UserInsights;
+
+// ...
 
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
@@ -180,6 +184,8 @@ use App\Models\User;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\UserInsights;
 
+// ...
+
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
@@ -202,6 +208,8 @@ In the example above, we are using Laravel's `Authorizable` trait's can method o
 use App\Models\User;
 use App\Nova\Dashboards\Main;
 use App\Nova\Dashboards\UserInsights;
+
+// ...
 
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
