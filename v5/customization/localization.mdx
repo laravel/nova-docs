@@ -23,7 +23,7 @@ Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and ot
 
 To map your existing locales to IETF language tags, you may use the `Nova::userLocale` method. Typically, you should invoke this method in the `boot` method of your application's `NovaServiceProvider`:
 
-```php NovaServiceProvider.php
+```php Providers/NovaServiceProvider.php
 use Laravel\Nova\Nova;
 
 Nova::userLocale(function () {
@@ -198,7 +198,7 @@ public function name()
 
 To propagate your localizations to the frontend, you should call the `Nova::translations` method within your `NovaServiceProvider`:
 
-```php
+```php Providers/NovaServiceProvider.php
 Nova::serving(function () {
     Nova::translations($pathToFile);
 });
@@ -206,7 +206,7 @@ Nova::serving(function () {
 
 You may also pass an array of key / value pairs representing each localization:
 
-```php
+```php Providers/NovaServiceProvider.php
 Nova::serving(function () {
     Nova::translations([
         'Total Users' => 'Total Users'
