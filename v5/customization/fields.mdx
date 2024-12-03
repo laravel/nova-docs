@@ -23,16 +23,17 @@ Nova fields include all of the scaffolding necessary to build your field. Each f
 
 Nova fields may be registered in your resource's `fields` method. This method returns an array of fields available to the resource. To register your field, add your field to the array of fields returned by this method:
 
-```php {1,14}
+```php {1,15}
 use Acme\ColorPicker\ColorPicker;
+
+// ...
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
