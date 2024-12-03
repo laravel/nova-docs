@@ -119,7 +119,7 @@ If you have [customized Nova's main sidebar menu](./menus.md#customizing-the-mai
 
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
+Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
 
 ## Assets
 
@@ -141,10 +141,9 @@ class PriceTracker extends Tool
     /**
      * Perform any tasks that need to happen when the tool is booted.
      */
-    public function boot(): void # [!code focus:5]
+    public function boot(): void # [!code focus:4]
     {
-        Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
-        Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+        Nova::mix('price-tracker', __DIR__.'/../dist/mix-manifest.json');
     }
 }
 ```

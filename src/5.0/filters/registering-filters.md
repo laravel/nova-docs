@@ -34,3 +34,18 @@ return [
     UserType::make(), # [!code ++] # [!code focus]
 ];
 ```
+
+## Searchable Select Filter
+
+Nova also allows to Select Filter to utilise searchable, you may use the **searchable** method on your filter:
+
+```php
+use App\Nova\Filters\UserType;
+
+// ... 
+
+return [
+    UserType::make(), # [!code --] # [!code focus]
+    UserType::make()->searchable(), # [!code ++] # [!code focus]
+];
+```

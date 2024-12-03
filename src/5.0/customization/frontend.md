@@ -93,7 +93,7 @@ const basePath = Nova.config('base');
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
 
 ```php
-use Laravel\Nova\Events\ServingNova;
+use Laravel\Nova\Events\ServingNova; # [!code ++]
 use Laravel\Nova\Nova;
 
 /**
@@ -125,32 +125,17 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 
 ### Using Nova Mixins
 
-Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can reference Nova's own `packages.js` file by defining a `laravel-nova` alias that points to this file within the Nova installation that is located within your root application's `vendor` directory. This alias should be placed in your package's `nova.mix.js`:
+Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilize `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova Devtool installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
 
 ```js
-'laravel-nova': path.join(
-  __dirname,
-  '../../vendor/laravel/nova/resources/js/mixins/packages.js'
-),
-```
+mix.extend('nova', new require('laravel-nova-devtool')) // [!code focus]
 
-Custom Nova packages that are developed outside of a `nova-components` directory should declare `laravel/nova` as a "dev" Composer dependency. Then, define a `laravel-nova` Mix alias that points to the `packages.js` file within your custom package's `vendor` directory:
-
-```js
-'laravel-nova': path.join(
-  __dirname,
-  '../../vendor/laravel/nova/resources/js/mixins/packages.js' // [!code --]
-  'vendor/laravel/nova/resources/js/mixins/packages.js' // [!code ++]
-),
-```
-
-In order to compile custom packages assets with `laravel-nova` mixins you are required to prepare `laravel/nova`'s `node_modules` by running the following command:
-
-```bash
-npm run nova:install
-
-# Or use the explicit command...
-npm --prefix='vendor/laravel/nova' ci
+mix // [!code focus]
+  .setPublicPath('dist')
+  .js('resources/js/card.js', 'js')
+  .vue({ version: 3 })
+  .css('resources/css/card.css', 'css')
+  .nova('acme/analytics') // [!code focus]
 ```
 
 :::tip NPM Requirements
@@ -163,13 +148,7 @@ Laravel Nova's assets are built using **lockfile** version `3` and require NPM 9
 By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may issue the following terminal commands from the root of your Nova project:
 
 ```bash
-cd ./vendor/laravel/nova
-mv webpack.mix.js.dist webpack.mix.js
-npm ci
-npm run dev
-rm -rf node_modules
-cd -
-php artisan nova:publish
+php vendor/bin/testbench nova:devtool enable-vue-devtool
 ```
 
 Please note, compiling Nova's assets for production purposes is not supported.

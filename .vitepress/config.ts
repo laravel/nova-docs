@@ -12,7 +12,6 @@ export default defineConfigWithTheme<ThemeConfig>({
 
     markdown: {
         lineNumbers: false,
-        // theme: 'css-variables',
     },
 
     head: [
@@ -96,8 +95,11 @@ export default defineConfigWithTheme<ThemeConfig>({
                     items: [
                         { text: 'The Basics', link: '/5.0/resources/' },
                         { text: 'Fields', link: '/5.0/resources/fields.html' },
+                        { text: 'Dependent Fields', link: '/5.0/resources/dependent-fields.html' },
                         { text: 'Date Fields', link: '/5.0/resources/date-fields.html' },
+                        { text: 'File Fields', link: '/5.0/resources/file-fields.html' },
                         { text: 'Repeater Fields', link: '/5.0/resources/repeater-fields.html' },
+                        { text: 'Panels', link: '/5.0/resources/panels.html' },
                         { text: 'Relationships', link: '/5.0/resources/relationships.html' },
                         { text: 'Validation', link: '/5.0/resources/validation.html' },
                         { text: 'Authorization', link: '/5.0/resources/authorization.html' },
@@ -175,6 +177,7 @@ export default defineConfigWithTheme<ThemeConfig>({
                         { text: 'The Basics', link: '/4.0/resources/' },
                         { text: 'Fields', link: '/4.0/resources/fields.html' },
                         { text: 'Date Fields', link: '/4.0/resources/date-fields.html' },
+                        { text: 'File Fields', link: '/4.0/resources/file-fields.html' },
                         { text: 'Repeater Fields', link: '/4.0/resources/repeater-fields.html' },
                         { text: 'Relationships', link: '/4.0/resources/relationships.html' },
                         { text: 'Validation', link: '/4.0/resources/validation.html' },

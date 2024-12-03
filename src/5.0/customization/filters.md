@@ -125,11 +125,10 @@ class FilterServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void # [!code focus:8]
+    public function boot(): void # [!code focus:7]
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('age-range', __DIR__.'/../dist/js/filter.js');
-            Nova::style('age-range', __DIR__.'/../dist/css/filter.css');
+            Nova::mix('age-range', __DIR__.'/../dist/mix-manifest.json');
             Nova::translations(__DIR__.'/../resources/lang/en/age-range.json'); # [!code ++]
         });
     }

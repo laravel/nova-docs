@@ -64,7 +64,7 @@ class Post extends Resource
      *
      * @return string
      */
-    public static function label() # [!code ++:4] # [!code focus:4]
+    public static function label() # [!code focus:4]
     {
         return __('Posts');
     }
@@ -74,11 +74,10 @@ class Post extends Resource
      *
      * @return string
      */
-    public static function singularLabel() # [!code ++:4] # [!code focus:4]
+    public static function singularLabel() # [!code focus:4]
     {
         return __('Post');
     }
-
 }
 ```
 
@@ -94,7 +93,7 @@ class Post extends Resource
      *
      * @return string|null
      */
-    public static function createButtonLabel() # [!code ++:4] # [!code focus:4]
+    public static function createButtonLabel() # [!code focus:4]
     {
         return __('Publish Post');
     }
@@ -104,11 +103,10 @@ class Post extends Resource
      *
      * @return string|null
      */
-    public static function updateButtonLabel() # [!code ++:4] # [!code focus:4]
+    public static function updateButtonLabel() # [!code focus:4]
     {
         return __('Save Changes');
     }
-
 }
 ```
 
@@ -176,7 +174,7 @@ class Post extends Resource
      *
      * @return string
      */
-    public static function label() # [!code ++:4] # [!code focus:4]
+    public static function label() # [!code focus:4]
     {
         return __('Posts');
     }
@@ -186,7 +184,7 @@ class Post extends Resource
      *
      * @return string
      */
-    public static function singularLabel() # [!code ++:4] # [!code focus:4]
+    public static function singularLabel() # [!code focus:4]
     {
         return __('Post');
     }
@@ -262,38 +260,54 @@ public function name() # [!code focus:4]
 To propagate your localizations to the frontend, you should call the `Nova::translations` method within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php
-/**
- * Boot any application services.
- */
-public function boot(): void
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::serving(function () { # [!code ++:3] # [!code focus:3]
-        Nova::translations($pathToFile);
-    });
+        Nova::serving(function () { # [!code ++:3] # [!code focus:3]
+            Nova::translations($pathToFile);
+        });
 
-    //
+        //
+    }
 }
 ```
 
 You may also pass an array of key / value pairs representing each localization:
 
 ```php
-/**
- * Boot any application services.
- */
-public function boot(): void
+namespace App\Providers;
+
+use Laravel\Nova\Nova;
+use Laravel\Nova\NovaApplicationServiceProvider;
+
+class NovaServiceProvider extends NovaApplicationServiceProvider
 {
-    parent::boot();
+    /**
+     * Boot any application services.
+     */
+    public function boot(): void
+    {
+        parent::boot();
 
-    Nova::serving(function () { # [!code ++:5] # [!code focus:5]
-        Nova::translations([
-            'Total Users' => 'Total Users'
-        ]);
-    });
+        Nova::serving(function () { # [!code ++:5] # [!code focus:5]
+            Nova::translations([
+                'Total Users' => 'Total Users'
+            ]);
+        });
 
-    //
+        //
+    }
 }
 ```
 
@@ -301,11 +315,11 @@ As in Laravel, you may use the `__` helper within your custom Vue components to 
 
 ```vue
 <template>
-  <h2>{{ __('Total Users') }}</h2>
+  <h2>{{ __('Total Users') }}</h2> // [!code focus]
 </template>
 
 <script>
-import { Localization } from 'laravel-nova'
+import { Localization } from 'laravel-nova' // [!code focus:7]
 
 export default {
   mixins: [Localization]
@@ -319,12 +333,13 @@ If your components use the Vue Composition API, you may use the `useLocalization
 
 ```vue
 <template>
-  <h2>{{ __('Total Users') }}</h2>
+  <h2>{{ __('Total Users') }}</h2> // [!code focus]
+</template>
 
 <script setup>
-import { useLocalization } from 'laravel-nova'
+import { useLocalization } from 'laravel-nova' // [!code focus]
 
-const { __ } = useLocalization() 
+const { __ } = useLocalization() // [!code focus]
 
 // ...
 </script>
