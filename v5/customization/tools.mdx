@@ -26,12 +26,12 @@ Nova tools may be registered in your application's `App/Providers/NovaServicePro
 ```php app/Nova/NovaServiceProvider.php {1,11}
 use Acme\PriceTracker\PriceTracker;
 
+// ..
+
 /**
  * Get the tools that should be listed in the Nova sidebar.
- *
- * @return array
  */
-public function tools()
+public function tools(): array
 {
     return [
         new PriceTracker,
@@ -43,15 +43,15 @@ public function tools()
 
 If you would like to only expose a given tool to certain users, you may chain the `canSee` method onto your tool's registration. The `canSee` method accepts a Closure which should return `true` or `false`. The Closure will receive the incoming HTTP request:
 
-```php
+```php app/Providers/NovaServiceProvider.php {1,11-13}
 use Acme\PriceTracker\PriceTracker;
+
+// ...
 
 /**
  * Get the tools that should be listed in the Nova sidebar.
- *
- * @return array
  */
-public function tools()
+public function tools(): array
 {
     return [
         (new PriceTracker)->canSee(function ($request) {
@@ -87,9 +87,11 @@ Your Nova tool is generated with an `Authorize` middleware. You should not typic
 
 Your Nova tool class contains a `menu` method. This method should return a [custom menu](./menus) that renders your tool's left-side navigation links. You are free to customize this method as needed:
 
-```php
+```php nova-components/PriceTracker/src/PriceTracker.php
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuSection;
+
+// ...
 
 /**
  * Build the menu that renders the navigation links for the tool.
@@ -124,17 +126,19 @@ The `Tool.vue` file is a single-file Vue component that contains your tool's fro
 
 Your Nova tool class contains a `boot` method. This method is executed when the tool is registered and available. By default, this method registers your tool's compiled assets so that they will be available to the Nova front-end:
 
-```php
+```php nova-components/PriceTracker/src/ToolServiceProvider.php {14}
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
+// ...
+
 /**
  * Perform any tasks that need to happen on tool registration.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
+    parent::boot();
+
     Nova::serving(function () {
         Nova::mix('price-tracker', __DIR__.'/../dist/mix-manifest.json');
     });
@@ -145,7 +149,7 @@ public function boot()
 
 Your component is bootstrapped and Inertia.js components are registered in the `resources/js/tool.js` file. You are free to modify this file or register additional components here as needed:
 
-```js
+```js nova-components/PriceTracker/resources/js/tool.js
 Nova.booting((Vue, store) => {
   Vue.component("PriceTrackerHeader", require("./components/Header").default);
 });

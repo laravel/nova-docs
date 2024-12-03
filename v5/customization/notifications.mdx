@@ -81,15 +81,11 @@ Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Sc
 
 If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider`: 
 
-```php app/Providers/NovaServiceProvider.php {12}
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -102,15 +98,11 @@ public function boot()
 By default, Nova shows a visual indicator when there are unread notifications inside the notification center. 
 If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountInNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
 
-```php app/Providers/NovaServiceProvider.php {12}
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
