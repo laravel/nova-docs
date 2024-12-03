@@ -15,7 +15,7 @@ Nova dashboards provide a convenient way to build information overview pages tha
 
 Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customize which cards are present on the default dashboard via this method:
 
-```php Nova/Dashboards/Main.php
+```php app/Nova/Dashboards/Main.php
 /**
  * Get the cards that should be displayed on the Nova dashboard.
  *
@@ -41,7 +41,7 @@ php artisan nova:dashboard UserInsights
 
 Once your dashboard class has been generated, you're ready to customize it. Each dashboard class contains a `cards` method. This method should return an array of card or metric classes:
 
-```php Nova/Dashboards/UserInsights.php
+```php app/Nova/Dashboards/UserInsights.php
 namespace App\Nova\Dashboards;
 
 use Laravel\Nova\Dashboard;
@@ -69,7 +69,7 @@ class UserInsights extends Dashboard
 
 By default, Nova will use the dashboard's class name to determine the displayable name of your dashboard that should be placed in the left-side navigation bar. You may customize the name of the dashboard displayed in the left-side navigation bar by overriding the `name` method within your dashboard class:
 
-```php Nova/Dashboards/UserInsights.php
+```php app/Nova/Dashboards/UserInsights.php
 /**
  * Get the displayable name of the dashboard.
  *
@@ -85,7 +85,7 @@ public function name()
 
 If you need to change the URI of the dashboard, you may override the dashboard class' `uriKey` method. Of course, the URI represents the browser location that Nova will navigate to in when you click on the dashboard link in the left-side navigation bar:
 
-```php Nova/Dashboards/UserInsights.php
+```php app/Nova/Dashboards/UserInsights.php
 /**
  * Get the URI key of the dashboard.
  *
@@ -123,7 +123,7 @@ protected function dashboards()
 
 You can customize the dashboard's menu by defining a `menu` method on your dashboard class:
 
-```php
+```php app/Nova/Dashboards/UserInsights.php
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuItem;
 
