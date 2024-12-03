@@ -24,15 +24,21 @@ Laravel Nova frontend libraries, including the browser, Numbro.js, Luxon, and ot
 To map your existing locales to IETF language tags, you may use the `Nova::userLocale` method. Typically, you should invoke this method in the `boot` method of your application's `NovaServiceProvider`:
 
 ```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
+/**
+ * Boot any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
 
-Nova::userLocale(function () {
-    return match (app()->getLocale()) {
-        'en' => 'en-US',
-        'de' => 'de-DE',
-        default => null,
-    };
-});
+    Nova::userLocale(function () {
+        return match (app()->getLocale()) {
+            'en' => 'en-US',
+            'de' => 'de-DE',
+            default => null,
+        };
+    });
+}
 ```
 
 ### Resources
@@ -92,6 +98,8 @@ Field names may be localized when you attach the field to your resource. The fir
 ```php
 use Laravel\Nova\Fields\Text;
 
+// ...
+
 Text::make(__('Email Address'), 'email_address'),
 ```
 
@@ -102,6 +110,8 @@ Relationship field names may be customized by localizing the first argument pass
 ```php
 use App\Nova\Post;
 use Laravel\Nova\Fields\HasMany;
+
+// ...
 
 HasMany::make(__('Posts'), 'posts', Post::class),
 ```
@@ -198,20 +208,36 @@ public function name()
 
 To propagate your localizations to the frontend, you should call the `Nova::translations` method within your `NovaServiceProvider`:
 
-```php app/Providers/NovaServiceProvider.php
-Nova::serving(function () {
-    Nova::translations($pathToFile);
-});
+```php app/Providers/NovaServiceProvider.php {9}
+/**
+ * Boot any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
+
+    Nova::serving(function () {
+        Nova::translations($pathToFile);
+    });
+}
 ```
 
 You may also pass an array of key / value pairs representing each localization:
 
-```php app/Providers/NovaServiceProvider.php
-Nova::serving(function () {
-    Nova::translations([
-        'Total Users' => 'Total Users'
-    ]);
-});
+```php app/Providers/NovaServiceProvider.php {9-11}
+/**
+ * Boot any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
+
+    Nova::serving(function () {
+        Nova::translations([
+            'Total Users' => 'Total Users'
+        ]);
+    });
+}
 ```
 
 As in Laravel, you may use the `__` helper within your custom Vue components to access these translations. To accomplish this, add the following mixins to your Inertia page component or Vue component:

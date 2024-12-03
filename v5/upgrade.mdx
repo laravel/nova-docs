@@ -86,9 +86,9 @@ return [
 
 ### With Authentication Routes
 
-<Warning>
+<Note>
 Skip this section if your Nova's installation is configured with custom authentication routes.
-</Warning>
+</Note>
 
 Nova 5 now leverages [Laravel Fortify](https://laravel.com/docs/fortify) instead of Laravel UI. The changes allow Nova 5 to enable Two Factor Authentication, E-mail Verification, and Password Confirmation. 
 
@@ -119,9 +119,9 @@ Once completed, you may look into customizing the authentication featured powere
 
 ### Without Authentication Features
 
-<Warning>
+<Note>
 Skip this section if your Nova's installation is configured without custom authentication routes.
-</Warning>
+</Note>
 
 In an application where the default login interface doesn't mean your use case, it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `routes()` method in `App\Providers\NovaServiceProvider` class:
 

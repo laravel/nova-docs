@@ -23,16 +23,17 @@ Nova resource tools include all of the scaffolding necessary to build your tool.
 
 Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields and tools available to the resource. To register your resource tool, add your tool to the array of fields returned by this method:
 
-```php {1,14}
+```php {1,15}
 use Acme\StripeInspector\StripeInspector;
+
+// ...
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\ResourceTool>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -46,16 +47,17 @@ public function fields(NovaRequest $request)
 
 If you would like to only expose a given tool to certain users, you may invoke the `canSee` method when registering your tool. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
-```php {1,14-16}
+```php {1,15-17}
 use Acme\StripeInspector\StripeInspector;
+
+// ...
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\ResourceTool>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
@@ -71,22 +73,14 @@ public function fields(NovaRequest $request)
 
 Often, you will need to allow the consumer's of your tool to customize run-time configuration options on the tool. You may do this by exposing methods on your tool class. These methods may call the tool's underlying `withMeta` method to add information to the tool's metadata, which will be available within your `Tool.vue` component. The `withMeta` method accepts an array of key / value options:
 
-```php {22-26}
+```php nova-components/StripeInspector/src/StripeInspector.php {14-17}
 namespace Acme\StripeInspector;
 
 use Laravel\Nova\ResourceTool;
 
 class StripeInspector extends ResourceTool
 {
-    /**
-     * Get the displayable name of the resource tool.
-     *
-     * @return string
-     */
-    public function name()
-    {
-        return 'Stripe Inspector';
-    }
+    // ...
 
     /**
      * Indicates that the Stripe inspector should allow refunds.
@@ -96,16 +90,6 @@ class StripeInspector extends ResourceTool
     public function issuesRefunds()
     {
         return $this->withMeta(['issuesRefunds' => true]);
-    }
-
-    /**
-     * Get the component name for the resource tool.
-     *
-     * @return string
-     */
-    public function component()
-    {
-        return 'stripe-inspector';
     }
 }
 ```
@@ -167,17 +151,19 @@ The `Tool.vue` file is a single-file Vue component that contains your tool's fro
 
 Your Nova tool's service provider registers your tool's compiled assets so that they will be available to the Nova front-end:
 
-```php
+```php nova-components/StripeInspector/src/ToolServiceProvider.php {18}
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
+// ...
+
 /**
  * Bootstrap any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
+    parent::boot();
+
     $this->app->booted(function () {
         $this->routes();
     });

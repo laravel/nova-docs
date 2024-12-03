@@ -93,9 +93,11 @@ const basePath = Nova.config('base');
 
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
 
-```php app/Providers/NovaServiceProvider.php
+```php app/Providers/NovaServiceProvider.php {16-18}
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
+
+// ...
 
 /**
  * Bootstrap any application services.
@@ -104,6 +106,8 @@ use Laravel\Nova\Events\ServingNova;
  */
 public function boot()
 {
+    parent::boot();
+
     Nova::serving(function (ServingNova $event) {
         Nova::provideToScript([
             'mail_driver' => config('mail.default'),
