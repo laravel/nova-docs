@@ -4,7 +4,6 @@ description: 'Repeater fields allow you to create and edit repeatable, structure
 ---
 
 <Warning>
-
 This field is currently in beta. The API, while stable, is subject to change while in the beta period.
 </Warning>
 
@@ -12,12 +11,10 @@ This field is currently in beta. The API, while stable, is subject to change whi
 
 The `Repeater` field allows you to create and edit repeatable, structured data and store that data in a JSON column or `HasMany` relationship:
 
-```php
-<?php
-
+```php app/Nova/Invoice.php {3,5,19-22}
 namespace App\Nova;
 
-use App\Nova\Repeater\LineItem;
+use App\Nova\Repeaters;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Repeater;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -27,16 +24,15 @@ class Invoice extends Resource
 	/**  
 	 * Get the fields displayed by the resource. 
 	 * 
-	 * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
-	 * @return array  
+	 * @return array<int, \Laravel\Nova\Fields\Field>
 	 */
-	public function fields(NovaRequest $request)
+	public function fields(NovaRequest $request): array
 	{
 		return [
 			ID::make(),
 			Repeater::make('Line Items')
 				->repeatables([
-					LineItem::make(),
+					Repeaters\LineItem::make(),
 				]),
 		];
 	}
@@ -65,10 +61,8 @@ php artisan nova:repeatable LineItem
 
 After invoking the command above, Nova generates a new file at `app/Nova/Repeater/LineItem.php`. This file contains a `fields` method in which you may list any supported Nova field. For example, below we will define a `Repeatable` representing a line item for an invoice:
 
-```php
-<?php
-
-namespace App\Nova\Repeater;
+```php app/Nova/Repeaters/LineItem.php
+namespace App\Nova\Repeaters;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Currency;
@@ -81,10 +75,9 @@ class LineItem extends Repeatable
 	/**
 	 * Get the fields displayed by the repeatable.
 	 *
-	 * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-	 * @return array
+	 * @return array<int, \Laravel\Nova\Fields\Field>
 	 */
-	public function fields(NovaRequest $request)
+	public function fields(NovaRequest $request): array
 	{
 		return [
 			Number::make('Quantity')->rules('required', 'numeric'),
@@ -99,12 +92,28 @@ class LineItem extends Repeatable
 
 You may instruct Nova to present a confirmation modal before removing a repeatable by invoking the `confirmRemoval` method when defining the repeatable:
 
-```php
-Repeater::make('Attachments')->repeatables([
-	\App\Nova\Repeater\File::make()->confirmRemoval(),
-	\App\Nova\Repeater\Note::make(),
-	\App\Nova\Repeater\Video::make()->confirmRemoval(),
-]),
+```php {16,18}
+use App\Nova\Repeaters;
+use Laravel\Nova\Fields\Repeater;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
+/**  
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Attachments')->repeatables([
+			Repeaters\File::make()->confirmRemoval(),
+			Repeaters\Note::make(),
+			Repeaters\Video::make()->confirmRemoval(),
+		]),
+	];
+}
 ```
 
 ## Repeater Presets
@@ -119,19 +128,38 @@ The `JSON` preset stores repeatables in a `JSON` column in your database. For ex
 
 To use the `JSON` preset, simply invoke the `asJson` method on your `Repeater` field definition:
 
-```php
-Repeater::make('Line Items', 'line_items')
-	->repeatables([
-		\App\Nova\Repeater\LineItem::make(),
-	])
-	->asJson()
+```php {15}
+use App\Nova\Repeaters;
+
+// ...
+
+/**
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Line Items', 'line_items')
+			->repeatables([
+				Repeaters\LineItem::make(),
+			])
+			->asJson(),
+	];
+}
 ```
 
 Before using this preset, you should ensure that the underlying Eloquent attribute for the resource's repeater column is configured to cast to an `array` (or equivalent) within your Eloquent model class:
 
-```php
+```php app/Models/Invoce.php
+/**
+ * The attributes that should be cast.
+ *
+ * @var array<string, mixed>
+ */
 protected $casts = [
-    'line_items' => 'array'
+	'line_items' => 'array',
 ];
 ```
 
@@ -141,40 +169,54 @@ The `HasMany` preset stores repeatables via Eloquent using a `HasMany` relations
 
 To use the `HasMany` preset, simply invoke the `asHasMany` method on your `Repeater` field definition:
 
-```php
-Repeater::make('Line Items', 'lineItems')
-	->repeatables([
-		\App\Nova\Repeater\LineItem::make(),
-	])
-	->asHasMany()
+```php {15}
+use App\Nova\Repeaters;
+
+// ...
+
+/**
+ * Get the fields displayed by the resource. 
+ * 
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+	return [
+		Repeater::make('Line Items', 'lineItems')
+			->repeatables([
+				Repeaters\LineItem::make(),
+			])
+			->asHasMany(),
+	];
+}
 ```
 
 The `HasMany` preset requires each repeatable to specify the underlying model it represents by setting the `model` property on the `Repeatable`. For example, a `LineItem` repeatable would need to specify the underlying `\App\Models\LineItem` model it represents:
 
-```php
-class LineItem extends Repeatable
-{
-	/**  
-	 * The underlying model the repeatable represents. 
-	 * 
-	 * @var class-string
-	 */
-	public static $model = \App\Models\LineItem::class;
-}
+```php app/Nova/Repeaters/LineItem.php {6}
+/**  
+ * The underlying model the repeatable represents. 
+ * 
+ * @var class-string
+ */
+public static $model = \App\Models\LineItem::class;
 ```
 
 ## Upserting Repeatables Using Unique Fields
 
 By default, when editing your repeatables configured with the `HasMany` preset, Nova will delete all of the related items and recreate them every time you save your resource. To instruct Nova to "upsert" the repeatable data instead, you should ensure you have a unique identifier column on your related models. Typically, this will be an auto-incrementing column or a UUID. You may then use the `uniqueField` method to specify which column contains the unique key for the database table:
 
-```php
-/**  
+```php {13,17}
+use App\Nova\Repeaters;
+
+// ...
+
+/**
  * Get the fields displayed by the resource. 
  * 
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
- * @return array  
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
 	return [
 		ID::make(),
@@ -183,7 +225,7 @@ public function fields(NovaRequest $request)
 			->asHasMany()
 			->uniqueField('uuid')
 			->repeatables([
-				\App\Nova\Repeater\LineItem::make()
+				Repeaters\LineItem::make()
 			])
 	];
 }
@@ -191,16 +233,17 @@ public function fields(NovaRequest $request)
 
 In addition, the `fields` method for the `Repeatable` must contain a field matching the `uniqueField`:
 
-```php
+```php {1,13}
 use Laravel\Nova\Fields\ID;
+
+// ...
 
 /**  
  * Get the fields displayed by the repeatable. 
  * 
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request  
- * @return array  
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields()
+public function fields(NovaRequest $request): array
 {
 	return [
 		ID::hidden('uuid'), // The unique ID field
@@ -211,6 +254,8 @@ public function fields()
 ```
 
 In this example, we utilized the `ID::hidden` method, which prevents Nova from showing the `ID` field to the user, but still passes its value to Nova when saving or updating the resource.
+
+When used alongside JSON preset, Nova will generate the unique identifier by default (UUID) for each item. You may customize this using [field hydration](./fields#field-hydration) for the related field.
 
 ## Repeater Field Capabilities
 
@@ -228,12 +273,12 @@ The `Repeater` field allows for every field supported by Nova, except for the fo
 - MorphTo
 - BelongsToMany
 - MorphToMany
+- File - Requires usage of `uniqueField` 
 
 ### Partially-Supported Fields
 
 The following fields are partially supported:
 
-- File Field
 - Vapor File Field
 - Markdown Field
 - Trix Field
