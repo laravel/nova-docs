@@ -133,7 +133,7 @@ public static $search = [
 
 "Morph to" relationships can be made searchable by returning an instance of `Laravel\Nova\Query\Search\SearchableMorphToRelation` from your resource's `searchableColumns` method. The `SearchableMorphToRelation` class allows you to specify which types of morphed models should be searched:
 
-```php
+```php app/Nova/~Resource.php
 use App\Nova\Post;
 use Laravel\Nova\Query\Search\SearchableMorphToRelation;
 
