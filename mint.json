@@ -80,6 +80,7 @@
         "v5/resources/date-fields",
         "v5/resources/file-fields",
         "v5/resources/repeater-fields",
+        "v5/resources/panels",
         "v5/resources/relationships",
         "v5/resources/validation",
         "v5/resources/authorization"

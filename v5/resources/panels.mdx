@@ -1,0 +1,164 @@
+---
+title: 'Field Panels'
+---
+
+If your resource contains many fields, your resource "detail" page can become crowded. For that reason, you may choose to break up groups of fields into their own "panels":
+
+<Frame>
+    ![Field Panel Example](/images/panels.png)
+</Frame>
+
+You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
+
+```php {1,14-18}
+use Laravel\Nova\Panel;
+
+// ...
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+    return [
+        ID::make()->sortable(),
+
+        Panel::make('Profile', [
+            Text::make('Full Name'),
+            Date::make('Date of Birth'),
+            Text::make('Place of Birth'),
+        ]),
+    ];
+}
+```
+
+### Limit Displayed Fields
+
+You may limit the amount of fields shown in a panel by default using the `limit` method:
+
+```php {9}
+use Laravel\Nova\Panel;
+
+// ...
+
+Panel::make('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+])->limit(1),
+```
+
+Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
+
+### Collapsable Panels
+
+You can also set panel to be collapsable using by adding `collapsable` method. This method utilise JavaScript's `localStorage` feature to remember the current state:
+
+```php {9}
+use Laravel\Nova\Panel;
+
+// ...
+
+Panel::make('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+])->collapsable(),
+```
+
+You may also indicate a panel should always be collapsed by default via the `collapsedByDefault` method:
+
+```php {9}
+use Laravel\Nova\Panel;
+
+// ...
+
+Panel::make('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+])->collapsedByDefault(),
+```
+
+### Iterates Fields within Panel
+
+You can iterate and add definitions to all fields within the panel using the `each` method:
+
+```php {9-11}
+use Laravel\Nova\Panel;
+
+// ...
+
+Panel::make('Profile', [
+    Text::make('Full Name'),
+    Date::make('Date of Birth'),
+    Text::make('Place of Birth'),
+])->each(
+    fn ($field) => $field->hideFromIndex()
+),
+```
+
+## Tabs
+
+<Warning>
+This is currently in beta. The API, while stable, is subject to change while in the beta period.
+</Warning>
+
+The `Tab` panel allows you to organise fields and relationships within a Resource.
+
+```php app/Nova/Event.php {7}
+use Laravel\Nova\Tabs\Tab;
+
+// ...
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        ID::make()->sortable(),
+
+        // ...
+
+        Tab::group('Details', [
+            Tab::make('Purchases', [
+                Currency::make('Price')->asMinorUnits(),
+                Number::make('Tickets Available'),
+                Number::make('Tickets Sold'),
+            ]),
+
+            Tab::make('Registrations', [
+                // ...
+            ]),
+
+            Tab::make('Event & Venue', [
+                // ...
+            ]),
+        ]),
+
+        Tab::group('Relations', [
+            HasMany::make('Orders'),
+            HasManyThrough::make('Tickets'),
+        ]),
+    ]
+}
+```
+
+### Hiding Tabs Title
+
+Tab's Group title can be excluding by skipping `$name` parameter and instead just define `$attribute`:
+
+```php
+use Laravel\Nova\Tabs\Tab;
+
+// ...
+
+Tab::group(attribute: 'Relations', fields: [
+    HasMany::make('Orders'),
+    HasManyThrough::make('Tickets'),
+]),
+```
