@@ -629,32 +629,50 @@ public function actions(NovaRequest $request): array
 
 If you would like to allow the user to name the CSV file that is downloaded, you may invoke the `nameable` method when registering the action:
 
-```php
+```php app/Nova/User.php
 use Laravel\Nova\Actions\ExportAsCsv;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 // ...
 
-return [
-    ExportAsCsv::make()->nameable(),
-];
+/**
+ * Get the actions available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Actions\Action>
+ */
+public function actions(NovaRequest $request): array
+{
+    return [
+        ExportAsCsv::make()->nameable(),
+    ];
+}
 ```
 
 If you would like to customize and format the fields that are included in the generated CSV, you may invoke the `withFormat` method when registering the action:
 
-```php
+```php app/Nova/User.php
 use Laravel\Nova\Actions\ExportAsCsv;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 // ...
 
-return [
-    ExportAsCsv::make()->withFormat(function ($model) {
-        return [
-            'ID' => $model->getKey(),
-            'Name' => $model->name,
-            'Email Address' => $model->email,
-        ];
-    }),
-];
+/**
+ * Get the actions available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Actions\Action>
+ */
+public function actions(NovaRequest $request): array
+{
+    return [
+        ExportAsCsv::make()->withFormat(function ($model) {
+            return [
+                'ID' => $model->getKey(),
+                'Name' => $model->name,
+                'Email Address' => $model->email,
+            ];
+        }),
+    ];
+}
 ```
 
 ## Resource Index Search Debounce
