@@ -128,7 +128,7 @@ Localization strings can be passed to the frontend via your `NovaServiceProvider
 Custom Nova tools, resource tools, cards, and other custom packages that are being developed within a `nova-components` directory of a Laravel application can utilize `laravel-nova` mixins by importing `nova.mix.js` Mix Extension from the Nova Devtool installation that is located within your root application's `vendor` directory. This extension should be placed in your package's `webpack.mix.js`:
 
 ```js
-mix.extend('nova', new require('./vendor/laravel/nova-devtool/nova.mix')) // [!code focus]
+mix.extend('nova', new require('laravel-nova-devtool')) // [!code focus]
 
 mix // [!code focus]
   .setPublicPath('dist')
@@ -148,13 +148,7 @@ Laravel Nova's assets are built using **lockfile** version `3` and require NPM 9
 By default, Nova's JavaScript is compiled for production. As such, you will not be able to access the Vue DevTools out of the box without compiling Nova's JavaScript for development. To accomplish this, you may issue the following terminal commands from the root of your Nova project:
 
 ```bash
-cd ./vendor/laravel/nova
-mv webpack.mix.js.dist webpack.mix.js
-npm ci
-npm run dev
-rm -rf node_modules
-cd -
-php artisan nova:publish
+php vendor/bin/testbench nova:devtool enable-vue-devtool
 ```
 
 Please note, compiling Nova's assets for production purposes is not supported.
