@@ -45,7 +45,7 @@ public function boot(): void
 
 Resource names may be localized by overriding the `label` and `singularLabel` methods on the resource class:
 
-```php
+```php app/Nova/~Resource.php
 /**
  * Get the displayable label of the resource.
  *
@@ -69,7 +69,7 @@ public static function singularLabel()
 
 To customize labels for the resource's create and update buttons, you may override the `createButtonLabel` and `updateButtonLabel` methods on the resource:
 
-```php
+```php app/Nova/~Resource.php
 /**
  * Get the text for the create resource button.
  *
@@ -118,7 +118,7 @@ HasMany::make(__('Posts'), 'posts', Post::class),
 
 In addition, you should also override the `label` and `singularLabel` methods on the related resource:
 
-```php
+```php app/Nova/~Resource.php
 /**
  * Get the displayable label of the resource.
  *
@@ -144,7 +144,7 @@ public static function singularLabel()
 
 Filter names may be localized by overriding the `name` method on the filter class:
 
-```php
+```php app/Nova/Filters/~Filter.php
 /**
  * Get the displayable name of the filter.
  *
@@ -160,7 +160,7 @@ public function name()
 
 Lens names may be localized by overriding the `name` method on the lens class:
 
-```php
+```php app/Nova/Lenses/~Lens.php
 /**
  * Get the displayable name of the lens.
  *
@@ -176,7 +176,7 @@ public function name()
 
 Action names may be localized by overriding the `name` method on the action class:
 
-```php
+```php app/Nova/Actions/~Action.php
 /**
  * Get the displayable name of the action.
  *
@@ -192,7 +192,7 @@ public function name()
 
 Metric names may be localized by overriding the `name` method on the metric class:
 
-```php
+```php app/Nova/Metrics/~Metric.php
 /**
  * Get the displayable name of the metric.
  *

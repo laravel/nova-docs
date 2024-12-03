@@ -21,6 +21,8 @@ Nova notifications may be generated via the `NovaNotification` class, which prov
 use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\URL;
 
+// ...
+
 $request->user()->notify(
     NovaNotification::make()
         ->message('Your report is ready to download.')
@@ -36,6 +38,8 @@ You may also send a Nova notification by including the `NovaChannel` in the arra
 use Laravel\Nova\Notifications\NovaNotification;
 use Laravel\Nova\Notifications\NovaChannel;
 use Laravel\Nova\URL;
+
+// ...
 
 /**
  * Get the notification's delivery channels
@@ -68,9 +72,10 @@ public function toNova()
 When defining a notification action, the `openInNewTab` method may be invoked to instruct Nova to open the given URL in a new browser tab:
 
 ```php
-->action(
-    'Download', URL::remote('https://example.com/report.pdf')
-)->openInNewTab()
+return (new NovaNotification)
+    ->action(
+        'Download', URL::remote('https://example.com/report.pdf')
+    )->openInNewTab()
 ```
 
 #### Notification Icons

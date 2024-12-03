@@ -23,8 +23,9 @@ Nova resource tools include all of the scaffolding necessary to build your tool.
 
 Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields and tools available to the resource. To register your resource tool, add your tool to the array of fields returned by this method:
 
-```php {1,15}
+```php app/Nova/~Resource.php {1,16}
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 // ...
 
@@ -47,8 +48,9 @@ public function fields(NovaRequest $request): array
 
 If you would like to only expose a given tool to certain users, you may invoke the `canSee` method when registering your tool. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
-```php {1,15-17}
+```php app/Nova/~Resource.php {1,16-18}
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 // ...
 
@@ -106,16 +108,18 @@ const issuesRefunds = this.panel.fields[0].issuesRefunds;
 
 Resource tools also offer the ability to dynamically set options on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
 
-```php {14}
+```php {16}
 use Acme\StripeInspector\StripeInspector;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\ResourceTool>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make('ID', 'id')->sortable(),
