@@ -11,7 +11,7 @@ After deploying your application to production, you may occasionally need to "im
 
 To enable user impersonation, add the `Laravel\Nova\Auth\Impersonatable` trait to your application's `User` model:
 
-```diff User.php
+```diff app/Models/User.php
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;

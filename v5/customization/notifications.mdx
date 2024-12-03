@@ -75,13 +75,13 @@ When defining a notification action, the `openInNewTab` method may be invoked to
 
 #### Notification Icons
 
-Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the Nova notification's `icon` method.
+Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the Nova notification's `icon` method.
 
 ## Disabling Notifications
 
 If you wish to completely disable notifications inside Nova, you can call the `withoutNotifications` method from your `App/Providers/NovaServiceProvider`: 
 
-```php
+```php app/Providers/NovaServiceProvider.php {12}
 use Laravel\Nova\Nova;
 
 /**
@@ -102,7 +102,7 @@ public function boot()
 By default, Nova shows a visual indicator when there are unread notifications inside the notification center. 
 If you would like Nova to show the number of unread notifications, you can call the `showUnreadCountInNotificationCenter` method from your `App/Providers/NovaServiceProvider`: 
 
-```php
+```php app/Providers/NovaServiceProvider.php {12}
 use Laravel\Nova\Nova;
 
 /**
