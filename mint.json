@@ -7,7 +7,7 @@
     "href": "https://nova.laravel.com"
   },
   "favicon": "/favicon.png",
-  "versions": ["v4"],
+  "versions": ["v4", "v5"],
   "background": {
     "style": "windows"
   },
@@ -53,7 +53,7 @@
   "tabs": [
     {
       "name": "Documentation",
-      "url": "/"
+      "url": "/v5/"
     },
     {
       "name": "Knowledge Base",
@@ -61,6 +61,90 @@
     }
   ],
   "navigation": [
+    {
+      "group": "Get Started",
+      "version": "v5",
+      "pages": [
+        "v5/installation",
+        "v5/releases",
+        "v5/upgrade"
+      ]
+    },
+    {
+      "group": "Resources",
+      "version": "v5",
+      "pages": [
+        "v5/resources/the-basics",
+        "v5/resources/fields",
+        "v5/resources/dependent-fields",
+        "v5/resources/date-fields",
+        "v5/resources/file-fields",
+        "v5/resources/repeater-fields",
+        "v5/resources/relationships",
+        "v5/resources/validation",
+        "v5/resources/authorization"
+      ]
+    },
+    {
+      "group": "Search",
+      "version": "v5",
+      "pages": [
+        "v5/search/the-basics",
+        "v5/search/global-search",
+        "v5/search/scout-integration"
+      ]
+    },
+    {
+      "group": "Filters",
+      "version": "v5",
+      "pages": [
+        "v5/filters/defining-filters",
+        "v5/filters/registering-filters"
+      ]
+    },
+    {
+      "group": "Lenses",
+      "version": "v5",
+      "pages": [
+        "v5/lenses/defining-lenses",
+        "v5/lenses/registering-lenses"
+      ]
+    },
+    {
+      "group": "Actions",
+      "version": "v5",
+      "pages": [
+        "v5/actions/defining-actions",
+        "v5/actions/registering-actions"
+      ]
+    },
+    {
+      "group": "Metrics",
+      "version": "v5",
+      "pages": [
+        "v5/metrics/defining-metrics",
+        "v5/metrics/registering-metrics"
+      ]
+    },
+    {
+      "group": "Digging Deeper",
+      "version": "v5",
+      "pages": [
+        "v5/customization/dashboards",
+        "v5/customization/menus",
+        "v5/customization/notifications",
+        "v5/customization/impersonation",
+        "v5/customization/tools",
+        "v5/customization/resource-tools",
+        "v5/customization/cards",
+        "v5/customization/fields",
+        "v5/customization/filters",
+        "v5/customization/frontend",
+        "v5/customization/assets",
+        "v5/customization/localization",
+        "v5/customization/stubs"
+      ]
+    },
     {
       "group": "Get Started",
       "version": "v4",
