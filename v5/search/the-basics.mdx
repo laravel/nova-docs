@@ -5,18 +5,49 @@ description: 'Learn how to define searchable columns for your Nova resources.'
 
 ## Searchable Columns
 
-To define which resource fields are searchable, you may assign an array of database columns to the `search` property of your resource class. This array includes the `id` column by default:
+To define which resource fields are searchable, you may assign an array of database columns to the `search` property or `searchableColumns` method of your resource class. This array includes the `id` column by default:
 
-```php
-/**
- * The columns that should be searched.
- *
- * @var array
- */
-public static $search = [
-    'id', 'title', 'content',
-];
+<CodeGroup>
+```php Property
+namespace App\Nova;
+
+class Post extends Resource 
+{
+    // ... 
+
+    /**
+     * The columns that should be searched.
+     *
+     * @var array
+     */
+    public static $search = [
+        'id', 'title', 'content',
+    ];
+}
 ```
+
+
+```php Method
+namespace App\Nova;
+
+class Post extends Resource 
+{
+    // ... 
+
+    /**
+     * Get the searchable columns for the resource.
+     *
+     * @return array
+     */
+    public static function searchableColumns()
+    {
+        return [
+            'id', 'title', 'content',
+        ];
+    }
+}
+```
+</CodeGroup>
 
 <Note>
 
@@ -29,8 +60,10 @@ Typically, Nova searches your database columns using simple `LIKE` clauses. Howe
 
 The `searchableColumns` method should return an array of columns that are searchable. You may include an instance of `Laravel\Nova\Query\Search\SearchableText` within this array to instruct Nova to utilize your full-text indexes when querying a given column:
 
-```php
+```php app/Nova/Post.php
 use Laravel\Nova\Query\Search\SearchableText;
+
+// ... 
 
 /**
  * Get the searchable columns for the resource.
@@ -45,8 +78,10 @@ public static function searchableColumns()
 
 The array returned by the `searchableColumns` method can also include raw SQL expressions, which allow you to search through derived columns:
 
-```php
+```php app/Nova/User.php
 use Illuminate\Support\Facades\DB;
+
+// ...
 
 /**
  * Get the searchable columns for the resource.
@@ -65,8 +100,10 @@ Laravel Nova also allows you to search against a resource's related models. For 
 
 If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
-```php
+```php app/Nova/Post.php
 use Laravel\Nova\Query\Search\SearchableRelation;
+
+// ...
 
 /**
  * Get the searchable columns for the resource.
@@ -81,7 +118,7 @@ public static function searchableColumns()
 
 For convenience, you may define a relationship that should be searched by adding the field to your resource's `$search` property using "dot notation":
 
-```php
+```php app/Nova/Post.php
 /**
  * The columns that should be searched.
  *
@@ -100,6 +137,8 @@ public static $search = [
 use App\Nova\Post;
 use Laravel\Nova\Query\Search\SearchableMorphToRelation;
 
+// ...
+
 /**
  * Get the searchable columns for the resource.
  *
@@ -117,8 +156,10 @@ If the database table associated with your resource includes a column that conta
 
 If the `searchableColumns` method does not exist on your resource, you should define it. Once the `searchableColumns` method has been defined, you may remove the `$search` property from your resource:
 
-```php
+```php app/Nova/UserProfile.php
 use Laravel\Nova\Query\Search\SearchableJson;
+
+// ...
 
 /**
  * Get the searchable columns for the resource.

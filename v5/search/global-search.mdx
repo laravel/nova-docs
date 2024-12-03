@@ -18,30 +18,42 @@ You can focus the global search input by pressing `/` (forward slash) on your ke
 
 When a resource is shown within the search results, the results will display the "title" of the resource. For example, a `User` resource may specify the `name` attribute as its title. Then, when the resource is shown within the global search results, that attribute will be displayed.
 
-To customize the "title" attribute of a resource, you may define a `title` property on the resource class:
+To customize the "title" attribute of a resource, you may define a `title` property or `title` method on the resource class:
 
-```php
-/**
- * The single value that should be used to represent the resource when being displayed.
- *
- * @var string
- */
-public static $title = 'name';
+<CodeGroup>
+```php Property
+namespace App\Nova;
+
+class Team extends Resource 
+{
+    /**
+     * The single value that should be used to represent the resource when being displayed.
+     *
+     * @var string
+     */
+    public static $title = 'name';
+}
 ```
 
 Alternatively, you may override the resource's `title` method:
 
-```php
-/**
- * Get the value that should be displayed to represent the resource.
- *
- * @return string
- */
-public function title()
+```php Method
+namespace App\Nova;
+
+class Team extends Resource 
 {
-    return $this->name;
+    /**
+     * Get the value that should be displayed to represent the resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return $this->name;
+    }
 }
 ```
+</CodeGroup>
 
 <Note>
 
@@ -58,7 +70,7 @@ You may also display a smaller "subtitle" attribute within the global search res
 
 To define a resource's subtitle, you should override the `subtitle` method of the resource:
 
-```php
+```php app/Nova/Post.php
 /**
  * Get the search result subtitle for the resource.
  *
@@ -71,8 +83,7 @@ public function subtitle()
 ```
 
 <Note>
-
-If your subtitle accesses information on a related resource, you should consider adding the related resource to your resource's [eager load array](./../resources/the-basics#eager-loading).
+If your subtitle accesses information on a related resource, you should consider adding the related resource to your resource's [eager load array](./../resources/the-basics#eager-loadings).
 </Note>
 
 ## Customization
@@ -81,7 +92,7 @@ If your subtitle accesses information on a related resource, you should consider
 
 You can limit the number of results that are returned via global search for a given resource by overriding the `globalSearchResults` property on the resource:
 
-```php
+```php app/Nova/Post.php
 /**
  * The maximum number of results to include when searching globally.
  *
@@ -94,23 +105,36 @@ public static $globalSearchResults = 5;
 
 You can configure the debounce timing of the global search field using the `Nova::globalSearchDebounce` method. Normally, this method should be called from within your application's `NovaServiceProvider`:
 
-```php
-Nova::globalSearchDebounce(1); // 1 second
+```php app/Nova/ServiceProvider.php {8}
+/**
+ * Boot any application services.
+ */
+public function boot(): void 
+{
+    parent::boot();
+    
+    Nova::globalSearchDebounce(1); // 1 second
+}
 ```
 
 ### Custom Avatars / Covers
 
 If you are building a [custom field](./../customization/fields) that you would like to serve as the "avatar image" / cover art for global search results, your field should implement the `Laravel\Nova\Contracts\Cover` interface. This interface requires you to define a `resolveThumbnailUrl` method, which should return the URL of your desired "cover art":
 
-```php
-/**
- * Resolve the thumbnail URL for the field.
- *
- * @return string|null
- */
-public function resolveThumbnailUrl()
+```php app/Nova/Team.php
+namespace App\Nova;
+
+class Team extends Resource 
 {
-    return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
+    /**
+     * Resolve the thumbnail URL for the field.
+     *
+     * @return string|null
+     */
+    public function resolveThumbnailUrl()
+    {
+        return 'https://www.example.com/avatar/'.md5(strtolower($this->value)).'?s=300';
+    }
 }
 ```
 
@@ -118,7 +142,7 @@ public function resolveThumbnailUrl()
 
 By default, all Nova resources are globally searchable; however, you may exclude a given resource from the global search by overriding the `globallySearchable` property on the resource:
 
-```php
+```php app/Nova/Team.php
 /**
  * Indicates if the resource should be globally searchable.
  *
@@ -131,15 +155,11 @@ public static $globallySearchable = false;
 
 If you wish to completely disable global search inside of Nova, you can call the `withoutGlobalSearch` method from your `App/Providers/NovaServiceProvider`: 
 
-```php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
