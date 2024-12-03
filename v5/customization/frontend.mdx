@@ -93,7 +93,7 @@ const basePath = Nova.config('base');
 
 However, you are free to add additional values to this object using the `Nova::provideToScript` method. You may call this method within a `Nova::serving` listener, which should typically be registered in the `boot` method of your application or custom component's service provider:
 
-```php NovaServiceProvider.php
+```php Providers/NovaServiceProvider.php
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 
@@ -120,7 +120,7 @@ const driver = Nova.config('mail_driver');
 
 ### Localizations
 
-Localization strings can be passed to the frontend via your `NovaServiceProvider`. To learn more, please consult the [full custom localization documentation](/v5/customization/localization#frontend).
+Localization strings can be passed to the frontend via your `NovaServiceProvider`. To learn more, please consult the [full custom localization documentation](./localization#frontend).
 
 ### Using Nova Mixins
 
