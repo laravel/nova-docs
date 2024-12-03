@@ -2,6 +2,7 @@
 title: 'Resource Tools'
 description: 'Learn how to build custom tools for your Nova resources.'
 ---
+
 ## Overview
 
 Resource tools are very similar to [custom tools](./tools); however, instead of being listed in the Nova sidebar, resource tools are displayed on a particular resource's detail page. Like Nova tools, resource tools are incredibly customizable, and primarily consist of a single-file Vue component that is totally under your control.
@@ -22,7 +23,7 @@ Nova resource tools include all of the scaffolding necessary to build your tool.
 
 Nova resource tools may be registered in your resource's `fields` method. This method returns an array of fields and tools available to the resource. To register your resource tool, add your tool to the array of fields returned by this method:
 
-```php
+```php {1,14}
 use Acme\StripeInspector\StripeInspector;
 
 /**
@@ -45,7 +46,7 @@ public function fields(NovaRequest $request)
 
 If you would like to only expose a given tool to certain users, you may invoke the `canSee` method when registering your tool. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
-```php
+```php {1,14-16}
 use Acme\StripeInspector\StripeInspector;
 
 /**
@@ -70,9 +71,7 @@ public function fields(NovaRequest $request)
 
 Often, you will need to allow the consumer's of your tool to customize run-time configuration options on the tool. You may do this by exposing methods on your tool class. These methods may call the tool's underlying `withMeta` method to add information to the tool's metadata, which will be available within your `Tool.vue` component. The `withMeta` method accepts an array of key / value options:
 
-```php
-<?php
-
+```php {22-26}
 namespace Acme\StripeInspector;
 
 use Laravel\Nova\ResourceTool;
@@ -123,7 +122,7 @@ const issuesRefunds = this.panel.fields[0].issuesRefunds;
 
 Resource tools also offer the ability to dynamically set options on the tool without a setter method by simple calling the desired option as a method when registering the tool. If called with an argument, it will be set as the option's value:
 
-```php
+```php {14}
 use Acme\StripeInspector\StripeInspector;
 
 /**
@@ -155,7 +154,6 @@ Often, you will need to define Laravel routes that are called by your tool. When
 All routes within this file are automatically defined inside a route group by your tool's `ToolServiceProvider`. The route group specifies that all routes within the group should receive a `/nova-vendor/tool-name` prefix, where `tool-name` is the "kebab-case" name of your tool. So, for example, `/nova-vendor/stripe-inspector`. You are free to modify this route group definition, but take care to make sure your Nova tool will co-exist with other Nova packages.
 
 <Warning>
-
 When building routes for your tool, you should **always** add authorization to these routes using Laravel gates or policies.
 </Warning>
 
@@ -185,8 +183,7 @@ public function boot()
     });
 
     Nova::serving(function (ServingNova $event) {
-        Nova::script('stripe-inspector', __DIR__.'/../dist/js/tool.js');
-        Nova::style('stripe-inspector', __DIR__.'/../dist/css/tool.css');
+        Nova::mix('stripe-inspector', __DIR__.'/../dist/mix-manifest.json');
     });
 }
 ```
