@@ -33,9 +33,7 @@ php artisan nova:action DeleteUserData --destructive
 
 To learn how to define Nova actions, let's look at an example. In this example, we'll define an action that sends an email message to a user or group of users:
 
-```php
-<?php
-
+```php app/Nova/Actions/EmailAccountProfile.php
 namespace App\Nova\Actions;
 
 use App\Models\AccountData;
@@ -49,15 +47,14 @@ use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
-    * Perform the action on the given models.
-    *
-    * @param  \Laravel\Nova\Fields\ActionFields  $fields
-    * @param  \Illuminate\Support\Collection  $models
-    * @return mixed
-    */
+     * Perform the action on the given models.
+     *
+     * @return mixed
+     */
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
@@ -67,11 +64,10 @@ class EmailAccountProfile extends Action
 
     /**
     * Get the fields available on the action.
-    *
-    * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-    * @return array
-    */
-    public function fields(NovaRequest $request)
+     *
+     * @return array<int, \Laravel\Nova\Fields\Field>
+     */
+    public function fields(NovaRequest $request): array
     {
         return [];
     }
@@ -86,13 +82,13 @@ Within the `handle` method, you may perform whatever tasks are necessary to comp
 
 Typically, Nova utilizes the action's class name to determine the displayable name of the action that should be shown in the action selection menu. If you would like to change the displayable name of the action, you may define a `name` property on the action class:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php
 /**
  * The displayable name of the action.
  *
- * @var string
+ * @var \Stringable|string
  */
-public $name = 'Action Title';
+public $name = 'Send Account Profile via E-mail';
 ```
 
 ### Destructive Actions
@@ -104,7 +100,6 @@ You may designate an action as destructive or dangerous by defining an action cl
 </Frame>
 
 <Warning>
-
 When a destructive action is added to a resource that has an associated authorization policy, the policy's `delete` method must return `true` in order for the action to run.
 </Warning>
 
@@ -121,8 +116,17 @@ The `then` methods accepts a closure which will be invoked when the action has f
 
 For example, note that the following action's `handle` method returns the `$models` it receives:
 
-```php
-public function handle(ActionFields $fields, Collection $models)
+```php app/Nova/Actions/EmailAccountProfile.php
+use App\Models\AccountData;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
+
+/**
+ * Perform the action on the given models.
+ */
+public function handle(ActionFields $fields, Collection $models): Collection
 {
     foreach ($models as $model) {
         (new AccountData($model))->send();
@@ -134,8 +138,18 @@ public function handle(ActionFields $fields, Collection $models)
 
 When registering this action on a resource, we may use the `then` callback to access the returned models and interact with them after the action has finished executing:
 
-```php
-public function actions(NovaRequest $request)
+```php app/Nova/~Resource.php
+use App\Nova\Actions\EmailAccountProfile;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
+/**
+ * Get the actions available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Actions\Action>
+ */
+public function actions(NovaRequest $request): array 
 {
     return [
         (new Actions\EmailAccountProfile)->then(function ($models) {
@@ -157,16 +171,18 @@ Sometimes you may wish to gather additional information from the user before dis
 
 To add a field to an action, add the field to the array of fields returned by the action's `fields` method:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
 
 /**
  * Get the fields available on the action.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array 
 {
     return [
         Text::make('Subject'),
@@ -176,12 +192,16 @@ public function fields(NovaRequest $request)
 
 Finally, within your action's `handle` method, you may access your fields using dynamic accessors on the provided `ActionFields` instance:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php
+use App\Models\AccountData;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
+
 /**
  * Perform the action on the given models.
  *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
  * @return mixed
  */
 public function handle(ActionFields $fields, Collection $models)
@@ -196,30 +216,44 @@ public function handle(ActionFields $fields, Collection $models)
 
 You may use the `default` method to set the default value for an action field:
 
-```php
-Text::make('Subject')->default(function ($request) {
-    return 'Test: Subject';
-}),
+```php app/Nova/Actions/EmailAccountProfile.php
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
+/**
+ * Get the fields available on the action.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        Text::make('Subject')
+            ->default(fn ($request) => 'Test: Subject'),
+    ];
+}
 ```
 
 ## Action Responses
 
 Typically, when an action is executed, a generic "success" messages is displayed in the Nova UI. However, you are free to customize this response using a variety of methods available via the `ActionResponse` class. To display a custom "success" message, you may invoke the `ActionResponse::message` method from your `handle` method:
 
-```php
+```php app/Nova/Actions/~Action.php {2,14}
+use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\ActionResponse;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
 
 /**
  * Perform the action on the given models.
  *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
  * @return mixed
  */
 public function handle(ActionFields $fields, Collection $models)
 {
-    // ...
-
     return ActionResponse::message('It worked!');
 }
 ```
@@ -228,6 +262,8 @@ To return a red, "danger" message, you may invoke the `ActionResponse::danger` m
 
 ```php
 use Laravel\Nova\Actions\ActionResponse;
+
+// ...
 
 return ActionResponse::danger('Something went wrong!');
 ```
@@ -239,6 +275,8 @@ To redirect the user to an entirely new location after the action is executed, y
 ```php
 use Laravel\Nova\Actions\ActionResponse;
 
+// ...
+
 return ActionResponse::redirect('https://example.com');
 ```
 
@@ -246,6 +284,8 @@ To redirect the user to another location within Nova, you may use the `ActionRes
 
 ```php
 use Laravel\Nova\Actions\ActionResponse;
+
+// ...
 
 return ActionResponse::visit('/resources/posts/new', [
     'viaResource' => 'users',
@@ -259,6 +299,8 @@ To redirect the user to a new location in a new browser tab, you may use the `Ac
 ```php
 use Laravel\Nova\Actions\ActionResponse;
 
+// ...
+
 return ActionResponse::openInNewTab('https://example.com');
 ```
 
@@ -268,6 +310,8 @@ To initiate a file download after the action is executed, you may use the `Actio
 
 ```php
 use Laravel\Nova\Actions\ActionResponse;
+
+// ...
 
 return ActionResponse::download('Invoice.pdf', 'https://example.com/invoice.pdf');
 ```
@@ -290,8 +334,18 @@ Nova.booting(app => {
 
 Next, you may use the `modal` method within your action's `handle` method, which will instruct Nova to show the modal after running the action, passing the Vue component's name and any additional data you specify to the component. The data will be made available to the custom modal's Vue component as props:
 
-```php
-public function handle(ActionFields $fields, Collection $models)
+```php app/Nova/Actions/~Action.php
+use Illuminate\Support\Collection;
+use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
+
+/**
+ * Perform the action on the given models.
+ */
+public function handle(ActionFields $fields, Collection $models): ActionResponse
 {
     if ($models->count() > 1) {
         return Action::danger('Please run this on only one user resource.');
@@ -310,23 +364,18 @@ public function handle(ActionFields $fields, Collection $models)
 
 Occasionally, you may have actions that take a while to finish running. For this reason, Nova makes it a cinch to [queue](https://laravel.com/docs/queues) your actions. To instruct Nova to queue an action instead of running it synchronously, mark the action with the `ShouldQueue` interface:
 
-```php
-<?php
-
+```php app/Nova/Actions/EmailAccountProfile.php {4,8}
 namespace App\Nova\Actions;
 
-use App\Models\AccountData;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Contacts\BatchableAction;
-use Laravel\Nova\Fields\ActionFields;
 
 class EmailAccountProfile extends Action implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable;
+    use InteractsWithQueue;
+    use Queueable;
 
     // ...
 }
@@ -349,7 +398,7 @@ At this time, Nova does not support attaching `File` fields to a queued action. 
 
 You may customize the queue connection and queue name that the action is queued on by setting the `$connection` and `$queue` properties within the action's constructor:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php
 /**
  * Create a new action instance.
  *
@@ -368,9 +417,7 @@ You may also instruct Nova to queue actions as a [batch](https://laravel.com/doc
 
 When an action is batchable, you should define a `withBatch` method that will be responsible for configuring the action's [batch callbacks](https://laravel.com/docs/queues#dispatching-batches). This allows you to define code that should run after an entire batch of actions finishes executing against multiple selected resources. In fact, you can even access the model IDs for all of the resources that were selected when the batched action was executed:
 
-```php
-<?php
-
+```php app/Nova/Actions/EmailAccountProfile.php {4-6,16,18,25-36}
 namespace App\Nova\Actions;
 
 use App\Models\AccountData;
@@ -388,16 +435,14 @@ use Throwable;
 
 class EmailAccountProfile extends Action implements BatchableAction, ShouldQueue
 {
-    use Batchable, InteractsWithQueue, Queueable;
+    use Batchable;
+    use InteractsWithQueue;
+    use Queueable;
 
     /**
-     * Prepare the given batch for execution.
-     *
-     * @param  \Laravel\Nova\Fields\ActionFields  $fields
-     * @param  \Illuminate\Bus\PendingBatch  $batch
-     * @return void
+     * Register `then`, `catch` and `finally` event on batchable job.
      */
-    public function withBatch(ActionFields $fields, PendingBatch $batch)
+    public function withBatch(ActionFields $fields, PendingBatch $batch): void 
     {
         $batch->then(function (Batch $batch) {
             // All jobs completed successfully...
@@ -418,10 +463,8 @@ It is often useful to view a log of the actions that have been run against a par
 
 For example, we may attach the `Laravel\Nova\Actions\Actionable` trait to the `User` Eloquent model:
 
-```php
-<?php
-
-namespace App;
+```php app/Models/User.php {3,9}
+namespace App\Models;
 
 use Laravel\Nova\Actions\Actionable;
 use Illuminate\Notifications\Notifiable;
@@ -445,7 +488,7 @@ Once the trait has been attached to the model, Nova will automatically begin dis
 
 If you do not want to record an action in the action log, you may disable this behavior by adding a `withoutActionEvents` property on your action class:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php
 /**
  * Disables action log events for this action.
  *
@@ -456,17 +499,21 @@ public $withoutActionEvents = true;
 
 Or, using the `withoutActionEvents` method, you may disable the action log for an action when the action is attached to a resource. Disabling the action log is often particularly helpful when an action is often executed against thousands of resources at once, since it allows you to avoid thousands of slow, sequential action log database inserts:
 
-```php
+```php app/Nova/~Resource.php {14}
+use App\Nova\Actions\SomeAction;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new SomeAction)->withoutActionEvents()
+        (new SomeAction)->withoutActionEvents(),
     ];
 }
 ```
@@ -475,15 +522,17 @@ public function actions(NovaRequest $request)
 
 While a queued action is running, you may update the action's "status" for any of the models that were passed to the action via its model collection. For example, you may use the action's `markAsFinished` method to indicate that the action has completed processing a particular model:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php {15}
+use App\Models\AccountData;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
+
 /**
  * Perform the action on the given models.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void
 {
     foreach ($models as $model) {
         (new AccountData($model))->send($fields->subject);
@@ -495,15 +544,17 @@ public function handle(ActionFields $fields, Collection $models)
 
 Or, if you would like to indicate that an action has "failed" for a given model, you may use the `markAsFailed` method:
 
-```php
+```php app/Nova/Actions/EmailAccountProfile.php {16}
+use App\Models\AccountData;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+
+// ...
+
 /**
  * Perform the action on the given models.
- *
- * @param  \Laravel\Nova\Fields\ActionFields  $fields
- * @param  \Illuminate\Support\Collection  $models
- * @return mixed
  */
-public function handle(ActionFields $fields, Collection $models)
+public function handle(ActionFields $fields, Collection $models): void
 {
     foreach ($models as $model) {
         try {
@@ -519,17 +570,21 @@ public function handle(ActionFields $fields, Collection $models)
 
 By default, actions will ask the user for confirmation before running. You can customize the confirmation message, confirm button, and cancel button to give the user more context before running the action. This is done by calling the `confirmText`, `confirmButtonText`, and `cancelButtonText` methods when defining the action:
 
-```php
+```php app/Nova/~Resource.php
+use App\Nova\Actions\ActivateUser;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
 /**
  * Get the actions available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Actions\Action>
  */
-public function actions(NovaRequest $request)
+public function actions(NovaRequest $request): array
 {
     return [
-        (new Actions\ActivateUser)
+        Actions\ActivateUser::make()
             ->confirmText('Are you sure you want to activate this user?')
             ->confirmButtonText('Activate')
             ->cancelButtonText("Don't activate"),
