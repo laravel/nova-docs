@@ -23,7 +23,7 @@ Nova tools include all of the scaffolding necessary to build your tool. Each too
 
 Nova tools may be registered in your application's `App/Providers/NovaServiceProvider` class. Your service provider contains a `tools` method, which returns an array of tools. To register your tool, simply add it to the list of tools returned by this method. For example, if you created a Nova tool named `acme/price-tracker`, you may register the tool like so:
 
-```php
+```php app/Nova/NovaServiceProvider.php {1,11}
 use Acme\PriceTracker\PriceTracker;
 
 /**
@@ -112,7 +112,7 @@ If you have [customized Nova's main sidebar menu](./menus#customizing-the-main-m
 
 #### Sidebar Icons
 
-Nova utilizes the free [Heroicons](https://v1.heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
+Nova utilizes the free [Heroicons](https://heroicons.com/) icon set by [Steve Schoger](https://twitter.com/steveschoger). Therefore, you may simply specify the name of one of these icons when providing the icon name to the `icon` method.
 
 ## Assets
 
@@ -135,8 +135,9 @@ use Laravel\Nova\Events\ServingNova;
  */
 public function boot()
 {
-    Nova::script('price-tracker', __DIR__.'/../dist/js/tool.js');
-    Nova::style('price-tracker', __DIR__.'/../dist/css/tool.css');
+    Nova::serving(function () {
+        Nova::mix('price-tracker', __DIR__.'/../dist/mix-manifest.json');
+    });
 }
 ```
 
