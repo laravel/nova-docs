@@ -149,7 +149,9 @@
           "kb/code-of-conduct",
           "kb/faq",
           "kb/invoices"
-          // "advanced/api"
+          /*
+          "advanced/api"
+          */
       ]
     }
   ],
