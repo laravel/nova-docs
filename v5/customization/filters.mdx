@@ -23,16 +23,18 @@ Nova filters include all of the scaffolding necessary to build your filter. Each
 
 Nova filters may be registered in your resource's `filters` method. This method returns an array of filters available to the resource. To register your filter, add your filter to the array of filters returned by this method:
 
-```php {1,12}
+```php {1,14}
 use Acme\AgeRange\AgeRange;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
 
 /**
  * Get the filters available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Filters\Filter>
  */
-public function filters(NovaRequest $request)
+public function filters(NovaRequest $request): array
 {
     return [
         new AgeRange,
@@ -42,12 +44,16 @@ public function filters(NovaRequest $request)
 
 Alternatively, you may use the `make` method to instantiate your filter: 
 
-```diff
-public function filters(NovaRequest $request)
+```php {9}
+/**
+ * Get the filters available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Filters\Filter>
+ */
+public function filters(NovaRequest $request): array
 {
     return [
--      new AgeRange,
-+      AgeRange::make(),
+        AgeRange::make(),
     ];
 }
 ```
@@ -87,9 +93,11 @@ When Nova generates your filter, `resources/js` and `resources/css` directories 
 
 Your Nova filter's service provider registers your filter's compiled assets so that they will be available to the Nova front-end:
 
-```php app/Providers/NovaServiceProvider.php
+```php app/Providers/NovaServiceProvider.php {16,18}
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
+
+// ...
 
 /**
  * Bootstrap any application services.
@@ -98,8 +106,11 @@ use Laravel\Nova\Events\ServingNova;
  */
 public function boot()
 {
+    parent::boot();
+
     Nova::serving(function (ServingNova $event) {
         Nova::mix('age-range', __DIR__.'/../dist/mix-manifest.json');
+
         Nova::translations(__DIR__.'/../resources/lang/en/age-range.json');
     });
 }

@@ -23,7 +23,7 @@ Nova cards include all of the scaffolding necessary to build your card. Each car
 
 Nova cards may be registered in your resource's `cards` method. This method returns an array of cards available to the resource. To register your card, add your card to the array of cards returned by this method:
 
-```php app/Nova/Post.php {13-18}
+```php app/Nova/Post.php {3,13-18}
 namespace App\Nova;
 
 use Acme\Analytics\Analytics;
@@ -49,7 +49,11 @@ class Post extends Resource
 
 If you would like to only expose a given card to certain users, you may invoke the `canSee` method when registering your card. The `canSee` method accepts a closure which should return `true` or `false`. The closure will receive the incoming HTTP request:
 
-```php app/Nova/Post.php {9-11}
+```php app/Nova/Post.php {13-15}
+use Acme\Analytics\Analytics;
+
+// ...
+
 /**
  * Get the cards available for the resource.
  *
@@ -69,7 +73,7 @@ public function cards(NovaRequest $request)
 
 Often, you will need to allow the consumer's of your card to customize run-time configuration options on the card. You may do this by exposing methods on your card class. These methods may call the card's underlying `withMeta` method to add information to the card's metadata, which will be available within your `Card.vue` component. The `withMeta` method accepts an array of key / value options:
 
-```php {14-17}
+```php nova-components/Analytics/src/Analytics.php {14-17}
 namespace Acme\Analytics;
 
 use Laravel\Nova\Card;
@@ -130,18 +134,21 @@ The `Card.vue` file is a single-file Vue component that contains your card's fro
 
 Your Nova card's service provider registers your card's compiled assets so that they will be available to the Nova front-end:
 
-```php
+```php nova-components/Analytics/src/CardServiceProvider.php {13,15}
 /**
  * Bootstrap any application services.
  */
 public function boot(): void
 {
+    parent::boot();
+
     $this->app->booted(function () {
         $this->routes();
     });
 
     Nova::serving(function (ServingNova $event) {
         Nova::mix('acme-analytic', __DIR__.'/../dist/mix-manifest.json');
+
         Nova::translations(__DIR__.'/../resources/lang/en/card.json');
     });
 }
