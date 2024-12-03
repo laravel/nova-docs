@@ -15,17 +15,25 @@ Nova dashboards provide a convenient way to build information overview pages tha
 
 Nova ships with a default `App\Nova\Dashboards\Main` dashboard class containing a `cards` method. You can customize which cards are present on the default dashboard via this method:
 
-```php app/Nova/Dashboards/Main.php
-/**
- * Get the cards that should be displayed on the Nova dashboard.
- *
- * @return array
- */
-public function cards()
+```php app/Nova/Dashboards/Main.php {13-18}
+namespace App\Nova\Dashboards;
+
+use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Dashboards\Main as Dashboard;
+
+class Main extends Dashboard
 {
-    return [
-        new Help,
-    ];
+    /**
+     * Get the cards that should be displayed on the Nova dashboard.
+     *
+     * @return array<int, \Laravel\Nova\Card>
+     */
+    public function cards(): array
+    {
+        return [
+            new Help,
+        ];
+    }
 }
 ```
 
@@ -35,7 +43,7 @@ More information regarding dashboard metrics can be found [within our documentat
 
 Custom dashboards may be generated using the `nova:dashboard` Artisan command. By default, all new dashboards will be placed in the `app/Nova/Dashboards` directory:
 
-```bash
+```shell
 php artisan nova:dashboard UserInsights
 ```
 
@@ -53,9 +61,9 @@ class UserInsights extends Dashboard
     /**
      * Get the cards for the dashboard.
      *
-     * @return array
+     * @return array<int, \Laravel\Nova\Card>
      */
-    public function cards()
+    public function cards(): array
     {
         return [
             TotalUsers::make(),
@@ -73,7 +81,7 @@ By default, Nova will use the dashboard's class name to determine the displayabl
 /**
  * Get the displayable name of the dashboard.
  *
- * @return string
+ * @return \Stingable|string
  */
 public function name()
 {
@@ -108,9 +116,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
@@ -125,7 +133,6 @@ You can customize the dashboard's menu by defining a `menu` method on your dashb
 
 ```php app/Nova/Dashboards/UserInsights.php
 use Illuminate\Http\Request;
-use Laravel\Nova\Menu\MenuItem;
 
 /**
  * Get the menu that should represent the dashboard.
@@ -153,9 +160,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
@@ -176,9 +183,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),
@@ -199,9 +206,9 @@ use App\Nova\Dashboards\UserInsights;
 /**
  * Get the dashboards that should be listed in the Nova sidebar.
  *
- * @return array
+ * @return array<int, \Laravel\Nova\Dashboard>
  */
-protected function dashboards()
+protected function dashboards(): array
 {
     return [
         Main::make(),

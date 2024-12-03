@@ -52,7 +52,7 @@ You may install Nova as a Composer package via our private Satis repository. To 
 
 Or, you may use the following CLI command to add the Composer repository to your `composer.json` file:
 
-```bash
+```shell
 composer config repositories.nova '{"type": "composer", "url": "https://nova.laravel.com"}' --file composer.json
 ```
 
@@ -68,7 +68,7 @@ Next, you may add `laravel/nova` to your list of required packages in your `comp
 
 After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
-```bash
+```shell
 composer update --prefer-dist
 ```
 
@@ -76,13 +76,13 @@ When running `composer update`, you will be prompted to provide a username and p
 
 To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication) while using your [license key](https://nova.laravel.com/licenses) in place of your password:
 
-```bash
+```shell
 composer config http-basic.nova.laravel.com your-nova-account-email@your-domain.com your-license-key
 ```
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
-```bash
+```shell
 php artisan nova:install
 
 php artisan migrate
@@ -96,7 +96,7 @@ public static $model = 'App\\Models\\User';
 
 If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
 
-```bash
+```shell
 php artisan nova:user
 ```
 
@@ -126,7 +126,7 @@ You can register your license key by setting the `license_key` option in your `c
 
 To verify everything has been configured correctly, you should run the `nova:check-license` command:
 
-```bash
+```shell
 php artisan nova:check-license
 ```
 
@@ -136,7 +136,7 @@ It's not recommended to store your Composer `auth.json` file inside your project
 
 To authenticate Nova in these situations, you can use Composer's `config` command to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
 
-```bash
+```shell
 composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_LICENSE_KEY}"
 ```
 
@@ -413,7 +413,7 @@ Nova::report(function ($exception) {
 
 To update your Nova installation, you may run the `composer update` command:
 
-```bash
+```shell
 composer update
 ```
 
@@ -421,14 +421,14 @@ composer update
 
 After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using the `nova:publish` Artisan command and clear any cached views using the `view:clear` Artisan command. This will ensure the newly-updated Nova version is using the latest versions of Nova's assets and views:
 
-```bash
+```shell
 php artisan nova:publish
 php artisan view:clear
 ```
 
 The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
 
-```bash
+```shell
 php artisan nova:publish --force
 ```
 
