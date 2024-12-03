@@ -178,8 +178,8 @@ Alternatively you can also explicitly register `script` and `style` using the fo
 ```diff
 Nova::serving(function (ServingNova $event) {
 -   Nova::mix('acme-analytic', __DIR__.'/../dist/mix-manifest.json');
-+   Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
-+   Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
++   Nova::script('acme-analytic', __DIR__.'/../dist/js/card.js');
++   Nova::style('acme-analytic', __DIR__.'/../dist/css/card.css');
     Nova::translations(__DIR__.'/../resources/lang/en/card.json');
 });
 ```
