@@ -9,6 +9,13 @@ Once you have defined a filter, you are ready to attach it to a resource. Each r
 ```php Construct
 use Laravel\Nova\Http\Requests\NovaRequest;
 
+// ...
+
+/**
+ * Get the filters available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Filters\Filter>
+ */
 public function filters(NovaRequest $request): array
 {
     return [
@@ -20,6 +27,13 @@ public function filters(NovaRequest $request): array
 ```php Make
 use Laravel\Nova\Http\Requests\NovaRequest;
 
+// ...
+
+/**
+ * Get the filters available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Filters\Filter>
+ */
 public function filters(NovaRequest $request): array
 {
     return [
@@ -33,9 +47,21 @@ public function filters(NovaRequest $request): array
 
 Nova also allows to Select Filter to utilise searchable, you may use the **searchable** method on your filter:
 
-```diff
-return [
--   Filters\UserType::make(),
-+   Filters\UserType::make()->searchable(),
-];
+```php app/Nova/~Resource.php {14}
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
+/**
+ * Get the filters available for the resource.
+ *
+ * @return array<int, \Laravel\Nova\Filters\Filter>
+ */
+public function filters(NovaRequest $request): array
+{
+    return [
+        Filters\UserType::make()
+            ->searchable(),
+    ];
+}
 ```

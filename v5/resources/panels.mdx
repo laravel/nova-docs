@@ -10,8 +10,12 @@ If your resource contains many fields, your resource "detail" page can become cr
 
 You may accomplish this by creating a new `Panel` instance within the `fields` method of a resource. Each panel requires a name and an array of fields that belong to that panel:
 
-```php {1,14-18}
+```php app/Nova/~Resource.php {1,18-22}
 use Laravel\Nova\Panel;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 // ...
 
@@ -107,7 +111,13 @@ This is currently in beta. The API, while stable, is subject to change while in 
 
 The `Tab` panel allows you to organise fields and relationships within a Resource.
 
-```php app/Nova/Event.php {7}
+```php app/Nova/Event.php {5,23-42}
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Tabs\Tab;
 
 // ...

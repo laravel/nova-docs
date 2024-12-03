@@ -9,7 +9,7 @@ Each Nova resource contains a `fields` method. This method returns an array of f
 
 To add a field to a resource, you may simply add it to the resource's `fields` method. Typically, fields may be created using their static `make` method. This method accepts several arguments; however, you usually only need to pass the "human readable" name of the field. Nova will automatically "snake case" this string to determine the underlying database column:
 
-```php
+```php app/Nova/User.php
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -168,7 +168,7 @@ Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resour
 
 If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
 
-```php
+```php app/Nova/~Resource.php
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -191,7 +191,7 @@ public function fields(NovaRequest $request): array
 
 On your detail page, you may wish to show a combined name via a computed field, followed by the job title. In order to do this, you could add a `fieldsForDetail` method to the resource class which returns a separate list of fields that should only be displayed on the resource's detail page:
 
-```php
+```php app/Nova/~Resource.php
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
