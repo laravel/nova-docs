@@ -12,14 +12,16 @@ To add a field to a resource, you may simply add it to the resource's `fields` m
 ```php
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ... 
 
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         ID::make()->sortable(),
@@ -33,12 +35,20 @@ public function fields(NovaRequest $request)
 As noted above, Nova will "snake case" the displayable name of the field to determine the underlying database column. However, if necessary, you may pass the column name as the second argument to the field's `make` method:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name', 'name_column'),
 ```
 
 If the field has a JSON, `ArrayObject`, or array cast assigned to it, you may use the `->` operator to specify nested properties within the field:
 
 ```php
+use Laravel\Nova\Fields\Timezone;
+
+// ...
+
 Timezone::make('User Timezone', 'settings->timezone'),
 ```
 
@@ -66,6 +76,10 @@ The following methods may be used to show / hide fields based on the display con
 You may chain any of these methods onto your field's definition in order to instruct Nova where the field should be displayed:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name')->hideFromIndex(),
 ```
 
@@ -86,6 +100,10 @@ Alternatively, you may pass a callback to the following methods.
 For `show*` methods, the field will be displayed if the given callback returns `true`:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
@@ -94,6 +112,10 @@ Text::make('Name')->showOnIndex(function (NovaRequest $request, $resource) {
 For `hide*` methods, the field will be hidden if the given callback returns `true`:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
     return $this->name === 'Taylor Otwell';
 }),
@@ -104,6 +126,10 @@ Text::make('Name')->hideFromIndex(function (NovaRequest $request, $resource) {
 You may allow a field to be visible [when peeking at the resource](./relationships#peeking-at-belongsto-relationships) by invoking the `showWhenPeeking` method when defining the field:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name')->showWhenPeeking(),
 ```
 
@@ -112,6 +138,11 @@ Text::make('Name')->showWhenPeeking(),
 You may also define which fields should be included in the resource's "preview" modal. This modal can be displayed for a given resource by the user when viewing the resource's index:
 
 ```php
+use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Title')->showOnPreview(),
 
 Markdown::make('Content')->showOnPreview(),
@@ -120,6 +151,10 @@ Markdown::make('Content')->showOnPreview(),
 Alternatively, you may pass a callback to the `showOnPreview` method:
 
 ```php
+use Laravel\Nova\Fields\Markdown;
+
+// ...
+
 Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resource) {
     return $request->user()->can('previewContent');
 }),
@@ -134,13 +169,17 @@ Markdown::make('Content')->showOnPreview(function (NovaRequest $request, $resour
 If your application requires it, you may specify a separate list of fields for specific display contexts. For example, imagine you have a resource with the following list of fields:
 
 ```php
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ... 
+
 /**
  * Get the fields displayed by the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fields(NovaRequest $request)
+public function fields(NovaRequest $request): array
 {
     return [
         Text::make('First Name'),
@@ -153,13 +192,17 @@ public function fields(NovaRequest $request)
 On your detail page, you may wish to show a combined name via a computed field, followed by the job title. In order to do this, you could add a `fieldsForDetail` method to the resource class which returns a separate list of fields that should only be displayed on the resource's detail page:
 
 ```php
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ... 
+
 /**
  * Get the fields displayed by the resource on detail page.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Fields\Field>
  */
-public function fieldsForDetail(NovaRequest $request)
+public function fieldsForDetail(NovaRequest $request): array
 {
     return [
         Text::make('Name', function () {
@@ -189,6 +232,11 @@ The `fieldsForIndex`, `fieldsForDetail`, `fieldsForInlineCreate`, `fieldsForCrea
 There are times you may wish to provide a default value to your fields. Nova offers this functionality via the `default` method, which accepts a value or callback. This value will be used as the field's default input value on the resource's creation view:
 
 ```php
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 BelongsTo::make('Name')->default($request->user()->getKey()),
 
 Text::make('Uuid')->default(function ($request) {
@@ -201,6 +249,10 @@ Text::make('Uuid')->default(function ($request) {
 By default, the placeholder text of a field will be it's name. You can override the placeholder text of a field that supports placeholders by using the `placeholder` method:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name')->placeholder('My New Post'),
 ```
 
@@ -209,6 +261,11 @@ Text::make('Name')->placeholder('My New Post'),
 On every create or update request that Nova receives for a given resource, each field's corresponding model attribute will automatically be filled before the model is persisted to the database. If necessary, you may customize the hydration behavior of a given field using the `fillUsing` method:
 
 ```php
+use Illuminate\Support\Str;
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name', 'name')
     ->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
         $model->{$attribute} = Str::title($request->input($attribute));
@@ -220,6 +277,10 @@ Text::make('Name', 'name')
 When attaching a field to a resource, you may use the `sortable` method to indicate that the resource index may be sorted by the given field:
 
 ```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
 Text::make('Name', 'name_column')->sortable(),
 ```
 
