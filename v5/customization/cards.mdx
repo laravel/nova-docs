@@ -167,11 +167,21 @@ public function boot()
     });
 
     Nova::serving(function (ServingNova $event) {
-        Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
-        Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
+        Nova::mix('acme-analytic', __DIR__.'/../dist/mix-manifest.json');
         Nova::translations(__DIR__.'/../resources/lang/en/card.json');
     });
 }
+```
+
+Alternatively you can also explicitly register `script` and `style` using the following code:
+
+```diff
+Nova::serving(function (ServingNova $event) {
+-   Nova::mix('acme-analytic', __DIR__.'/../dist/mix-manifest.json');
++   Nova::script('{{ component }}', __DIR__.'/../dist/js/card.js');
++   Nova::style('{{ component }}', __DIR__.'/../dist/css/card.css');
+    Nova::translations(__DIR__.'/../resources/lang/en/card.json');
+});
 ```
 
 <Note>
