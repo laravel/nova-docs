@@ -12,19 +12,23 @@ For this reason, Nova integrates seamlessly with [Laravel Scout](https://laravel
 
 If you would like to call methods on the `Laravel\Scout\Builder` instance before it executes your search query against your search engine, you may override the `scoutQuery` method on your resource:
 
-```php
-use Laravel\Nova\Http\Requests\NovaRequest;
+```php app/Nova/User.php
+namespace App\Nova;
 
-/**
- * Build a Scout search query for the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @param  \Laravel\Scout\Builder  $query
- * @return \Laravel\Scout\Builder
- */
-public static function scoutQuery(NovaRequest $request, $query)
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Scout\Builder as ScoutBuilder;
+
+class User extends Resource 
 {
-    return $query;
+    // ... 
+
+    /**
+     * Build a Scout search query for the given resource.
+     */
+    public static function scoutQuery(NovaRequest $request, ScoutBuilder $query): ScoutBuilder
+    {
+        return $query;
+    }
 }
 ```
 
@@ -32,27 +36,39 @@ public static function scoutQuery(NovaRequest $request, $query)
 
 You can customize the amount of search results returned from your Scout search engine by defining the `scoutSearchResults` property on the resource class that is associated with the Scout searchable model:
 
-```php
-/**
- * The number of results to display when searching the resource using Scout.
- *
- * @var int
- */
-public static $scoutSearchResults = 200;
+```php app/Nova/User.php
+namespace App\Nova;
+
+class User extends Resource 
+{
+    // ...
+
+    /**
+     * The number of results to display when searching the resource using Scout.
+     *
+     * @var int
+     */
+    public static $scoutSearchResults = 200;
+}
 ```
 
 ## Disabling Scout Search
 
 You may disable Scout search support for a specific resource by defining a `usesScout` method on the resource class. When Scout search support is disabled, simple database queries will be used to search against the given resource, even if the associated resource model includes the Scout `Searchable` trait:
 
-```php
-/**
- * Determine if this resource uses Laravel Scout.
- *
- * @return bool
- */
-public static function usesScout()
+```php app/Nova/User.php
+namespace App\Nova;
+
+class User extends Resource 
 {
-    return false;
+    /**
+     * Determine if this resource uses Laravel Scout.
+     *
+     * @return bool
+     */
+    public static function usesScout()
+    {
+        return false;
+    }
 }
 ```
