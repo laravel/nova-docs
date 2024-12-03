@@ -11,20 +11,19 @@ After deploying your application to production, you may occasionally need to "im
 
 To enable user impersonation, add the `Laravel\Nova\Auth\Impersonatable` trait to your application's `User` model:
 
-```diff app/Models/User.php
+```php app/Models/User.php {7,12}
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-+use Laravel\Nova\Auth\Impersonatable;
+use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
--   use HasApiTokens, HasFactory, Notifiable;
-+   use HasApiTokens, HasFactory, Impersonatable, Notifiable;
+    use HasApiTokens, HasFactory, Impersonatable, Notifiable;
 
     // ...
 }
@@ -43,29 +42,26 @@ By default, any user that has permission to view the Nova dashboard can imperson
 ```php app/Models/User.php
 use Illuminate\Support\Facades\Gate;
 
-class User extends Authenticatable
+// ...
+
+/**
+ * Determine if the user can impersonate another user.
+ *
+ * @return bool
+ */
+public function canImpersonate()
 {
-    //
+    return Gate::forUser($this)->check('viewNova');
+}
 
-    /**
-     * Determine if the user can impersonate another user.
-     *
-     * @return bool
-     */
-    public function canImpersonate()
-    {
-        return Gate::forUser($this)->check('viewNova');
-    }
-
-    /**
-     * Determine if the user can be impersonated.
-     *
-     * @return bool
-     */
-    public function canBeImpersonated()
-    {
-        return true;
-    }
+/**
+ * Determine if the user can be impersonated.
+ *
+ * @return bool
+ */
+public function canBeImpersonated()
+{
+    return true;
 }
 ```
 
@@ -95,16 +91,26 @@ By default, you add additional customisation by using available events for Imper
 
 For example, you may want to log impersonation events, which you can register listeners for in the `boot` method of your application's `AppServiceProvider` or  `EventServiceProvider`:
 
-```php app/Providers/EventServiceProvider.php
+```php app/Providers/EventServiceProvider.php {2-3,14-16,18-20}
 use Illuminate\Support\Facades\Event;
 use Laravel\Nova\Events\StartedImpersonating;
 use Laravel\Nova\Events\StoppedImpersonating;
 
-Event::listen(StartedImpersonating::class, function ($event) {
-    logger("User {$event->impersonator->name} started impersonating {$event->impersonated->name}");
-});
+// ...
 
-Event::listen(StoppedImpersonating::class, function ($event) {
-    logger("User {$event->impersonator->name} stopped impersonating {$event->impersonated->name}");
-});
+/**
+ * Bootstrap any application services.
+ */
+public function boot(): void
+{
+    parent::boot();
+
+    Event::listen(StartedImpersonating::class, function ($event) {
+        logger("User {$event->impersonator->name} started impersonating {$event->impersonated->name}");
+    });
+
+    Event::listen(StoppedImpersonating::class, function ($event) {
+        logger("User {$event->impersonator->name} stopped impersonating {$event->impersonated->name}");
+    });
+}
 ```
