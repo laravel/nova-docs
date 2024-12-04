@@ -11,7 +11,7 @@ Unless you like to live dangerously, any Nova fields that are displayed on the N
 
 When defining a field on a resource, you may use the `rules` method to attach [validation rules](https://laravel.com/docs/validation#available-validation-rules) to the field:
 
-```php {16}
+```php app/Nova/~Resource.php {16}
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -122,7 +122,7 @@ Nova also provides several methods that allow you to perform tasks after a resou
 
 The `afterValidation` method will always be called after a resource has been validated during its creation or during an update. This method will be called before calling `afterCreationValidation` or `afterUpdateValidation`:
 
-```php
+```php app/Nova/~Resource.php
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -147,7 +147,7 @@ protected static function afterValidation(
 
 The `afterCreationValidation` method will be called after a resource that is being created has been validated:
 
-```php
+```php app/Nova/~Resource.php
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -172,7 +172,7 @@ protected static function afterCreationValidation(
 
 The `afterUpdateValidation` method will be called after a resource that is being updated has been validated:
 
-```php
+```php app/Nova/~Resource.php
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
