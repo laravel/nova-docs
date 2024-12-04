@@ -274,9 +274,13 @@ public function calculate(NovaRequest $request): PartitionResult
 }
 ```
 
-## Medium Impact Changes ​
+## Medium Impact Changes
 
-### Algolia Place Field ​Removed
+### Deprecate Form Abandonment (using Browser navigation)
+
+With the introduction of Inertia.js v2, we no longer able to provide the feature using the available API from Inertia.js to override `popstate` event. For Nova 5, using the browser's back button or clicking on `Cancel` will no longer prompt a confirmation dialog.
+
+### Algolia Place Field Removed
 
 Algolia [retired their "Places" API](https://www.algolia.com/blog/product/sunsetting-our-places-feature/) on May 31, 2022; therefore, the Place field was deprecated on Nova 4 and now removed in Nova 5.
 

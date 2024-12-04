@@ -3,15 +3,16 @@ title: 'Release Notes'
 description: 'Laravel Nova Release Notes'
 ---
 
-* Requires PHP 8.1+ and Laravel Framework 10 and 11
-* Requires Inertia.js 1 (JavaScript)
-* Authentication using Laravel Fortify
-* Tabs Panel
+* Requires PHP 8.1+ and Laravel Framework 10 and 11 
+* Requires Inertia.js v2 (JavaScript) and compatible with Inertia Laravel v1 and v2
+    - Removed Form abandonment
+* Authentication using Laravel Fortify ([documentation](./installation#authentication-and-security))
+* Tabs Panel ([documentation](./resources/panels#tabs))
 * JSON Repeater on Detail page
-* Searchable Select Filter
-* Allow to disable cascading Dependent Field sync
-* New `Field::computed()` and `Field::immutable()` methods
-* Run deleate, force-delete, and restore resources using dispatch after response (Performance improvements except for Laravel Vapor)
+* Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
+* Allow to disable cascading Dependent Field sync ([documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event))
+* New Dependent Computed Field via `Field::computed()` method ([documentation](./resources/dependent-fields#dependable-computed-fields))
+* New `Field::immutable()` method ([documentation](./resources/fields#immutable-fields))
 * Drop `form-backend-validation` NPM package
 * Drop `doctrine/dbal` requirements
 * Frontend and Backend code improvements

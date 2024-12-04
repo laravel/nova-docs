@@ -91,7 +91,14 @@ The following field types may not be depended upon by other fields since they do
 
 One common use-case for dependent fields is toggling field visibility based on the value of another field. You can accomplish this using the `hide` and `show` methods:
 
-```php {1,7,9-13}
+```php {8,14,16-20}
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
 Boolean::make('Anonymous Comment', 'anonymous')
     ->onlyOnForms()
     ->fillUsing(fn () => null)
@@ -112,6 +119,10 @@ BelongsTo::make('User')
 As shown on the above example, you can only simplify `anonymous` field using the `computed` method:
 
 ```diff
+use Laravel\Nova\Fields\Boolean;
+
+// ...
+
 Boolean::make('Anonymous Comment', 'anonymous')
 -   ->onlyOnForms()
 -   ->fillUsing(fn () => null)
@@ -123,11 +134,36 @@ Boolean::make('Anonymous Comment', 'anonymous')
 
 Another common use-case for dependent fields is to set the value of a field based on the value of another field. You can accomplish this using the `setValue` method:
 
-```php {1,5-6}
+```php {7,10-12}
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
 DateTime::make('Created At'),
 
 DateTime::make('Updated At')
     ->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
+        $field->setValue(Carbon::parse($form->created_at)->addDays(7));
+    }),
+```
+
+## Disable cascading Dependent Field sync event
+
+Each dependent fields would trigger cascading sync event when the value is updated within `dependsOn` method. However, you may disable this by setting `$dependentShouldEmitChangesEvent` property to `false` using the following code: 
+
+```php {9}
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
+
+DateTime::make('Updated At')
+    ->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
+        $field->dependentShouldEmitChangesEvent = false;
+
         $field->setValue(Carbon::parse($form->created_at)->addDays(7));
     }),
 ```
