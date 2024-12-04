@@ -11,12 +11,13 @@ Nova's upstream dependencies have been upgraded. You will find a complete list o
 
 * PHP 8.1+
 * Laravel Framework 10.34+ and 11.0+
+* Support Inertia Laravel 1.3+ and 2.0+
 * Replace `laravel/ui` with `laravel/fortify` v1.21+
 * Removed `doctrine/dbal`
 
 #### Client
 
-* Update to `@inertiajs/vue3` v1
+* Update to `@inertiajs/vue3` v2
 * Update to Heroicons v2
 * Update `trix` to v2
 * Remove deprecated `form-backend-validation`
@@ -100,8 +101,7 @@ First, you need to update `register()` method and add new `fortify()` method in 
  */
 protected function fortify(): void
 {
-    Nova::fortify()
-        ->register();
+    Nova::fortify()->register();
 }
 
 /**
