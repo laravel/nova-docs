@@ -656,7 +656,6 @@ In this example, we are using the `count` helper, which will automatically perfo
 namespace App\Nova\Metrics;
 
 use App\Models\User;
-use DateTimeInterface;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -669,24 +668,6 @@ class UsersPerPlan extends Partition
     public function calculate(NovaRequest $request): PartitionResult 
     {
         return $this->count($request, User::class, 'stripe_plan');
-    }
-
-    /**
-     * Determine the amount of time the results of the metric should be cached.
-     */
-    public function cacheFor(): DateTimeInterface|null
-    {
-        // return now()->addMinutes(5);
-
-        return null;
-    }
-
-    /**
-     * Get the URI key for the metric.
-     */
-    public function uriKey(): string
-    {
-        return 'users-by-plan';
     }
 }
 ```
@@ -895,14 +876,6 @@ class NewUsers extends Progress
             target: 100,
         );
     }
-
-    /**
-     * Get the URI key for the metric.
-     */
-    public function uriKey(): string
-    {
-        return 'new-users';
-    }
 }
 ```
 
@@ -910,10 +883,27 @@ class NewUsers extends Progress
 
 Progress metrics don't only ship with a `count` helper. You may also use the `sum` aggregate method when building your metric. For example, the following call to the `sum` method will display a progress metric with the sum of the completed transaction amounts against a target sales goal:
 
-```php
-return $this->sum($request, Transaction::class, function ($query) {
-    return $query->where('completed', '=', 1);
-}, 'amount', target: 2000);
+```php app/Nova/Metrics/~Metric.php
+use App\Models\Transaction;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Progress;
+use Laravel\Nova\Metrics\ProgressResult;
+
+// ...
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ProgressResult
+{
+    return $this->sum(
+        $request, 
+        Transaction::class, 
+        progress: fn ($query) => $query->where('completed', '=', 1), 
+        column: 'amount', 
+        target: 2000,
+    );
+}
 ```
 
 #### Unwanted Progress
@@ -922,36 +912,95 @@ Sometimes you may be tracking progress towards a "goal" you would rather avoid, 
 
 When using the `avoid` method to specify that the metric is something you wish to avoid, Nova will use green to indicate lack of progress towards the "goal", while using yellow to indicate the approaching completion of the "goal":
 
-```php
-return $this->count($request, User::class, function ($query) {
-    return $query->where('cancelled_at', '>=', now()->startOfMonth());
-}, target: 200)->avoid();
+```php app/Nova/Metrics/~Metric.php {18}
+use App\Models\User;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Progress;
+use Laravel\Nova\Metrics\ProgressResult;
+
+// ...
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ProgressResult
+{
+    return $this->sum(
+        $request, 
+        User::class, 
+        progress: fn ($query) => $query->where('cancelled_at', '>=', now()->startOfMonth()), 
+        target: 2000,
+    )->avoid();
+}
 ```
 
 ### Formatting the Progress Value
 
 Sometimes you may wish to add a prefix or suffix to the current progress value. To accomplish this, you may use the `prefix` and `suffix` methods:
 
-```php
-return $this->sum($request, Transaction::class, function ($query) {
-    return $query->where('completed', '=', 1);
-}, 'amount', target: 2000)->prefix('$');
+```php app/Nova/Metrics/~Metric.php {18}
+use App\Models\Transaction;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ProgressResult;
+
+// ...
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ProgressResult
+{
+    return $this->count(
+        $request, 
+        Transaction::class, 
+        progress: fn ($query) => $query->where('completed', '=', 1),
+        column: 'amount', 
+        target: 2000,
+    )->prefix('$');
+}
 ```
 
 If your progress metric is displaying a monetary value, you may use the `dollars` and `euros` convenience methods for quickly prefixing a Dollar or Euro sign to the progress values:
 
-```php
-return $this->sum($request, Transaction::class, function ($query) {
-    return $query->where('completed', '=', 1);
-}, 'amount', target: 2000)->dollars();
+```php app/Nova/Metrics/~Metric.php {18}
+use App\Models\Transaction;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ProgressResult;
+
+// ...
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ProgressResult
+{
+    return $this->sum(
+        $request, 
+        Transaction::class, 
+        progress: fn ($query) => $query->where('completed', '=', 1),
+        column: 'amount', 
+        target: 2000,
+    )->dollars();
+}
 ```
 
 ### Manually Building Progress Results
 
 If you are not able to use the included query helpers for building your progress metric, you may manually provide the final values to the metric using the `result` method:
 
-```php
-return $this->result(80, 100);
+```php app/Nova/Metrics/~Metric.php {11}
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\ProgressResult;
+
+// ...
+
+/**
+ * Calculate the value of the metric.
+ */
+public function calculate(NovaRequest $request): ProgressResult
+{
+    return $this->result(80, 100);
+}
 ```
 
 ## Table Metrics
@@ -966,23 +1015,21 @@ php artisan nova:table NewReleases
 
 Once your table metric class has been generated, you're ready to customize it. Each table metric class contains a `calculate` method. This method should return an array of `Laravel\Nova\Metrics\MetricTableRow` objects. Each metric row allows you to specify a title and subtitle, which will be displayed stacked on the row:
 
-```php
-<?php
-
+```php app/Nova/Metrics/NewReleases.php
 namespace App\Nova\Metrics;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
 class NewReleases extends Table
 {
     /**
      * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
+     * 
+     * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): array 
     {
         return [
             MetricTableRow::make()
@@ -1008,50 +1055,41 @@ While table metrics are great for showing progress, documentation links, or rece
 You can use the `actions` method to return an array of `Laravel\Nova\Menu\MenuItem` instances, which will be displayed in a dropdown menu:
 
 ```php
-<?php
-
-namespace App\Nova\Metrics;
-
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
-class NewReleases extends Table
-{
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
-     */
-    public function calculate(NovaRequest $request)
-    {
-        return [
-            MetricTableRow::make()
-                ->title('v1.0')
-                ->subtitle('Initial release of Laravel Nova')
-                ->actions(function () {
-                    return [
-                        MenuItem::externalLink('View release notes', '/releases/1.0'),
-                        MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
-                    ];
-                }),
+// ... 
 
-            MetricTableRow::make()
-                ->title('v2.0 (pre-release)')
-                ->subtitle('The second major series of Laravel Nova')
-                ->actions(function () {
-                    return [
-                        MenuItem::externalLink('View release notes', '/releases/2.0'),
-                        MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
-                    ];
-                }),
-        ];
-    }
+/**
+ * Calculate the value of the metric.
+ * 
+ * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
+ */
+public function calculate(NovaRequest $request): array
+{
+    return [
+        MetricTableRow::make()
+            ->title('v1.0')
+            ->subtitle('Initial release of Laravel Nova')
+            ->actions(fn () => [
+                MenuItem::externalLink('View release notes', '/releases/1.0'),
+                MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
+            ]),
+
+        MetricTableRow::make()
+            ->title('v2.0 (pre-release)')
+            ->subtitle('The second major series of Laravel Nova')
+            ->actions(fn () => [
+                MenuItem::externalLink('View release notes', '/releases/2.0'),
+                MenuItem::externalLink('Share on Twitter', 'https://twitter.com/intent/tweet?text=Check%20out%20the%20new%20release'),
+            ]),
+    ];
 }
 ```
 
 <Note>
-
 You can learn more about menu customization by reading the [menu item customization documentation](/v5/customization/menus#menu-items).
 </Note>
 
@@ -1065,12 +1103,11 @@ Table metrics also support displaying an icon to the left of the title and subti
 
 To show an icon on your table metric row, use the `icon` method and pass in the key for the icon you wish to use:
 
-```php
-<?php
-
+```php app/Nova/Metrics/NextSteps.php {18,24,30}
 namespace App\Nova\Metrics;
 
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\MetricTableRow;
 use Laravel\Nova\Metrics\Table;
 
 class NextSteps extends Table
@@ -1078,10 +1115,9 @@ class NextSteps extends Table
     /**
      * Calculate the value of the metric.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
-     * @return mixed
+     * @return array<int, \Laravel\Nova\Metrics\MetricTableRow>
      */
-    public function calculate(NovaRequest $request)
+    public function calculate(NovaRequest $request): array
     {
         return [
             MetricTableRow::make()
@@ -1108,7 +1144,11 @@ class NextSteps extends Table
 
 You may customize the icon's color via CSS by using the `iconClass` method to add the needed classes to the icon:
 
-```php
+```php {7}
+use Laravel\Nova\Metrics\MetricTableRow;
+
+// ...
+
 MetricTableRow::make()
     ->icon('check-circle')
     ->iconClass('text-gray-400 dark:text-gray-700')
@@ -1118,7 +1158,7 @@ MetricTableRow::make()
 
 <Note>
 
-Nova utilizes the free icon set [Heroicons UI](https://v1.heroicons.com/) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
+Nova utilizes the free icon set [Heroicons UI](https://heroicons.com/) from designer [Steve Schoger](https://twitter.com/steveschoger). Feel free to use these icons to match the look and feel of Nova's built-in icons.
 </Note>
 
 ### Customizing Table Metric Empty Text
@@ -1127,20 +1167,21 @@ If you're dynamically generating rows for your table metric, there may be times 
 
 But, sometimes you may wish to customize this text to give the user more context. For example, a metric named "Recent Users" may not have any users to display because there are no recent users. In these situations, you may customize the "no results" message using the `emptyText` method:
 
-```php
-use App\Nova\Metrics\RecentUsers;
+```php app/Nova/User.php {14}
 use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ...
 
 /**
  * Get the cards available for the resource.
  *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
- * @return array
+ * @return array<int, \Laravel\Nova\Card>
  */
-public function cards(NovaRequest $request)
+public function cards(NovaRequest $request): array
 {
     return [
-        RecentUsers::make()->emptyText('There are no recent users.');
+        Metrics\RecentUsers::make()
+            ->emptyText('There are no recent users.');
     ];
 }
 ```
@@ -1150,16 +1191,27 @@ public function cards(NovaRequest $request)
 Occasionally the calculation of a metric's values can be slow and expensive. For this reason, all Nova metrics contain a `cacheFor` method which allows you to specify the duration the metric result should be cached:
 
 ```php
+use DateTimeInterface;
+
+// ...
+
 /**
  * Determine the amount of time the results of the metric should be cached.
- *
- * @return \DateTimeInterface|\DateInterval|float|int|null
  */
-public function cacheFor()
+public function cacheFor(): DateTimeInterface|null
 {
     return now()->addMinutes(5);
 }
 ```
+
+<Note>
+Alternatively, you can also return either one of the following via `cacheFor` method: 
+- `DateTimeInterface`
+- `DateInterval`
+- `float`
+- `int`
+- `null`
+</Note>
 
 ## Customizing Metric Names
 
@@ -1169,7 +1221,7 @@ By default, Nova will use the metric class name as the displayable name of your 
 /**
  * Get the displayable name of the metric
  *
- * @return string
+ * @return \Stringable|string
  */
 public function name()
 {
