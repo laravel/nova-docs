@@ -13,24 +13,26 @@ To illustrate the behavior of Nova file upload fields, let's assume our applicat
 
 Next, let's attach the file field to our `User` resource. In this example, we will create the field and instruct it to store the underlying file on the `public` disk. This disk name should correspond to a disk name in your application's `filesystems` configuration file:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Profile Photo')->disk('public'),
+File::make('Profile Photo')
+    ->disk('public'),
 ```
 
 ### Disabling File Downloads
 
 By default, the `File` field allows the user to download the corresponding file. To disable this, you may call the `disableDownload` method on the field definition:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Profile Photo')->disableDownload(),
+File::make('Profile Photo')
+    ->disableDownload(),
 ```
 
 ### How Files Are Stored
@@ -41,6 +43,8 @@ To illustrate the default behavior of the `File` field, let's take a look at an 
 
 ```php routes/web.php
 use Illuminate\Http\Request;
+
+// ...
 
 Route::post('/photo', function (Request $request) {
     $path = $request->profile_photo->store('/', 'public');
@@ -63,7 +67,6 @@ Storage::url($user->profile_photo);
 ```
 
 <Note>
-
 The documentation above only demonstrates the default behavior of the `File` field. To learn more about how to customize its behavior, check out the [customization documentation](#customization).
 </Note>
 
@@ -75,32 +78,36 @@ If you are using the `public` disk in conjunction with the `local` driver, you s
 
 The `Image` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Image` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Image` field mirror that of the `File` field:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\Image;
 
 // ...
 
-Image::make('Profile Photo')->disk('public'),
+Image::make('Profile Photo')
+    ->disk('public'),
 ```
 
 To set the width of the `Image` field when being displayed, you can use the `maxWidth` method:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\Image;
 
 // ...
 
-Image::make('Profile Photo')->maxWidth(100),
+Image::make('Profile Photo')
+    ->maxWidth(100),
 ```
 
 Alternatively, you can set separate widths for the index and detail views using the `indexWidth` and `detailWidth` methods:
 
-```php
+```php {6-7}
 use Laravel\Nova\Fields\Image;
 
 // ...
 
-Image::make('Profile Photo')->indexWidth(60)->detailWidth(150),
+Image::make('Profile Photo')
+    ->indexWidth(60)
+    ->detailWidth(150),
 ```
 
 <Note>
@@ -111,12 +118,13 @@ You may also use the `maxWidth`, `indexWidth`, and `detailWidth` methods on the 
 
 The `Avatar` field behaves exactly like the `File` field; however, instead of only displaying the path to the file within the Nova dashboard, an `Avatar` field will show a thumbnail preview of the underlying file. All of the configuration and customization options of the `Avatar` field mirror that of the `File` field:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\Avatar;
 
 // ...
 
-Avatar::make('Poster')->disk('public'),
+Avatar::make('Poster')
+    ->disk('public'),
 ```
 
 In addition to displaying a thumbnail preview of the underlying file, an `Avatar` field will also be automatically displayed in Nova search results. An `Avatar` field is not limited to "user" resources - you may attach `Avatar` fields to any resource within your Nova application:
@@ -129,7 +137,7 @@ In addition to displaying a thumbnail preview of the underlying file, an `Avatar
 
 In addition to storing the path to the file within the storage system, you may also instruct Nova to store the original client filename and its size (in bytes). You may accomplish this using the `storeOriginalName` and `storeSize` methods. Each of these methods accept the name of the column you would like to store the file information:
 
-```php
+```php {19-20}
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
@@ -188,22 +196,26 @@ When using the `storeOriginalName` method, the file field's "Download" link with
 
 File fields are deletable by default, but you can override this behavior by using the `deletable` method:
 
-```php
+```php {7}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Photo')->disk('public')->deletable(false),
+File::make('Photo')
+    ->disk('public')
+    ->deletable(false),
 ```
 
 The `File` field, as well as the `Image` and `Avatar` fields, may be marked as `prunable`. The `prunable` method will instruct Nova to delete the underlying file from storage when the associated model is deleted from the database:
 
-```php
+```php {7}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Profile Photo')->disk('public')->prunable(),
+File::make('Profile Photo')
+    ->disk('public')
+    ->prunable(),
 ```
 
 <Note>
@@ -220,7 +232,7 @@ Previously we learned that, by default, Nova stores files using the `store` meth
 
 If you only need to customize the name or path of the stored file on disk, you may use the `path` and `storeAs` methods of the `File` field:
 
-```php
+```php {8,9-11}
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 
@@ -240,27 +252,25 @@ Second argument `$requestAttribute` contains the exact payload path to the File 
 
 However, if you would like to take **total** control over the file storage logic of a field, you may use the `store` method. The `store` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
 
-```php
+```php {7-11}
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
 
 // ...
 
 File::make('Attachment')
-    ->store(function (Request $request, $model) {
-        return [
-            'attachment' => $request->attachment->store('/', 's3'),
-            'attachment_name' => $request->attachment->getClientOriginalName(),
-            'attachment_size' => $request->attachment->getSize(),
-        ];
-    }),
+    ->store(fn (Request $request, $model) => [
+        'attachment' => $request->attachment->store('/', 's3'),
+        'attachment_name' => $request->attachment->getClientOriginalName(),
+        'attachment_size' => $request->attachment->getSize(),
+    ]),
 ```
 
 As you can see in the example above, the `store` callback is returning an array of keys and values. These key / value pairs are mapped onto your model instance before it is saved to the database, allowing you to update one or many of the model's database columns after your file is stored.
 
 Here's another example of customizing the storage process. In this example, we're using the `store` method to store the original file in public storage, create thumbnails using Laravel's queue system, and finally populating values in the resource's `media` relationship:
 
-```php
+```php {7-15}
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\File;
 
@@ -282,12 +292,13 @@ File::make('Attachment')
 
 Of course, performing all of your file storage logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `store` method:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Attachment')->store(new StoreAttachment),
+File::make('Attachment')
+    ->store(new StoreAttachment),
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -326,7 +337,7 @@ When a file is deleted from the Nova administration panel, Nova will automatical
 
 If you would like to override this behavior and provide your own file deletion implementation, you may use the `delete` method. Like the `store` method discussed above, the `delete` method accepts a callable which receives the incoming HTTP request and the model instance associated with the request:
 
-```php
+```php {8-20}
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -355,12 +366,13 @@ As you can see in the example above, the `delete` callback is returning an array
 
 Of course, performing all of your file deletion logic within a Closure can cause your resource to become bloated. For that reason, Nova allows you to pass an "invokable" object to the `delete` method:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Attachment')->delete(new DeleteAttachment);
+File::make('Attachment')
+    ->delete(new DeleteAttachment);
 ```
 
 The invokable object should be a simple PHP class with a single `__invoke` method:
@@ -403,7 +415,7 @@ By default, Nova will use the `Storage::url` method to determine the URL that sh
 
 The `preview` method accepts a callable which should return the preview URL. The field's underlying column value is passed to the callable as the first parameter, while the name of the field's storage disk is passed as the second parameter:
 
-```php
+```php {8-10}
 use Laravel\Nova\Fields\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -412,14 +424,11 @@ use Illuminate\Support\Facades\Storage;
 Image::make('Profile Photo')
     ->disk('public')
     ->preview(function ($value, $disk) {
-        return $value
-                    ? Storage::disk($disk)->url($value)
-                    : null;
+        return $value ? Storage::disk($disk)->url($value) : null;
     }),
 ```
 
 <Note>
-
 By default, the Nova resource detail page will display previews at a width of 318 pixels (636 pixels for "retina displays").
 </Note>
 
@@ -429,7 +438,7 @@ By default, Nova will use the `Storage::url` method to determine the URL that sh
 
 The `thumbnail` method accepts a callable which should return the thumbnail URL. The field's underlying column value is passed to the callable as the first parameter, while the name of the field's storage disk is passed as the second parameter:
 
-```php
+```php {8-10}
 use Laravel\Nova\Fields\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -438,9 +447,7 @@ use Illuminate\Support\Facades\Storage;
 Image::make('Profile Photo')
     ->disk('public')
     ->thumbnail(function ($value, $disk) {
-        return $value
-                    ? Storage::disk($disk)->url($value)
-                    : null;
+        return $value ? Storage::disk($disk)->url($value) : null;
     }),
 ```
 
@@ -453,7 +460,7 @@ By default, Nova will display thumbnails at a width of 32 pixels (64 pixels for 
 
 By default, Nova will use the `Storage::download` method to determine the file and filename that should be used for downloading the file. However, you may customize the generation of this URL using the `download` method. The `download` method accepts a callable which should return the result of your own invocation of the  `Storage::download` method:
 
-```php
+```php {8-10}
 use Laravel\Nova\Fields\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -470,7 +477,7 @@ Image::make('Profile Photo')
 
 When downloading files in environments such as Laravel Vapor where request execution time is limited, you may find it necessary to redirect download requests to a temporary URL generated by Laravel's `Storage` facade:
 
-```php
+```php {8-12}
 use Laravel\Nova\Fields\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -489,12 +496,13 @@ Image::make('Photo')
 
 By default, the `File` field will allow any type of file to be uploaded; however, you may customize the accepted file types using the `acceptedTypes` method:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\File;
 
 // ...
 
-File::make('Disk Image')->acceptedTypes('.dmg,.exe')
+File::make('Disk Image')
+    ->acceptedTypes('.dmg,.exe')
 ```
 
 When using the `acceptedTypes` method, Nova adds the `accept` attribute to the file input element; therefore, all of the following media types may be provided to the `acceptedTypes` method:
@@ -507,6 +515,5 @@ When using the `acceptedTypes` method, Nova adds the `accept` attribute to the f
 - All media types listed at [http://www.iana.org/assignments/media-types/](http://www.iana.org/assignments/media-types/)
 
 <Note>
-
 Since the `acceptedTypes` method only performs client-side validation, you should also validate the file type using server-side validation rules.
 </Note>
