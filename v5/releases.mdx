@@ -3,16 +3,35 @@ title: 'Release Notes'
 description: 'Laravel Nova Release Notes'
 ---
 
-* Requires PHP 8.1+ and Laravel Framework 10 and 11 
-* Requires Inertia.js v2 (JavaScript) and compatible with Inertia Laravel v1 and v2
-    - Removed Form abandonment ([upgrade](./upgrade#deprecate-form-abandonment-using-browser-navigation))
+Nova 5 continues the improvements made in Nova 4.x by modernising various dependencies including Laravel Framework 10 which offers Laravel Prompts, Console Component Views.
+
+In addition, Nova 5 introduces support for Two-Factor Authentication, E-mail Verification for new users, Tab Panel, Searchable Search Filter, Dependent Fields improvements, 3rd Party Component improvements, and many more.
+
+### Modernising Dependencies
+
+Nova 5 finally remove support for Laravel Framework 8 and 9 and at the same time bump PHP version to 8.1 and above. This offer wider support for integration with Laravel Ecosystem including Laravel Fortify, Laravel Prompts, Laravel Pennant etc.
+
+Furthermore, Nova 5 frontend code has been updated to utilise Vue 3.5 and Inertia.js 2, drop `doctrine/dbal` requirements and replace `from-backend-validation` NPM package.
+
+### Authentication Enhancements
+
 * Authentication using Laravel Fortify ([documentation](./installation#authentication-and-security))
+
+### New Tabs Panel
+
 * Tabs Panel ([documentation](./resources/panels#tabs))
+
+### Filter Improvements
+
 * Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
+
+### Fields Improvements
+
+* JSON Repeater on Detail page
 * Allow to disable cascading Dependent Field sync ([documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event))
 * New Dependent Computed Field via `Field::computed()` method ([documentation](./resources/dependent-fields#dependable-computed-fields))
 * New `Field::immutable()` method ([documentation](./resources/fields#immutable-fields))
-* JSON Repeater on Detail page
-* Drop `form-backend-validation` NPM package
-* Drop `doctrine/dbal` requirements
-* Frontend and Backend code improvements
+
+### Pennant Resource Tool for Nova
+
+### 3rd Party Components Improvements
