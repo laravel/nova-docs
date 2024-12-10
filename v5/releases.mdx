@@ -7,13 +7,13 @@ Nova 5 continues the improvements made in Nova 4.x by modernising various depend
 
 In addition, Nova 5 introduces support for Two-Factor Authentication, Password Confirmation, E-mail Verification for new users, Tab Panel, Searchable Search Filter, Dependent Fields improvements, 3rd Party Component improvements, and many more.
 
-### Modernising Dependencies
+## Modernising Dependencies
 
 Nova 5 finally remove support for Laravel Framework 8 and 9 and at the same time bump PHP version to 8.1 and above. This offer wider support for integration with Laravel Ecosystem including Laravel Fortify, Laravel Prompts, Laravel Pennant etc.
 
 Furthermore, Nova 5 frontend code has been updated to utilise Vue v3.5, Heroicons v2 and Inertia.js v2. Please refer to [Upgrade Guide](./upgrade#dependency-upgrades) for full changes.
 
-### Authentication Enhancements
+## Authentication Enhancements
 
 Nova 5 replaced Laravel UI with Laravel Fortify for Authentication and enables Two-Factor Authentication, Password Confirmation and E-mail Verification for new User with little to no code. Similar to Laravel Jetstream, to enable Two-Factor Authentication or E-mail Confirmation you just need to edit `NovaServiceProvider` class:
 
@@ -39,7 +39,7 @@ protected function fortify(): void
 
 Further reading is available on the [Authentication &amp; Security](./installation#authentication-and-security) documentation.
 
-### New Tabs Panel
+## New Tabs Panel
 
 Nova 5 further improves Resources UI with the introduction of **Tabs Panel**  on the Detail and Form interfaces.
 
@@ -83,15 +83,26 @@ As an example, the above code snippet will generate the following tabs:
 
 Further reading is available on the ([Tabs](./resources/panels#tabs)) documentation.
 
-### Fields & Filters Improvements
+## Fields & Filters Improvements
 
-* Allow to disable cascading Dependent Field sync ([documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event))
-* New Dependent Computed Field via `Field::computed()` method ([documentation](./resources/dependent-fields#dependable-computed-fields))
-* New `Field::immutable()` method ([documentation](./resources/fields#immutable-fields))
-* JSON Repeater on Detail page
-* Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
+### Allow to disable cascading Dependent Field sync
 
-### Pennant Resource Tool for Nova
+[documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event)
+### New Dependent Computed Field via `Field::computed()` method
+
+[documentation](./resources/dependent-fields#dependable-computed-fields)
+
+### New `Field::immutable()` method
+
+[documentation](./resources/fields#immutable-fields)
+
+### Other Improvements
+
+* [Using Enums as `Select::options()`](./resources/fields#using-enum-as-options)
+* [Searchable Select Filter](./filters/registering-filters#searchable-select-filter)
+* JSON Repeater is now displayed on Resource Detail
+
+## Pennant Resource Tool for Nova
 
 With the release of Nova 5, we also build a new first-party Nova Component to allow you to view and configure Pennant directly within Nova's UI.
 
@@ -127,7 +138,7 @@ public function fields(NovaRequest $request): array
 }
 ```
 
-##### Authorization to Modify Feature Values
+#### Authorization to Modify Feature Values
 
 By default Nova user will not have access to activate or deactive features when user are authorized to see the resource. You need to use `canRun()` method to authorized all or specific users.
 
@@ -142,7 +153,7 @@ PennantTool::make()
     ->canRun((NovaRequest $request) => Nova::user($request)->admin),
 ```
 
-##### Password Confirmation
+#### Password Confirmation
 
 You can also requires user to confirm their password before activating or deactivating a feature by using `requiresConfirmPassword()` method:
 
@@ -155,7 +166,7 @@ PennantTool::make()
     ->requiresConfirmPassword(),
 ```
 
-##### Rich Feature Values
+#### Rich Feature Values
 
 In order to configure rich values Nova would need to depends on class based feature and utilise `options()` method:
 
@@ -173,7 +184,7 @@ class UserTier
 }
 ```
 
-### 3rd Party Components Development Improvements
+## 3rd Party Components Development Improvements
 
 Nova 5 would also like to make 3rd Party Components development a great experiences for open-source 3rd party packages for Nova as well as internal packages specific for each Nova project.
 
@@ -205,7 +216,7 @@ Once the installation is completed, you should be able to serve Laravel Nova by 
 composer run serve
 ```
 
-##### Automatically logged-in the default user
+#### Automatically logged-in the default user
 
 Instead of manually logging-in the user, you may also change `testbench.yaml` to automatically authenticate the user:
 
@@ -216,7 +227,7 @@ workbench:
   build:
 ```
 
-##### Install Axios, Lodash, Tailwind CSS or Vue
+#### Install Axios, Lodash, Tailwind CSS or Vue
 
 To simplify the installation, you can run the following commnad:
 
@@ -224,7 +235,7 @@ To simplify the installation, you can run the following commnad:
 php vendor/bin/testbench nova:devtool install
 ```
 
-##### Enables Vue DevTool for Laravel Nova
+#### Enables Vue DevTool for Laravel Nova
 
 By default, Laravel Nova ship with JavaScript compiled for production without Vue DevTool. In order to enable Vue DevTool, you need to run the following command:
 
@@ -232,7 +243,7 @@ By default, Laravel Nova ship with JavaScript compiled for production without Vu
 php vendor/bin/testbench nova:devtool enable-vue-devtool
 ```
 
-##### Disables Vue DevTool for Laravel Nova
+#### Disables Vue DevTool for Laravel Nova
 
 To reverse the above action, you need to run the following command:
 

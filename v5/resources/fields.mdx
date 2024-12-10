@@ -1287,33 +1287,83 @@ Select::make('Size')->options([
 If you need more control over the generation of the `Select` field's options, you may provide a closure to the `options` method:
 
 ```php
+use App\Value\Size;
 use Laravel\Nova\Fields\Select;
 
 // ...
 
-Select::make('Size')->options(function () {
-    return array_filter([
-        Size::SMALL => Size::MAX_SIZE === SIZE_SMALL ? 'Small' : null,
-        Size::MEDIUM => Size::MAX_SIZE === SIZE_MEDIUM ? 'Medium' : null,
-        Size::LARGE => Size::MAX_SIZE === SIZE_LARGE ? 'Large' : null,
-    ]);
-}),
+Select::make('Size')->options(fn () => [
+    Size::SMALL => 'Small',
+    Size::MEDIUM => 'Medium',
+    Size::LARGE => 'Large',
+])),
+```
+
+#### Using Enum as Options
+
+Furthermore, you can also provide an enum to the `options` method:
+
+```php {7}
+use App\Enums\Size;
+use Laravel\Nova\Fields\Select;
+
+// ...
+
+Select::make('Size')
+    ->options(Size::class),
+```
+
+As example, here's the `App\Enums\Size` enum definition, The case key will be used as `label` and case value as `value`:
+
+```php app/Enums/Size.php
+namespace App\Enums;
+
+enum Size: string {
+    case SMALL = 'small';
+    case MEDIUM = 'medium';
+    case LARGE = 'large';
+}
+```
+
+To allow customizing the `label` you can define `name()` or `label()` method within the enum: 
+
+```php app/Enums/Size.php {10-17}
+namespace App\Enums;
+
+use Laravel\Nova\Nova;
+
+enum Size: string {
+    case SMALL = 'small';
+    case MEDIUM = 'medium';
+    case LARGE = 'large';
+
+    public function name(): string 
+    {
+        return match ($this) {
+            self::SMALL => (string) Nova::__('Small Size'),
+            self::MEDIUM => (string) Nova::__('Medium Size'),
+            self::LARGE => (string) Nova::__('Large Size'),
+        };
+    }
+}
 ```
 
 #### Searchable Select Fields
 
 At times it's convenient to be able to search or filter the list of options available in a `Select` field. You can enable this by invoking the `searchable` method on the field:
 
-```php
+```php {6}
 use Laravel\Nova\Fields\Select;
 
 // ...
 
-Select::make('Size')->searchable()->options([
-    'S' => 'Small',
-    'M' => 'Medium',
-    'L' => 'Large',
-])->displayUsingLabels(),
+Select::make('Size')
+    ->searchable()
+    ->options([
+        'S' => 'Small',
+        'M' => 'Medium',
+        'L' => 'Large',
+    ])->displayUsingLabels(),
 ```
 
 After marking a select field as `searchable`, Nova will display an `input` field which allows you to filter the list of options based on its label:
