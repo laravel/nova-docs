@@ -34,4 +34,78 @@ Furthermore, Nova 5 frontend code has been updated to utilise Vue 3.5 and Inerti
 
 ### Pennant Resource Tool for Nova
 
+With the release of Nova 5, we also build a new first-party Nova Component to allow you to view and configure Pennant directly within Nova's UI. To use the component you need to install the component using the following command:
+
+```shell
+composer require "laravel/nova-pennant"
+```
+
+Next, you must register the tool within the User Resource.
+
+```php app/Nova/User.php {1,15}
+use Laravel\Nova\PennantTool\PennantTool;
+
+// ...
+
+/**
+ * Get the fields displayed by the resource.
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        ID::make()->sortable(),
+
+        // ...
+
+        PennantTool::make(),
+    ];
+}
+```
+
+##### Authorization to Modify Feature Values
+
+By default Nova user will not have access to activate or deactive features when user are authorized to see the resource. You need to use `canRun()` method to authorized all or specific users.
+
+```php app/Nova/User.php {8}
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Nova;
+use Laravel\Nova\PennantTool\PennantTool;
+
+// ...
+
+PennantTool::make()
+    ->canRun((NovaRequest $request) => Nova::user($request)->admin),
+```
+
+##### Password Confirmation
+
+You can also requires user to confirm their password before activating or deactivating a feature by using `requiresConfirmPassword()` method:
+
+```php app/Nova/User.php {6}
+use Laravel\Nova\PennantTool\PennantTool;
+
+// ...
+
+PennantTool::make()
+    ->requiresConfirmPassword(),
+```
+
+##### Rich Feature Values
+
+In order to configure rich values Nova would need to depends on class based feature and utilise `options()` method:
+
+```php app/Features/UserTier.php {7-10}
+namespace App\Features;
+
+class UserTier 
+{
+    public $name = 'user-tier';
+
+    public function options(): array 
+    {
+       return ['solo', 'pro'];
+    }
+}
+```
+
 ### 3rd Party Components Improvements
