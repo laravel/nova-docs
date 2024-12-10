@@ -108,4 +108,69 @@ class UserTier
 }
 ```
 
-### 3rd Party Components Improvements
+### 3rd Party Components Development Improvements
+
+Nova 5 would also like to make 3rd Party Components development a great experiences for open-source 3rd party packages for Nova as well as internal packages specific for each Nova project.
+
+We would like to introduces **Laravel Nova DevTool**, a new helper package for Nova Packages development package to allow you preview and create example application directly within the packages (helps debugging issues) and ensure NPM dependencies tally with Nova's own dependencies.
+
+To use the package you need to install the component using the following command:
+
+```shell
+composer require --dev "laravel/nova-devtool"
+```
+
+Next, you should include the NPM dependencies for `laravel/nova-devtool` using the following command:
+
+```shell
+npm install --save-dev "vendor/laravel/nova-devtool"
+```
+
+##### Setup Laravel Nova Workbench
+
+Laravel Nova Devtool can setup a basic Laravel Nova installation using `workbench` directory via [Orchestra Workbench](https://github.com/orchestral/workbench). To start the installation you can run the following command:
+
+```shell
+php vendor/bin/testbench workbench:install --devtool
+```
+
+Once the installation is completed, you should be able to serve Laravel Nova by running the following command:
+
+```shell
+composer run serve
+```
+
+##### Automatically logged-in the default user
+
+Instead of manually logging-in the user, you may also change `testbench.yaml` to automatically authenticate the user:
+
+```diff
+workbench:
+  start: /nova
++ user: nova@laravel.com
+  build:
+```
+
+##### Install Axios, Lodash, Tailwind CSS or Vue
+
+To simplify the installation, you can run the following commnad:
+
+```shell
+php vendor/bin/testbench nova:devtool install
+```
+
+##### Enables Vue DevTool for Laravel Nova
+
+By default, Laravel Nova ship with JavaScript compiled for production without Vue DevTool. In order to enable Vue DevTool, you need to run the following command:
+
+```shell
+php vendor/bin/testbench nova:devtool enable-vue-devtool
+```
+
+##### Disables Vue DevTool for Laravel Nova
+
+To reverse the above action, you need to run the following command:
+
+```shell
+php vendor/bin/testbench nova:devtool disable-vue-devtool
+```
