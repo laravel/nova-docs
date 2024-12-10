@@ -139,6 +139,16 @@ class Post extends Resource
 }
 ```
 
+You can also run the command without any arguments or options and the console would prompts the required informations:
+
+```shell
+php artisan nova:policy
+```
+
+<Frame>
+![Create UserPolicy class](/images/make-policy-command.png)
+</Frame>
+
 ### Relationships
 
 We have already learned how to authorize the typical view, create, update, and delete actions, but what about relationship interactions? For example, if you are building a podcasting application, perhaps you would like to specify that only certain Nova users may add comments to podcasts. Again, Nova makes this simple by leveraging Laravel's policies.

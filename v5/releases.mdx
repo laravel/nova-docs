@@ -39,6 +39,38 @@ protected function fortify(): void
 
 Further reading is available on the [Authentication &amp; Security](./installation#authentication-and-security) documentation.
 
+## Separate Policy Class for Nova Resource
+
+In previous versions, you are only able to define a share [Policy class](https://laravel.com/docs/authorization) for Laravel application and Nova and this can be hard to maintain when you need to have a complex authorization use-case that might differ on the application and Nova. 
+
+In Nova 5, you can finally create a separate policy class only for Nova Resource using the following command:
+
+```shell
+php artisan nova:policy
+```
+
+<Frame>
+![Create UserPolicy class](/images/make-policy-command.png)
+</Frame>
+
+To enable the new policy you need to add the following code:
+
+```php app/Nova/User.php {10}
+namespace App\Nova;
+
+class User extends Resource
+{
+    /**
+     * The policy the resource corresponds to.
+     *
+     * @var class-string
+     */
+    public static $policy = Policies\UserPolicy::class;
+}
+```
+
+Further reading is available on the [Authorization](./resources/authorization#using-separate-policy-class-for-nova-resource) documentation.
+
 ## New Tabs Panel
 
 Nova 5 further improves Resources UI with the introduction of **Tabs Panel**  on the Detail and Form interfaces.
@@ -81,23 +113,53 @@ As an example, the above code snippet will generate the following tabs:
 ![Tab Panel](/images/tab-panel.png)
 </Frame>
 
-Further reading is available on the ([Tabs](./resources/panels#tabs)) documentation.
+Further reading is available on the [documentation](./resources/panels#tabs).
 
 ## Fields & Filters Improvements
 
-### Allow to disable cascading Dependent Field sync
-
-[documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event)
 ### New Dependent Computed Field via `Field::computed()` method
 
-[documentation](./resources/dependent-fields#dependable-computed-fields)
+Computed field has been a useful feature in previous Nova to display additional information regarding on each Resource. However, since it doesn't have a unique `$attribute` as an identifier it can't be used as Dependent Field. Nova 5 improves this by adding a new `computed()` method.
+
+```php
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+// ... 
+
+Boolean::make('Would you like to leave a comment?', 'comment_boolean')
+    ->computed(),
+
+Text::make('Comment')
+    ->hidden()
+    ->dependsOn('comment_boolean', function (Text $field, NovaRequest $request, FormData $formData) {
+        if ($formData->boolean('comment_boolean') === true) {
+            $field->show();
+        }
+    }),
+```
+
+Further reading is available on the [documentation](./resources/dependent-fields#dependable-computed-fields).
 
 ### New `Field::immutable()` method
 
-[documentation](./resources/fields#immutable-fields)
+While [Readonly Fields](./resources/fields#readonly-fields) disable the field’s corresponding input you may wish to still allows the field value to be submitted with the form. To allows this without using `readonly` you can mark fields as “immutable” by invoking the `immutable` method on the field. You may pass a boolean argument to the `immutable` method to dynamically control whether a field should be “immutable”:
+
+```php
+use Laravel\Nova\Fields\Text;
+
+// ...
+
+Text::make('Name')->immutable(),
+```
+
+Further reading is available on the [documentation](./resources/fields#immutable-fields).
 
 ### Other Improvements
 
+* [Allow to disable cascading Dependent Field sync](./resources/dependent-fields#disable-cascading-dependent-field-sync-event)
 * [Using Enums as `Select::options()`](./resources/fields#using-enum-as-options)
 * [Searchable Select Filter](./filters/registering-filters#searchable-select-filter)
 * JSON Repeater is now displayed on Resource Detail
