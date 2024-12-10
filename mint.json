@@ -7,6 +7,7 @@
     "href": "https://nova.laravel.com"
   },
   "favicon": "/favicon.png",
+  "versions": ["v4", "v5"],
   "background": {
     "style": "windows"
   },
@@ -52,7 +53,7 @@
   "tabs": [
     {
       "name": "Documentation",
-      "url": "/"
+      "url": "/v5/"
     },
     {
       "name": "Knowledge Base",
@@ -62,82 +63,175 @@
   "navigation": [
     {
       "group": "Get Started",
+      "version": "v5",
       "pages": [
-        "installation",
-        "releases",
-        "upgrade",
-        "support",
-        "code-of-conduct"
+        "v5/installation",
+        "v5/releases",
+        "v5/upgrade"
       ]
     },
     {
       "group": "Resources",
+      "version": "v5",
       "pages": [
-        "resources/the-basics",
-        "resources/fields",
-        "resources/date-fields",
-        "resources/repeater-fields",
-        "resources/relationships",
-        "resources/validation",
-        "resources/authorization"
+        "v5/resources/the-basics",
+        "v5/resources/fields",
+        "v5/resources/dependent-fields",
+        "v5/resources/date-fields",
+        "v5/resources/file-fields",
+        "v5/resources/repeater-fields",
+        "v5/resources/panels",
+        "v5/resources/relationships",
+        "v5/resources/validation",
+        "v5/resources/authorization"
       ]
     },
     {
       "group": "Search",
+      "version": "v5",
       "pages": [
-        "search/the-basics",
-        "search/global-search",
-        "search/scout-integration"
+        "v5/search/the-basics",
+        "v5/search/global-search",
+        "v5/search/scout-integration"
       ]
     },
     {
       "group": "Filters",
+      "version": "v5",
       "pages": [
-        "filters/defining-filters",
-        "filters/registering-filters"
+        "v5/filters/defining-filters",
+        "v5/filters/registering-filters"
       ]
     },
     {
       "group": "Lenses",
+      "version": "v5",
       "pages": [
-        "lenses/defining-lenses",
-        "lenses/registering-lenses"
+        "v5/lenses/defining-lenses",
+        "v5/lenses/registering-lenses"
       ]
     },
     {
       "group": "Actions",
+      "version": "v5",
       "pages": [
-        "actions/defining-actions",
-        "actions/registering-actions"
+        "v5/actions/defining-actions",
+        "v5/actions/registering-actions"
       ]
     },
     {
       "group": "Metrics",
+      "version": "v5",
       "pages": [
-        "metrics/defining-metrics",
-        "metrics/registering-metrics"
+        "v5/metrics/defining-metrics",
+        "v5/metrics/registering-metrics"
       ]
     },
     {
       "group": "Digging Deeper",
+      "version": "v5",
       "pages": [
-        "customization/dashboards",
-        "customization/menus",
-        "customization/notifications",
-        "customization/impersonation",
-        "customization/tools",
-        "customization/resource-tools",
-        "customization/cards",
-        "customization/fields",
-        "customization/filters",
-        "customization/frontend",
-        "customization/assets",
-        "customization/localization",
-        "customization/stubs"
+        "v5/customization/dashboards",
+        "v5/customization/menus",
+        "v5/customization/notifications",
+        "v5/customization/impersonation",
+        "v5/customization/tools",
+        "v5/customization/resource-tools",
+        "v5/customization/cards",
+        "v5/customization/fields",
+        "v5/customization/filters",
+        "v5/customization/frontend",
+        "v5/customization/assets",
+        "v5/customization/localization",
+        "v5/customization/stubs"
+      ]
+    },
+    {
+      "group": "Get Started",
+      "version": "v4",
+      "pages": [
+        "v4/installation",
+        "v4/releases",
+        "v4/upgrade"
+      ]
+    },
+    {
+      "group": "Resources",
+      "version": "v4",
+      "pages": [
+        "v4/resources/the-basics",
+        "v4/resources/fields",
+        "v4/resources/date-fields",
+        "v4/resources/repeater-fields",
+        "v4/resources/relationships",
+        "v4/resources/validation",
+        "v4/resources/authorization"
+      ]
+    },
+    {
+      "group": "Search",
+      "version": "v4",
+      "pages": [
+        "v4/search/the-basics",
+        "v4/search/global-search",
+        "v4/search/scout-integration"
+      ]
+    },
+    {
+      "group": "Filters",
+      "version": "v4",
+      "pages": [
+        "v4/filters/defining-filters",
+        "v4/filters/registering-filters"
+      ]
+    },
+    {
+      "group": "Lenses",
+      "version": "v4",
+      "pages": [
+        "v4/lenses/defining-lenses",
+        "v4/lenses/registering-lenses"
+      ]
+    },
+    {
+      "group": "Actions",
+      "version": "v4",
+      "pages": [
+        "v4/actions/defining-actions",
+        "v4/actions/registering-actions"
+      ]
+    },
+    {
+      "group": "Metrics",
+      "version": "v4",
+      "pages": [
+        "v4/metrics/defining-metrics",
+        "v4/metrics/registering-metrics"
+      ]
+    },
+    {
+      "group": "Digging Deeper",
+      "version": "v4",
+      "pages": [
+        "v4/customization/dashboards",
+        "v4/customization/menus",
+        "v4/customization/notifications",
+        "v4/customization/impersonation",
+        "v4/customization/tools",
+        "v4/customization/resource-tools",
+        "v4/customization/cards",
+        "v4/customization/fields",
+        "v4/customization/filters",
+        "v4/customization/frontend",
+        "v4/customization/assets",
+        "v4/customization/localization",
+        "v4/customization/stubs"
       ]
     }, {
       "group": "Knowledge Base",
       "pages": [
+          "kb/support",
+          "kb/code-of-conduct",
           "kb/faq",
           "kb/invoices"
       ]
