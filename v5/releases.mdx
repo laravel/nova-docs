@@ -5,25 +5,51 @@ description: 'Laravel Nova Release Notes'
 
 Nova 5 continues the improvements made in Nova 4.x by modernising various dependencies including Laravel Framework 10 which offers Laravel Prompts, Console Component Views.
 
-In addition, Nova 5 introduces support for Two-Factor Authentication, E-mail Verification for new users, Tab Panel, Searchable Search Filter, Dependent Fields improvements, 3rd Party Component improvements, and many more.
+In addition, Nova 5 introduces support for Two-Factor Authentication, Password Confirmation, E-mail Verification for new users, Tab Panel, Searchable Search Filter, Dependent Fields improvements, 3rd Party Component improvements, and many more.
 
 ### Modernising Dependencies
 
 Nova 5 finally remove support for Laravel Framework 8 and 9 and at the same time bump PHP version to 8.1 and above. This offer wider support for integration with Laravel Ecosystem including Laravel Fortify, Laravel Prompts, Laravel Pennant etc.
 
-Furthermore, Nova 5 frontend code has been updated to utilise Vue 3.5 and Inertia.js 2, drop `doctrine/dbal` requirements and replace `from-backend-validation` NPM package.
+Furthermore, Nova 5 frontend code has been updated to utilise Vue v3.5, Heroicons v2 and Inertia.js v2. Please refer to [Upgrade Guide](./upgrade#dependency-upgrades) for full changes.
 
 ### Authentication Enhancements
 
-* Authentication using Laravel Fortify ([documentation](./installation#authentication-and-security))
+Nova 5 replaced Laravel UI with Laravel Fortify for Authentication and enables Two-Factor Authentication, Password Confirmation and E-mail Verification for new User with little to no code. Similar to Laravel Jetstream, to enable Two-Factor Authentication or E-mail Confirmation you just need to edit `NovaServiceProvider` class:
+
+```php app/Providers/NovaServiceProvider.php {1,13,14}
+use Laravel\Fortify\Features;
+
+// ...
+
+/**
+ * Register the configurations for Laravel Fortify.
+ */
+protected function fortify(): void
+{
+    Nova::fortify()
+        ->features([
+            Features::updatePasswords(),
+            Features::emailVerification(),
+            Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+        ])
+        ->register();
+}
+```
+
+Next, you can run `nova:publish` to publish the required Fortify migrations if it's not available yet and run `migrate` to ensure database migrations contains the correct schema:
+
+```shell
+php artisan nova:publish
+
+php artisan migrate
+```
+
+Further reading is available on the [Authentication &amp; Security](./installation#authentication-and-security) documentation.
 
 ### New Tabs Panel
 
 * Tabs Panel ([documentation](./resources/panels#tabs))
-
-### Filter Improvements
-
-* Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
 
 ### Fields Improvements
 
@@ -32,9 +58,17 @@ Furthermore, Nova 5 frontend code has been updated to utilise Vue 3.5 and Inerti
 * New Dependent Computed Field via `Field::computed()` method ([documentation](./resources/dependent-fields#dependable-computed-fields))
 * New `Field::immutable()` method ([documentation](./resources/fields#immutable-fields))
 
+### Filter Improvements
+
+* Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
+
 ### Pennant Resource Tool for Nova
 
-With the release of Nova 5, we also build a new first-party Nova Component to allow you to view and configure Pennant directly within Nova's UI. To use the component you need to install the component using the following command:
+With the release of Nova 5, we also build a new first-party Nova Component to allow you to view and configure Pennant directly within Nova's UI.
+
+![Pennant Component](/images/pennant-component.png)
+
+To use the component you need to install the component using the following command:
 
 ```shell
 composer require "laravel/nova-pennant"

@@ -317,10 +317,12 @@ protected function fortify(): void
 }
 ```
 
-Finally, you can run `nova:publish` to publish the required Fortify migrations if it's not available yet:
+Finally, you can run `nova:publish` to publish the required Fortify migrations if it's not available yet and run `migrate` to ensure database migrations contains the correct schema:
 
 ```shell
 php artisan nova:publish
+
+php artisan migrate
 ```
 
 Once completed, users of Nova should be able to access a new **User Security** page from the User Menu:
