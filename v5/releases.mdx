@@ -49,21 +49,54 @@ Further reading is available on the [Authentication &amp; Security](./installati
 
 ### New Tabs Panel
 
-* Tabs Panel ([documentation](./resources/panels#tabs))
+Nova 5 further improves Resources UI with the introduction of **Tabs Panel**  on the Detail and Form interfaces.
+
+```php app/Nova/Event.php {4,18-28}
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Tabs\Tab;
+
+// ... 
+
+/**
+ * Get the fields displayed by the resource.
+ *
+ * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel>
+ */
+public function fields(NovaRequest $request): array
+{
+    return [
+        // ... 
+
+        Tab::group('Details', [
+            Tab::make('Purchases', [ /* List of fields */ ]),
+            Tab::make('Registrations', [ /* List of fields */ ]),
+            Tab::make('Event & Venue', [ /* List of fields */ ]),
+        ]),
+
+        Tab::group(attribute: 'Relations', fields: [
+            HasMany::make('Orders', 'orders', Order::class),
+            HasManyThrough::make('Tickets', 'tickets', Ticket::class),
+        ]),
+    ];
+}
+```
+
+As an example, the above code snippet will generate the following tabs:
 
 <Frame>
 ![Tab Panel](/images/tab-panel.png)
 </Frame>
 
-### Fields Improvements
+Further reading is available on the ([Tabs](./resources/panels#tabs)) documentation.
 
-* JSON Repeater on Detail page
+### Fields & Filters Improvements
+
 * Allow to disable cascading Dependent Field sync ([documentation](./resources/dependent-fields#disable-cascading-dependent-field-sync-event))
 * New Dependent Computed Field via `Field::computed()` method ([documentation](./resources/dependent-fields#dependable-computed-fields))
 * New `Field::immutable()` method ([documentation](./resources/fields#immutable-fields))
-
-### Filter Improvements
-
+* JSON Repeater on Detail page
 * Searchable Select Filter ([documentation](./filters/registering-filters#searchable-select-filter))
 
 ### Pennant Resource Tool for Nova
