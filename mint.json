@@ -143,6 +143,9 @@
       ]
     }
   ],
+  "feedback": {
+    "thumbsRating": true
+  },
   "footerSocials": {
     "x": "https://x.com/laravelphp",
     "github": "https://github.com/laravel",
