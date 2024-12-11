@@ -172,9 +172,9 @@ return [
 
 ## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
 
-### Inertia 1 Compatibility
+### Inertia 2 Compatibility
 
-With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all references have been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
+With Nova 5, the frontend JavaScript now utilizes Inertia.js v2 and will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all references have been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
 
 ```diff
 <script>
@@ -237,41 +237,6 @@ Next, remove `form-backend-validation` from `package.json`:
 
 ```shell
 npm remove form-backend-validation
-```
-
-## High Impact Changes
-
-### Partition Metric `average()` usage
-
-In order to standardise the method usage Nova 5 has made the following changes:
-
-<CodeGroup>
-```php Before
-/**
- * @method PartitionResult average($request, $model, $column, $groupBy)
- */
-```
-
-```php After
-/**
- * @method PartitionResult average($request, $model, $groupBy, $column = null)
- */
-```
-</CodeGroup>
-
-To minimize the affect needed to make such changes, you should be able to instead do this:
-
-```diff
-/**
- * Calculate the value of the metric.
- */
-public function calculate(NovaRequest $request): PartitionResult
-{
-    return $this->average(
--       $request, Order::class, 'price', 'department'
-+       $request, Order::class, column: 'price', groupBy: 'department'
-    );
-}
 ```
 
 ## Medium Impact Changes
