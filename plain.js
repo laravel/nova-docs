@@ -23,6 +23,35 @@
             threadDetails: {
                 labelTypeIds: ['lt_01JAZTMNYM3EQVS854CK6JKAA9'],
             },
+            theme: 'auto',
+            position: {
+                right: '25px',
+                bottom: '25px',
+            },
+            requireAuthentication: true,
+            chatButtons: [
+                {
+                    icon: 'chat',
+                    text: 'Ask a question',
+                    threadDetails: {
+                        labelTypeIds: ['lt_01JD7S0WAJGF5215238S62F82V'],
+                    },
+                },
+                {
+                    icon: 'bulb',
+                    text: 'Send feedback',
+                    threadDetails: {
+                        labelTypeIds: ['lt_01JD7S1HJ38125D0QGE3FQ8HRT'],
+                    },
+                },
+                {
+                    icon: 'error',
+                    text: 'Report an issue',
+                    threadDetails: {
+                        labelTypeIds: ['lt_01JD7S15A3HAD7PM8X8AR4BD9N'],
+                    },
+                },
+            ],
         });
     };
     script.src = 'https://chat.cdn-plain.com/index.js';
