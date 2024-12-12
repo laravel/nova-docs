@@ -115,15 +115,15 @@ public function viewAny(User $user)
 }
 ```
 
-#### Using Separate Policy Class for Nova Resource
+#### Using Separate Policy Classes for Nova Resources
 
-You can also opt to create a policy specifically for Resource insteads of relying on Eloquent Model's policy. To get started you can run the following command:
+You may also create a policy specifically for Nova resources instead of relying on the Eloquent model's application level policy. To get started, generate a new Nova policy via the `nova:policy` command:
 
 ```shell
 php artisan nova:policy PostPolicy --resource=Post
 ```
 
-Above command will create a new policy class as `App\Nova\Policies\PostPolicy` and it will authorize againsts `App\Nova\Post` instead of `App\Models\Post`. Finally, you can add the following code to use the new policy class under `Post` resource class:
+The `nova:policy` command above will create a new policy class as `App\Nova\Policies\PostPolicy`. In addition, the generated policy will authorize against `App\Nova\Post` instead of `App\Models\Post`. To register the policy with your Nova resource, you should specify the policy within the resource's `$policy` property:
 
 ```php app/Nova/Post.php {10}
 namespace App\Nova;
@@ -138,16 +138,6 @@ class Post extends Resource
     public static $policy = Policies\PostPolicy::class;
 }
 ```
-
-You can also run the command without any arguments or options and the console would prompts the required informations:
-
-```shell
-php artisan nova:policy
-```
-
-<Frame>
-![Create UserPolicy class](/images/make-policy-command.png)
-</Frame>
 
 ### Relationships
 
