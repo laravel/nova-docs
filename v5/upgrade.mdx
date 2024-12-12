@@ -86,9 +86,9 @@ return [
 
 ## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
 
-### Inertia 1.x Compatibility
+### Inertia 2 Compatibility
 
-With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all references have been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
+In Nova 5, Nova's frontend JavaScript now utilizes Inertia.js 2.x, which will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You should inspect your custom components and packages to ensure all references have been updated as suggested in [Inertia's upgrade guide](https://inertiajs.com/upgrade-guide).
 
 ```diff
 <script>
@@ -101,27 +101,9 @@ With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect 
 </script>
 ```
 
-#### Vendor Managed `nova.mix.js` File
-
-Nova Devtool ships with a generic `nova.mix.js` instead of publishing the file on each 3rd-party components. For external 3rd-party component you just need to include change the following code in `webpack.mix.js`:
-
-```diff
-let mix = require('laravel-mix')
-
--require('./nova.mix')
-+mix.extend('nova', new require('laravel-nova-devtool'))
-
-mix
-  .setPublicPath('dist')
-
-  // ...
-```
-
-Finally, you can remove the existing `nova.mix.js` from the component root directory.
-
 ### Replacing `form-backend-validation`
 
-`form-backend-validation` repository has been archived and should no longer be used by third-party packages or components. As a replacement developers are adviced to change any references to `form-backend-validation` such as:
+The `form-backend-validation` repository has been archived and should no longer be used by third-party packages or components. Instead, you may simply import `Errors` from `laravel-nova`:
 
 ```diff
 <script>
@@ -133,7 +115,7 @@ Finally, you can remove the existing `nova.mix.js` from the component root direc
 </script>
 ```
 
-Next, remove `form-backend-validation` from `package.json`:
+Then, you may remove `form-backend-validation` from your component's `package.json`:
 
 ```shell
 npm remove form-backend-validation
