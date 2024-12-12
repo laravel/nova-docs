@@ -11,15 +11,15 @@ Nova's upstream dependencies have been upgraded. You will find a complete list o
 
 * PHP 8.1+
 * Laravel Framework 10.34+ and 11.0+
-* Support Inertia Laravel 1.3+ and 2.0+
-* Replace `laravel/ui` with `laravel/fortify` v1.21+
+* Inertia Laravel 1.3+ and 2.0+
+* Replaced `laravel/ui` with `laravel/fortify` v1.21+
 * Removed `doctrine/dbal`
 
 #### Client
 
 * Update to `@inertiajs/vue3` v2
 * Update to Heroicons v2
-* Update `trix` to v2
+* Update to `trix` v2
 * Remove deprecated `form-backend-validation`
 * Remove deprecated `places.js`
 
@@ -59,7 +59,7 @@ If your application relies on Nova tools or packages developed by third-parties,
 
 ## Upgrading Authentication Features
 
-Let's update the Nova configuration file. First, ensure that the `api_middleware` configuration options within your application's `nova` configuration file appear as follows:
+Next you will need to update your Nova configuration file. First, ensure that the `api_middleware` configuration option within your application's `nova` configuration file appears as follows:
 
 ```php config/nova.php {6,16}
 use Laravel\Nova\Actions\ActionResource;
@@ -84,95 +84,9 @@ return [
 ];
 ```
 
-
-### With Authentication Routes
-
-<Note>
-Skip this section if your Nova's installation is configured with custom authentication routes.
-</Note>
-
-Nova 5 now leverages [Laravel Fortify](https://laravel.com/docs/fortify) instead of Laravel UI. The changes allow Nova 5 to enable Two Factor Authentication, E-mail Verification, and Password Confirmation. 
-
-First, you need to update `register()` method and add new `fortify()` method in `App\Providers\NovaServiceProvider` class:
-
-```php app/Nova/NovaServiceProvider.php
-/**
- * Register the configurations for Laravel Fortify.
- */
-protected function fortify(): void
-{
-    Nova::fortify()->register();
-}
-
-/**
- * Register any application services.
- */
-public function register(): void 
-{
-    parent::register();
-
-    //
-}
-```
-
-Once completed, you may look into customizing the authentication featured powered by **Laravel Fortify** on the [Authentication & Security](./installation.md#authentication-security) documentation.
-
-### Without Authentication Features
-
-<Note>
-Skip this section if your Nova's installation is configured without custom authentication routes.
-</Note>
-
-In an application where the default login interface doesn't mean your use case, it was possible to override the default routes using `nova.routes` configuration. In Nova 5, this has become easier via `routes()` method in `App\Providers\NovaServiceProvider` class:
-
-```php app/Nova/NovaServiceProvider.php
-/**
- * Register the Nova routes.
- */
-protected function routes(): void 
-{
-    Nova::routes()
-        ->withoutAuthenticationRoutes(
-            login: '/login', 
-            logout: '/logout',
-        )->withoutPasswordResetRoutes(
-            forgotPassword: '/forgot-password', 
-            resetPassword: '/reset-password',
-        )
-        ->register();
-}
-
-/**
- * Register any application services.
- */
-public function register(): void 
-{
-    parent::register();
-
-    //
-}
-```
-
-With the above changes, you can now remove the configuration override in `config/nova.php`:
-
-```diff config/nova.php
-return [
-
-    // ...
-
--   'routes' => [
--       'login' => '/login',
--       'logout' => '/logout',
--       'forgot_password' => '/forgot-password',
--       'reset_password' => '/reset-password',
--   ],
-
-];
-```
-
 ## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
 
-### Inertia 1 Compatibility
+### Inertia 1.x Compatibility
 
 With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect any projects that directly import from `@inertiajs/inertia` or `@inertiajs/inertia-vue3`. You need to inspect your components/packages and ensure all references have been updated as suggested in [Inertia's Upgrade Guide](https://inertiajs.com/upgrade-guide).
 
@@ -185,20 +99,6 @@ With Nova 5, the frontend JavaScript now utilizes Inertia.js v1 and will affect 
 // ...
 
 </script>
-```
-
-### Nova Devtool
-
-Nova 5 also introduces a new helper package for Nova Packages development to assist in asset compilation and preview the application while building the package. Please run the following command to install the package:
-
-```shell
-composer install --dev "laravel/nova-devtool"
-```
-
-Next, you should include the NPM dependencies for `laravel/nova-devtool` using the following command:
-
-```shell
-npm install --save-dev "vendor/laravel/nova-devtool"
 ```
 
 #### Vendor Managed `nova.mix.js` File
@@ -239,56 +139,21 @@ Next, remove `form-backend-validation` from `package.json`:
 npm remove form-backend-validation
 ```
 
-## High Impact Changes
-
-### Partition Metric `average()` usage
-
-In order to standardise the method usage Nova 5 has made the following changes:
-
-<CodeGroup>
-```php Before
-/**
- * @method PartitionResult average($request, $model, $column, $groupBy)
- */
-```
-
-```php After
-/**
- * @method PartitionResult average($request, $model, $groupBy, $column = null)
- */
-```
-</CodeGroup>
-
-To minimize the affect needed to make such changes, you should be able to instead do this:
-
-```diff
-/**
- * Calculate the value of the metric.
- */
-public function calculate(NovaRequest $request): PartitionResult
-{
-    return $this->average(
--       $request, Order::class, 'price', 'department'
-+       $request, Order::class, column: 'price', groupBy: 'department'
-    );
-}
-```
-
 ## Medium Impact Changes
 
-### Deprecate Form Abandonment (using Browser navigation)
+### Form Abandonment (Using Browser Navigation)
 
-With the introduction of Inertia.js v2, we no longer able to provide the feature using the available API from Inertia.js to override `popstate` event. For Nova 5, using the browser's back button or clicking on `Cancel` will no longer prompt a confirmation dialog.
+With the introduction of Inertia.js 2.x, we are no longer able to provide form abandonment warnings when using the browser's back button.
 
 ### Algolia Place Field Removed
 
-Algolia [retired their "Places" API](https://www.algolia.com/blog/product/sunsetting-our-places-feature/) on May 31, 2022; therefore, the Place field was deprecated on Nova 4 and now removed in Nova 5.
+Algolia [retired their "Places" API](https://www.algolia.com/blog/product/sunsetting-our-places-feature/) on May 31, 2022; therefore, the `Place` field was deprecated on Nova 4 and is now removed in Nova 5.
 
 ## Low Impact Changes
 
 ### Update Published Stubs
 
-Due to various changes in Nova 4.0, you should re-publish the Nova "stubs" if you have previously published them. You can accomplish this by executing the `nova:stubs` Artisan command with the `--force` option:
+Due to various changes in Nova 5.x, you should re-publish the Nova "stubs" if you have previously published them. You can accomplish this by executing the `nova:stubs` Artisan command with the `--force` option:
 
 ```shell
 php artisan nova:stubs --force
