@@ -2099,7 +2099,7 @@ Text::make('Email')->readonly(function ($request) {
 
 ### Immutable Fields
 
-While [Readonly Fields](#readonly-fields) disable the field's corresponding input you may wish to still allows the field value to be submitted with the form. To allows this without using `readonly()` you can mark fields as "immutable" by invoking the `immutable` method on the field. You may pass a boolean argument to the `immutable` method to dynamically control whether a field should be "immutable":
+While [readonly fields](#readonly-fields) disable the field's corresponding input, you may wish to still allow the field value to be submitted with the form. To allow this, you may invoke the `immutable` method on the field instead of the `readonly` method. You may pass a boolean argument to the `immutable` method to dynamically control whether a field should be immutable:
 
 ```php
 use Laravel\Nova\Fields\Text;
@@ -2110,7 +2110,7 @@ Text::make('Email')
     ->immutable(optional($this->resource)->trashed()),
 ```
 
-You may also pass a closure to the `immutable` method, and the result of the closure will be used to determine if the field should be "immutable". The closure will receive the current `NovaRequest` as its first argument:
+You may also pass a closure to the `immutable` method. The result of the closure will be used to determine if the field should be immutable. The closure will receive the current `NovaRequest` as its first argument:
 
 ```php
 use Laravel\Nova\Fields\Text;
@@ -2121,7 +2121,7 @@ Text::make('Email')
     ->immutable(fn ($request) => ! $request->user()->isAdmin()), 
 ```
 
-If you only want to mark a field as "immutable" when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods available via the `NovaRequest` instance, respectively:
+If you only want to mark a field as immutable when creating or attaching resources, you may use the `isCreateOrAttachRequest` and `isUpdateOrUpdateAttachedRequest` methods available via the `NovaRequest` instance, respectively:
 
 ```php
 use Laravel\Nova\Fields\Text;
