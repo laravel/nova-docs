@@ -37,7 +37,7 @@ public function fields(NovaRequest $request): array
 }
 ```
 
-### Limit Displayed Fields
+### Limiting Displayed Fields
 
 You may limit the amount of fields shown in a panel by default using the `limit` method:
 
@@ -55,9 +55,9 @@ Panel::make('Profile', [
 
 Panels with a defined field limit will display a **Show All Fields** button in order to allow the user to view all of the defined fields when needed.
 
-### Collapsable Panels
+### Collapsible Panels
 
-You can also set panel to be collapsable using by adding `collapsable` method. This method utilise JavaScript's `localStorage` feature to remember the current state:
+You may allow field panels to be collapsible by invoking the `collapsible` method when defining the panel. This method utilizes JavaScript's `localStorage` feature to remember the current state of the panel between requests:
 
 ```php {9}
 use Laravel\Nova\Panel;
@@ -68,10 +68,10 @@ Panel::make('Profile', [
     Text::make('Full Name'),
     Date::make('Date of Birth'),
     Text::make('Place of Birth'),
-])->collapsable(),
+])->collapsible(),
 ```
 
-You may also indicate a panel should always be collapsed by default via the `collapsedByDefault` method:
+You may indicate that a panel should always be collapsed by default via the `collapsedByDefault` method:
 
 ```php {9}
 use Laravel\Nova\Panel;
@@ -85,31 +85,9 @@ Panel::make('Profile', [
 ])->collapsedByDefault(),
 ```
 
-### Iterates Fields within Panel
-
-You can iterate and add definitions to all fields within the panel using the `each` method:
-
-```php {9-11}
-use Laravel\Nova\Panel;
-
-// ...
-
-Panel::make('Profile', [
-    Text::make('Full Name'),
-    Date::make('Date of Birth'),
-    Text::make('Place of Birth'),
-])->each(
-    fn ($field) => $field->hideFromIndex()
-),
-```
-
 ## Tabs
 
-<Warning>
-This is currently in beta. The API, while stable, is subject to change while in the beta period.
-</Warning>
-
-The `Tab` panel allows you to organise fields and relationships within a Resource.
+The `Tab` panel allows you to organize resource fields and relationships within tab panels:
 
 <Frame>
 ![Tab Panel](/images/tab-panel.png)
@@ -162,7 +140,7 @@ public function fields(NovaRequest $request): array
 }
 ```
 
-### Hiding Tabs Title
+### Hiding Tab Titles
 
 Tab's Group title can be excluding by skipping `$name` parameter and instead just define `$attribute`:
 
