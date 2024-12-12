@@ -87,7 +87,7 @@ The following field types may not be depended upon by other fields since they do
 - VaporFile
 - VaporImage
 
-## Toggling Field Visibility using `dependsOn`
+## Toggling Field Visibility Using `dependsOn`
 
 One common use-case for dependent fields is toggling field visibility based on the value of another field. You can accomplish this using the `hide` and `show` methods:
 
@@ -149,7 +149,7 @@ DateTime::make('Updated At')
     }),
 ```
 
-## Disable cascading Dependent Field sync event
+## Disable Cascading Dependent Field Sync Events
 
 Each dependent fields would trigger cascading sync event when the value is updated within `dependsOn` method. However, you may disable this by setting `$dependentShouldEmitChangesEvent` property to `false` using the following code: 
 

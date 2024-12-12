@@ -15,14 +15,14 @@ description: 'Learn how to install Laravel Nova into your Laravel application.'
 
 ## Requirements
 
-Laravel Nova has a few requirements you should be aware of before installing:
+Laravel Nova has a few minimum requirements you should be aware of before installing:
 
 - Composer 2
 - Laravel Framework 10.x, or 11.x
-- Inertia.js v2 (JavaScript) and compatible with Inertia Laravel v1 and v2
-- Laravel Mix 6
+- Inertia.js 2.x
+- Laravel Mix 6.x
 - Node.js (Version 18.x+)
-- NPM 9
+- NPM 9.x
 
 
 ## Browser Support
@@ -35,10 +35,6 @@ Nova supports modern versions of the following browsers:
 - Mozilla Firefox
 
 ## Installing Nova via Composer
-
-<Note>
-Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 4 installation is always performed via Composer.
-</Note>
 
 You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
@@ -105,7 +101,7 @@ class User extends Resource
 }
 ```
 
-If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
+If your application's `users` table is empty or you want to create a new user, you can run the `nova:user` Artisan command:
 
 ```shell
 php artisan nova:user
@@ -270,6 +266,20 @@ public function boot(): void
     });
 }
 ```
+
+### Customizing Nova's Authentication Guard
+
+Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `NOVA_GUARD` value using `.env` file or `guard` value within Nova's configuration file:
+
+<CodeGroup>
+```ini .env
+NOVA_GUARD=(null)
+```
+
+```php config/nova.php
+'guard' => env('NOVA_GUARD', null),
+```
+</CodeGroup>
 
 ### Customizing Nova's Storage Disk Driver
 
