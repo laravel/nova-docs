@@ -1,9 +1,9 @@
 ---
 title: 'Dependent Fields'
-description: 'The `dependsOn` method allows you to specify that a fields configuration depends on one or more other fields values.'
+description: 'Dependent fields allow you to define fields that have unique configuration depending on the value of other fields.'
 ---
 
-The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
+Dependent fields are created by invoking the `dependsOn` method when defining a field. The `dependsOn` method accepts an `array` of dependent field attributes and a closure that modifies the configuration of the current field instance.
 
 Dependent fields allow advanced customization, such as toggling read-only mode, validation rules, and more based on the state of another field:
 
@@ -114,22 +114,6 @@ BelongsTo::make('User')
     }),
 ```
 
-## Dependable Computed Fields
-
-As shown on the above example, you can only simplify `anonymous` field using the `computed` method:
-
-```diff
-use Laravel\Nova\Fields\Boolean;
-
-// ...
-
-Boolean::make('Anonymous Comment', 'anonymous')
--   ->onlyOnForms()
--   ->fillUsing(fn () => null)
-+   ->computed()
-    ->default(true),
-```
-
 ## Setting a Field's Value Using `dependsOn`
 
 Another common use-case for dependent fields is to set the value of a field based on the value of another field. You can accomplish this using the `setValue` method:
@@ -145,25 +129,6 @@ DateTime::make('Created At'),
 
 DateTime::make('Updated At')
     ->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
-        $field->setValue(Carbon::parse($form->created_at)->addDays(7));
-    }),
-```
-
-## Disable Cascading Dependent Field Sync Events
-
-Each dependent fields would trigger cascading sync event when the value is updated within `dependsOn` method. However, you may disable this by setting `$dependentShouldEmitChangesEvent` property to `false` using the following code: 
-
-```php {9}
-use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\FormData;
-use Laravel\Nova\Http\Requests\NovaRequest;
-
-// ...
-
-DateTime::make('Updated At')
-    ->dependsOn(['created_at'], function (DateTime $field, NovaRequest $request, FormData $form) {
-        $field->dependentShouldEmitChangesEvent = false;
-
         $field->setValue(Carbon::parse($form->created_at)->addDays(7));
     }),
 ```
