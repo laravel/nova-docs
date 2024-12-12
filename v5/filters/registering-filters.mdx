@@ -43,9 +43,9 @@ public function filters(NovaRequest $request): array
 ```
 </CodeGroup>
 
-## Searchable Select Filter
+## Searchable Select Filters
 
-Nova also allows to Select Filter to utilise searchable, you may use the **searchable** method on your filter:
+Select filters may be optionally searchable. To allow your select filter to be searchable, invoke the `searchable` method when registering your filter:
 
 ```php app/Nova/~Resource.php {14}
 use Laravel\Nova\Http\Requests\NovaRequest;
