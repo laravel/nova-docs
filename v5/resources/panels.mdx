@@ -140,16 +140,16 @@ public function fields(NovaRequest $request): array
 }
 ```
 
-### Hiding Tab Titles
+### Omitting Tab Group Titles
 
-Tab's Group title can be excluding by skipping `$name` parameter and instead just define `$attribute`:
+Tab group titles may be omitted by simply providing `fields` to the `Tab::group` method:
 
 ```php
 use Laravel\Nova\Tabs\Tab;
 
 // ...
 
-Tab::group(attribute: 'Relations', fields: [
+Tab::group(fields: [
     HasMany::make('Orders'),
     HasManyThrough::make('Tickets'),
 ]),
