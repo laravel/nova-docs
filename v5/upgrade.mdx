@@ -84,7 +84,7 @@ return [
 ];
 ```
 
-Next, you need to update `register()` method in `App\Providers\NovaServiceProvider` class and add `parent::register();` before any other codes:
+Next, update the `register` method in your application's `App\Providers\NovaServiceProvider` class to call the parent's `register` method. The `parent::register()` method should be executed before any other code in the method:
 
 ```php app/Nova/NovaServiceProvider.php {6}
 /**
