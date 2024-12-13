@@ -84,6 +84,20 @@ return [
 ];
 ```
 
+Next, update the `register` method in your application's `App\Providers\NovaServiceProvider` class to call the parent's `register` method. The `parent::register()` method should be invoked before any other code in the method:
+
+```php app/Nova/NovaServiceProvider.php {6}
+/**
+ * Register any application services.
+ */
+public function register(): void 
+{
+    parent::register();
+
+    //
+}
+```
+
 ## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
 
 ### Inertia 2 Compatibility
