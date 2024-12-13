@@ -84,6 +84,20 @@ return [
 ];
 ```
 
+Next, you need to update `register()` method in `App\Providers\NovaServiceProvider` class and add `parent::register();` before any other codes:
+
+```php app/Nova/NovaServiceProvider.php {6}
+/**
+ * Register any application services.
+ */
+public function register(): void 
+{
+    parent::register();
+
+    //
+}
+```
+
 ## Updating Nova Components (Custom Tool, Cards, Fields, Filters)
 
 ### Inertia 2 Compatibility
