@@ -8,20 +8,22 @@ description: 'Learn how to install Laravel Nova into your Laravel application.'
     Purchase a license for Laravel Nova
   </Card>
 
-  <Card title="Watch More" icon="circle-play" href="https://laracasts.com/series/laravel-nova-mastery-2023-edition">
+  <Card title="Learn More" icon="circle-play" href="https://laracasts.com/series/laravel-nova-mastery-2023-edition">
     Watch the free Nova series on Laracasts
   </Card>
 </CardGroup>
 
 ## Requirements
 
-Laravel Nova has a few requirements you should be aware of before installing:
+Laravel Nova has a few minimum requirements you should be aware of before installing:
 
-- Composer
-- Laravel Framework 8.x, 9.x, 10.x, or 11.x
-- Laravel Mix 6
-- Node.js (Version 14.x+)
-- NPM 9
+- Composer 2
+- Laravel Framework 10.x, or 11.x
+- Inertia.js 2.x
+- Laravel Mix 6.x
+- Node.js (Version 18.x+)
+- NPM 9.x
+
 
 ## Browser Support
 
@@ -33,11 +35,6 @@ Nova supports modern versions of the following browsers:
 - Mozilla Firefox
 
 ## Installing Nova via Composer
-
-<Note>
-
-Previous releases of Laravel Nova allowed Nova to be installed by downloading Zip archives of the source code; however, Nova 4 installation is always performed via Composer.
-</Note>
 
 You may install Nova as a Composer package via our private Satis repository. To get started, add the Nova repository to your application's `composer.json` file:
 
@@ -52,23 +49,23 @@ You may install Nova as a Composer package via our private Satis repository. To 
 
 Or, you may use the following CLI command to add the Composer repository to your `composer.json` file:
 
-```bash
+```shell
 composer config repositories.nova '{"type": "composer", "url": "https://nova.laravel.com"}' --file composer.json
 ```
 
 Next, you may add `laravel/nova` to your list of required packages in your `composer.json` file:
 
-```json composer.json
+```json composer.json {4}
 "require": {
     "php": "^8.2",
     "laravel/framework": "^11.0",
-    "laravel/nova": "^4.0"
+    "laravel/nova": "^5.0"
 },
 ```
 
 After your `composer.json` file has been updated, run the `composer update` command in your console terminal:
 
-```bash
+```shell
 composer update --prefer-dist
 ```
 
@@ -76,13 +73,13 @@ When running `composer update`, you will be prompted to provide a username and p
 
 To avoid manually typing these credentials, you may create a [Composer auth.json file](https://getcomposer.org/doc/articles/http-basic-authentication) while using your [license key](https://nova.laravel.com/licenses) in place of your password:
 
-```bash
+```shell
 composer config http-basic.nova.laravel.com your-nova-account-email@your-domain.com your-license-key
 ```
 
 Finally, run the `nova:install` and `migrate` Artisan commands. The `nova:install` command will install Nova's service provider and public assets within your application:
 
-```bash
+```shell
 php artisan nova:install
 
 php artisan migrate
@@ -90,13 +87,23 @@ php artisan migrate
 
 The default `App\Nova\User` Nova resource references the `App\Models\User` model. If you place your models in a different directory or namespace, you should adjust this value within the resource:
 
-```php
-public static $model = 'App\\Models\\User';
+```php app/Nova/User.php {10}
+namespace App\Nova;
+
+class User extends Resource
+{
+    /**
+     * The model the resource corresponds to.
+     *
+     * @var class-string<\App\Models\User>
+     */
+    public static $model = \App\Models\User::class;
+}
 ```
 
-If you don't have a Nova admin user yet in your `users` table, you can add one by running the `nova:user` Artisan command and following the prompts:
+If your application's `users` table is empty or you want to create a new user, you can run the `nova:user` Artisan command:
 
-```bash
+```shell
 php artisan nova:user
 ```
 
@@ -116,17 +123,23 @@ You can generate license keys and register the production URL for your project i
 You can register a wildcard subdomain for your production URL for use in multi-tenant scenarios (e.g. `*.laravel.com`).
 </Note>
 
-You can register your license key by setting the `license_key` option in your `config/nova.php` configuration file:
+You can register your license key by setting the `NOVA_LICENSE_KEY` variable to `.env` file or `license_key` option in your `config/nova.php` configuration file:
+
+<CodeGroup>
+```ini .env
+NOVA_LICENSE_KEY=
+```
 
 ```php config/nova.php
 'license_key' => env('NOVA_LICENSE_KEY', ''),
 ```
+</CodeGroup>
 
 ### Verifying Your Nova License Key Configuration
 
 To verify everything has been configured correctly, you should run the `nova:check-license` command:
 
-```bash
+```shell
 php artisan nova:check-license
 ```
 
@@ -136,7 +149,7 @@ It's not recommended to store your Composer `auth.json` file inside your project
 
 To authenticate Nova in these situations, you can use Composer's `config` command to set the configuration option inside your CI system's pipeline, injecting environment variables containing your Nova username and license key:
 
-```bash
+```shell
 composer config http-basic.nova.laravel.com "${NOVA_USERNAME}" "${NOVA_LICENSE_KEY}"
 ```
 
@@ -164,14 +177,16 @@ Nova will also not check the current license key when the subdomain is one of th
 Within your `app/Providers/NovaServiceProvider.php` file, there is a `gate` method. This authorization gate controls access to Nova in **non-local** environments. By default, any user can access the Nova dashboard when the current application environment is `local`. You are free to modify this gate as needed to restrict access to your Nova installation:
 
 ```php app/Providers/NovaServiceProvider.php
+use Illuminate\Support\Facades\Gate;
+
+// ...
+
 /**
  * Register the Nova gate.
  *
  * This gate determines who can access Nova in non-local environments.
- *
- * @return void
  */
-protected function gate()
+protected function gate(): void
 {
     Gate::define('viewNova', function ($user) {
         return in_array($user->email, [
@@ -229,19 +244,20 @@ To customize the color used as the "primary" color within the Nova interface, yo
 There are times you may wish to customize Nova's default footer text to include relevant information for your users, such as your application version, IP addresses, or other information. Using the `Nova::footer` method, you may customize the footer text of your Nova installation. Typically, the `footer` method should be called within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
 ```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
+use Laravel\Nova\Nova;
+
+// ...
 
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
-    Nova::footer(function ($request) {
+    Nova::footer(function (Request $request) {
         return Blade::render('
             @env(\'prod\')
                 This is production!
@@ -253,42 +269,45 @@ public function boot()
 
 ### Customizing Nova's Authentication Guard
 
-Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `guard` value within Nova's configuration file:
+Nova uses the default authentication guard defined in your `auth` configuration file. If you would like to customize this guard, you may set the `NOVA_GUARD` value using `.env` file or `guard` value within Nova's configuration file:
+
+<CodeGroup>
+```ini .env
+NOVA_GUARD=(null)
+```
 
 ```php config/nova.php
 'guard' => env('NOVA_GUARD', null),
 ```
-
-### Customizing Nova's Password Reset Functionality
-
-Nova uses the default password reset broker defined in your `auth` configuration file. If you would like to customize this broker, you may set the `passwords` value within Nova's configuration file:
-
-```php config/nova.php
-'passwords' => env('NOVA_PASSWORDS', null),
-```
+</CodeGroup>
 
 ### Customizing Nova's Storage Disk Driver
 
-Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `storage_disk` value within Nova's configuration file:
+Nova uses the default storage disk driver defined in your `filesystems` configuration file. If you would like to customize this disk, you may set the `NOVA_STORAGE_DISK` value using `.env` file the `storage_disk` value within Nova's configuration file:
+
+
+<CodeGroup>
+```ini .env
+NOVA_STORAGE_DISK=public
+```
 
 ```php config/nova.php
 'storage_disk' => env('NOVA_STORAGE_DISK', 'public'),
 ```
+</CodeGroup>
 
 ### Customizing Nova's Initial Path
 
 When visiting Nova, the `Main` dashboard is typically loaded by default. However, you are free to define a different initial path that should be loaded using Nova's `initialPath` method. Typically, this method may be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` service provider:
 
-```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
+    parent::register();
+
     Nova::initialPath('/resources/users');
 
     // ...
@@ -297,16 +316,14 @@ public function register()
 
 In addition to a string path, the `initialPath` method also accepts a closure that returns the path that should be loaded. This allows you to dynamically determine the initial path based on the incoming request:
 
-```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8-10}
 /**
  * Register any application services.
- *
- * @return void
  */
-public function register()
+public function register(): void
 {
+    parent::register();
+
     Nova::initialPath(function ($request) {
         return $request->user()->initialPath();
     });
@@ -319,15 +336,11 @@ public function register()
 
 If you would like Nova to display a "breadcrumb" menu as you navigate your Nova dashboard, you may invoke the `Nova::withBreadcrumbs` method. This method should be invoked from within the `boot` method of your application's `App\Providers\NovaServiceProvider` class:
 
-```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -337,9 +350,11 @@ public function boot()
 
 The `withBreadcrumbs` method also accepts a closure that allows you to enable breadcrumbs for specific users or other custom scenarios:
 
-```php
+```php app/Providers/NovaServiceProvider.php {6-8}
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
+
+// ...
 
 Nova::withBreadcrumbs(function (NovaRequest $request) {
     return $request->user()->wantsBreadcrumbs();
@@ -350,15 +365,11 @@ Nova::withBreadcrumbs(function (NovaRequest $request) {
 
 If you wish to display Nova's content "right-to-left" (RTL), you can enable this behavior by calling the `enableRTL` method from your `App\Providers\NovaServiceProvider` service provider:
 
-```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void 
 {
     parent::boot();
 
@@ -372,6 +383,8 @@ The `enableRTL` method also accept a closure that allows you to enable RTL suppo
 use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 
+// ...
+
 Nova::enableRTL(fn (Request $request) => $request->user()->wantsRTL());
 ```
 
@@ -379,15 +392,11 @@ Nova::enableRTL(fn (Request $request) => $request->user()->wantsRTL());
 
 If you wish to completely hide Nova's light/dark mode switcher and instead have Nova honor the system preference only, you can call the `withoutThemeSwitcher` method from your `App/Providers/NovaServiceProvider`:
 
-```php app/Providers/NovaServiceProvider.php
-use Laravel\Nova\Nova;
-
+```php app/Providers/NovaServiceProvider.php {8}
 /**
  * Boot any application services.
- *
- * @return void
  */
-public function boot()
+public function boot(): void
 {
     parent::boot();
 
@@ -399,21 +408,27 @@ public function boot()
 
 Nova uses its own internal exception handler instead of using the default `App\Exceptions\ExceptionHandler`. If you need to integrate third-party error reporting tools with your Nova installation, you should use the `Nova::report` method. Typically, this method should be invoked from the `register` method of your application's `App\Providers\NovaServiceProvider` class:
 
-```php
-use Laravel\Nova\Nova;
+```php app/Providers/NovaServiceProvider.php {8-12}
+/**
+ * Register any application services.
+ */
+public function register(): void
+{
+    parent::register();
 
-Nova::report(function ($exception) {
-    if (app()->bound('sentry')) {
-        app('sentry')->captureException($exception);
-    }
-});
+    Nova::report(function ($exception) {
+        if (app()->bound('sentry')) {
+            app('sentry')->captureException($exception);
+        }
+    });
+}
 ```
 
 ## Updating Nova
 
 To update your Nova installation, you may run the `composer update` command:
 
-```bash
+```shell
 composer update
 ```
 
@@ -421,14 +436,14 @@ composer update
 
 After updating to a new Nova release, you should be sure to update Nova's JavaScript and CSS assets using the `nova:publish` Artisan command and clear any cached views using the `view:clear` Artisan command. This will ensure the newly-updated Nova version is using the latest versions of Nova's assets and views:
 
-```bash
+```shell
 php artisan nova:publish
 php artisan view:clear
 ```
 
 The `nova:publish` command will re-publish Nova's public assets, configuration, views, and language files. This command will not overwrite any existing configuration, views, or language files. If you would like the command to overwrite existing files, you may use the `--force` flag when executing the command:
 
-```bash
+```shell
 php artisan nova:publish --force
 ```
 
@@ -436,10 +451,11 @@ php artisan nova:publish --force
 
 To ensure Nova's assets are updated when a new version is downloaded, you may add a Composer hook inside your project's `composer.json` file to automatically publish Nova's latest assets:
 
-```json composer.json
+```json composer.json {4}
 "scripts": {
     "post-update-cmd": [
-        "@php artisan nova:publish"
+        "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+        "@php artisan nova:publish --ansi"
     ]
 }
 ```
