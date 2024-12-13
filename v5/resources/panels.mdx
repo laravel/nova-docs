@@ -93,6 +93,8 @@ The `Tab` panel allows you to organize resource fields and relationships within 
 ![Tab Panel](/images/tab-panel.png)
 </Frame>
 
+To create a tab panel when defining your resource's fields, provide the tab group title and array of tabs to the `Tab::group` method. Each individual tab may be constructed using `Tab::make` and receives a tab title and array of fields:
+
 ```php app/Nova/Event.php {5,23-42}
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\HasMany;
