@@ -242,7 +242,7 @@ use Laravel\Nova\Fields\ID;
 public function fields(NovaRequest $request): array
 {
 	return [
-		ID::hidden('uuid'), // The unique ID field
+		ID::hidden('uuid'), // The unique ID field...
 
 		// Other fields...
 	];
@@ -269,7 +269,8 @@ The `Repeater` field allows for every field supported by Nova, except for the fo
 - MorphTo
 - BelongsToMany
 - MorphToMany
-- File - Requires usage of `uniqueField` 
+
+`File`, `Audio`, and `Image` fields are supported as long as the `Repeater` contains a `uniqueField`.
 
 ### Partially-Supported Fields
 
